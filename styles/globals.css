@@ -45,9 +45,11 @@ body {
   padding: 12px 16px;
   gap: 20px;
   flex-shrink: 0;
-  border: 8px solid black;
-  opacity: 0.10000000149011612;
+  border: 5px solid #ECE1DA;
   background-color: var(--theme-main, #F5F5F5);
+  
+  /* ONLY WHEN LOGGING IN / CREATING ACCOUNT */
+  /* opacity: 0.10000000149011612; */
 }
 
 
