@@ -2,8 +2,8 @@ import { ReactNode } from 'react';
 
 import 'styles/globals.css';
 
-import Sidebar from '@/components/layout/Sidebar';
-import Header from '@/components/layout/Header';
+import Sidebar from '@/components/Sidebar/Sidebar';
+import Header from '@/components/Header/Header';
 
 export interface IRootLayoutProps {
   children: ReactNode;
