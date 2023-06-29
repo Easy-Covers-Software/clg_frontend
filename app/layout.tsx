@@ -1,9 +1,28 @@
 import { ReactNode } from 'react';
 
-import '@styles/globals.css';
+import 'styles/globals.css';
 
-export interface IRootLayoutProps {}
+import Sidebar from '@/components/layout/Sidebar';
+import Header from '@/components/layout/Header';
 
-export default function RootLayout(props: IRootLayoutProps) {
-  return <div></div>;
+export interface IRootLayoutProps {
+  children: ReactNode;
 }
+
+const RootLayout = ({ children }: IRootLayoutProps) => {
+  return (
+    <div className="layout-grid">
+      <div className="header">
+        <Header />
+      </div>
+
+      <div className="sidebar">
+        <Sidebar />
+      </div>
+
+      <main className="main-content">{children}</main>
+    </div>
+  );
+};
+
+export default RootLayout;
