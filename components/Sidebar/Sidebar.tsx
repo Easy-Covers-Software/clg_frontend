@@ -5,6 +5,7 @@ import { PrimaryButton, UnSelectedButton } from '@/components/Global';
 import styled from '@emotion/styled';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Box } from '@mui/material';
+import Divider from '@mui/material/Divider';
 
 import { useLoginContext } from '@/context/StateContext';
 
@@ -34,6 +35,7 @@ export default function Sidebar(props: ISidebarProps) {
         <img
           src="/easy-covers-full.svg"
           alt="Description of Image"
+          // height={200}
           width={'100%'}
         />
       </Logo>
@@ -45,7 +47,15 @@ export default function Sidebar(props: ISidebarProps) {
         </PrimaryButton>
       </MenuContainer>
 
-      <PrimaryButton onClick={() => toggleLoginIsOpen()}>Sign In</PrimaryButton>
+      <Grid width={'80%'} margin={'4% 0'} marginRight={'4%'}>
+        <Divider />
+      </Grid>
+
+      <Grid width={'100%'} margin={'5% 0'}>
+        <PrimaryButton onClick={() => toggleLoginIsOpen()}>
+          Sign In
+        </PrimaryButton>
+      </Grid>
     </>
   );
 }
