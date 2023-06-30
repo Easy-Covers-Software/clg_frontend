@@ -23,7 +23,7 @@ const Container = styled(Box)`
 `;
 
 const FormInput = styled(FormControl)`
-  width: 80%;
+  width: 95%;
   padding-right: 0;
 `;
 
