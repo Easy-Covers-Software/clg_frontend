@@ -41,12 +41,13 @@ body {
 
 .main-content {
   display: flex;
-  padding: 12px 16px;
+  padding: 4px 4px;
   gap: 20px;
   flex-shrink: 0;
   border: 5px solid #13d0b7;
   border-radius:8px;
   background-color: var(--theme-main, #F5F5F5);
+  /* background-color: #fff; */
   
   /* ONLY WHEN LOGGING IN / CREATING ACCOUNT */
   /* opacity: 0.10000000149011612; */
