@@ -45,6 +45,7 @@ body {
   gap: 20px;
   flex-shrink: 0;
   border: 5px solid #35E8B0;
+  border-radius:8px;
   background-color: var(--theme-main, #F5F5F5);
   
   /* ONLY WHEN LOGGING IN / CREATING ACCOUNT */
