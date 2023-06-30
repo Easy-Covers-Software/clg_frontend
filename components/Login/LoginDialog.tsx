@@ -30,7 +30,7 @@ const DialogContentContainer = styled(DialogContent)`
 const SignInButton = styled(PrimaryButton)`
   width: 68%;
   margin: 0 auto;
-  padding: 8px 0;
+  padding: 10px 0;
 `;
 
 export default function LoginDialog() {

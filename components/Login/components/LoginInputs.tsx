@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
 import FilledInput from '@mui/material/FilledInput';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -28,6 +27,12 @@ const FormInput = styled(FormControl)`
   padding-right: 0;
 `;
 
+const InputField = styled(TextField)`
+  border-radius: 4px;
+  border: 1px solid #006d4b;
+  background-color: var(--theme-main, #f5f5f5);
+`;
+
 export default function LoginInputs() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -48,7 +53,7 @@ export default function LoginInputs() {
   return (
     <Container component="form">
       <FormInput variant="outlined">
-        <TextField
+        <InputField
           id="email-input"
           variant="outlined"
           placeholder="Email"
@@ -74,7 +79,7 @@ export default function LoginInputs() {
       </FormInput>
 
       <FormInput variant="outlined">
-        <TextField
+        <InputField
           id="password-input"
           variant="outlined"
           placeholder="Password"
