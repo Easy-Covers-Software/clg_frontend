@@ -1,61 +1,22 @@
-'use client';
-
 import React from 'react';
-import { PrimaryButton, UnSelectedButton } from '@/components/Global';
 import styled from '@emotion/styled';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
 
-import { useLoginContext } from '@/context/StateContext';
+import Menu from './components/Menu';
 
-export interface ISidebarProps {}
-
-const Logo = styled(Box)`
-  margin-top: -50%;
+const Logo = styled.img`
+  margin-top: -55%;
 `;
 
-const MenuContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 12px 12px;
-  width: 100%;
-  height: 100%;
-  gap: 24px;
-  margin-top: -25%;
-`;
-
-export default function Sidebar(props: ISidebarProps) {
-  const { isLoginOpen, toggleLoginIsOpen } = useLoginContext();
-
+export default function Sidebar() {
   return (
     <>
-      <Logo>
-        <img
-          src="/easy-covers-full.svg"
-          alt="Description of Image"
-          // height={200}
-          width={'100%'}
-        />
-      </Logo>
+      <Logo
+        src="/easy-covers-full.svg"
+        alt="Description of Image"
+        width={'100%'}
+      />
 
-      <MenuContainer>
-        <PrimaryButton>Generate</PrimaryButton>
-        <PrimaryButton onClick={() => toggleLoginIsOpen()}>
-          Sign In
-        </PrimaryButton>
-      </MenuContainer>
-
-      <Grid width={'80%'} margin={'4% 0'} marginRight={'4%'}>
-        <Divider />
-      </Grid>
-
-      <Grid width={'100%'} margin={'5% 0'}>
-        <PrimaryButton onClick={() => toggleLoginIsOpen()}>
-          Sign In
-        </PrimaryButton>
-      </Grid>
+      <Menu />
     </>
   );
 }
