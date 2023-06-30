@@ -1,15 +1,6 @@
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 
-// const PrimaryButton = styled(Button)`
-//   padding: 12px 80px;
-//   border-radius: 4px;
-//   background-color: #35e8b0;
-//   color: #fff;
-//   &:hover {
-//     color: white;
-//   }
-// `;
 
 const PrimaryButton = styled(Button)`
   background-color: #13d0b7;
@@ -23,7 +14,7 @@ const PrimaryButton = styled(Button)`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   transition: 0.4s;
-  width: 95%;
+  width: 100%;
   font-family: Montserrat, sans-serif;
   font-size: 0.9rem;
   white-space: nowrap;
@@ -42,7 +33,7 @@ const PrimaryButton = styled(Button)`
 const UnSelectedButton = styled(Button)`
   background-color: #ffffff;
   padding: 10px 40px;
-  color: #fff;
+  color: #13d0b7;
   text-transform: uppercase;
   letter-spacing: 2px;
   cursor: pointer;
@@ -51,7 +42,7 @@ const UnSelectedButton = styled(Button)`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   transition: 0.4s;
-  width: 90%;
+  width: 100%;
   font-family: Montserrat, sans-serif;
 
   &:hover {
