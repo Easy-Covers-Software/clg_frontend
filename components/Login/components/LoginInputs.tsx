@@ -30,7 +30,8 @@ const FormInput = styled(FormControl)`
 const InputField = styled(TextField)`
   border-radius: 4px;
   border: 1px solid #006d4b;
-  background-color: var(--theme-main, #f5f5f5);
+  // background-color: var(--theme-main, #f5f5f5);
+  background-color: #fff;
 `;
 
 export default function LoginInputs() {
