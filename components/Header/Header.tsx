@@ -11,8 +11,8 @@ export default function Header(props: IHeaderProps) {
       <img
         src="/easy-covers-logo.svg"
         alt="Description of Image"
-        height={50}
-        width={50}
+        height={70}
+        width={70}
       />
     </div>
   );
