@@ -4,16 +4,14 @@ import React from 'react';
 import { PrimaryButton, UnSelectedButton } from '@/components/Global';
 import styled from '@emotion/styled';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { Box } from '@mui/material';
 
 import { useLoginContext } from '@/context/StateContext';
 
 export interface ISidebarProps {}
 
-const Logo = styled(Grid)`
-  display: flex;
-  margin-top: -35%;
-  white-space: nowrap;
-  padding: 0;
+const Logo = styled(Box)`
+  margin-top: -50%;
 `;
 
 const MenuContainer = styled.div`
@@ -24,6 +22,7 @@ const MenuContainer = styled.div`
   width: 100%;
   height: 100%;
   gap: 24px;
+  margin-top: -25%;
 `;
 
 export default function Sidebar(props: ISidebarProps) {
@@ -33,10 +32,9 @@ export default function Sidebar(props: ISidebarProps) {
     <>
       <Logo>
         <img
-          src="/easy-covers-full.png"
+          src="/easy-covers-full.svg"
           alt="Description of Image"
-          height={120}
-          width={220}
+          width={'100%'}
         />
       </Logo>
 
