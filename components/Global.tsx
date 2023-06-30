@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 
 const PrimaryButton = styled(Button)`
   background-color: #13d0b7;
-  padding: 14px 40px;
+  padding: 10px 40px;
   color: #fff;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -23,9 +23,10 @@ const PrimaryButton = styled(Button)`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   transition: 0.4s;
-  width: 100%;
+  width: 95%;
   font-family: Montserrat, sans-serif;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
 
   &:hover {
     transition: 0.4s;
@@ -40,7 +41,7 @@ const PrimaryButton = styled(Button)`
 
 const UnSelectedButton = styled(Button)`
   background-color: #ffffff;
-  padding: 14px 40px;
+  padding: 10px 40px;
   color: #fff;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -50,18 +51,19 @@ const UnSelectedButton = styled(Button)`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   transition: 0.4s;
-  width: 100%;
+  width: 90%;
   font-family: Montserrat, sans-serif;
 
   &:hover {
     transition: 0.4s;
     border: 2px solid #00bfa6;
-    background-color: #fff;
+    background-color: #f5f5f5;
     color: #00bfa6;
   }
   &:active {
     background-color: #87dbd0;
   }
 `;
+
 
 export { PrimaryButton, UnSelectedButton };
