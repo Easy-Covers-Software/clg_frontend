@@ -12,6 +12,7 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
 
 import JobPostingInput from './components/JobPostingInput';
+import PersonalDetails from './components/PersonalDetails/PersonalDetails';
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -45,6 +46,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(() => ({
   padding: 0,
   margin: 0,
   borderTop: '1px solid rgba(0, 0, 0, .125)',
+  height: 'calc(100vh - 280px)',
 }));
 
 // Want to eventually change this depending on if a generation has already occured or not
@@ -54,7 +56,8 @@ const Container = styled(Grid)`
   background-color: #f8f8ff;
   border-radius: 4px;
   border: 1px solid #006d4b;
-  height: 100%;
+  height: calc(100vh - 100px);
+  // height: 100%;
 `;
 
 export default function GenerationSetup() {
@@ -101,12 +104,7 @@ export default function GenerationSetup() {
 
         {/* ACCORDION CONTENT */}
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          <PersonalDetails />
         </AccordionDetails>
       </Accordion>
 
