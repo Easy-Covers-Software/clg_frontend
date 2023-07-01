@@ -16,7 +16,7 @@ const FileUploadInput = styled(FormControl)`
   width: 100%;
 `;
 
-const Container = styled(Grid)`
+const Container = styled(Box)`
   display: flex;
   justify-content: center;
   width: 100%;
@@ -29,11 +29,13 @@ const Label = styled.label`
 `;
 
 export default function UploadOption({ label, accept, handleFileChange }) {
+  const id = label.replace(/\s+/g, '-').toLowerCase();
+
   return (
     <>
       <FileUploadInput variant="filled">
         <Input
-          id={`${label}-input`}
+          id={id}
           type="file"
           onChange={handleFileChange}
           inputProps={{ accept }}
@@ -41,10 +43,12 @@ export default function UploadOption({ label, accept, handleFileChange }) {
         />
       </FileUploadInput>
       <Container>
-        <Label htmlFor={`${label}-input`}>
-          <UnSelectedButton>{label}</UnSelectedButton>
+        <Label htmlFor={id}>
+          <UnSelectedButton component="span">{label}</UnSelectedButton>
         </Label>
       </Container>
     </>
   );
 }
+
+

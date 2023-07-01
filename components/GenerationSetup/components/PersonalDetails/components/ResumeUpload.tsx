@@ -28,8 +28,9 @@ const Container = styled(Grid)`
   background-color: #f8f8ff;
 `;
 
-export default function ResumeUploader(props) {
-  const { handleSubmit, getFile, file } = props;
+export default function ResumeUploader() {
+  const [file, setFile] = useState(null);
+  console.log(file);
 
   const [uploadStatus, setUploadStatus] = useState({
     success: false,
@@ -37,7 +38,7 @@ export default function ResumeUploader(props) {
   });
 
   const handleFileChange = (e) => {
-    // getFile(e.target.files[0]);
+    setFile(e.target.files[0]);
   };
 
   const handleCloseSnackbar = (event, reason) => {
