@@ -1,19 +1,19 @@
 'use client';
 
 import * as React from 'react';
-import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 export interface IHeaderProps {}
 
 export default function Header(props: IHeaderProps) {
   return (
-    <div className="header">
+    <Grid className="header">
       <img
         src="/easy-covers-logo.svg"
         alt="Description of Image"
-        height={70}
-        width={70}
+        height={75}
+        width={75}
       />
-    </div>
+    </Grid>
   );
 }

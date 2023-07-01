@@ -33,7 +33,7 @@ body {
   display: flex;
   /* width: 100vw; */
   height: 60px;
-  padding: 10px 16px;
+  padding: 10px 4px;
   justify-content: flex-end;
   align-items: center;
   gap: 10px;
