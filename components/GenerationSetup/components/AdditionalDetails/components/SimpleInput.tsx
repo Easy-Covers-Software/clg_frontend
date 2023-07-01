@@ -11,27 +11,27 @@ import TextField from '@mui/material/TextField';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Typography from '@mui/material/Typography';
-import InfoIcon from '@mui/icons-material/Info';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Tooltip from '@mui/material/Tooltip';
 
 import styled from '@emotion/styled';
 
-const Container = styled(Box)`
+const Container = styled(Grid)`
   display: flex;
   align-items: center;
   gap: 16px;
-  width: 100%;
 `;
 
 const FormInput = styled(FormControl)`
-  width: 95%;
+  width: 100%;
   padding-right: 0;
 `;
 
 const InputField = styled(TextField)`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
   border-radius: 4px;
-  border: 1px solid #006d4b;
-  // background-color: var(--theme-main, #f5f5f5);
   background-color: #fff;
 `;
 
@@ -58,7 +58,7 @@ export default function SimpleInput(props) {
           </Typography>
 
           <Tooltip title="Delete" placement="top">
-            <InfoIcon fontSize="small" />
+            <InfoOutlinedIcon fontSize="small" sx={{ opacity: '40%' }} />
           </Tooltip>
         </QuestionContainer>
 
@@ -66,7 +66,9 @@ export default function SimpleInput(props) {
           id="email-input"
           variant="outlined"
           placeholder="2021-present"
+          size="small"
           value={value}
+          // sx={{ opacity: '30%' }}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setValue(event.target.value);
           }}
@@ -74,10 +76,10 @@ export default function SimpleInput(props) {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
-                  disableTouchRipple
                   aria-label="toggle password visibility"
                   onClick={clearInput}
                   edge="end"
+                  sx={{ opacity: '30%' }}
                 >
                   <HighlightOffIcon />
                 </IconButton>
@@ -94,13 +96,14 @@ export default function SimpleInput(props) {
           </Typography>
 
           <Tooltip title="Delete" placement="top">
-            <InfoIcon fontSize="small" />
+            <InfoOutlinedIcon fontSize="small" sx={{ opacity: '40%' }} />
           </Tooltip>
         </QuestionContainer>
         <InputField
           id="email-input"
           variant="outlined"
           placeholder="Email"
+          size="small"
           value={value2}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setValue2(event.target.value);
@@ -109,10 +112,10 @@ export default function SimpleInput(props) {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
-                  disableTouchRipple
                   aria-label="toggle password visibility"
                   onClick={clearInput}
                   edge="end"
+                  sx={{ opacity: '30%' }}
                 >
                   <HighlightOffIcon />
                 </IconButton>
