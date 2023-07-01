@@ -12,12 +12,12 @@ const Container = styled(Grid)`
   border-left: 1px solid #006d4b;
   border-right: 1px solid #006d4b;
   border-radius: 8px 8px 0 0;
-  margin-top: 1%;
   padding: 0.5%;
   width: 40%;
   white-space: nowrap;
   background-color: #f8f8ff;
-  box-shadow: 3px 3px 10px 3px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-bottom: 0;
 `;
 
 const SwitchStyled = styled(Switch)(() => ({
