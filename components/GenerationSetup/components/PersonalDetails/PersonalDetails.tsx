@@ -16,15 +16,14 @@ const Container = styled(Grid)`
   align-items: center;
   align-content: center;
   margin-top: 2%;
+  height: ${({ mode }) => (mode === 'upload' ? 'auto' : '100%')};
 `;
 
 export default function PersonalDetails() {
   const [mode, setMode] = React.useState('upload'); // 'resume' or 'text'
 
-  console.log('mode:', mode);
-
   return (
-    <Container>
+    <Container mode={mode}>
       <PersonalDetailsModeSwitch mode={mode} setMode={setMode} />
 
       {mode === 'upload' ? <ResumeUploader /> : <FreeTextInput />}
