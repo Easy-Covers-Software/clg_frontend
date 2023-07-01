@@ -18,7 +18,7 @@ body {
 .sidebar {
   grid-area: sidebar;
   display: flex;
-  width: 14vw;
+  width: 16vw;
   height: calc(100vh - 100px);
   /* height: 100vh; */
   padding: 8px 16px;
