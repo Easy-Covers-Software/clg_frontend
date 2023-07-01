@@ -1,6 +1,5 @@
-import * as React from 'react';
+import React from 'react';
 // import { styled } from '@mui/material/styles';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
@@ -13,28 +12,45 @@ import styled from '@emotion/styled';
 
 import JobPostingInput from './components/JobPostingInput';
 import PersonalDetails from './components/PersonalDetails/PersonalDetails';
+import AdditionalDetails from './components/AdditionalDetails/AdditionalDetails';
+import KeyboardDoubleArrowRightOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowRightOutlined';
+import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
+import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowUpOutlined';
+import IconButton from '@mui/material/IconButton';
+import { PrimaryButton } from '../Global';
 
-const Accordion = styled((props: AccordionProps) => (
+const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
-))(() => ({
+))((props) => ({
   backgroundColor: '#fff',
-  border: `1px solid black`,
-  '&:not(:last-child)': {
-    borderBottom: 0,
-  },
-  '&:before': {
-    display: 'none',
-  },
+  border: '1px solid #006D4B',
+  borderBottom: props.currPanel === 'panel3' ? '1px solid #006D4B' : 'none',
+  borderRadius:
+    props.currPanel === 'panel1'
+      ? '8px 8px 0 0'
+      : props.currPanel === 'panel3'
+      ? '0 0 8px 8px'
+      : 'none',
+
+  // '&:before': {
+  //   display: 'none',
+  // },
 }));
 
-const AccordionSummary = styled((props: AccordionSummaryProps) => (
+const AccordionSummary = styled((props) => (
   <MuiAccordionSummary
-    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
+    expandIcon={
+      props.isExpanded && props.expanded !== 'panel3' ? (
+        <KeyboardDoubleArrowRightOutlinedIcon sx={{ fontSize: '0.9rem' }} />
+      ) : (
+        <KeyboardDoubleArrowLeftOutlinedIcon sx={{ fontSize: '0.9rem' }} />
+      )
+    }
     {...props}
   />
 ))(() => ({
   backgroundColor: 'rgba(255, 255, 255, .05)',
-  flexDirection: 'row-reverse',
+  // flexDirection: 'row-reverse',
   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
     transform: 'rotate(90deg)',
   },
@@ -42,16 +58,16 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
     marginLeft: '10px',
   },
 }));
+
 const AccordionDetails = styled(MuiAccordionDetails)(() => ({
-  padding: 0,
-  margin: 0,
+  padding: '0.2%',
   borderTop: '1px solid rgba(0, 0, 0, .125)',
-  height: 'calc(100vh - 280px)',
+  height: 'calc(100vh - 340px)',
 }));
 
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`
-  width: 45%;
+  width: 35vw;
   padding: 0.8%;
   background-color: #f8f8ff;
   border-radius: 4px;
@@ -60,74 +76,128 @@ const Container = styled(Grid)`
   // height: 100%;
 `;
 
+const GenerateButton = styled(PrimaryButton)`
+  width: 70%;
+`;
+
 export default function GenerationSetup() {
   const [expanded, setExpanded] = React.useState<string | false>('panel1');
 
   const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-      if (isExpanded || expanded !== panel) {
-        setExpanded(panel);
+    (panel: string, nextPanel: string | false) =>
+    (event: React.SyntheticEvent, isExpanded: boolean) => {
+      if (nextPanel === 'up') {
+        if (panel === 'panel2') {
+          setExpanded('panel1');
+        } else {
+          setExpanded('panel2');
+        }
+      } else {
+        if (!isExpanded && nextPanel !== false) {
+          setExpanded(nextPanel);
+        } else if (!isExpanded && panel === 'panel3' && nextPanel === false) {
+          setExpanded('panel2');
+        } else {
+          setExpanded(panel);
+        }
       }
     };
 
   return (
     <Container>
-      {/* Job Posting */}
       <Accordion
         expanded={expanded === 'panel1'}
+        currPanel="panel1"
         disableGutters
-        onChange={handleChange('panel1')}
+        onChange={handleChange('panel1', 'panel2')}
         style={{
           height: 'auto',
         }}
       >
-        {/* ACCORDION LABEL */}
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+        <AccordionSummary
+          aria-controls="panel1d-content"
+          id="panel1d-header"
+          isExpanded={expanded === 'panel1'}
+          expanded="panel1"
+        >
           <Typography>Job Posting</Typography>
         </AccordionSummary>
 
-        {/* ACCORDION CONTENT */}
         <AccordionDetails>
           <JobPostingInput />
         </AccordionDetails>
       </Accordion>
 
-      {/* Resume Upload */}
       <Accordion
         expanded={expanded === 'panel2'}
-        onChange={handleChange('panel2')}
+        currPanel="panel2"
+        onChange={handleChange('panel2', 'panel3')}
       >
-        {/* ACCORDION LABEL */}
-        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          <Typography>Résumé Upload / Personal Details</Typography>
+        <AccordionSummary
+          aria-controls="panel2d-content"
+          id="panel2d-header"
+          isExpanded={expanded === 'panel2'}
+          expanded="panel2"
+        >
+          <Grid
+            p={0}
+            mr={3}
+            display={'flex'}
+            justifyContent={'space-between'}
+            width={'100%'}
+          >
+            <Typography>Résumé Upload / Personal Details</Typography>
+            {expanded === 'panel2' && (
+              <IconButton
+                sx={{ padding: 0 }}
+                disableFocusRipple
+                disableRipple
+                disableTouchRipple
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleChange('panel2', 'up')(e, true);
+                }}
+              >
+                <KeyboardDoubleArrowUpOutlinedIcon
+                  sx={{ fontSize: '0.9rem' }}
+                />
+              </IconButton>
+            )}
+          </Grid>
         </AccordionSummary>
-
-        {/* ACCORDION CONTENT */}
         <AccordionDetails>
           <PersonalDetails />
         </AccordionDetails>
       </Accordion>
 
-      {/* Additional Details */}
       <Accordion
         expanded={expanded === 'panel3'}
-        onChange={handleChange('panel3')}
+        currPanel="panel3"
+        onChange={handleChange('panel3', false)}
       >
-        {/* ACCORDION LABEL */}
-        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-          <Typography>Additional Details</Typography>
+        <AccordionSummary
+          aria-controls="panel3d-content"
+          id="panel3d-header"
+          isExpanded={expanded === 'panel3'}
+          expanded="panel3"
+        >
+          <Typography>Additional Details (optional)</Typography>
         </AccordionSummary>
-
-        {/* ACCORDION CONTENT */}
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          <AdditionalDetails />
         </AccordionDetails>
       </Accordion>
+
+      <Grid
+        width={'100%'}
+        height={'8.8vh'}
+        display={'flex'}
+        justifyContent={'center'}
+        alignItems={'center'}
+      >
+        <GenerateButton>Generate</GenerateButton>
+      </Grid>
     </Container>
   );
 }
