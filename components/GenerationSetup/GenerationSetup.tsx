@@ -80,7 +80,8 @@ const Container = styled(Grid)`
 `;
 
 const GenerateButton = styled(PrimaryButton)`
-  width: 70%;
+  width: 55%;
+  margin: 1% 0;
 `;
 
 export default function GenerationSetup() {
