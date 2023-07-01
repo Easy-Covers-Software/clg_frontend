@@ -62,18 +62,21 @@ const AccordionSummary = styled((props) => (
 const AccordionDetails = styled(MuiAccordionDetails)(() => ({
   padding: '0.2%',
   borderTop: '1px solid rgba(0, 0, 0, .125)',
-  height: 'calc(100vh - 340px)',
+  height: 'calc(100vh - 320px)',
 }));
 
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`
   width: 35vw;
-  padding: 0.8%;
+  padding: 1%;
   background-color: #f8f8ff;
   border-radius: 4px;
   border: 1px solid #006d4b;
   height: calc(100vh - 100px);
-  // height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const GenerateButton = styled(PrimaryButton)`
@@ -105,99 +108,101 @@ export default function GenerationSetup() {
 
   return (
     <Container>
-      <Accordion
-        expanded={expanded === 'panel1'}
-        currPanel="panel1"
-        disableGutters
-        onChange={handleChange('panel1', 'panel2')}
-        style={{
-          height: 'auto',
-        }}
-      >
-        <AccordionSummary
-          aria-controls="panel1d-content"
-          id="panel1d-header"
-          isExpanded={expanded === 'panel1'}
-          expanded="panel1"
+      <Grid width={'100%'} height={'100%'}>
+        <Accordion
+          expanded={expanded === 'panel1'}
+          currPanel="panel1"
+          disableGutters
+          onChange={handleChange('panel1', 'panel2')}
+          style={{
+            height: 'auto',
+          }}
         >
-          <Typography>Job Posting</Typography>
-        </AccordionSummary>
-
-        <AccordionDetails>
-          <JobPostingInput />
-        </AccordionDetails>
-      </Accordion>
-
-      <Accordion
-        expanded={expanded === 'panel2'}
-        currPanel="panel2"
-        onChange={handleChange('panel2', 'panel3')}
-      >
-        <AccordionSummary
-          aria-controls="panel2d-content"
-          id="panel2d-header"
-          isExpanded={expanded === 'panel2'}
-          expanded="panel2"
-        >
-          <Grid
-            p={0}
-            mr={3}
-            display={'flex'}
-            justifyContent={'space-between'}
-            width={'100%'}
+          <AccordionSummary
+            aria-controls="panel1d-content"
+            id="panel1d-header"
+            isExpanded={expanded === 'panel1'}
+            expanded="panel1"
           >
-            <Typography>Résumé Upload / Personal Details</Typography>
-            {expanded === 'panel2' && (
-              <IconButton
-                sx={{ padding: 0 }}
-                disableFocusRipple
-                disableRipple
-                disableTouchRipple
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleChange('panel2', 'up')(e, true);
-                }}
-              >
-                <KeyboardDoubleArrowUpOutlinedIcon
-                  sx={{ fontSize: '0.9rem' }}
-                />
-              </IconButton>
-            )}
-          </Grid>
-        </AccordionSummary>
-        <AccordionDetails>
-          <PersonalDetails />
-        </AccordionDetails>
-      </Accordion>
+            <Typography>Job Posting</Typography>
+          </AccordionSummary>
 
-      <Accordion
-        expanded={expanded === 'panel3'}
-        currPanel="panel3"
-        onChange={handleChange('panel3', false)}
-      >
-        <AccordionSummary
-          aria-controls="panel3d-content"
-          id="panel3d-header"
-          isExpanded={expanded === 'panel3'}
-          expanded="panel3"
+          <AccordionDetails>
+            <JobPostingInput />
+          </AccordionDetails>
+        </Accordion>
+
+        <Accordion
+          expanded={expanded === 'panel2'}
+          currPanel="panel2"
+          onChange={handleChange('panel2', 'panel3')}
         >
-          <Typography>Additional Details (optional)</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <AdditionalDetails />
-        </AccordionDetails>
-      </Accordion>
+          <AccordionSummary
+            aria-controls="panel2d-content"
+            id="panel2d-header"
+            isExpanded={expanded === 'panel2'}
+            expanded="panel2"
+          >
+            <Grid
+              p={0}
+              mr={3}
+              display={'flex'}
+              justifyContent={'space-between'}
+              width={'100%'}
+            >
+              <Typography>Résumé Upload / Personal Details</Typography>
+              {expanded === 'panel2' && (
+                <IconButton
+                  sx={{ padding: 0 }}
+                  disableFocusRipple
+                  disableRipple
+                  disableTouchRipple
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleChange('panel2', 'up')(e, true);
+                  }}
+                >
+                  <KeyboardDoubleArrowUpOutlinedIcon
+                    sx={{ fontSize: '0.9rem' }}
+                  />
+                </IconButton>
+              )}
+            </Grid>
+          </AccordionSummary>
+          <AccordionDetails>
+            <PersonalDetails />
+          </AccordionDetails>
+        </Accordion>
 
-      <Grid
+        <Accordion
+          expanded={expanded === 'panel3'}
+          currPanel="panel3"
+          onChange={handleChange('panel3', false)}
+        >
+          <AccordionSummary
+            aria-controls="panel3d-content"
+            id="panel3d-header"
+            isExpanded={expanded === 'panel3'}
+            expanded="panel3"
+          >
+            <Typography>Additional Details (optional)</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <AdditionalDetails />
+          </AccordionDetails>
+        </Accordion>
+      </Grid>
+
+      {/* <Grid
         width={'100%'}
-        height={'8.8vh'}
+        height={'10vh'}
         display={'flex'}
         justifyContent={'center'}
         alignItems={'center'}
-      >
-        <GenerateButton>Generate</GenerateButton>
-      </Grid>
+      > */}
+      <GenerateButton>Generate</GenerateButton>
+      {/* </Grid> */}
     </Container>
   );
 }

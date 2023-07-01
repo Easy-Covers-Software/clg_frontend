@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 
-
 const PrimaryButton = styled(Button)`
   background-color: #13d0b7;
   padding: 10px 40px;
@@ -31,6 +30,7 @@ const PrimaryButton = styled(Button)`
 `;
 
 const UnSelectedButton = styled(Button)`
+  display: flex;
   background-color: #ffffff;
   padding: 10px 40px;
   color: #13d0b7;

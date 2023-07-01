@@ -24,6 +24,8 @@ const Container = styled(Box)`
 `;
 
 const Label = styled.label`
+  display: flex;
+  // flex-shrink: 2;
   width: 80%;
   white-space: nowrap;
 `;

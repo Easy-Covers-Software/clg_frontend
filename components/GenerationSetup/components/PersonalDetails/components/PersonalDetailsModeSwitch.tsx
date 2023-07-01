@@ -13,7 +13,7 @@ const Container = styled(Grid)`
   border-right: 1px solid #006d4b;
   border-radius: 8px 8px 0 0;
   padding: 0.5%;
-  width: 40%;
+  width: 60%;
   white-space: nowrap;
   background-color: #f8f8ff;
   z-index: 1;
