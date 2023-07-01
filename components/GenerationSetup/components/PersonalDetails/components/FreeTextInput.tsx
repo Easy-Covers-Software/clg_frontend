@@ -4,15 +4,13 @@ import styled from '@emotion/styled';
 const FreeTextInputField = styled.textarea`
   width: 100%;
   height: 100%;
+  resize: none;
   box-sizing: border-box;
-  min-height: 64vh;
   background-color: #f8f8ff;
   padding: 2%;
-  min-width: 100%;
-  max-width: 100%;
-  max-height: 60vh;
   border-top: 1px solid #006d4b;
   border-radius: 4px;
+  margin-bottom: 2%;
   ::placeholder {
     color: #e2e2e2; // Change this to the color you want
   }
