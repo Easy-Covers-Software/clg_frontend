@@ -18,8 +18,10 @@ const Container = styled(Grid)`
 export default function AdditionalDetails() {
   return (
     <Container>
-      <SimpleInput />
-      <SimpleInput />
+      <Grid display={'flex'} flexDirection={'column'} gap={2} m={'0 2% 2% 2%'}>
+        <SimpleInput />
+        <SimpleInput />
+      </Grid>
       <AdditionalDetailsFreeText />
     </Container>
   );

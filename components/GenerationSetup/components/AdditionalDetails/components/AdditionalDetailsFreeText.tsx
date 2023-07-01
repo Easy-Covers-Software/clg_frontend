@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 const AdditionalDetailsFreeTextField = styled.textarea`
   width: 100%;
   height: 100%;
+  resize: none;
   box-sizing: border-box;
   background-color: #f8f8ff;
   padding: 2%;
@@ -20,7 +21,7 @@ const AdditionalDetailsFreeTextField = styled.textarea`
 export default function AdditionalDetailsFreeText() {
   const [value, setValue] = useState('');
   const [placeholder, setPlaceholder] = useState(
-    'Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for...',
+    'Add any information that is not in your resume that you think is relevant to your application',
   );
 
   const handleChange = (e) => {
@@ -41,7 +42,9 @@ export default function AdditionalDetailsFreeText() {
 
   return (
     <>
-      <Typography ml={2}>Anything else you'd like us to know?</Typography>
+      <Typography ml={2} mb={-2}>
+        Anything else you'd like us to know?
+      </Typography>
       <AdditionalDetailsFreeTextField
         placeholder={placeholder}
         value={value}
