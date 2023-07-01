@@ -3,14 +3,15 @@ import styled from '@emotion/styled';
 
 const JobPostingTextInputField = styled.textarea`
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 280px);
   box-sizing: border-box;
-  min-height: 68.4vh;
+  // border-radius: 8px;
+  // min-height: 68.4vh;
   background-color: #f8f8ff;
   padding: 2%;
   min-width: 100%;
   max-width: 100%;
-  max-height: 68.4vh;
+  // max-height: 68.4vh;
   border: none;
   ::placeholder {
     color: #e2e2e2; // Change this to the color you want
