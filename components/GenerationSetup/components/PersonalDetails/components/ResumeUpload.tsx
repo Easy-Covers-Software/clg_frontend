@@ -22,7 +22,7 @@ const Container = styled(Grid)`
   padding: 2%;
   border-radius: 4px;
   border: 1px solid #006d4b;
-  box-shadow: 3px 3px 10px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.1);
   width: 25vw;
   height: 30vh;
   background-color: #f8f8ff;
