@@ -10,14 +10,16 @@ import LoginDialog from '@/components/Login/LoginDialog';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 import GenerationSetup from '@/components/GenerationSetup/GenerationSetup';
+import Results from '@/components/Results/Results';
 
 export default function Home(props: IHomeProps) {
   const { isLoginOpen, toggleLoginIsOpen } = useLoginContext();
 
   return (
-    <Grid>
+    <Grid display={'flex'} justifyContent={'space-between'} width={'100%'}>
       {isLoginOpen ? <LoginDialog /> : null}
       <GenerationSetup />
+      <Results />
     </Grid>
   );
 }
