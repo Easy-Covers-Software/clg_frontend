@@ -33,6 +33,7 @@ const InputField = styled(TextField)`
   width: 100%;
   border-radius: 4px;
   background-color: #fff;
+  background-color: #f8f8ff;
 `;
 
 const QuestionContainer = styled(Grid)`

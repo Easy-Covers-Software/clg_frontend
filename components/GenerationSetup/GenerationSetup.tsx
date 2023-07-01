@@ -68,7 +68,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(() => ({
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`
   width: 35vw;
-  padding: 1%;
+  padding: 0.5%;
   background-color: #f8f8ff;
   border-radius: 4px;
   border: 1px solid #006d4b;

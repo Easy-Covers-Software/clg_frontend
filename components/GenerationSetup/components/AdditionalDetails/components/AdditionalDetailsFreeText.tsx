@@ -42,8 +42,8 @@ export default function AdditionalDetailsFreeText() {
 
   return (
     <>
-      <Typography ml={2} mb={-2}>
-        Anything else you'd like us to know?
+      <Typography ml={1} mb={-2}>
+        Anything else you'd like to add?
       </Typography>
       <AdditionalDetailsFreeTextField
         placeholder={placeholder}
