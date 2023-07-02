@@ -6,11 +6,12 @@ import { Typography } from '@mui/material';
 
 const Container = styled(Grid)`
   display: flex;
-  width: 99%;
+  width: 100%;
   height: 100px;
-  background-color: #f5f5f5;
-  border: 1px solid #006d4b;
+  overflow: hidden; // Add this line
+  border-bottom: none;
   border-radius: 8px 8px 0 0;
+  padding: 0.2% 0.75% 0 0.75%;
 `;
 
 const JobOverviewContainer = styled(Grid)`
@@ -18,8 +19,7 @@ const JobOverviewContainer = styled(Grid)`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  width: 100%;
-  margin-left: 0.8%;
+  width: 80.5%;
 `;
 
 const JobMatchScoreContainer = styled(Grid)`
@@ -27,8 +27,6 @@ const JobMatchScoreContainer = styled(Grid)`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  width: fits-content;
-  margin-right: 6%;
 `;
 
 const JobOverview = styled(Grid)`
@@ -39,18 +37,22 @@ const JobOverview = styled(Grid)`
   width: 99%;
   border: 1px solid #006d4b;
   border-radius: 4px;
-  background-color: #f8f8ff;
+  background-color: #fff;
 `;
 
 const JobMatchScore = styled(Grid)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   border: 1px solid #006d4b;
   border-radius: 4px;
   background-color: #f8f8ff;
-  padding: 16% 19%;
+  // padding: 1% 10%;
+  // padding: 0 0 1% 0;
+  width: 8.8vw;
+  height: 94%;
+  background-color: #fff;
 `;
 
 export default function ResultsSummary() {
@@ -69,7 +71,7 @@ export default function ResultsSummary() {
 
       <JobMatchScoreContainer>
         <JobMatchScore>
-          <Typography whiteSpace={'nowrap'} fontSize={'0.9rem'}>
+          <Typography mt={0.5} whiteSpace={'nowrap'} fontSize={'0.9rem'}>
             Match Score
           </Typography>
           <Typography fontSize={'1.8rem'}>8.3</Typography>
