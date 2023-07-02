@@ -9,8 +9,6 @@ import ReQueryOptions from './components/ReQueryOptions/ReQueryOptions';
 
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`
-  // width: ${({ isReQuerySectionExpanded }) =>
-    isReQuerySectionExpanded === 'upload' ? 'auto' : '100%'};
   width: 56%;
   background-color: #f8f8ff;
   border-radius: 4px;
