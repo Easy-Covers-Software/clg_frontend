@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { Global, css } from '@emotion/react';
 
 import { RichTextEditor, Link } from '@mantine/tiptap';
@@ -16,16 +16,26 @@ import DownloadOptionsMenu from './components/DownloadOptionsMenu';
 import { Grid } from '@mui/material';
 import styled from '@emotion/styled';
 
+import MoreOptionsReQueries from '../ReQueryOptions/components/MoreOptionsReQuerys';
+import { ReQueryContext } from '../../Results';
+
 const Container = styled(Grid)`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  gap: 1%;
   height: calc(100vh - 268px);
   min-height: calc(100vh - 268px);
   max-height: calc(100vh - 268px);
   margin: 0% 0.5%;
   background-color: white;
-  border-radius: 0 0 4px 4px;
+  padding: 0 1% 0 1%;
+  background-color: #f8f8ff;
+  border-top: none;
+  border-bottom: none;
+  // width: 58%;
+  border-radius: 4px;
 `;
+
 const ContentWrapper = styled(Grid)`
   overflow: scroll; // Set overflow as needed
   flex: 1;
@@ -70,6 +80,8 @@ export default function CoverLetterResults() {
     content,
   });
 
+  const { isReQuerySectionExpanded } = useContext(ReQueryContext);
+
   return (
     <Container>
       <Global
@@ -89,13 +101,19 @@ export default function CoverLetterResults() {
           display: 'flex',
           flexDirection: 'column', // This is important!
           height: '100%',
-          borderRadius: '0 0 4px 4px',
+          borderRadius: '4px',
+          backgroundColor: 'white',
+          width: '100%',
         }}
       >
         <RichTextEditor.Toolbar
           sticky
           stickyOffset={60}
-          sx={{ display: 'flex', justifyContent: 'center' }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            borderRadius: '4px 4px 0 0',
+          }}
         >
           <RichTextEditor.ControlsGroup>
             <RichTextEditor.Bold />
@@ -137,25 +155,15 @@ export default function CoverLetterResults() {
           <RichTextEditor.ControlsGroup ml={'1%'}>
             <DownloadOptionsMenu />
           </RichTextEditor.ControlsGroup>
-
-          {/* I want to add a download icon that allows the user to download the current content as either a pdf or docx */}
-          {/* Step 1: Add the download icon that will present the user with the op */}
         </RichTextEditor.Toolbar>
 
         <ContentWrapper>
-          <RichTextEditor.Content
-            // sx={{
-            //   display: 'flex',
-            //   overflow: 'scroll',
-            //   flexGrow: -1,
-            //   minHeight: 0,
-            // }}
-            m={'0 5%'}
-            // h={'max-height: calc(100vh - 500px)'}
-            // h={'100%'}
-          />
+          <RichTextEditor.Content m={'0 5%'} />
         </ContentWrapper>
       </RichTextEditor>
+
+      {/* Can you help me on display */}
+      {isReQuerySectionExpanded && <MoreOptionsReQueries />}
     </Container>
   );
 }
