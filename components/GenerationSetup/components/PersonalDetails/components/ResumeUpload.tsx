@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import {
   Button,
@@ -30,7 +32,6 @@ const Container = styled(Grid)`
 
 export default function ResumeUploader() {
   const [file, setFile] = useState(null);
-  console.log(file);
 
   const [uploadStatus, setUploadStatus] = useState({
     success: false,
