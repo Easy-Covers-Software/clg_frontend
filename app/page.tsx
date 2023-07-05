@@ -6,6 +6,8 @@ export interface IHomeProps {}
 
 import { useLoginContext } from '@/context/StateContext';
 
+import { useSession } from 'next-auth/react';
+
 import LoginDialog from '@/components/Login/LoginDialog';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
@@ -14,6 +16,9 @@ import Results from '@/components/Results/Results';
 
 export default function Home(props: IHomeProps) {
   const { isLoginOpen, toggleLoginIsOpen } = useLoginContext();
+  const { data: session }: any = useSession();
+
+  console.log('useSession: ', session);
 
   return (
     <Grid display={'flex'} justifyContent={'space-between'} width={'100%'}>

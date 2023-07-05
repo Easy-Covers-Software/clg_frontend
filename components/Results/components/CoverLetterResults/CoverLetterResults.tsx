@@ -80,7 +80,7 @@ export default function CoverLetterResults() {
     content,
   });
 
-  const { isReQuerySectionExpanded } = useContext(ReQueryContext);
+  const { isReQuerySectionExpanded } = useContext<any>(ReQueryContext);
 
   return (
     <Container>

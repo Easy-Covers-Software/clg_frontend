@@ -30,7 +30,7 @@ const MoreOptions = styled(UnSelectedButton)`
 `;
 
 export default function ReQueryOptions() {
-  const { toggleIsReQuerySectionExpanded } = useContext(ReQueryContext);
+  const { toggleIsReQuerySectionExpanded } = useContext<any>(ReQueryContext);
 
   return (
     <Container>

@@ -8,12 +8,14 @@ import 'styles/globals.css';
 
 import Sidebar from '@/components/Sidebar/Sidebar';
 import Header from '@/components/Header/Header';
+import { LoginContext } from '@/context/StateContext';
 
-import { LoginContext } from '../context/StateContext';
+import { getSession } from 'next-auth/react';
+// import { GetSessionParams } from 'next-auth/react';
 
 const RootLayout = ({ children }) => {
   return (
-    <Provider session={null}>
+    <Provider>
       <html lang="en">
         <body>
           <div className="layout-grid">

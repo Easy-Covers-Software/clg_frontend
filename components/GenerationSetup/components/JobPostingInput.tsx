@@ -14,14 +14,22 @@ const JobPostingTextInputField = styled.textarea`
   }
 `;
 
-export default function JobPostingInput() {
-  const [value, setValue] = useState('');
+interface JobPostingProps {
+  jobPostingInput: string;
+  setJobPostingInput: (jobPostingInput: string) => void;
+}
+
+export default function JobPostingInput(props: JobPostingProps) {
+  const { jobPostingInput, setJobPostingInput } = props;
+
+  const [value, setValue] = useState();
   const [placeholder, setPlaceholder] = useState(
     'Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for...',
   );
 
   const handleChange = (e) => {
     setValue(e.target.value);
+    setJobPostingInput(e.target.value);
   };
 
   const handleFocus = () => {
@@ -39,7 +47,7 @@ export default function JobPostingInput() {
   return (
     <JobPostingTextInputField
       placeholder={placeholder}
-      value={value}
+      value={jobPostingInput}
       onChange={handleChange}
       onFocus={handleFocus}
       onBlur={handleBlur}

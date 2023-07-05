@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import Menu from './components/Menu';
+import MenuLoggedOut from './components/MenuLoggedOut';
 
 const Logo = styled.img`
   margin-top: -55%;
@@ -16,7 +16,7 @@ export default function Sidebar() {
         width={'100%'}
       />
 
-      <Menu />
+      <MenuLoggedOut />
     </>
   );
 }

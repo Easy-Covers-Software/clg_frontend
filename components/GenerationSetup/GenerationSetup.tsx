@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
@@ -19,6 +19,8 @@ import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubl
 import IconButton from '@mui/material/IconButton';
 import { PrimaryButton } from '../Global';
 
+import { uploadJobPosting } from './api/generationSetupEndpoints';
+
 const Accordion = styled((props: AccordionProps & { currPanel?: string }) => {
   const { currPanel, ...otherProps } = props;
   return <MuiAccordion disableGutters elevation={0} square {...otherProps} />;
@@ -36,9 +38,13 @@ const Accordion = styled((props: AccordionProps & { currPanel?: string }) => {
 
 const AccordionSummary = styled(
   (
-    props: AccordionSummaryProps & { isExpanded?: boolean; expanded?: string },
+    props: AccordionSummaryProps & {
+      isExpanded?: boolean;
+      expanded?: string;
+      tracker?: string;
+    },
   ) => {
-    const { isExpanded, expanded, ...otherProps } = props;
+    const { isExpanded, expanded, tracker, ...otherProps } = props;
     return (
       <MuiAccordionSummary
         expandIcon={
@@ -89,11 +95,49 @@ const GenerateButton = styled(PrimaryButton)`
 
 export default function GenerationSetup() {
   const [expanded, setExpanded] = React.useState<string | false>('panel1');
+  const [previousPanel, setPreviousPanel] = React.useState<string | false>(
+    'panel1',
+  );
+
+  const [jobPostingInput, setJobPostingInput] = useState<string>('');
+  const [jobPostingLastSubmitted, setJobPostingLastSubmitted] =
+    useState<string>('');
+
+  const isDifferentJobPostingSinceLastSubmission = () => {
+    if (jobPostingInput === jobPostingLastSubmitted) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  React.useEffect(() => {
+    if (previousPanel === 'panel1' && expanded !== 'panel1') {
+      console.log('handleJobPostingUpload();');
+      handleJobPostingUpload();
+    }
+    setPreviousPanel(expanded);
+  }, [expanded]);
+
+  const handleJobPostingUpload = async () => {
+    if (isDifferentJobPostingSinceLastSubmission) {
+      try {
+        console.log('here');
+        await uploadJobPosting(jobPostingInput);
+      } catch (err) {
+        console.error(err);
+        // Handle error, for example by showing an error message in the UI
+      }
+      setJobPostingLastSubmitted(jobPostingInput);
+    }
+  };
 
   const handleChange =
-    (panel: string, nextPanel: string | false) =>
+    (panel: string, nextPanel: string | false, tracker: string) =>
     (event: React.SyntheticEvent, isExpanded: boolean) => {
-      if (nextPanel === 'up') {
+      if (isExpanded) {
+        setExpanded(panel);
+      } else if (nextPanel === 'up') {
         if (panel === 'panel2') {
           setExpanded('panel1');
         } else {
@@ -117,7 +161,11 @@ export default function GenerationSetup() {
           expanded={expanded === 'panel1'}
           currPanel="panel1"
           disableGutters
-          onChange={handleChange('panel1', 'panel2')}
+          onChange={handleChange(
+            'panel1',
+            'panel2',
+            `1-${expanded === 'panel1'}`,
+          )}
           style={{
             height: 'auto',
           }}
@@ -127,25 +175,34 @@ export default function GenerationSetup() {
             id="panel1d-header"
             isExpanded={expanded === 'panel1'}
             expanded="panel1"
+            tracker={`1-${expanded === 'panel1'}`}
           >
             <Typography>Job Posting</Typography>
           </AccordionSummary>
 
           <AccordionDetails>
-            <JobPostingInput />
+            <JobPostingInput
+              jobPostingInput={jobPostingInput}
+              setJobPostingInput={setJobPostingInput}
+            />
           </AccordionDetails>
         </Accordion>
 
         <Accordion
           expanded={expanded === 'panel2'}
           currPanel="panel2"
-          onChange={handleChange('panel2', 'panel3')}
+          onChange={handleChange(
+            'panel2',
+            'panel3',
+            `2-${expanded === 'panel2'}`,
+          )}
         >
           <AccordionSummary
             aria-controls="panel2d-content"
             id="panel2d-header"
             isExpanded={expanded === 'panel2'}
             expanded="panel2"
+            tracker={`2-${expanded === 'panel2'}`}
           >
             <Grid
               p={0}
@@ -164,7 +221,7 @@ export default function GenerationSetup() {
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    handleChange('panel2', 'up')(e, true);
+                    handleChange('panel2', 'up', '')(e, true);
                   }}
                 >
                   <KeyboardDoubleArrowUpOutlinedIcon
@@ -182,13 +239,14 @@ export default function GenerationSetup() {
         <Accordion
           expanded={expanded === 'panel3'}
           currPanel="panel3"
-          onChange={handleChange('panel3', false)}
+          onChange={handleChange('panel3', false, `3-${expanded === 'panel3'}`)}
         >
           <AccordionSummary
             aria-controls="panel3d-content"
             id="panel3d-header"
             isExpanded={expanded === 'panel3'}
             expanded="panel3"
+            tracker={`3-${expanded === 'panel3'}`}
           >
             <Typography>Additional Details (optional)</Typography>
           </AccordionSummary>

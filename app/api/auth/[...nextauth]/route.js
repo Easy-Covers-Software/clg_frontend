@@ -14,8 +14,7 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
-    async signIn(userLoggedIn) {
-      const { user, account, profile } = userLoggedIn;
+    async signIn({ user, account, profile }) {
       const { id_token } = account;
 
       try {
@@ -35,22 +34,38 @@ export const authOptions = {
       }
     },
 
-    async jwt(token, user, account, profile, isNewUser) {
+    async jwt({ token, user, account, profile, isNewUser }) {
       if (user) {
         const { access_token } = user;
         token.access_token = access_token;
       }
 
-      if (account) {
-        const { id_token } = account;
-        token.id_token = id_token;
-      }
-
       return token;
     },
 
-    async session(session, user) {
-      session.access_token = user.access_token;
+    async session({ session, token }) {
+      console.log('session --*: ', session);
+      console.log('token --*: ', token);
+
+      // try {
+      //   const response = await axios.get(
+      //     'http://localhost:8000/api/social/login/users/',
+      //   );
+
+      //   console.log('response: ');
+      //   // console.log(response);
+
+      //   return true;
+      // } catch (error) {
+      //   console.log('Error Fetching Users: ', error);
+      //   return false;
+      // }
+
+      // session.user.name = token.token.name;
+      // session.user.email = token.token.email;
+      // session.user.image = token.token.picture;
+
+      session.access_token = token.access_token;
       return session;
     },
   },

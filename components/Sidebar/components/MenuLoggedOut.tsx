@@ -1,11 +1,12 @@
 import React from 'react';
-import { PrimaryButton, UnSelectedButton } from '@/components/Global';
-import { useLoginContext } from '@/context/StateContext';
 import { Grid } from '@mui/material';
+import styled from '@emotion/styled';
+import { useLoginContext } from '@/context/StateContext';
 
 import Divider from '@mui/material/Divider';
+import { PrimaryButton, UnSelectedButton } from '@/components/Global';
 
-import styled from '@emotion/styled';
+import { useSession } from 'next-auth/react';
 
 const Container = styled(Grid)`
   display: flex;
@@ -22,8 +23,12 @@ const HorizontalDivider = styled(Divider)`
   margin: 5%;
 `;
 
-export default function MenuContainerLoggedOut() {
+export default function MenuLoggedOut() {
   const { isLoginOpen, toggleLoginIsOpen } = useLoginContext();
+  const { data: session }: any = useSession();
+
+  console.log('session');
+  console.log(session);
 
   if (isLoginOpen) {
     return (

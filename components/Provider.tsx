@@ -11,15 +11,17 @@ type Props = {
   session: Session | null | undefined;
 };
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
+// export async function getServerSideProps(context) {
+//   const session = await getSession(context);
 
-  return {
-    props: { session },
-  };
-}
+//   return {
+//     props: { session },
+//   };
+// }
 
-const Provider: FC<Props> = ({ children, session }) => {
+const Provider: FC<Props> = ({ children, ...otherProps }) => {
+  const { session } = otherProps;
+
   return <SessionProvider session={session}>{children}</SessionProvider>;
 };
 
