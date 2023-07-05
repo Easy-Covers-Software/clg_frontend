@@ -1,6 +1,8 @@
 'use client';
 
-import React, { ReactNode, ReactElement, useState } from 'react';
+import React from 'react';
+
+import Provider from '@/components/Provider';
 
 import 'styles/globals.css';
 
@@ -11,7 +13,7 @@ import { LoginContext } from '../context/StateContext';
 
 const RootLayout = ({ children }) => {
   return (
-    <LoginContext>
+    <Provider session={null}>
       <html lang="en">
         <body>
           <div className="layout-grid">
@@ -19,14 +21,16 @@ const RootLayout = ({ children }) => {
               <Header />
             </div>
 
-            <div className="sidebar">
-              <Sidebar />
-            </div>
-            <main className="main-content">{children}</main>
+            <LoginContext>
+              <div className="sidebar">
+                <Sidebar />
+              </div>
+              <main className="main-content">{children}</main>
+            </LoginContext>
           </div>
         </body>
       </html>
-    </LoginContext>
+    </Provider>
   );
 };
 
