@@ -1,5 +1,5 @@
 import React from 'react';
-// import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
@@ -8,7 +8,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import styled from '@emotion/styled';
+// import styled from '@emotion/styled';
 
 import JobPostingInput from './components/JobPostingInput';
 import PersonalDetails from './components/PersonalDetails/PersonalDetails';
@@ -19,38 +19,41 @@ import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubl
 import IconButton from '@mui/material/IconButton';
 import { PrimaryButton } from '../Global';
 
-const Accordion = styled((props) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))((props) => ({
+const Accordion = styled((props: AccordionProps & { currPanel?: string }) => {
+  const { currPanel, ...otherProps } = props;
+  return <MuiAccordion disableGutters elevation={0} square {...otherProps} />;
+})(({ currPanel }) => ({
   backgroundColor: '#fff',
   border: '1px solid #006D4B',
-  borderBottom: props.currPanel === 'panel3' ? '1px solid #006D4B' : 'none',
+  borderBottom: currPanel === 'panel3' ? '1px solid #006D4B' : 'none',
   borderRadius:
-    props.currPanel === 'panel1'
+    currPanel === 'panel1'
       ? '8px 8px 0 0'
-      : props.currPanel === 'panel3'
+      : currPanel === 'panel3'
       ? '0 0 8px 8px'
       : 'none',
-
-  // '&:before': {
-  //   display: 'none',
-  // },
 }));
 
-const AccordionSummary = styled((props) => (
-  <MuiAccordionSummary
-    expandIcon={
-      props.isExpanded && props.expanded !== 'panel3' ? (
-        <KeyboardDoubleArrowRightOutlinedIcon sx={{ fontSize: '0.9rem' }} />
-      ) : (
-        <KeyboardDoubleArrowLeftOutlinedIcon sx={{ fontSize: '0.9rem' }} />
-      )
-    }
-    {...props}
-  />
-))(() => ({
+const AccordionSummary = styled(
+  (
+    props: AccordionSummaryProps & { isExpanded?: boolean; expanded?: string },
+  ) => {
+    const { isExpanded, expanded, ...otherProps } = props;
+    return (
+      <MuiAccordionSummary
+        expandIcon={
+          isExpanded && expanded !== 'panel3' ? (
+            <KeyboardDoubleArrowRightOutlinedIcon sx={{ fontSize: '0.9rem' }} />
+          ) : (
+            <KeyboardDoubleArrowLeftOutlinedIcon sx={{ fontSize: '0.9rem' }} />
+          )
+        }
+        {...otherProps}
+      />
+    );
+  },
+)(() => ({
   backgroundColor: 'rgba(255, 255, 255, .05)',
-  // flexDirection: 'row-reverse',
   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
     transform: 'rotate(90deg)',
   },
