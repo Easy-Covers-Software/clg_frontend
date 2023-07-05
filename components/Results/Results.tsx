@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useState } from 'react';
 
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
@@ -18,7 +20,7 @@ const Container = styled(Grid)`
   flex-direction: column;
 `;
 
-export const ReQueryContext = React.createContext(null);
+export const ReQueryContext = createContext();
 
 export default function Results() {
   const [isReQuerySectionExpanded, setIsReQuerySectionExpanded] =
@@ -28,7 +30,6 @@ export default function Results() {
     setIsReQuerySectionExpanded(!isReQuerySectionExpanded);
   };
 
-  console.log('isReQuerySectionExpanded:', isReQuerySectionExpanded);
   return (
     <ReQueryContext.Provider
       value={{ isReQuerySectionExpanded, toggleIsReQuerySectionExpanded }}
