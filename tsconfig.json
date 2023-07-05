@@ -30,7 +30,9 @@
     ".next/types/**/*.ts",
     "app/**/*.tsx",
     "app/**/**/**/*.tsx",
-    "app/**/**/*.tsx"
+    "app/**/**/*.tsx",
+    "app/**/**/*.js",
+    "app/api/auth/[...nextauth]/route.js"
   ],
   "exclude": ["node_modules"]
 }
