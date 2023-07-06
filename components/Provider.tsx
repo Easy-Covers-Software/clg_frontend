@@ -4,11 +4,15 @@ import { FC, ReactNode } from 'react';
 import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
 
-import { getSession } from 'next-auth/react';
+import Header from './Header/Header';
+import Sidebar from './Sidebar/Sidebar';
+import { LoginContext } from '@/context/StateContext';
+
+import 'styles/globals.css';
+
 
 type Props = {
   children: ReactNode;
-  session: Session | null | undefined;
 };
 
 // export async function getServerSideProps(context) {
@@ -19,10 +23,24 @@ type Props = {
 //   };
 // }
 
-const Provider: FC<Props> = ({ children, ...otherProps }) => {
-  const { session } = otherProps;
+const Provider: FC<Props> = ({ children }) => {
+  return (
+    <SessionProvider>
+      <div className="layout-grid">
+        <div className="header">
+          <Header />
+        </div>
 
-  return <SessionProvider session={session}>{children}</SessionProvider>;
+
+        <LoginContext>
+          <div className="sidebar">
+            <Sidebar />
+          </div>
+          <main className="main-content">{children}</main>
+        </LoginContext>
+      </div>
+    </SessionProvider>
+  );
 };
 
 export default Provider;
