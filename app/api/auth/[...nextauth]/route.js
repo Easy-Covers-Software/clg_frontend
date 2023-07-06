@@ -25,8 +25,6 @@ export const refreshToken = async (refreshToken) => {
   }
 }
 
-
-
 export const authOptions = {
   providers: [
     GoogleProvider({
@@ -118,7 +116,6 @@ export const authOptions = {
     },
 
     async session({ session, token }) {
-      console.log('session token: ', token)
       const { name, email, picture, access_token, refresh_token } = token;
       
       const tokens = {
@@ -132,10 +129,7 @@ export const authOptions = {
         picture,
         tokens
       }
-
       session.user = user;
-      session.tokens = tokens;
-
       return session;
     },
   },
