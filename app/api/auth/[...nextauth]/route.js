@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { isJwtExpired, makeUrl } from '@/client/constants/Utils';
 
+
 export const refreshToken = async (refreshToken) => {
   try{
     const response = await axios.post(
@@ -124,9 +125,11 @@ export const authOptions = {
       }
 
       const user = {
-        name,
-        email,
-        picture,
+        info: {
+          name,
+          email,
+          picture,
+        },
         tokens
       }
       session.user = user;
