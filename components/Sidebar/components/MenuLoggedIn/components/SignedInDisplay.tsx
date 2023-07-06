@@ -2,13 +2,12 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-
 import Typography from '@mui/material/Typography';
-
-import { UnSelectedButton } from '@/components/Global';
 import Avatar from '@mui/material/Avatar';
 
+import { UnSelectedButton } from '@/components/Global';
 import { signOut } from 'next-auth/react';
+
 
 type UserInfo = {
   name: string;
