@@ -1,22 +1,16 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import React from 'react';
+
+import styled from '@emotion/styled';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { useLoginContext } from '@/context/StateContext';
 import Divider from '@mui/material/Divider';
 
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-
+import { PrimaryButton } from '../Global';
 import LoginInputs from './components/LoginInputs';
 import CreateAccountOptions from './components/CreateAccountOptions';
 
-import { PrimaryButton } from '../Global';
-
-import styled from '@emotion/styled';
+import { useLoginContext } from '@/context/StateContext';
 
 const DialogContentContainer = styled(DialogContent)`
   display: flex;
@@ -27,18 +21,31 @@ const DialogContentContainer = styled(DialogContent)`
   gap: 24px;
 `;
 
+const CreateAccountContainer = styled(Grid)`
+  padding: 5%;
+`
+
+const DividerContainer = styled(Grid)`
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 5%;
+`
+
 const SignInButton = styled(PrimaryButton)`
   width: 68%;
   margin: 0 auto;
   padding: 10px 0;
 `;
 
+const FullLogo = styled.img`
+  height: 180px;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: -6%;
+`
+
 export default function LoginDialog() {
   const { isLoginOpen, toggleLoginIsOpen } = useLoginContext();
-
-  const handleClickOpen = () => {
-    toggleLoginIsOpen(true);
-  };
 
   const handleClose = () => {
     toggleLoginIsOpen(false);
@@ -56,15 +63,9 @@ export default function LoginDialog() {
         },
       }}
     >
-      <img
+      <FullLogo
         src="/easy-covers-full.svg"
         alt="Description of Image"
-        height={180}
-        width={'50%'}
-        style={{
-          margin: '0 auto',
-          marginTop: '-6%',
-        }}
       />
 
       <DialogContentContainer>
@@ -73,15 +74,15 @@ export default function LoginDialog() {
         <SignInButton onClick={handleClose}>Sign In</SignInButton>
       </DialogContentContainer>
 
-      <Grid padding={'3%'}>
-        <Grid width={'78%'} margin={'0 auto'}>
+      <CreateAccountContainer>
+        <DividerContainer>
           <Divider>Or create account with</Divider>
-        </Grid>
+        </DividerContainer>
 
-        <Grid>
-          <CreateAccountOptions />
-        </Grid>
-      </Grid>
+        <CreateAccountOptions />
+      </CreateAccountContainer>
+
+      
     </Dialog>
   );
 }
