@@ -18,8 +18,6 @@ export default function Home(props: IHomeProps) {
   const { isLoginOpen, toggleLoginIsOpen } = useLoginContext();
   const { data: session }: any = useSession();
 
-  console.log('useSession: ', session);
-
   return (
     <Grid display={'flex'} justifyContent={'space-between'} width={'100%'}>
       {isLoginOpen ? <LoginDialog /> : null}
