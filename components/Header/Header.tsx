@@ -1,16 +1,19 @@
 import * as React from 'react';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
-export interface IHeaderProps {}
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import styled from '@emotion/styled';
+
+const Logo = styled.img`
+  height: 75px;
+  width: 75px;
+`
 
 export default function Header() {
   return (
     <Grid className="header">
-      <img
+      <Logo
         src="/easy-covers-logo.svg"
         alt="Description of Image"
-        height={75}
-        width={75}
       />
     </Grid>
   );
