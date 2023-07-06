@@ -33,6 +33,7 @@
     "add": "^2.0.6",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "jsonwebtoken": "^9.0.1",
     "next": "13.4.7",
     "next-auth": "^4.22.1",
     "or": "^0.2.0",
