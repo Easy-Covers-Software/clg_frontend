@@ -6,8 +6,6 @@ import { useLoginContext } from '@/context/StateContext';
 import Divider from '@mui/material/Divider';
 import { PrimaryButton, UnSelectedButton } from '@/components/Global';
 
-import { useSession } from 'next-auth/react';
-
 const Container = styled(Grid)`
   display: flex;
   flex-direction: column;
@@ -25,11 +23,6 @@ const HorizontalDivider = styled(Divider)`
 
 export default function MenuLoggedOut() {
   const { isLoginOpen, toggleLoginIsOpen } = useLoginContext();
-  const { data: session }: any = useSession();
-
-  console.log('session');
-  console.log(session);
-
   if (isLoginOpen) {
     return (
       <Container>
