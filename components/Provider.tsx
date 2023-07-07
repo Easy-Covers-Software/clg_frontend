@@ -6,7 +6,7 @@ import { Session } from 'next-auth';
 
 import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
-import { LoginContext } from '@/context/StateContext';
+import { LoginContext } from '@/context/LoginContext';
 
 import 'styles/globals.css';
 

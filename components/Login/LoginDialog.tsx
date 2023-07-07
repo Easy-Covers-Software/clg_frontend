@@ -10,7 +10,7 @@ import { PrimaryButton } from '../Global';
 import LoginInputs from './components/LoginInputs';
 import CreateAccountOptions from './components/CreateAccountOptions';
 
-import { useLoginContext } from '@/context/StateContext';
+import { useLoginContext } from '@/context/LoginContext';
 
 const DialogContentContainer = styled(DialogContent)`
   display: flex;

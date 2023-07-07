@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import styled from '@emotion/styled';
-import { useLoginContext } from '@/context/StateContext';
+import { useLoginContext } from '@/context/LoginContext';
 
 import Divider from '@mui/material/Divider';
 import { PrimaryButton, UnSelectedButton } from '@/components/Global';

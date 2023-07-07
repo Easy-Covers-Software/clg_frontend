@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { styled } from '@mui/material/styles';
-import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
-import MuiAccordionSummary, {
-  AccordionSummaryProps,
-} from '@mui/material/AccordionSummary';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
+'use client'
 
+import React, { useState, useEffect } from 'react';
+
+import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-// import styled from '@emotion/styled';
+
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
+import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
 
 import JobPostingInput from './components/JobPostingInput';
 import PersonalDetails from './components/PersonalDetails/PersonalDetails';
@@ -20,6 +20,7 @@ import IconButton from '@mui/material/IconButton';
 import { PrimaryButton } from '../Global';
 
 import { uploadJobPosting } from './api/generationSetupEndpoints';
+import { useSession } from 'next-auth/react';
 
 const Accordion = styled((props: AccordionProps & { currPanel?: string }) => {
   const { currPanel, ...otherProps } = props;
@@ -88,20 +89,30 @@ const Container = styled(Grid)`
   align-items: center;
 `;
 
+const SubContainer = styled(Grid)`
+  width: 100%;
+  height: 100%;
+`;
+
 const GenerateButton = styled(PrimaryButton)`
   width: 55%;
   margin: 1% 0;
 `;
 
+
+
+
 export default function GenerationSetup() {
+
+  const { data: session } = useSession();
+
   const [expanded, setExpanded] = React.useState<string | false>('panel1');
-  const [previousPanel, setPreviousPanel] = React.useState<string | false>(
-    'panel1',
-  );
+  const [previousPanel, setPreviousPanel] = React.useState<string | false>('panel1');
 
   const [jobPostingInput, setJobPostingInput] = useState<string>('');
-  const [jobPostingLastSubmitted, setJobPostingLastSubmitted] =
-    useState<string>('');
+  const [jobPostingLastSubmitted, setJobPostingLastSubmitted] = useState<string>('');
+  
+  const [uploadedResume, setUploadedResume] = useState('');
 
   const isDifferentJobPostingSinceLastSubmission = () => {
     if (jobPostingInput === jobPostingLastSubmitted) {
@@ -111,9 +122,8 @@ export default function GenerationSetup() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (previousPanel === 'panel1' && expanded !== 'panel1') {
-      console.log('handleJobPostingUpload();');
       handleJobPostingUpload();
     }
     setPreviousPanel(expanded);
@@ -122,7 +132,6 @@ export default function GenerationSetup() {
   const handleJobPostingUpload = async () => {
     if (isDifferentJobPostingSinceLastSubmission) {
       try {
-        console.log('here');
         await uploadJobPosting(jobPostingInput);
       } catch (err) {
         console.error(err);
@@ -156,19 +165,12 @@ export default function GenerationSetup() {
 
   return (
     <Container>
-      <Grid width={'100%'} height={'100%'}>
+      <SubContainer>
         <Accordion
           expanded={expanded === 'panel1'}
           currPanel="panel1"
           disableGutters
-          onChange={handleChange(
-            'panel1',
-            'panel2',
-            `1-${expanded === 'panel1'}`,
-          )}
-          style={{
-            height: 'auto',
-          }}
+          onChange={handleChange('panel1', 'panel2', `1-${expanded === 'panel1'}`)}
         >
           <AccordionSummary
             aria-controls="panel1d-content"
@@ -254,7 +256,7 @@ export default function GenerationSetup() {
             <AdditionalDetails />
           </AccordionDetails>
         </Accordion>
-      </Grid>
+      </SubContainer>
 
       {/* <Grid
         width={'100%'}

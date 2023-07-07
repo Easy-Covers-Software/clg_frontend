@@ -12,7 +12,7 @@ import { signOut } from 'next-auth/react';
 type UserInfo = {
   name: string;
   email: string;
-  picture: string;
+  image: string;
 }
 
 interface SignedInDisplayProps {
@@ -46,13 +46,13 @@ const ProfilePicture = styled(Avatar)`
 
 export default function SignedInDisplay(props: SignedInDisplayProps) {
   const { userInfo } = props
-  const { name, email, picture } = userInfo
+  const { name, email, image } = userInfo
 
   return (
     <Container>
       <UserProfileInfo>
         <ProfilePicture
-          src={picture}
+          src={image}
           alt="Description of user profile picture"
         />
 

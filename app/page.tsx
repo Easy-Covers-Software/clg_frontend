@@ -4,7 +4,7 @@ import * as React from 'react';
 
 export interface IHomeProps {}
 
-import { useLoginContext } from '@/context/StateContext';
+import { useLoginContext } from '@/context/LoginContext';
 
 import { useSession } from 'next-auth/react';
 

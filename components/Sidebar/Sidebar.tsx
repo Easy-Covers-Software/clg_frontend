@@ -12,15 +12,15 @@ const Logo = styled.img`
 type UserInfo = {
   name: string;
   email: string;
-  picture: string;
+  image: string;
 }
 
 export default function Sidebar() {
   const { data: session } = useSession()
   const user = session?.user
-  const userInfo: UserInfo = user?.info
+  const userInfo: UserInfo = user
 
-  console.log('user', userInfo)
+  console.log(session)
 
   return (
     <>
@@ -31,7 +31,7 @@ export default function Sidebar() {
       />
 
       {user ? (
-        <MenuLoggedIn userInfo={userInfo} />
+        <MenuLoggedIn userInfo={userInfo && userInfo} />
       ) : (
         <MenuLoggedOut />
       )}

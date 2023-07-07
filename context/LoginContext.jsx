@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 
-const Context = createContext(null);
+const LoginAccordionContext = createContext(null);
 
 export const LoginContext = ({ children }) => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -10,10 +10,14 @@ export const LoginContext = ({ children }) => {
   };
 
   return (
-    <Context.Provider value={{ isLoginOpen, toggleLoginIsOpen }}>
+    <LoginAccordionContext.Provider value={{ isLoginOpen, toggleLoginIsOpen }}>
       {children}
-    </Context.Provider>
+    </LoginAccordionContext.Provider>
   );
 };
 
-export const useLoginContext = () => useContext(Context);
+export const useLoginContext = () => useContext(LoginAccordionContext);
+
+
+
+

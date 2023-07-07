@@ -25,7 +25,7 @@ const HorizontalDivider = styled(Divider)`
 type UserInfo = {
   name: string;
   email: string;
-  picture: string;
+  image: string;
 }
 
 interface MenuLoggedInProps {
