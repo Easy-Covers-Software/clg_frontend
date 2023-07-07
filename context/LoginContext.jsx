@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext } from "react";
 
 const LoginAccordionContext = createContext(null);
 
@@ -17,7 +17,3 @@ export const LoginContext = ({ children }) => {
 };
 
 export const useLoginContext = () => useContext(LoginAccordionContext);
-
-
-
-

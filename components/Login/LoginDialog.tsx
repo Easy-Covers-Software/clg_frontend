@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 
-import styled from '@emotion/styled';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import Divider from '@mui/material/Divider';
+import styled from "@emotion/styled";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import Divider from "@mui/material/Divider";
 
-import { PrimaryButton } from '../Global';
-import LoginInputs from './components/LoginInputs';
-import CreateAccountOptions from './components/CreateAccountOptions';
+import { PrimaryButton } from "../Global";
+import LoginInputs from "./components/LoginInputs";
+import CreateAccountOptions from "./components/CreateAccountOptions";
 
-import { useLoginContext } from '@/context/LoginContext';
+import { useLoginContext } from "@/context/LoginContext";
 
 const DialogContentContainer = styled(DialogContent)`
   display: flex;
@@ -23,13 +23,13 @@ const DialogContentContainer = styled(DialogContent)`
 
 const CreateAccountContainer = styled(Grid)`
   padding: 5%;
-`
+`;
 
 const DividerContainer = styled(Grid)`
   width: 90%;
   margin: 0 auto;
   margin-bottom: 5%;
-`
+`;
 
 const SignInButton = styled(PrimaryButton)`
   width: 68%;
@@ -42,7 +42,7 @@ const FullLogo = styled.img`
   width: 50%;
   margin: 0 auto;
   margin-top: -6%;
-`
+`;
 
 export default function LoginDialog() {
   const { isLoginOpen, toggleLoginIsOpen } = useLoginContext();
@@ -59,14 +59,11 @@ export default function LoginDialog() {
       maxWidth="xs"
       PaperProps={{
         style: {
-          backgroundColor: '#F8F8FF',
+          backgroundColor: "#F8F8FF",
         },
       }}
     >
-      <FullLogo
-        src="/easy-covers-full.svg"
-        alt="Description of Image"
-      />
+      <FullLogo src="/easy-covers-full.svg" alt="Description of Image" />
 
       <DialogContentContainer>
         <LoginInputs />
@@ -81,8 +78,6 @@ export default function LoginDialog() {
 
         <CreateAccountOptions />
       </CreateAccountContainer>
-
-      
     </Dialog>
   );
 }

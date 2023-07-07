@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
-import Button from '@mui/material/Button';
+import styled from "@emotion/styled";
+import Button from "@mui/material/Button";
 
 const PrimaryButton = styled(Button)`
   background-color: #13d0b7;
@@ -55,6 +55,5 @@ const UnSelectedButton = styled(Button)`
     background-color: #87dbd0;
   }
 `;
-
 
 export { PrimaryButton, UnSelectedButton };

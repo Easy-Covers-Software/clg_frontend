@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import styled from '@emotion/styled';
-import { Typography } from '@mui/material';
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import styled from "@emotion/styled";
+import { Typography } from "@mui/material";
 
 const Container = styled(Grid)`
   display: flex;
@@ -60,10 +60,10 @@ export default function ResultsSummary() {
     <Container>
       <JobOverviewContainer>
         <JobOverview>
-          <Typography pl={2} pt={2} fontSize={'1.3rem'}>
+          <Typography pl={2} pt={2} fontSize={"1.3rem"}>
             Full Stack Software Engineer
           </Typography>
-          <Typography pl={2} pb={2} fontSize={'1rem'}>
+          <Typography pl={2} pb={2} fontSize={"1rem"}>
             CompanyXYZ Inc.
           </Typography>
         </JobOverview>
@@ -71,10 +71,10 @@ export default function ResultsSummary() {
 
       <JobMatchScoreContainer>
         <JobMatchScore>
-          <Typography mt={0.5} whiteSpace={'nowrap'} fontSize={'0.9rem'}>
+          <Typography mt={0.5} whiteSpace={"nowrap"} fontSize={"0.9rem"}>
             Match Score
           </Typography>
-          <Typography fontSize={'1.8rem'}>8.3</Typography>
+          <Typography fontSize={"1.8rem"}>8.3</Typography>
         </JobMatchScore>
       </JobMatchScoreContainer>
     </Container>

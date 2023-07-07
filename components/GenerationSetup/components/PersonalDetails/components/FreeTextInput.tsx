@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled from '@emotion/styled';
+import React, { useState } from "react";
+import styled from "@emotion/styled";
 
 const FreeTextInputField = styled.textarea`
   width: 100%;
@@ -17,9 +17,9 @@ const FreeTextInputField = styled.textarea`
 `;
 
 export default function FreeTextInput() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [placeholder, setPlaceholder] = useState(
-    'Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for...',
+    "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
   );
 
   const handleChange = (e) => {
@@ -27,13 +27,13 @@ export default function FreeTextInput() {
   };
 
   const handleFocus = () => {
-    setPlaceholder('');
+    setPlaceholder("");
   };
 
   const handleBlur = () => {
-    if (value === '') {
+    if (value === "") {
       setPlaceholder(
-        'Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for...',
+        "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
       );
     }
   };

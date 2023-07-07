@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 
-import { Grid } from '@mui/material';
-import styled from '@emotion/styled';
+import { Grid } from "@mui/material";
+import styled from "@emotion/styled";
 
-import SimpleReQueryButton from './components/SimpleReQueryButton';
-import { PrimaryButton, UnSelectedButton } from '@/components/Global';
+import SimpleReQueryButton from "./components/SimpleReQueryButton";
+import { PrimaryButton, UnSelectedButton } from "@/components/Global";
 
-import { ReQueryContext } from '../../Results';
+import { ReQueryContext } from "../../Results";
 
 const Container = styled(Grid)`
   display: flex;

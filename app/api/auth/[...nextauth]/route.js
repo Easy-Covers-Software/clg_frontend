@@ -1,6 +1,5 @@
-import NextAuth from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-
+import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
   providers: [
@@ -17,7 +16,7 @@ export const authOptions = {
   jwt: {
     secret: process.env.JWT_SECRET_KEY,
   },
-  debug: process.env.NODE_ENV === 'development',
+  debug: process.env.NODE_ENV === "development",
 };
 
 const handler = NextAuth(authOptions);

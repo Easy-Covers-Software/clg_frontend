@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Button,
   Box,
@@ -6,11 +6,13 @@ import {
   Input,
   Typography,
   Snackbar,
-} from '@mui/material';
-import { Alert } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import styled from '@emotion/styled';
-import { UnSelectedButton } from '@/components/Global';
+} from "@mui/material";
+import { Alert } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import styled from "@emotion/styled";
+import { UnSelectedButton } from "@/components/Global";
+
+import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 
 const FileUploadInput = styled(FormControl)`
   width: 100%;
@@ -30,8 +32,9 @@ const Label = styled.label`
   white-space: nowrap;
 `;
 
-export default function UploadOption({ label, accept, handleFileChange }) {
-  const id = label.replace(/\s+/g, '-').toLowerCase();
+export default function UploadOption({ label, accept }) {
+  const id = label.replace(/\s+/g, "-").toLowerCase();
+  const { handleFileChange } = useGenerationSetupContext();
 
   return (
     <>
@@ -41,7 +44,7 @@ export default function UploadOption({ label, accept, handleFileChange }) {
           type="file"
           onChange={handleFileChange}
           inputProps={{ accept }}
-          sx={{ display: 'none' }}
+          sx={{ display: "none" }}
         />
       </FileUploadInput>
       <Container>
@@ -52,5 +55,3 @@ export default function UploadOption({ label, accept, handleFileChange }) {
     </>
   );
 }
-
-

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import styled from '@emotion/styled';
+import React, { useState } from "react";
+import styled from "@emotion/styled";
+
+import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 
 const JobPostingTextInputField = styled.textarea`
   width: 100%;
@@ -14,17 +16,12 @@ const JobPostingTextInputField = styled.textarea`
   }
 `;
 
-interface JobPostingProps {
-  jobPostingInput: string;
-  setJobPostingInput: (jobPostingInput: string) => void;
-}
-
-export default function JobPostingInput(props: JobPostingProps) {
-  const { jobPostingInput, setJobPostingInput } = props;
+export default function JobPostingInput() {
+  const { jobPostingInput, setJobPostingInput } = useGenerationSetupContext();
 
   const [value, setValue] = useState();
   const [placeholder, setPlaceholder] = useState(
-    'Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for...',
+    "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
   );
 
   const handleChange = (e) => {
@@ -33,13 +30,13 @@ export default function JobPostingInput(props: JobPostingProps) {
   };
 
   const handleFocus = () => {
-    setPlaceholder('');
+    setPlaceholder("");
   };
 
   const handleBlur = () => {
-    if (value === '') {
+    if (value === "") {
       setPlaceholder(
-        'Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for...',
+        "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
       );
     }
   };

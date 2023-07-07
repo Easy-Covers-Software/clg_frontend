@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 
 const Container = styled(Box)`
   display: flex;
@@ -31,18 +31,18 @@ const InputField = styled(TextField)`
 `;
 
 export default function LoginInputs() {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
 
   const clearInput = () => {
-    setEmail('');
+    setEmail("");
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
@@ -81,7 +81,7 @@ export default function LoginInputs() {
           variant="outlined"
           placeholder="Password"
           value={password}
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setPassword(event.target.value);
           }}

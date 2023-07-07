@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import styled from '@emotion/styled';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import React, { useState } from "react";
+import styled from "@emotion/styled";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 const CustomReQueryField = styled.textarea`
   width: 100%;
@@ -20,9 +20,9 @@ const CustomReQueryField = styled.textarea`
 `;
 
 export default function CustomReQuery() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [placeholder, setPlaceholder] = useState(
-    'Add any information that is not in your resume that you think is relevant to your application',
+    "Add any information that is not in your resume that you think is relevant to your application"
   );
 
   const handleChange = (e) => {
@@ -30,28 +30,28 @@ export default function CustomReQuery() {
   };
 
   const handleFocus = () => {
-    setPlaceholder('');
+    setPlaceholder("");
   };
 
   const handleBlur = () => {
-    if (value === '') {
+    if (value === "") {
       setPlaceholder(
-        'Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for...',
+        "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
       );
     }
   };
 
   return (
     <Grid
-      display={'flex'}
-      flexDirection={'column'}
+      display={"flex"}
+      flexDirection={"column"}
       // justifyContent={'space-between'}
-      height={'100%'}
-      width={'14vw'}
+      height={"100%"}
+      width={"14vw"}
       gap={2}
       mt={2}
     >
-      <Typography ml={1} mb={-2} fontSize={'0.8rem'}>
+      <Typography ml={1} mb={-2} fontSize={"0.8rem"}>
         Custom Adjustment
       </Typography>
       <CustomReQueryField

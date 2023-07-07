@@ -3,12 +3,12 @@ body {
   padding: 0;
   margin: 0;
   height: 100vh;
-  background: #F8F8FF; /* Added this line */
+  background: #f8f8ff; /* Added this line */
 }
 
 .layout-grid {
   display: grid;
-  grid-template-areas: 
+  grid-template-areas:
     "header header"
     "sidebar main";
   grid-template-rows: auto 1fr;
@@ -25,7 +25,7 @@ body {
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
-  background: var(--theme-nav, #F8F8FF);
+  background: var(--theme-nav, #f8f8ff);
 }
 
 .header {
@@ -38,7 +38,7 @@ body {
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
-  background: var(--theme-nav, #F8F8FF);
+  background: var(--theme-nav, #f8f8ff);
 }
 
 .main-content {
@@ -47,15 +47,14 @@ body {
   gap: 20px;
   flex-shrink: 0;
   border: 5px solid #13d0b7;
-  border-radius:8px;
+  border-radius: 8px;
   height: calc(100vh - 100px);
-  background-color: var(--theme-main, #F5F5F5);
+  background-color: var(--theme-main, #f5f5f5);
   /* background-color: #fff; */
-  
+
   /* ONLY WHEN LOGGING IN / CREATING ACCOUNT */
   /* opacity: 0.10000000149011612; */
 }
-
 
 /* hide sidebar if screen is tablet or */
 @media screen and (max-width: 1024px) {
@@ -63,11 +62,6 @@ body {
     display: none;
   }
 }
-
-
-
-
-
 
 /* GREEN 900: #006D4B */
 /* GREEN 600: #35E8B0 */

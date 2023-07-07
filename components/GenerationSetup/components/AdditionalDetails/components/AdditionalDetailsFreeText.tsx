@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import styled from '@emotion/styled';
-import Typography from '@mui/material/Typography';
+import React, { useState } from "react";
+import styled from "@emotion/styled";
+import Typography from "@mui/material/Typography";
 
 const AdditionalDetailsFreeTextField = styled.textarea`
   width: 100%;
@@ -19,9 +19,9 @@ const AdditionalDetailsFreeTextField = styled.textarea`
 `;
 
 export default function AdditionalDetailsFreeText() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [placeholder, setPlaceholder] = useState(
-    'Add any information that is not in your resume that you think is relevant to your application',
+    "Add any information that is not in your resume that you think is relevant to your application"
   );
 
   const handleChange = (e) => {
@@ -29,13 +29,13 @@ export default function AdditionalDetailsFreeText() {
   };
 
   const handleFocus = () => {
-    setPlaceholder('');
+    setPlaceholder("");
   };
 
   const handleBlur = () => {
-    if (value === '') {
+    if (value === "") {
       setPlaceholder(
-        'Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for...',
+        "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
       );
     }
   };

@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import { PrimaryButton, UnSelectedButton } from '@/components/Global';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import styled from '@emotion/styled';
-import Divider from '@mui/material/Divider';
-import { ButtonGroup, Typography } from '@mui/material';
-import { IconButton } from '@mui/material';
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
+import { PrimaryButton, UnSelectedButton } from "@/components/Global";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import styled from "@emotion/styled";
+import Divider from "@mui/material/Divider";
+import { ButtonGroup, Typography } from "@mui/material";
+import { IconButton } from "@mui/material";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 
 const Container = styled(Grid)`
   display: flex;
@@ -37,7 +37,7 @@ const ButtonContainer = styled(Grid)`
 export default function SimpleReQueryButton({ buttonLabel }) {
   return (
     <Container>
-      <Typography fontSize={'0.8rem'}>{buttonLabel}</Typography>
+      <Typography fontSize={"0.8rem"}>{buttonLabel}</Typography>
       <ButtonContainer>
         <IconButton>
           <RemoveCircleOutlineOutlinedIcon />

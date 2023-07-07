@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import styled from '@emotion/styled';
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import styled from "@emotion/styled";
 
-import MediumReQueryInput from './MediumReQueryInput';
-import CustomReQuery from './CustomReQuery';
+import MediumReQueryInput from "./MediumReQueryInput";
+import CustomReQuery from "./CustomReQuery";
 
 const Container = styled(Grid)`
   display: flex;
@@ -25,10 +25,10 @@ export default function MoreOptionsReQueries() {
   return (
     <Container>
       <MediumOptionsContainer>
-        <MediumReQueryInput label={'Add Skill'} />
-        <MediumReQueryInput label={'Insert Keyword'} />
-        <MediumReQueryInput label={'Elaborate Resume Item'} />
-        <MediumReQueryInput label={'Remove Redundancy'} />
+        <MediumReQueryInput label={"Add Skill"} />
+        <MediumReQueryInput label={"Insert Keyword"} />
+        <MediumReQueryInput label={"Elaborate Resume Item"} />
+        <MediumReQueryInput label={"Remove Redundancy"} />
       </MediumOptionsContainer>
 
       <CustomReQuery />

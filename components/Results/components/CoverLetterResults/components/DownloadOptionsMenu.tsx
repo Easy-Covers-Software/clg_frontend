@@ -1,19 +1,19 @@
-import * as React from 'react';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import * as React from "react";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
-import IconButton from '@mui/material/IconButton';
-import DownloadForOfflineOutlinedIcon from '@mui/icons-material/DownloadForOfflineOutlined';
-import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
-import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
-import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
-import { Tooltip } from '@mui/material';
+import IconButton from "@mui/material/IconButton";
+import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOfflineOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
+import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+import { Tooltip } from "@mui/material";
 
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import styled from '@emotion/styled';
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import styled from "@emotion/styled";
 
 const Container = styled(Grid)`
   display: flex;
@@ -55,20 +55,20 @@ export default function DownloadOptionsMenu() {
           <IconButton
             onClick={handleSave}
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '0 20%',
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "0 20%",
             }}
           >
-            <SaveOutlinedIcon sx={{ fontSize: '1.7rem' }} />
+            <SaveOutlinedIcon sx={{ fontSize: "1.7rem" }} />
           </IconButton>
         </Tooltip>
 
         <Divider orientation="vertical" flexItem />
         <Tooltip title="Download">
-          <IconButton onClick={handleDownload} sx={{ padding: '0 20%' }}>
-            <DownloadForOfflineOutlinedIcon sx={{ fontSize: '1.7rem' }} />
+          <IconButton onClick={handleDownload} sx={{ padding: "0 20%" }}>
+            <DownloadForOfflineOutlinedIcon sx={{ fontSize: "1.7rem" }} />
           </IconButton>
         </Tooltip>
       </Container>
@@ -79,7 +79,7 @@ export default function DownloadOptionsMenu() {
         open={openDownload}
         onClose={handleCloseDownload}
         MenuListProps={{
-          'aria-labelledby': 'basic-button',
+          "aria-labelledby": "basic-button",
         }}
       >
         <MenuItem onClick={handleCloseDownload} disableRipple>

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Button,
   Box,
@@ -8,12 +8,14 @@ import {
   Input,
   Typography,
   Snackbar,
-} from '@mui/material';
-import { Alert } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import styled from '@emotion/styled';
-import { UnSelectedButton } from '@/components/Global';
-import UploadOption from './UploadOption';
+} from "@mui/material";
+import { Alert } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import styled from "@emotion/styled";
+import { UnSelectedButton } from "@/components/Global";
+import UploadOption from "./UploadOption";
+
+import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 
 const Container = styled(Grid)`
   display: flex;
@@ -31,22 +33,16 @@ const Container = styled(Grid)`
 `;
 
 export default function ResumeUploader() {
-  const [file, setFile] = useState(null);
-
   const [uploadStatus, setUploadStatus] = useState({
     success: false,
-    message: '',
+    message: "",
   });
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
   const handleCloseSnackbar = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
-    setUploadStatus({ ...uploadStatus, message: '' });
+    setUploadStatus({ ...uploadStatus, message: "" });
   };
 
   return (
@@ -54,28 +50,22 @@ export default function ResumeUploader() {
       <UploadOption
         label="Upload  From Computer"
         accept=".pdf,.doc,.docx,.txt"
-        handleFileChange={handleFileChange}
       />
       <UploadOption
         label="Upload with LinkedIn"
         accept=".pdf,.doc,.docx,.txt"
-        handleFileChange={handleFileChange}
       />
-      <UploadOption
-        label="Upload with Indeed"
-        accept=".pdf,.doc,.docx,.txt"
-        handleFileChange={handleFileChange}
-      />
+      <UploadOption label="Upload with Indeed" accept=".pdf,.doc,.docx,.txt" />
 
       <Snackbar
-        open={uploadStatus.message !== ''}
+        open={uploadStatus.message !== ""}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert
           onClose={handleCloseSnackbar}
-          severity={uploadStatus.success ? 'success' : 'error'}
+          severity={uploadStatus.success ? "success" : "error"}
         >
           {uploadStatus.message}
         </Alert>

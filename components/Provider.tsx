@@ -1,15 +1,14 @@
-'use client';
+"use client";
 
-import { FC, ReactNode } from 'react';
-import { SessionProvider } from 'next-auth/react';
-import { Session } from 'next-auth';
+import { FC, ReactNode } from "react";
+import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
 
-import Header from './Header/Header';
-import Sidebar from './Sidebar/Sidebar';
-import { LoginContext } from '@/context/LoginContext';
+import Header from "./Header/Header";
+import Sidebar from "./Sidebar/Sidebar";
+import { LoginContext } from "@/context/LoginContext";
 
-import 'styles/globals.css';
-
+import "styles/globals.css";
 
 type Props = {
   children: ReactNode;
@@ -30,7 +29,6 @@ const Provider: FC<Props> = ({ children }) => {
         <div className="header">
           <Header />
         </div>
-
 
         <LoginContext>
           <div className="sidebar">

@@ -31,6 +31,10 @@
     "app/**/*.tsx",
     "app/**/**/**/*.tsx",
     "app/**/**/*.tsx",
+    "app/**/**/**/**/*.js",
+    "app/**/**/**/**/*.jsx",
+    "app/**/**/**/**/*.tsx",
+    "app/**/**/**/**/*.ts",
     "app/**/**/*.js",
     "app/api/auth/[...nextauth]/route.ts"
   ],

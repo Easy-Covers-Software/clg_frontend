@@ -1,11 +1,11 @@
-import React from 'react';
-import { PrimaryButton, UnSelectedButton } from '@/components/Global';
-import { Grid } from '@mui/material';
+import React from "react";
+import { PrimaryButton, UnSelectedButton } from "@/components/Global";
+import { Grid } from "@mui/material";
 
-import Divider from '@mui/material/Divider';
+import Divider from "@mui/material/Divider";
 
-import styled from '@emotion/styled';
-import SignedInDisplay from './components/SignedInDisplay';
+import styled from "@emotion/styled";
+import SignedInDisplay from "./components/SignedInDisplay";
 
 const Container = styled(Grid)`
   display: flex;
@@ -26,10 +26,10 @@ type UserInfo = {
   name: string;
   email: string;
   image: string;
-}
+};
 
 interface MenuLoggedInProps {
-  userInfo: UserInfo
+  userInfo: UserInfo;
 }
 
 export default function MenuLoggedIn(props: MenuLoggedInProps) {

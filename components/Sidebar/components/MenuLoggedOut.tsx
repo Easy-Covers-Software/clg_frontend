@@ -1,10 +1,10 @@
-import React from 'react';
-import { Grid } from '@mui/material';
-import styled from '@emotion/styled';
-import { useLoginContext } from '@/context/LoginContext';
+import React from "react";
+import { Grid } from "@mui/material";
+import styled from "@emotion/styled";
+import { useLoginContext } from "@/context/LoginContext";
 
-import Divider from '@mui/material/Divider';
-import { PrimaryButton, UnSelectedButton } from '@/components/Global';
+import Divider from "@mui/material/Divider";
+import { PrimaryButton, UnSelectedButton } from "@/components/Global";
 
 const Container = styled(Grid)`
   display: flex;
