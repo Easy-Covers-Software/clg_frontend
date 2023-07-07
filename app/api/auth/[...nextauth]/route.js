@@ -3,10 +3,13 @@ import GoogleProvider from 'next-auth/providers/google';
 import axios from 'axios';
 
 import { isJwtExpired, makeUrl } from '@/client/constants/Utils';
+import { headers } from 'next/dist/client/components/headers';
+
 
 
 export const refreshToken = async (refreshToken) => {
   try{
+    
     const response = await axios.post(
       'http://localhost:8000/api/token/refresh/',
       // makeUrl(
@@ -49,93 +52,115 @@ export const authOptions = {
   // 3. the session function is called, which is used to add the jwt token to the session
   //* Each time the session is called in useSession(), getSession(), the jwt() and session callbacks are run again
   //* As such, the refreshing mechansism needs tobe done in the jwt() callback
-  callbacks: {
-    async jwt({ token, user, account, profile, isNewUser }) {
-      if (user) {
-        const { id_token } = account;
-        try {
-          const response = await axios.post(
-            "http://127.0.0.1:8000/api/google/",
-            // makeUrl(
-            //   process.env.BACKEND_API_BASE,
-            //   "social",
-            //   "login",
-            //   account.provider,
-            // ),
-            {
-              access_token: id_token,
-              id_token: id_token
-            },
-          );
+  // callbacks: {
+  //   async jwt({ token, user, account, profile, isNewUser }) {
+  //     if (user) {
+  //       const { id_token } = account;
+  //       try {
+  //         const response = await axios.post(
+  //           "http://127.0.0.1:8000/api/google/",
+  //           // makeUrl(
+  //           //   process.env.BACKEND_API_BASE,
+  //           //   "social",
+  //           //   "login",
+  //           //   account.provider,
+  //           // ),
+  //           {
+  //             access_token: id_token,
+  //             id_token: id_token
+  //           },
+  //           { 
+  //             withCredentials: true,
+  //             headers: {
+  //               "Content-Type": "application/json"
+  //             }
+  //           }
+  //         );
 
-          // extract the returned token from the DRF backend and add it to the `user` object          
-          const { user, tokens } = response.data;
-          const { access_token, refresh_token } = tokens
+  //         // extract the returned token from the DRF backend and add it to the `user` object          
+  //         const { user } = response.data;
+  //         // const { access_token, refresh_token } = tokens
+
+  //         // add code to get the cookies from the response headers
+  //         const setCookieHeader = response.headers['set-cookie'];
+  //         const cookiesObj = setCookieHeader.reduce((acc, cookie) => {
+  //           const [key, value] = cookie.split('=');
+  //           acc[key] = value;
+  //           return acc;
+  //         }, {});
+
           
-          token = {
-            ...token,
-            access_token: access_token,
-            refresh_token: refresh_token,
-          };
+          
 
+          
+  //         console.log('\n\n')
+  //         console.log('cookiesObj')
+  //         console.log(cookiesObj)
+  //         console.log('\n\n')
+          
+  //         token = {
+  //           ...token,
+  //           access_token: access_token,
+  //           refresh_token: refresh_token,
+  //         };
 
-          return token;
-        } catch (error) {
-          console.log('error: user not found');
-          // console.log(error)
-          return false;
+  //         return token;
+  //       } catch (error) {
+  //         console.log('error: user not found');
+  //         // console.log(error)
+  //         return false;
 
-        }
-      }
+  //       }
+  //     }
 
-      // user was signed in previously, we want to check if the token needs refreshing
-      // token has been invalidated, try refreshing it
-      if(isJwtExpired(token.access_token)){
-        const [
-          newAccessToken,
-          newRefreshToken,
-        ] = await refreshToken(token.refresh_token);
+  //     // user was signed in previously, we want to check if the token needs refreshing
+  //     // token has been invalidated, try refreshing it
+  //     if(isJwtExpired(token.access_token)){
+  //       const [
+  //         newAccessToken,
+  //         newRefreshToken,
+  //       ] = await refreshToken(token.refresh_token);
 
-        if(newAccessToken && newRefreshToken) {
-          token = {
-            ...token,
-            access_token: newAccessToken,
-            refresh_token: newRefreshToken,
-            iat: Math.floor(Date.now() / 1000),
-            exp: Math.floor(Date.now() / 1000 + 2 * 60 * 60) 
-          };
-          return token;
-        }
+  //       if(newAccessToken && newRefreshToken) {
+  //         token = {
+  //           ...token,
+  //           access_token: newAccessToken,
+  //           refresh_token: newRefreshToken,
+  //           iat: Math.floor(Date.now() / 1000),
+  //           exp: Math.floor(Date.now() / 1000 + 2 * 60 * 60) 
+  //         };
+  //         return token;
+  //       }
 
-        // unable to refresh tokens from DRF backend, invalidate the token
-        return {
-          ...token,
-          exp: 0,
-        }
-      }
-      return token;
-    },
+  //       // unable to refresh tokens from DRF backend, invalidate the token
+  //       return {
+  //         ...token,
+  //         exp: 0,
+  //       }
+  //     }
+  //     return token;
+  //   },
 
-    async session({ session, token }) {
-      const { name, email, picture, access_token, refresh_token } = token;
+  //   async session({ session, token }) {
+  //     const { name, email, picture, access_token, refresh_token } = token;
       
-      const tokens = {
-        access_token,
-        refresh_token,
-      }
+  //     const tokens = {
+  //       access_token,
+  //       refresh_token,
+  //     }
 
-      const user = {
-        info: {
-          name,
-          email,
-          picture,
-        },
-        tokens
-      }
-      session.user = user;
-      return session;
-    },
-  },
+  //     const user = {
+  //       info: {
+  //         name,
+  //         email,
+  //         picture,
+  //       },
+  //       tokens
+  //     }
+  //     session.user = user;
+  //     return session;
+  //   },
+  // },
 };
 
 const handler = NextAuth(authOptions);
