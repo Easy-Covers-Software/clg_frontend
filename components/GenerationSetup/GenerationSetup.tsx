@@ -179,7 +179,7 @@ export default function GenerationSetup() {
 
   useEffect(() => {
     if (previousPanel === "panel1" && expanded !== "panel1") {
-      // handleJobPostingUpload();
+      handleJobPostingUpload();
     } else if (previousPanel === "panel2" && expanded !== "panel2") {
       handleResumeUpload();
     } else {

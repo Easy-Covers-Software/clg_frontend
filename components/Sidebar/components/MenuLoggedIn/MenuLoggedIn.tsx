@@ -23,13 +23,15 @@ const HorizontalDivider = styled(Divider)`
 `;
 
 type UserInfo = {
-  name: string;
-  email: string;
-  image: string;
+  user: {
+    id: string;
+    username: string;
+    email: string;
+  };
 };
 
 interface MenuLoggedInProps {
-  userInfo: UserInfo;
+  user: UserInfo;
 }
 
 export default function MenuLoggedIn(props: MenuLoggedInProps) {
@@ -38,7 +40,7 @@ export default function MenuLoggedIn(props: MenuLoggedInProps) {
       <PrimaryButton>Generate</PrimaryButton>
 
       <Grid>
-        <SignedInDisplay userInfo={props?.userInfo} />
+        <SignedInDisplay user={props?.user} />
       </Grid>
     </Container>
   );

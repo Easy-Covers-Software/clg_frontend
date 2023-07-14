@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 
 import styled from "@emotion/styled";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
@@ -9,6 +11,11 @@ import Divider from "@mui/material/Divider";
 import { PrimaryButton } from "../Global";
 import LoginInputs from "./components/LoginInputs";
 import CreateAccountOptions from "./components/CreateAccountOptions";
+import axios from "axios";
+
+import { useRouter } from "next/navigation";
+
+import Cookies from "cookie";
 
 import { useLoginContext } from "@/context/LoginContext";
 
@@ -46,9 +53,63 @@ const FullLogo = styled.img`
 
 export default function LoginDialog() {
   const { isLoginOpen, toggleLoginIsOpen } = useLoginContext();
+  const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
+
+  // if (isMounted) {
+  //   const router = useRouter();
+  // }
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
 
   const handleClose = () => {
     toggleLoginIsOpen(false);
+  };
+
+  const signInGoogle = async () => {
+    console.log("FUNCTION IS GETTING CALLED");
+
+    const endpoint = "https://127.0.0.1:8000/accounts/login/";
+
+    try {
+      const response = await axios.get(endpoint, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": Cookies.get("csrftoken"),
+        },
+      });
+      if (response.status === 200 || response.status === 201) {
+        console.log(response.data);
+
+        router.push("/");
+      }
+    } catch (error) {}
+  };
+
+  const signInGoogle2 = async () => {
+    const endpoint = "https://127.0.0.1:8000/accounts/google/login/";
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status === 200 || response.status === 201) {
+        const data = await response.json();
+        console.log(data);
+
+        router.push("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -76,7 +137,7 @@ export default function LoginDialog() {
           <Divider>Or create account with</Divider>
         </DividerContainer>
 
-        <CreateAccountOptions />
+        <CreateAccountOptions signInGoogle={signInGoogle} />
       </CreateAccountContainer>
     </Dialog>
   );

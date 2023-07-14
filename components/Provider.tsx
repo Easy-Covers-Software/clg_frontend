@@ -1,8 +1,6 @@
 "use client";
 
 import { FC, ReactNode } from "react";
-import { SessionProvider } from "next-auth/react";
-import { Session } from "next-auth";
 
 import Header from "./Header/Header";
 import Sidebar from "./Sidebar/Sidebar";
@@ -14,17 +12,18 @@ type Props = {
   children: ReactNode;
 };
 
-// export async function getServerSideProps(context) {
-//   const session = await getSession(context);
+import { useAuth } from "@/context/AuthContext";
 
-//   return {
-//     props: { session },
-//   };
-// }
+import { AuthProvider } from "@/context/AuthContext";
+
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
+const CLIENT_ID =
+  "464586598349-3uu0huc0df86brd568ikatpa9avg015m.apps.googleusercontent.com";
 
 const Provider: FC<Props> = ({ children }) => {
   return (
-    <SessionProvider>
+    <AuthProvider>
       <div className="layout-grid">
         <div className="header">
           <Header />
@@ -37,7 +36,7 @@ const Provider: FC<Props> = ({ children }) => {
           <main className="main-content">{children}</main>
         </LoginContext>
       </div>
-    </SessionProvider>
+    </AuthProvider>
   );
 };
 

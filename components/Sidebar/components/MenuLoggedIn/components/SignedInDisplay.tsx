@@ -6,16 +6,14 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 
 import { UnSelectedButton } from "@/components/Global";
-import { signOut } from "next-auth/react";
+import axios from "axios";
 
 type UserInfo = {
-  name: string;
+  username: string;
   email: string;
-  image: string;
 };
-
 interface SignedInDisplayProps {
-  userInfo: UserInfo;
+  user: UserInfo;
 }
 
 const Container = styled(Grid)`
@@ -27,7 +25,9 @@ const Container = styled(Grid)`
 
 const UserProfileInfo = styled(Grid)`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  // justify-content: space-between;
+  align-items: flex-end;
   margin-bottom: 4%;
   padding: 0 2% 0 0;
 `;
@@ -44,22 +44,32 @@ const ProfilePicture = styled(Avatar)`
 `;
 
 export default function SignedInDisplay(props: SignedInDisplayProps) {
-  const { userInfo } = props;
-  const { name, email, image } = userInfo;
+  const { user } = props;
+  const { username, email } = user;
+
+  console.log("user", user);
+
+  const url = "https://127.0.0.1:8000/users/logout/";
+
+  const signOut = () => {
+    axios.post(url, { withCredentials: true }).then((res) => {
+      console.log("res", res);
+    });
+  };
 
   return (
     <Container>
       <UserProfileInfo>
-        <ProfilePicture src={image} alt="Description of user profile picture" />
+        {/* <ProfilePicture src={image} alt="Description of user profile picture" /> */}
 
-        <UserEmailAndName>
-          <Typography fontSize={"1rem"}>{name}</Typography>
-          <Typography fontSize={"0.8rem"}>{email}</Typography>
-        </UserEmailAndName>
+        {/* <UserEmailAndName> */}
+        <Typography fontSize={"1rem"}>{username}</Typography>
+        <Typography fontSize={"0.8rem"}>{email}</Typography>
+        {/* </UserEmailAndName> */}
       </UserProfileInfo>
 
       <UnSelectedButton>Settings</UnSelectedButton>
-      <UnSelectedButton onClick={() => signOut()}>Logout</UnSelectedButton>
+      <UnSelectedButton onClick={signOut}>Logout</UnSelectedButton>
     </Container>
   );
 }

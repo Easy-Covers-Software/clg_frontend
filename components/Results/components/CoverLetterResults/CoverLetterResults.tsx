@@ -42,28 +42,31 @@ const ContentWrapper = styled(Grid)`
 `;
 
 const content = `
-<div style=" overflow: scroll; ">
-  <h2 style="text-align: center;">Cover Letter</h2>
-  <h5 style="text-align: left;">Dear [Employer’s Name],</h5>
-  <p>
-      I am writing to apply for the [Job Title] position at [Company Name], as advertised on [where you found the job posting]. 
-  </p>
-  <p>
-      As a [Your Job Title] at [Your Current or Most Recent Company] with a proven background in [Relevant Job Skills], 
-      it is with great excitement that I submit my resume for consideration to become a member of your team.
-  </p>
-  <p>
-      In my current position, I have [give an accomplishment or responsibility that shows how you can make a difference]. 
-      I believe I could bring this same level of detail and dedication to your team at [Company Name].
-  </p>
-  <p>
-      Thank you for considering my application. I look forward to the possibility of discussing this exciting opportunity with you further.
-  </p>
-  <p>
-      Sincerely,<br/>
-      [Your Name]
-  </p>
-  <div>
+    <div>
+      <p>Dear Hiring Manager,</p>
+
+      <p>
+          I am writing to apply for the Software Engineer, Machine Learning position at Google. 
+          I came across this opportunity on your company's careers page and was immediately drawn to it, given its match with my skills and interests.
+      </p>
+      <p>
+          As a Software Engineer specializing in Machine Learning at my current organization, I have been deeply involved in designing and implementing machine learning models for various business solutions. My background in computer science, coupled with my hands-on experience in machine learning, enables me to create efficient models that drive decision-making and contribute to the strategic goals of the company.
+      </p>
+      <p>
+          One of my significant accomplishments includes developing a predictive model for improving customer engagement, which resulted in a 15% increase in user activity. I have also worked on optimizing algorithms for faster data processing, leading to a 20% improvement in system efficiency. 
+      </p>
+      <p>
+          I am thrilled at the prospect of bringing my expertise in machine learning to Google, known for its innovation and technological advancements. I am confident that I can contribute to the team and support the development of cutting-edge machine learning applications.
+      </p>
+      <p>
+          Thank you for considering my application. I am eager to further discuss how my background and skills align with the needs of your team.
+      </p>
+      <p>
+          Sincerely,<br/>
+          [Your Name]
+      </p>
+    </div>
+
 `;
 
 export default function CoverLetterResults() {

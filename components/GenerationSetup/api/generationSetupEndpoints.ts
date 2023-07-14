@@ -1,7 +1,10 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API_BASE_URL = "http://localhost:8000/ai_generator/generation_setup/";
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+
+const API_BASE_URL = "https://localhost:8000/ai_generator/generation_setup/";
 
 //--- Error Classes ---//
 class JobPostingUploadError extends Error {
@@ -23,7 +26,7 @@ class ResumeUploadError extends Error {
 //--- Job Posting Upload ---//
 const createJobPostingFormDataPayload = (jobPostingData: string) => {
   const formData = new FormData();
-  formData.append("posting", jobPostingData);
+  formData.append("job_posting", jobPostingData);
   return formData;
 };
 export const uploadJobPosting = async (jobPostingData: string) => {
@@ -32,6 +35,8 @@ export const uploadJobPosting = async (jobPostingData: string) => {
       "Error Uploading Job Posting: Job posting data is empty"
     );
   }
+
+  console.log("Cookies.get('csrftoken')", Cookies.get());
 
   const endpoint = API_BASE_URL + "upload_job_posting/";
   const formData = createJobPostingFormDataPayload(jobPostingData);

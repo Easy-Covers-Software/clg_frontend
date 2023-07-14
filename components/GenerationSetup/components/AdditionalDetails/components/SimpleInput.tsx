@@ -75,7 +75,8 @@ export default function SimpleInput(props: SimpleInputProps) {
       {/* <FormInput variant="outlined"> */}
       <QuestionContainer>
         <Typography fontSize={"0.7rem"} mt={0.5}>
-          Years of your most relevant experience
+          {/* Years of your most relevant experience */}
+          {id}
         </Typography>
 
         <Tooltip title="Delete" placement="top">
@@ -108,8 +109,6 @@ export default function SimpleInput(props: SimpleInputProps) {
         }}
       />
       {/* </FormInput> */}
-
-      <Button onClick={updateCurrentInputState}>Test</Button>
     </Container>
   );
 }
