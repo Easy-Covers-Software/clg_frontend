@@ -21,54 +21,37 @@ import { ReQueryContext } from "../../Results";
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 import CircularProgress from "@mui/material/CircularProgress";
 
+import ReQueryOptions from "../ReQueryOptions/ReQueryOptions";
+
 const Container = styled(Grid)`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  gap: 1%;
-  height: calc(100vh - 268px);
-  min-height: calc(100vh - 268px);
-  max-height: calc(100vh - 268px);
-  margin: 0% 0.5%;
+  height: 100%;
+  // height: calc(100vh - 268px);
+  // min-height: calc(100vh - 268px);
+  // max-height: calc(100vh - 268px);
+  margin: -0.2% 0.8%;
   background-color: white;
-  padding: 0 1% 0 1%;
-  // background-color: #f8f8ff;
-  background-color: white;
+  padding: 0.5% 0.8%;
+  background-color: #f8f8ff;
+  // background-color: white;
   border-top: none;
-  border-bottom: none;
   // width: 58%;
   border-radius: 4px;
+  border: 1px solid #006d4b;
+  margin-bottom: 0.5%;
+`;
+
+const SubContainer = styled(Grid)`
+  height: 100%;
+  display: flex;
 `;
 
 const ContentWrapper = styled(Grid)`
   overflow: scroll; // Set overflow as needed
   flex: 1;
 `;
-
-// const content = `
-//     <div>
-//       <p>Dear Hiring Manager,</p>
-
-//       <p>
-//           paragraph 1
-//       </p>
-//       <p>
-//           paragraph 2
-//       </p>
-//       <p>
-//           paragraph 3
-//       </p>
-//       <p>
-//           paragraph 4
-//       </p>
-//       <p>
-//           Thank you message
-//       </p>
-//       <p>
-//           Sincerely,<br/>
-//           [Your Name]
-//       </p>
-//     </div>
-// `;
 
 export default function CoverLetterResults() {
   const { generatedCoverLetter, loading } = useCoverLetterResultsContext();
@@ -98,97 +81,100 @@ export default function CoverLetterResults() {
 
   return (
     <Container>
-      <Global
-        styles={css`
-          .ProseMirror p {
-            font-size: 14px; // Set the desired font size
-            font-family: "Times New Roman", Times, serif; // Set the desired font family
-            line-height: 1.5;
-            overflow-wrap: break-word;
-          }
-        `}
-      />
+      <SubContainer>
+        <Global
+          styles={css`
+            .ProseMirror p {
+              font-size: 14px; // Set the desired font size
+              font-family: "Times New Roman", Times, serif; // Set the desired font family
+              line-height: 1.5;
+              overflow-wrap: break-word;
+            }
+          `}
+        />
 
-      <RichTextEditor
-        editor={editor}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          borderRadius: "4px",
-          backgroundColor: "white",
-          width: "100%",
-        }}
-      >
-        <RichTextEditor.Toolbar
-          sticky
-          stickyOffset={60}
-          sx={{
+        <RichTextEditor
+          editor={editor}
+          style={{
             display: "flex",
-            justifyContent: "center",
-            borderRadius: "4px 4px 0 0",
+            flexDirection: "column",
+            height: "100%",
+            borderRadius: "4px",
+            backgroundColor: "white",
+            width: "100%",
           }}
         >
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.Bold />
-            <RichTextEditor.Italic />
-            <RichTextEditor.Underline />
-            {/* <RichTextEditor.Strikethrough /> */}
-            <RichTextEditor.ClearFormatting />
-            <RichTextEditor.Highlight />
-            <RichTextEditor.Code />
-          </RichTextEditor.ControlsGroup>
+          <RichTextEditor.Toolbar
+            sticky
+            stickyOffset={60}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              borderRadius: "4px 4px 0 0",
+            }}
+          >
+            <RichTextEditor.ControlsGroup>
+              <RichTextEditor.Bold />
+              <RichTextEditor.Italic />
+              <RichTextEditor.Underline />
+              {/* <RichTextEditor.Strikethrough /> */}
+              <RichTextEditor.ClearFormatting />
+              <RichTextEditor.Highlight />
+              <RichTextEditor.Code />
+            </RichTextEditor.ControlsGroup>
 
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.AlignLeft />
-            <RichTextEditor.AlignCenter />
-            <RichTextEditor.AlignRight />
-          </RichTextEditor.ControlsGroup>
+            <RichTextEditor.ControlsGroup>
+              <RichTextEditor.AlignLeft />
+              <RichTextEditor.AlignCenter />
+              <RichTextEditor.AlignRight />
+            </RichTextEditor.ControlsGroup>
 
-          {/* <RichTextEditor.ControlsGroup> */}
-          {/* <RichTextEditor.H1 /> */}
-          {/* <RichTextEditor.H2 />
+            {/* <RichTextEditor.ControlsGroup> */}
+            {/* <RichTextEditor.H1 /> */}
+            {/* <RichTextEditor.H2 />
             <RichTextEditor.H3 />
             <RichTextEditor.H4 /> */}
-          {/* </RichTextEditor.ControlsGroup> */}
+            {/* </RichTextEditor.ControlsGroup> */}
 
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.Blockquote />
-            {/* <RichTextEditor.Hr /> */}
-            <RichTextEditor.BulletList />
-            <RichTextEditor.OrderedList />
-            {/* <RichTextEditor.Subscript />
+            <RichTextEditor.ControlsGroup>
+              <RichTextEditor.Blockquote />
+              {/* <RichTextEditor.Hr /> */}
+              <RichTextEditor.BulletList />
+              <RichTextEditor.OrderedList />
+              {/* <RichTextEditor.Subscript />
             <RichTextEditor.Superscript /> */}
-          </RichTextEditor.ControlsGroup>
+            </RichTextEditor.ControlsGroup>
 
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.Link />
-            <RichTextEditor.Unlink />
-          </RichTextEditor.ControlsGroup>
+            <RichTextEditor.ControlsGroup>
+              <RichTextEditor.Link />
+              <RichTextEditor.Unlink />
+            </RichTextEditor.ControlsGroup>
 
-          <RichTextEditor.ControlsGroup ml={"1%"}>
-            <DownloadOptionsMenu />
-          </RichTextEditor.ControlsGroup>
-        </RichTextEditor.Toolbar>
+            <RichTextEditor.ControlsGroup ml={"1%"}>
+              <DownloadOptionsMenu />
+            </RichTextEditor.ControlsGroup>
+          </RichTextEditor.Toolbar>
 
-        <ContentWrapper>
-          {loading ? (
-            <Grid
-              display={"flex"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              height={"100%"}
-            >
-              <CircularProgress />
-            </Grid>
-          ) : (
-            <RichTextEditor.Content m={"0 5%"} />
-          )}
-        </ContentWrapper>
-      </RichTextEditor>
+          <ContentWrapper>
+            {loading ? (
+              <Grid
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                height={"100%"}
+              >
+                <CircularProgress />
+              </Grid>
+            ) : (
+              <RichTextEditor.Content m={"0 5%"} />
+            )}
+          </ContentWrapper>
+        </RichTextEditor>
 
-      {/* Can you help me on display */}
-      {isReQuerySectionExpanded && <MoreOptionsReQueries />}
+        {isReQuerySectionExpanded && <MoreOptionsReQueries />}
+      </SubContainer>
+
+      <ReQueryOptions />
     </Container>
   );
 }

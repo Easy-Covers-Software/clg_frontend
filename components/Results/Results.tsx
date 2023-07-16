@@ -18,6 +18,8 @@ const Container = styled(Grid)`
   height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: space-between;
   margin-left: 0.3%;
 `;
 
@@ -38,7 +40,7 @@ export default function Results() {
       <Container>
         <ResultsSummary />
         <CoverLetterResults />
-        <ReQueryOptions />
+        {/* <ReQueryOptions /> */}
       </Container>
     </ReQueryContext.Provider>
   );

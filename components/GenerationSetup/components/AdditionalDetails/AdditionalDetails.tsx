@@ -22,7 +22,7 @@ const Container = styled(Grid)`
 export default function AdditionalDetails() {
   return (
     <Container>
-      <Grid display={"flex"} justifyContent={"center"} alignItems={"center"}>
+      <Grid m={"auto"}>
         <Typography fontSize={"0.8rem"} m={"auto"}>
           If you uploaded a resume and are confident with it, this generally
           isn't needed. Fill in as much or as little as you want.

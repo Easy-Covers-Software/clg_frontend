@@ -29,7 +29,7 @@ const ButtonContainer = styled(Grid)`
   border: 1px solid #006d4b;
   border-radius: 4px;
   background-color: #fff;
-  height: 72%;
+  height: 66%;
   margin: auto;
   margin-bottom: 2%;
 `;

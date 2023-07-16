@@ -18,24 +18,44 @@ import UploadOption from "./UploadOption";
 import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 
 const Container = styled(Grid)`
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   // justify-content: center;
+  padding: 0 2%;
 `;
+
 const DragDropContainer = styled(Grid)`
+  height: 32vh;
+  width: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2%;
   padding: 2%;
   border-radius: 4px;
   border: 1px solid #006d4b;
-  box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.1);
-  width: 25vw;
-  height: 30vh;
   background-color: #f8f8ff;
+  box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.1);
+`;
+
+const AlternativeUploadContainer = styled(Grid)`
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  gap: 12px;
+  justify-content: center;
+  padding: 2%;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 2%;
+`;
+
+const AlternativeUploadButton = styled(UnSelectedButton)`
+  width: 75%;
+  margin: auto;
 `;
 
 export default function ResumeUploader() {
@@ -60,9 +80,11 @@ export default function ResumeUploader() {
         />
       </DragDropContainer>
 
-      <UnSelectedButton>Upload From Indeed</UnSelectedButton>
+      <AlternativeUploadContainer>
+        <AlternativeUploadButton>Upload From Indeed</AlternativeUploadButton>
 
-      <UnSelectedButton>Upload From Linked</UnSelectedButton>
+        <AlternativeUploadButton>Upload From LinkedIn</AlternativeUploadButton>
+      </AlternativeUploadContainer>
     </Container>
   );
 }

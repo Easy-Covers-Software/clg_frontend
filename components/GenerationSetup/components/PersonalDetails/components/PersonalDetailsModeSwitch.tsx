@@ -13,9 +13,10 @@ const Container = styled(Grid)`
   border-right: 1px solid #006d4b;
   border-radius: 8px 8px 0 0;
   padding: 0.5%;
-  width: 60%;
+  width: 50%;
   white-space: nowrap;
   background-color: #f8f8ff;
+  // background-color: white;
   z-index: 1;
   border-bottom: 0;
 `;

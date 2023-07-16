@@ -11,23 +11,21 @@ import { PrimaryButton, UnSelectedButton } from "@/components/Global";
 import { ReQueryContext } from "../../Results";
 
 const Container = styled(Grid)`
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
   width: 100%;
-  height: 10%;
-  background-color: white;
-  padding: 0.5%;
-  padding-right: 1.75%;
+  display: flex;
+  padding-right: 1%;
+
+  // border: 1px solid #006d4b;
 `;
 
 const MoreOptions = styled(UnSelectedButton)`
   width: 25%;
-  height: 70%;
+  height: 60%;
   font-size: 0.75rem;
   background-color: #fff;
   padding: 0;
   margin: auto;
+  margin-bottom: 1%;
 `;
 
 export default function ReQueryOptions() {
