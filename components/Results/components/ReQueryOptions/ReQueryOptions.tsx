@@ -14,15 +14,16 @@ const Container = styled(Grid)`
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  width: 99%;
+  width: 100%;
   height: 10%;
-  background-color: #f8f8ff;
+  background-color: white;
   padding: 0.5%;
+  padding-right: 1.75%;
 `;
 
 const MoreOptions = styled(UnSelectedButton)`
   width: 25%;
-  height: 72%;
+  height: 70%;
   font-size: 0.75rem;
   background-color: #fff;
   padding: 0;

@@ -11,13 +11,14 @@ import ReQueryOptions from "./components/ReQueryOptions/ReQueryOptions";
 
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`
-  width: 56%;
-  background-color: #f8f8ff;
+  width: 70%;
+  background-color: white;
   border-radius: 4px;
   border: 1px solid #006d4b;
   height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
+  margin-left: 0.3%;
 `;
 
 export const ReQueryContext = createContext();

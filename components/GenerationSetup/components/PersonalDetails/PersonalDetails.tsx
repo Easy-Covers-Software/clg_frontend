@@ -17,6 +17,7 @@ const Container = styled(Grid)`
   align-content: center;
   margin-top: 2%;
   height: ${({ mode }) => (mode === "upload" ? "auto" : "100%")};
+  background-color: white;
 `;
 
 export default function PersonalDetails() {

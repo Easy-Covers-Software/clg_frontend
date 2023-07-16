@@ -12,11 +12,7 @@ type Props = {
   children: ReactNode;
 };
 
-import { useAuth } from "@/context/AuthContext";
-
 import { AuthProvider } from "@/context/AuthContext";
-
-import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const CLIENT_ID =
   "464586598349-3uu0huc0df86brd568ikatpa9avg015m.apps.googleusercontent.com";

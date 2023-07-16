@@ -36,8 +36,6 @@ export const uploadJobPosting = async (jobPostingData: string) => {
     );
   }
 
-  console.log("Cookies.get('csrftoken')", Cookies.get());
-
   const endpoint = API_BASE_URL + "upload_job_posting/";
   const formData = createJobPostingFormDataPayload(jobPostingData);
   try {

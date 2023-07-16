@@ -56,10 +56,6 @@ export default function LoginDialog() {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
-  // if (isMounted) {
-  //   const router = useRouter();
-  // }
-
   useEffect(() => {
     setIsMounted(true);
     return () => setIsMounted(false);
@@ -88,28 +84,6 @@ export default function LoginDialog() {
         router.push("/");
       }
     } catch (error) {}
-  };
-
-  const signInGoogle2 = async () => {
-    const endpoint = "https://127.0.0.1:8000/accounts/google/login/";
-
-    try {
-      const response = await fetch(endpoint, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.status === 200 || response.status === 201) {
-        const data = await response.json();
-        console.log(data);
-
-        router.push("/");
-      }
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   return (

@@ -3,7 +3,7 @@ import https from "https";
 
 import axios from "axios";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { init } from "next/dist/compiled/@vercel/og/satori";
+import Cookies from "js-cookie";
 
 const CLIENT_ID =
   "464586598349-3uu0huc0df86brd568ikatpa9avg015m.apps.googleusercontent.com";
@@ -78,7 +78,6 @@ export const AuthProvider = ({
   };
 
   async function fetchUser(): Promise<Response> {
-    // const url = makeUrl("/users/me/");
     const url = "https://localhost:8000/users/me/";
 
     try {
@@ -98,33 +97,45 @@ export const AuthProvider = ({
     setUser(user);
   };
 
-  // const login = async (
-  //   username: string,
-  //   password: string
-  // ): Promise<Response> => {
-  //   const resp = await fetchToken(username, password);
-  //   if (resp.ok) {
-  //     const tokenData = await resp.json();
-  //     handleNewToken(tokenData);
-  //     await initUser(tokenData.access);
-  //   } else {
-  //     setIsAuthenticated(false);
-  //     setLoading(true);
-  //     // Let the page handle the error
-  //   }
-  //   return resp;
-  // };
+  const signInGoogle = async () => {
+    const parameters = {
+      client_id:
+        "464586598349-3uu0huc0df86brd568ikatpa9avg015m.apps.googleusercontent.com",
+      redirect_uri: "https://localhost:8000/users/auth/finish_google_login/",
+      response_type: "code",
+      scope: "email profile openid",
+      access_type: "offline",
+      prompt: "consent",
+    };
 
-  // const logout = (): void => {
-  //   setAccessToken("");
-  //   setAccessTokenExpiry(null);
-  //   setNotAuthenticated();
-  //   const url = makeUrl("/token/logout/");
-  //   fetch(url, {
-  //     method: "POST",
-  //     credentials: "include",
-  //   });
-  // };
+    const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+    Object.keys(parameters).forEach((key) =>
+      url.searchParams.append(key, parameters[key])
+    );
+    window.location.href = url.toString();
+  };
+
+  const logout = async () => {
+    const url = "https://localhost:8000/users/logout/";
+
+    try {
+      const response = await axios.post(
+        url,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": Cookies.get("csrftoken"),
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log("Error logging out user");
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     initUser();
@@ -135,6 +146,8 @@ export const AuthProvider = ({
     user,
     loading,
     fetchUser,
+    signInGoogle,
+    logout,
   };
 
   return (

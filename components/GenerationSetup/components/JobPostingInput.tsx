@@ -7,7 +7,7 @@ const JobPostingTextInputField = styled.textarea`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  background-color: #f8f8ff;
+  background-color: white;
   padding: 2%;
   border: none;
   resize: none;

@@ -6,7 +6,7 @@ const FreeTextInputField = styled.textarea`
   height: 100%;
   resize: none;
   box-sizing: border-box;
-  background-color: #f8f8ff;
+  background-color: white;
   padding: 2%;
   border-top: 1px solid #006d4b;
   border-radius: 4px;

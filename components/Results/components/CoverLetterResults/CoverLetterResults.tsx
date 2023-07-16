@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Global, css } from "@emotion/react";
 
 import { RichTextEditor, Link } from "@mantine/tiptap";
@@ -18,6 +18,8 @@ import styled from "@emotion/styled";
 
 import MoreOptionsReQueries from "../ReQueryOptions/components/MoreOptionsReQuerys";
 import { ReQueryContext } from "../../Results";
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Container = styled(Grid)`
   display: flex;
@@ -29,7 +31,8 @@ const Container = styled(Grid)`
   margin: 0% 0.5%;
   background-color: white;
   padding: 0 1% 0 1%;
-  background-color: #f8f8ff;
+  // background-color: #f8f8ff;
+  background-color: white;
   border-top: none;
   border-bottom: none;
   // width: 58%;
@@ -41,35 +44,37 @@ const ContentWrapper = styled(Grid)`
   flex: 1;
 `;
 
-const content = `
-    <div>
-      <p>Dear Hiring Manager,</p>
+// const content = `
+//     <div>
+//       <p>Dear Hiring Manager,</p>
 
-      <p>
-          I am writing to apply for the Software Engineer, Machine Learning position at Google. 
-          I came across this opportunity on your company's careers page and was immediately drawn to it, given its match with my skills and interests.
-      </p>
-      <p>
-          As a Software Engineer specializing in Machine Learning at my current organization, I have been deeply involved in designing and implementing machine learning models for various business solutions. My background in computer science, coupled with my hands-on experience in machine learning, enables me to create efficient models that drive decision-making and contribute to the strategic goals of the company.
-      </p>
-      <p>
-          One of my significant accomplishments includes developing a predictive model for improving customer engagement, which resulted in a 15% increase in user activity. I have also worked on optimizing algorithms for faster data processing, leading to a 20% improvement in system efficiency. 
-      </p>
-      <p>
-          I am thrilled at the prospect of bringing my expertise in machine learning to Google, known for its innovation and technological advancements. I am confident that I can contribute to the team and support the development of cutting-edge machine learning applications.
-      </p>
-      <p>
-          Thank you for considering my application. I am eager to further discuss how my background and skills align with the needs of your team.
-      </p>
-      <p>
-          Sincerely,<br/>
-          [Your Name]
-      </p>
-    </div>
-
-`;
+//       <p>
+//           paragraph 1
+//       </p>
+//       <p>
+//           paragraph 2
+//       </p>
+//       <p>
+//           paragraph 3
+//       </p>
+//       <p>
+//           paragraph 4
+//       </p>
+//       <p>
+//           Thank you message
+//       </p>
+//       <p>
+//           Sincerely,<br/>
+//           [Your Name]
+//       </p>
+//     </div>
+// `;
 
 export default function CoverLetterResults() {
+  const { generatedCoverLetter, loading } = useCoverLetterResultsContext();
+
+  const content = generatedCoverLetter;
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -80,10 +85,16 @@ export default function CoverLetterResults() {
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
-    content,
+    content: "<p>Awaiting Generation Results</p>",
   });
 
   const { isReQuerySectionExpanded } = useContext<any>(ReQueryContext);
+
+  useEffect(() => {
+    if (editor) {
+      editor.commands.setContent(generatedCoverLetter);
+    }
+  }, [generatedCoverLetter, editor]);
 
   return (
     <Container>
@@ -102,7 +113,7 @@ export default function CoverLetterResults() {
         editor={editor}
         style={{
           display: "flex",
-          flexDirection: "column", // This is important!
+          flexDirection: "column",
           height: "100%",
           borderRadius: "4px",
           backgroundColor: "white",
@@ -161,7 +172,18 @@ export default function CoverLetterResults() {
         </RichTextEditor.Toolbar>
 
         <ContentWrapper>
-          <RichTextEditor.Content m={"0 5%"} />
+          {loading ? (
+            <Grid
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              height={"100%"}
+            >
+              <CircularProgress />
+            </Grid>
+          ) : (
+            <RichTextEditor.Content m={"0 5%"} />
+          )}
         </ContentWrapper>
       </RichTextEditor>
 

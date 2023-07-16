@@ -23,7 +23,8 @@ import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 const Container = styled(Grid)`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
+  width: 98%;
 `;
 
 const FormInput = styled(FormControl)`
@@ -37,7 +38,7 @@ const InputField = styled(TextField)`
   width: 100%;
   border-radius: 4px;
   background-color: #fff;
-  background-color: #f8f8ff;
+  // background-color: white;
 `;
 
 const QuestionContainer = styled(Grid)`
@@ -72,17 +73,9 @@ export default function SimpleInput(props: SimpleInputProps) {
 
   return (
     <Container>
-      {/* <FormInput variant="outlined"> */}
-      <QuestionContainer>
-        <Typography fontSize={"0.7rem"} mt={0.5}>
-          {/* Years of your most relevant experience */}
-          {id}
-        </Typography>
-
-        <Tooltip title="Delete" placement="top">
-          <InfoOutlinedIcon fontSize="small" sx={{ opacity: "40%" }} />
-        </Tooltip>
-      </QuestionContainer>
+      <Tooltip title="Delete" placement="top">
+        <InfoOutlinedIcon fontSize="medium" sx={{ opacity: "40%" }} />
+      </Tooltip>
 
       <InputField
         id="email-input"

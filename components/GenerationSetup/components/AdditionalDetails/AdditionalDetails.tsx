@@ -6,9 +6,13 @@ import styled from "@emotion/styled";
 
 import SimpleInput from "./components/SimpleInput";
 
+import Typography from "@mui/material/Typography";
+
 const Container = styled(Grid)`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  // align-items: center;
   width: 100%;
   height: 100%;
   padding: 2% 1% 1% 1%;
@@ -18,21 +22,20 @@ const Container = styled(Grid)`
 export default function AdditionalDetails() {
   return (
     <Container>
-      {/* <Grid display={'flex'} flexDirection={'column'} gap={2} m={'0 2% 2% 2%'}> */}
-
-      <Grid>
-        <SimpleInput id={"simpleInput1"} />
-
-        <SimpleInput id={"simpleInput2"} />
+      <Grid display={"flex"} justifyContent={"center"} alignItems={"center"}>
+        <Typography fontSize={"0.8rem"} m={"auto"}>
+          If you uploaded a resume and are confident with it, this generally
+          isn't needed. Fill in as much or as little as you want.
+        </Typography>
       </Grid>
 
-      <Grid>
-        <SimpleInput id={"simpleInput3"} />
+      <SimpleInput id={"simpleInput1"} />
 
-        <SimpleInput id={"simpleInput4"} />
-      </Grid>
+      <SimpleInput id={"simpleInput2"} />
 
-      {/* </Grid> */}
+      <SimpleInput id={"simpleInput3"} />
+
+      {/* <SimpleInput id={"simpleInput4"} /> */}
       <AdditionalDetailsFreeText />
     </Container>
   );

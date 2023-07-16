@@ -7,7 +7,7 @@ const AdditionalDetailsFreeTextField = styled.textarea`
   height: 100%;
   resize: none;
   box-sizing: border-box;
-  background-color: #f8f8ff;
+  background-color: white;
   padding: 2%;
   min-width: 100%;
   max-width: 100%;

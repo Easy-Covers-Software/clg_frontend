@@ -17,19 +17,20 @@ import PersonalDetails from "./components/PersonalDetails/PersonalDetails";
 import AdditionalDetails from "./components/AdditionalDetails/AdditionalDetails";
 import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
 import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
-import KeyboardDoubleArrowUpOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowUpOutlined";
-import IconButton from "@mui/material/IconButton";
 import { PrimaryButton } from "../Global";
 
 import { uploadJobPosting, uploadResume } from "./api/generationSetupEndpoints";
 
 import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+
 const Accordion = styled((props: AccordionProps & { currPanel?: string }) => {
   const { currPanel, ...otherProps } = props;
   return <MuiAccordion disableGutters elevation={0} square {...otherProps} />;
 })(({ currPanel }) => ({
-  backgroundColor: "#fff",
+  // backgroundColor: "#fff",
+  backgroundColor: "#f8f8ff",
   border: "1px solid #006D4B",
   borderBottom: currPanel === "panel3" ? "1px solid #006D4B" : "none",
   borderRadius:
@@ -63,7 +64,7 @@ const AccordionSummary = styled(
     );
   }
 )(() => ({
-  backgroundColor: "rgba(255, 255, 255, .05)",
+  // backgroundColor: "rgba(255, 255, 255, .05)",
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(90deg)",
   },
@@ -76,13 +77,15 @@ const AccordionDetails = styled(MuiAccordionDetails)(() => ({
   padding: "0.2%",
   borderTop: "1px solid rgba(0, 0, 0, .125)",
   height: "calc(100vh - 320px)",
+  backgroundColor: "white",
 }));
 
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`
-  width: 35vw;
+  width: 46%;
   padding: 0.5%;
-  background-color: #f8f8ff;
+  // background-color: #f8f8ff;
+  background-color: white;
   border-radius: 4px;
   border: 1px solid #006d4b;
   height: calc(100vh - 100px);
@@ -104,6 +107,8 @@ const GenerateButton = styled(PrimaryButton)`
 
 export default function GenerationSetup() {
   const { jobPostingInput, uploadedResumeFile } = useGenerationSetupContext();
+  const { generateCoverLetter, getJobTitle, getCompanyName, getJobMatchScore } =
+    useCoverLetterResultsContext();
 
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
   const [previousPanel, setPreviousPanel] = React.useState<string | false>(
@@ -120,8 +125,6 @@ export default function GenerationSetup() {
     }
   };
 
-  console.log("jobPostingInput", jobPostingInput);
-  console.log("uploadedResumeFile", uploadedResumeFile);
   const [resumeLastUploaded, setResumeLastUploaded] = useState<any>({});
   const isDifferentResumeSinceLastSubmission = () => {
     if (jobPostingInput === jobPostingLastSubmitted) {
@@ -155,6 +158,36 @@ export default function GenerationSetup() {
     }
   };
 
+  const handleGenerateCoverLetter = async () => {
+    try {
+      await getJobTitle(jobPostingInput);
+    } catch (err) {
+      console.log("error getting job title");
+      console.error(err);
+    }
+
+    try {
+      await getCompanyName(jobPostingInput);
+    } catch (err) {
+      console.log("error getting job title");
+      console.error(err);
+    }
+
+    try {
+      await getJobMatchScore(jobPostingInput);
+    } catch (err) {
+      console.log("error getting job title");
+      console.error(err);
+    }
+
+    try {
+      await generateCoverLetter(jobPostingInput, uploadedResumeFile);
+    } catch (err) {
+      console.error(err);
+      // Handle error, for example by showing an error message in the UI
+    }
+  };
+
   const handleChange =
     (panel: string, nextPanel: string | false, tracker: string) =>
     (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -181,7 +214,7 @@ export default function GenerationSetup() {
     if (previousPanel === "panel1" && expanded !== "panel1") {
       handleJobPostingUpload();
     } else if (previousPanel === "panel2" && expanded !== "panel2") {
-      handleResumeUpload();
+      // handleResumeUpload();
     } else {
       console.log("saveCurrentAdditionalDetails()");
       // saveCurrentAdditionalDetails()
@@ -275,7 +308,9 @@ export default function GenerationSetup() {
         justifyContent={'center'}
         alignItems={'center'}
       > */}
-      <GenerateButton>Generate</GenerateButton>
+      <GenerateButton onClick={() => handleGenerateCoverLetter()}>
+        Generate
+      </GenerateButton>
       {/* </Grid> */}
     </Container>
   );

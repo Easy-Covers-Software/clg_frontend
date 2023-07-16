@@ -18,6 +18,12 @@ import UploadOption from "./UploadOption";
 import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 
 const Container = styled(Grid)`
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: center;
+`;
+const DragDropContainer = styled(Grid)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,29 +53,16 @@ export default function ResumeUploader() {
 
   return (
     <Container>
-      <UploadOption
-        label="Upload  From Computer"
-        accept=".pdf,.doc,.docx,.txt"
-      />
-      <UploadOption
-        label="Upload with LinkedIn"
-        accept=".pdf,.doc,.docx,.txt"
-      />
-      <UploadOption label="Upload with Indeed" accept=".pdf,.doc,.docx,.txt" />
+      <DragDropContainer>
+        <UploadOption
+          label="Upload From Computer"
+          accept=".pdf,.doc,.docx,.txt"
+        />
+      </DragDropContainer>
 
-      <Snackbar
-        open={uploadStatus.message !== ""}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity={uploadStatus.success ? "success" : "error"}
-        >
-          {uploadStatus.message}
-        </Alert>
-      </Snackbar>
+      <UnSelectedButton>Upload From Indeed</UnSelectedButton>
+
+      <UnSelectedButton>Upload From Linked</UnSelectedButton>
     </Container>
   );
 }

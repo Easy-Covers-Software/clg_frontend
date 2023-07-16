@@ -8,6 +8,8 @@ import Avatar from "@mui/material/Avatar";
 import { UnSelectedButton } from "@/components/Global";
 import axios from "axios";
 
+import { useAuth } from "@/context/AuthContext";
+
 type UserInfo = {
   username: string;
   email: string;
@@ -46,16 +48,9 @@ const ProfilePicture = styled(Avatar)`
 export default function SignedInDisplay(props: SignedInDisplayProps) {
   const { user } = props;
   const { username, email } = user;
+  const { logout } = useAuth();
 
   console.log("user", user);
-
-  const url = "https://127.0.0.1:8000/users/logout/";
-
-  const signOut = () => {
-    axios.post(url, { withCredentials: true }).then((res) => {
-      console.log("res", res);
-    });
-  };
 
   return (
     <Container>
@@ -69,7 +64,7 @@ export default function SignedInDisplay(props: SignedInDisplayProps) {
       </UserProfileInfo>
 
       <UnSelectedButton>Settings</UnSelectedButton>
-      <UnSelectedButton onClick={signOut}>Logout</UnSelectedButton>
+      <UnSelectedButton onClick={logout}>Logout</UnSelectedButton>
     </Container>
   );
 }
