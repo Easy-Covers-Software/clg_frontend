@@ -16,11 +16,14 @@ const Container = styled(Grid)`
   border-radius: 4px;
   border: 1px solid #006d4b;
   height: calc(100vh - 100px);
+  max-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: space-between;
   margin-left: 0.3%;
+  gap: 1%;
+  overflow: scroll;
 `;
 
 export const ReQueryContext = createContext();

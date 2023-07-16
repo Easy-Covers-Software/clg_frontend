@@ -18,8 +18,10 @@ const Container = styled(Grid)`
   margin-top: 2%;
   height: ${({ mode }) => (mode === "upload" ? "auto" : "100%")};
   background-color: white;
+  border: none;
+  resize: none;
+  z-index: -10;
 `;
-
 export default function PersonalDetails() {
   const [mode, setMode] = React.useState("upload"); // 'resume' or 'text'
 

@@ -27,11 +27,10 @@ const Container = styled(Grid)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
-  // height: calc(100vh - 268px);
-  // min-height: calc(100vh - 268px);
-  // max-height: calc(100vh - 268px);
-  margin: -0.2% 0.8%;
+  height: calc(100vh - 196px);
+  min-height: calc(100vh - 196px);
+  max-height: calc(100vh - 196px);
+  margin: 0% 0.8%;
   background-color: white;
   padding: 0.5% 0.8%;
   background-color: #f8f8ff;
@@ -41,10 +40,15 @@ const Container = styled(Grid)`
   border-radius: 4px;
   border: 1px solid #006d4b;
   margin-bottom: 0.5%;
+  margin-top: -1%;
+
+  // overflow: auto;
 `;
 
 const SubContainer = styled(Grid)`
-  height: 100%;
+  height: calc(100vh - 264px);
+  min-height: calc(100vh - 264px);
+  max-height: calc(100vh - 264px);
   display: flex;
 `;
 
@@ -54,9 +58,9 @@ const ContentWrapper = styled(Grid)`
 `;
 
 export default function CoverLetterResults() {
-  const { generatedCoverLetter, loading } = useCoverLetterResultsContext();
+  const { coverLetter, loadingCoverLetter } = useCoverLetterResultsContext();
 
-  const content = generatedCoverLetter;
+  const content = coverLetter;
 
   const editor = useEditor({
     extensions: [
@@ -75,9 +79,9 @@ export default function CoverLetterResults() {
 
   useEffect(() => {
     if (editor) {
-      editor.commands.setContent(generatedCoverLetter);
+      editor.commands.setContent(coverLetter);
     }
-  }, [generatedCoverLetter, editor]);
+  }, [coverLetter, editor]);
 
   return (
     <Container>
@@ -156,7 +160,7 @@ export default function CoverLetterResults() {
           </RichTextEditor.Toolbar>
 
           <ContentWrapper>
-            {loading ? (
+            {loadingCoverLetter ? (
               <Grid
                 display={"flex"}
                 justifyContent={"center"}
@@ -166,7 +170,9 @@ export default function CoverLetterResults() {
                 <CircularProgress />
               </Grid>
             ) : (
-              <RichTextEditor.Content m={"0 5%"} />
+              <Grid m={"0 5%"}>
+                <RichTextEditor.Content />
+              </Grid>
             )}
           </ContentWrapper>
         </RichTextEditor>

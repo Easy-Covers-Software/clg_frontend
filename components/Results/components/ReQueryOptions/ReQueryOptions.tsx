@@ -14,6 +14,9 @@ const Container = styled(Grid)`
   width: 100%;
   display: flex;
   padding-right: 1%;
+  height: 80px;
+  // min-height: 100px;
+  // overflow: scroll;
 
   // border: 1px solid #006d4b;
 `;

@@ -25,6 +25,8 @@ import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+
 const Accordion = styled((props: AccordionProps & { currPanel?: string }) => {
   const { currPanel, ...otherProps } = props;
   return <MuiAccordion disableGutters elevation={0} square {...otherProps} />;
@@ -69,7 +71,9 @@ const AccordionSummary = styled(
     transform: "rotate(90deg)",
   },
   "& .MuiAccordionSummary-content": {
-    marginLeft: "10px",
+    // marginLeft: "0.5%",
+    display: "flex",
+    gap: "1.5%",
   },
 }));
 
@@ -78,12 +82,13 @@ const AccordionDetails = styled(MuiAccordionDetails)(() => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
   height: "calc(100vh - 320px)",
   backgroundColor: "white",
+  overflow: "auto",
 }));
 
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`
   width: 46%;
-  padding: 0.5%;
+  padding: 0.3%;
   // background-color: #f8f8ff;
   background-color: white;
   border-radius: 4px;
@@ -97,16 +102,25 @@ const Container = styled(Grid)`
 
 const SubContainer = styled(Grid)`
   width: 100%;
-  height: 100%;
+  // height: 96%;
+`;
+
+const ButtonContainer = styled(Grid)`
+  // margin: auto;
+  display: flex;
+  align-items: center;
+  marting-top: 20%;
 `;
 
 const GenerateButton = styled(PrimaryButton)`
   width: 55%;
-  margin: 1% 0;
+  // margin: 2% 0;
+  margin: auto;
 `;
 
 export default function GenerationSetup() {
-  const { jobPostingInput, uploadedResumeFile } = useGenerationSetupContext();
+  const { jobPostingInput, uploadedResumeFile, additionalDetails } =
+    useGenerationSetupContext();
   const { generateCoverLetter, getJobTitle, getCompanyName, getJobMatchScore } =
     useCoverLetterResultsContext();
 
@@ -222,6 +236,8 @@ export default function GenerationSetup() {
     setPreviousPanel(expanded);
   }, [expanded]);
 
+  console.log("resume", uploadedResumeFile);
+
   return (
     <Container>
       <SubContainer>
@@ -242,6 +258,22 @@ export default function GenerationSetup() {
             expanded="panel1"
             tracker={`1-${expanded === "panel1"}`}
           >
+            {jobPostingInput === "" ? (
+              <CheckCircleOutlineIcon
+                style={{
+                  color: "#E9E9E9",
+                  opacity: 0.5,
+                }}
+              />
+            ) : (
+              <CheckCircleOutlineIcon
+                style={{
+                  color: "lightgreen",
+                  opacity: 1,
+                }}
+              />
+            )}
+
             <Typography>Job Posting</Typography>
           </AccordionSummary>
 
@@ -266,15 +298,22 @@ export default function GenerationSetup() {
             expanded="panel2"
             tracker={`2-${expanded === "panel2"}`}
           >
-            <Grid
-              p={0}
-              mr={3}
-              display={"flex"}
-              justifyContent={"space-between"}
-              width={"100%"}
-            >
-              <Typography>Résumé Upload / Personal Details</Typography>
-            </Grid>
+            {uploadedResumeFile === null ? (
+              <CheckCircleOutlineIcon
+                style={{
+                  color: "#E9E9E9",
+                  opacity: 0.5,
+                }}
+              />
+            ) : (
+              <CheckCircleOutlineIcon
+                style={{
+                  color: "lightgreen",
+                  opacity: 1,
+                }}
+              />
+            )}
+            <Typography>Résumé Upload / Personal Details</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <PersonalDetails />
@@ -293,6 +332,22 @@ export default function GenerationSetup() {
             expanded="panel3"
             tracker={`3-${expanded === "panel3"}`}
           >
+            {jobPostingInput === "" || uploadedResumeFile === null ? (
+              <CheckCircleOutlineIcon
+                style={{
+                  color: "#E9E9E9",
+                  opacity: 0.5,
+                }}
+              />
+            ) : (
+              <CheckCircleOutlineIcon
+                style={{
+                  color: "lightgreen",
+                  opacity: 1,
+                }}
+              />
+            )}
+
             <Typography>Additional Details (optional)</Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -301,17 +356,9 @@ export default function GenerationSetup() {
         </Accordion>
       </SubContainer>
 
-      {/* <Grid
-        width={'100%'}
-        height={'10vh'}
-        display={'flex'}
-        justifyContent={'center'}
-        alignItems={'center'}
-      > */}
       <GenerateButton onClick={() => handleGenerateCoverLetter()}>
         Generate
       </GenerateButton>
-      {/* </Grid> */}
     </Container>
   );
 }

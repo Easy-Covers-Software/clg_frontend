@@ -9,6 +9,8 @@ import { IconButton } from "@mui/material";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+
 const Container = styled(Grid)`
   display: flex;
   flex-direction: column;
@@ -24,7 +26,6 @@ const ButtonContainer = styled(Grid)`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-
   width: 100%;
   border: 1px solid #006d4b;
   border-radius: 4px;
@@ -35,17 +36,27 @@ const ButtonContainer = styled(Grid)`
 `;
 
 export default function SimpleReQueryButton({ buttonLabel }) {
+  const { makeSimpleAdjustment } = useCoverLetterResultsContext();
+
   return (
     <Container>
       <Typography fontSize={"0.8rem"}>{buttonLabel}</Typography>
       <ButtonContainer>
-        <IconButton>
+        <IconButton
+          onClick={() => {
+            makeSimpleAdjustment("decrease", buttonLabel);
+          }}
+        >
           <RemoveCircleOutlineOutlinedIcon />
         </IconButton>
 
         <Divider orientation="vertical" />
 
-        <IconButton>
+        <IconButton
+          onClick={() => {
+            makeSimpleAdjustment("increase", buttonLabel);
+          }}
+        >
           <AddCircleOutlineOutlinedIcon />
         </IconButton>
       </ButtonContainer>

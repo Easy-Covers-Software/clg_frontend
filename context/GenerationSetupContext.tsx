@@ -117,7 +117,6 @@ export const GenerationContext = ({ children }) => {
   };
 
   //--- Resume Upload ---//
-
   const uploadResume = async (resumeData: string) => {
     if (resumeData === "") {
       throw new ResumeUploadError(

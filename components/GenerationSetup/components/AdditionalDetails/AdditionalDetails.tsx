@@ -25,7 +25,7 @@ export default function AdditionalDetails() {
       <Grid m={"auto"}>
         <Typography fontSize={"0.8rem"} m={"auto"}>
           If you uploaded a resume and are confident with it, this generally
-          isn't needed. Fill in as much or as little as you want.
+          isn't needed.
         </Typography>
       </Grid>
 

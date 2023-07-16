@@ -18,10 +18,13 @@ export const CoverLetterResultsContext = ({ children }) => {
   const [jobTitle, setJobTitle] = useState<string>("");
   const [companyName, setCompanyName] = useState<string>("");
   const [matchScore, setMatchScore] = useState<number>(0);
-  const [generatedCoverLetter, setGeneratedCoverLetter] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [coverLetter, setCoverLetter] = useState<string>("");
+  const [loadingSummary, setLoadingSummary] = useState<boolean>(false);
+  const [loadingMatchScore, setLoadingMatchScore] = useState<boolean>(false);
+  const [loadingCoverLetter, setLoadingCoverLetter] = useState<boolean>(false);
 
   const getJobTitle = async (jobPosting: string) => {
+    setLoadingSummary(true);
     const url = API_BASE_URL + "generate/get_job_title/";
 
     const form = new FormData();
@@ -64,9 +67,13 @@ export const CoverLetterResultsContext = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingSummary(false);
     }
   };
+
   const getJobMatchScore = async (jobPosting: string) => {
+    setLoadingMatchScore(true);
     const url = API_BASE_URL + "generate/get_job_match_score/";
 
     const form = new FormData();
@@ -86,11 +93,47 @@ export const CoverLetterResultsContext = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingMatchScore(false);
+    }
+  };
+
+  const makeSimpleAdjustment = async (
+    increaseOrDecrease: string,
+    typeOfAdjustment: string
+  ) => {
+    setLoadingCoverLetter(true);
+    const url = API_BASE_URL + "generate/make_simple_adjustment/";
+
+    console.log("increaseOrDecrease", increaseOrDecrease);
+    console.log("typeOfAdjustment", typeOfAdjustment);
+
+    const form = new FormData();
+    form.append("cover_letter", coverLetter);
+    form.append("increase_or_decrease", increaseOrDecrease);
+    form.append("type_of_adjustment", typeOfAdjustment);
+
+    try {
+      const response = await axios.post(url, form, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+      });
+      console.log("Simple Adjustment", response);
+      if (response.statusText === "OK") {
+        setCoverLetter(response.data.adjusted_cover_letter);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingCoverLetter(false);
     }
   };
 
   const generateCoverLetter = async (jobPosting: string, resume: any) => {
-    setLoading(true);
+    setLoadingCoverLetter(true);
     const data = createGeneratePayload(jobPosting, resume);
     const url = API_BASE_URL + "generate/";
 
@@ -106,13 +149,13 @@ export const CoverLetterResultsContext = ({ children }) => {
       });
 
       if (response.statusText === "OK") {
-        setGeneratedCoverLetter(response.data.cover_letter);
+        setCoverLetter(response.data.cover_letter);
       }
       console.log(response);
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      setLoadingCoverLetter(false);
     }
   };
 
@@ -122,12 +165,15 @@ export const CoverLetterResultsContext = ({ children }) => {
         jobTitle,
         companyName,
         matchScore,
-        generatedCoverLetter,
-        loading,
+        coverLetter,
+        loadingSummary,
+        loadingMatchScore,
+        loadingCoverLetter,
         getJobTitle,
         getCompanyName,
         generateCoverLetter,
         getJobMatchScore,
+        makeSimpleAdjustment,
       }}
     >
       {children}
