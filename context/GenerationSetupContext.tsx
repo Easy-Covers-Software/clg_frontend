@@ -18,7 +18,6 @@ export type AdditionalDetailsInputs = {
   simpleInput1: string;
   simpleInput2: string;
   simpleInput3: string;
-  simpleInput4: string;
   openEndedInput: string;
 };
 
@@ -61,12 +60,13 @@ export const GenerationContext = ({ children }) => {
   const [freeTextPersonalDetails, setFreeTextPersonalDetails] =
     useState<string>("");
 
+  console.log("Free Text Personal Details: ", freeTextPersonalDetails);
+
   const [additionalDetails, setAdditionalDetails] =
     useState<AdditionalDetailsInputs>({
       simpleInput1: "",
       simpleInput2: "",
       simpleInput3: "",
-      simpleInput4: "",
       openEndedInput: "",
     });
   const handleFileChange = (e) => {

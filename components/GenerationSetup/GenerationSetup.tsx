@@ -37,9 +37,9 @@ const Accordion = styled((props: AccordionProps & { currPanel?: string }) => {
   borderBottom: currPanel === "panel3" ? "1px solid #006D4B" : "none",
   borderRadius:
     currPanel === "panel1"
-      ? "8px 8px 0 0"
+      ? "4px 4px 0 0"
       : currPanel === "panel3"
-      ? "0 0 8px 8px"
+      ? "0 0 4px 4px"
       : "none",
 }));
 
@@ -119,8 +119,12 @@ const GenerateButton = styled(PrimaryButton)`
 `;
 
 export default function GenerationSetup() {
-  const { jobPostingInput, uploadedResumeFile, additionalDetails } =
-    useGenerationSetupContext();
+  const {
+    jobPostingInput,
+    uploadedResumeFile,
+    freeTextPersonalDetails,
+    additionalDetails,
+  } = useGenerationSetupContext();
   const { generateCoverLetter, getJobTitle, getCompanyName, getJobMatchScore } =
     useCoverLetterResultsContext();
 
@@ -195,7 +199,12 @@ export default function GenerationSetup() {
     }
 
     try {
-      await generateCoverLetter(jobPostingInput, uploadedResumeFile);
+      await generateCoverLetter(
+        jobPostingInput,
+        uploadedResumeFile,
+        freeTextPersonalDetails,
+        additionalDetails
+      );
     } catch (err) {
       console.error(err);
       // Handle error, for example by showing an error message in the UI
@@ -298,7 +307,7 @@ export default function GenerationSetup() {
             expanded="panel2"
             tracker={`2-${expanded === "panel2"}`}
           >
-            {uploadedResumeFile === null ? (
+            {uploadedResumeFile === null && freeTextPersonalDetails === "" ? (
               <CheckCircleOutlineIcon
                 style={{
                   color: "#E9E9E9",
@@ -332,7 +341,8 @@ export default function GenerationSetup() {
             expanded="panel3"
             tracker={`3-${expanded === "panel3"}`}
           >
-            {jobPostingInput === "" || uploadedResumeFile === null ? (
+            {jobPostingInput === "" ||
+            (uploadedResumeFile === null && freeTextPersonalDetails === "") ? (
               <CheckCircleOutlineIcon
                 style={{
                   color: "#E9E9E9",

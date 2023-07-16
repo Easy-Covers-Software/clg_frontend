@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 
+import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
+
 const FreeTextInputField = styled.textarea`
   width: 100%;
   height: 100%;
@@ -17,13 +19,16 @@ const FreeTextInputField = styled.textarea`
 `;
 
 export default function FreeTextInput() {
+  const { freeTextPersonalDetails, setFreeTextPersonalDetails } =
+    useGenerationSetupContext();
+
   const [value, setValue] = useState("");
   const [placeholder, setPlaceholder] = useState(
     "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
   );
 
   const handleChange = (e) => {
-    setValue(e.target.value);
+    setFreeTextPersonalDetails(e.target.value);
   };
 
   const handleFocus = () => {
@@ -41,7 +46,7 @@ export default function FreeTextInput() {
   return (
     <FreeTextInputField
       placeholder={placeholder}
-      value={value}
+      value={freeTextPersonalDetails}
       onChange={handleChange}
       onFocus={handleFocus}
       onBlur={handleBlur}

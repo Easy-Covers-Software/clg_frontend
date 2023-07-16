@@ -7,10 +7,43 @@ import Cookie from "js-cookie";
 
 const ResultsContext = createContext(null);
 
-const createGeneratePayload = (jobPosting: string, resume: any) => {
+const checkResumeUpload = (resume: any) => {
+  if (resume === null) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+const checkAdditionalDetails = (additionalDetails: any) => {
+  for (const [key, inputValue] of Object.entries(additionalDetails)) {
+    if (inputValue !== "") {
+      return true;
+    }
+  }
+  return false;
+};
+
+const createGeneratePayload = (
+  jobPosting: string,
+  resume: any,
+  freeText,
+  additionalDetails
+) => {
   const formData = new FormData();
   formData.append("job_posting", jobPosting);
-  formData.append("resume", resume);
+
+  if (checkResumeUpload(resume)) {
+    console.log("adding resume to form data");
+    formData.append("resume", resume);
+  }
+
+  formData.append("free_text", freeText);
+
+  if (checkAdditionalDetails(additionalDetails)) {
+    console.log("adding additional details to form data");
+    formData.append("additional_details", additionalDetails);
+  }
   return formData;
 };
 
@@ -132,9 +165,22 @@ export const CoverLetterResultsContext = ({ children }) => {
     }
   };
 
-  const generateCoverLetter = async (jobPosting: string, resume: any) => {
+  const generateCoverLetter = async (
+    jobPosting: string,
+    resume: any,
+    freeText: string,
+    additionalDetails
+  ) => {
+    console.log("freeText", freeText);
+    console.log("additionalDetails", additionalDetails);
+
     setLoadingCoverLetter(true);
-    const data = createGeneratePayload(jobPosting, resume);
+    const data = createGeneratePayload(
+      jobPosting,
+      resume,
+      freeText,
+      additionalDetails
+    );
     const url = API_BASE_URL + "generate/";
 
     console.log("data", data);
