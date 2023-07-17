@@ -78,14 +78,6 @@ export default function MediumReQueryInput({ label }) {
     }
   };
 
-  const handleIntermediateAdjustment = async () => {
-    try {
-      await makeIntermediateAdjustment(label, value);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <Container>
       <FormInput variant="outlined">

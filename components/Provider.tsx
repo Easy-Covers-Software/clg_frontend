@@ -4,7 +4,6 @@ import { FC, ReactNode } from "react";
 
 import Header from "./Header/Header";
 import Sidebar from "./Sidebar/Sidebar";
-import { LoginContext } from "@/context/LoginContext";
 
 import "styles/globals.css";
 
@@ -14,9 +13,6 @@ type Props = {
 
 import { AuthProvider } from "@/context/AuthContext";
 
-const CLIENT_ID =
-  "464586598349-3uu0huc0df86brd568ikatpa9avg015m.apps.googleusercontent.com";
-
 const Provider: FC<Props> = ({ children }) => {
   return (
     <AuthProvider>
@@ -25,12 +21,10 @@ const Provider: FC<Props> = ({ children }) => {
           <Header />
         </div>
 
-        <LoginContext>
-          <div className="sidebar">
-            <Sidebar />
-          </div>
-          <main className="main-content">{children}</main>
-        </LoginContext>
+        <div className="sidebar">
+          <Sidebar />
+        </div>
+        <main className="main-content">{children}</main>
       </div>
     </AuthProvider>
   );

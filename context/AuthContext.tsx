@@ -70,11 +70,16 @@ export const AuthProvider = ({
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | any>(null);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const setNotAuthenticated = (): void => {
     setIsAuthenticated(false);
     setLoading(false);
     setUser(null);
+  };
+
+  const toggleLoginIsOpen = () => {
+    setIsLoginOpen((prevState) => !prevState);
   };
 
   async function fetchUser(): Promise<Response> {
@@ -145,6 +150,8 @@ export const AuthProvider = ({
     isAuthenticated,
     user,
     loading,
+    isLoginOpen,
+    toggleLoginIsOpen,
     fetchUser,
     signInGoogle,
     logout,

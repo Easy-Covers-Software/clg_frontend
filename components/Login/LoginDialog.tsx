@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 
 import Cookies from "cookie";
 
-import { useLoginContext } from "@/context/LoginContext";
+import { useAuth } from "@/context/AuthContext";
 
 const DialogContentContainer = styled(DialogContent)`
   display: flex;
@@ -52,7 +52,7 @@ const FullLogo = styled.img`
 `;
 
 export default function LoginDialog() {
-  const { isLoginOpen, toggleLoginIsOpen } = useLoginContext();
+  const { isLoginOpen, toggleLoginIsOpen } = useAuth();
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 

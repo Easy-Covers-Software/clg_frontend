@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
-import { useLoginContext } from "@/context/LoginContext";
+import { useAuth } from "@/context/AuthContext";
 
 import Divider from "@mui/material/Divider";
 import { PrimaryButton, UnSelectedButton } from "@/components/Global";
@@ -22,7 +22,7 @@ const HorizontalDivider = styled(Divider)`
 `;
 
 export default function MenuLoggedOut() {
-  const { isLoginOpen, toggleLoginIsOpen } = useLoginContext();
+  const { isLoginOpen, toggleLoginIsOpen } = useAuth();
   if (isLoginOpen) {
     return (
       <Container>
