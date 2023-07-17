@@ -8,7 +8,7 @@ import styled from "@emotion/styled";
 import SimpleReQueryButton from "./components/SimpleReQueryButton";
 import { PrimaryButton, UnSelectedButton } from "@/components/Global";
 
-import { ReQueryContext } from "../../Results";
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
 const Container = styled(Grid)`
   width: 100%;
@@ -32,7 +32,7 @@ const MoreOptions = styled(UnSelectedButton)`
 `;
 
 export default function ReQueryOptions() {
-  const { toggleIsReQuerySectionExpanded } = useContext<any>(ReQueryContext);
+  const { toggleIsReQuerySectionExpanded } = useCoverLetterResultsContext();
 
   return (
     <Container>

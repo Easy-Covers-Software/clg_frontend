@@ -26,25 +26,11 @@ const Container = styled(Grid)`
   overflow: scroll;
 `;
 
-export const ReQueryContext = createContext();
-
 export default function Results() {
-  const [isReQuerySectionExpanded, setIsReQuerySectionExpanded] =
-    useState(false);
-
-  const toggleIsReQuerySectionExpanded = () => {
-    setIsReQuerySectionExpanded(!isReQuerySectionExpanded);
-  };
-
   return (
-    <ReQueryContext.Provider
-      value={{ isReQuerySectionExpanded, toggleIsReQuerySectionExpanded }}
-    >
-      <Container>
-        <ResultsSummary />
-        <CoverLetterResults />
-        {/* <ReQueryOptions /> */}
-      </Container>
-    </ReQueryContext.Provider>
+    <Container>
+      <ResultsSummary />
+      <CoverLetterResults />
+    </Container>
   );
 }

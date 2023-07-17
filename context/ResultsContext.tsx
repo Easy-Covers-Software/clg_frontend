@@ -107,6 +107,13 @@ export const CoverLetterResultsContext = ({ children }) => {
   const [loadingMatchScore, setLoadingMatchScore] = useState<boolean>(false);
   const [loadingCoverLetter, setLoadingCoverLetter] = useState<boolean>(false);
 
+  const [isReQuerySectionExpanded, setIsReQuerySectionExpanded] =
+    useState(false);
+
+  const toggleIsReQuerySectionExpanded = () => {
+    setIsReQuerySectionExpanded(!isReQuerySectionExpanded);
+  };
+
   const getJobTitle = async (jobPosting: string) => {
     // setLoadingSummary(true);
     const url = API_BASE_URL + "generate/get_job_title/";
@@ -367,7 +374,6 @@ export const CoverLetterResultsContext = ({ children }) => {
         companyName,
         matchScore,
         currentCoverLetter,
-        setCurrentCoverLetter,
         coverLetterOpener,
         coverLetterP1,
         coverLetterP2,
@@ -381,12 +387,15 @@ export const CoverLetterResultsContext = ({ children }) => {
         insertKeywordInput,
         removeRedundancyInput,
         customAdjustment,
+        isReQuerySectionExpanded,
+        toggleIsReQuerySectionExpanded,
         setAddSkillInput,
         setInsertKeywordInput,
         setRemoveRedundancyInput,
         getJobTitle,
         getCompanyName,
         generateCoverLetter,
+        setCurrentCoverLetter,
         getJobMatchScore,
         makeSimpleAdjustment,
         makeIntermediateAdjustment,

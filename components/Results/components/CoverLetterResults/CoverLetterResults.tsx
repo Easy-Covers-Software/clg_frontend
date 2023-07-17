@@ -59,6 +59,7 @@ const ContentWrapper = styled(Grid)`
 
 export default function CoverLetterResults() {
   const {
+    isReQuerySectionExpanded,
     setCurrentCoverLetter,
     coverLetterOpener,
     coverLetterP1,
@@ -111,8 +112,6 @@ export default function CoverLetterResults() {
     },
     [coverLetter]
   );
-
-  const { isReQuerySectionExpanded } = useContext<any>(ReQueryContext);
 
   useEffect(() => {
     if (editor) {
