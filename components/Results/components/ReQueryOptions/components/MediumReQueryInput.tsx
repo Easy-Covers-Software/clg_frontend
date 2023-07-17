@@ -16,6 +16,8 @@ import Tooltip from "@mui/material/Tooltip";
 
 import styled from "@emotion/styled";
 
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+
 const Container = styled(Grid)`
   display: flex;
   align-items: center;
@@ -44,11 +46,44 @@ const QuestionContainer = styled(Grid)`
 `;
 
 export default function MediumReQueryInput({ label }) {
+  const {
+    makeIntermediateAdjustment,
+    addSkillInput,
+    insertKeywordInput,
+    removeRedundancyInput,
+    setAddSkillInput,
+    setInsertKeywordInput,
+    setRemoveRedundancyInput,
+  } = useCoverLetterResultsContext();
+
   const [value, setValue] = React.useState("");
-  const [value2, setValue2] = React.useState("");
 
   const clearInput = () => {
-    setValue("");
+    if (label === "Add Skill") {
+      setAddSkillInput("");
+    } else if (label === "Insert Keyword") {
+      setInsertKeywordInput("");
+    } else if (label === "Remove Redundancy") {
+      setRemoveRedundancyInput("");
+    }
+  };
+
+  const handleChange = (event) => {
+    if (label === "Add Skill") {
+      setAddSkillInput(event.target.value);
+    } else if (label === "Insert Keyword") {
+      setInsertKeywordInput(event.target.value);
+    } else if (label === "Remove Redundancy") {
+      setRemoveRedundancyInput(event.target.value);
+    }
+  };
+
+  const handleIntermediateAdjustment = async () => {
+    try {
+      await makeIntermediateAdjustment(label, value);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -69,10 +104,16 @@ export default function MediumReQueryInput({ label }) {
           variant="outlined"
           placeholder="2021-present"
           size="small"
-          value={value}
+          value={
+            label === "Add Skill"
+              ? addSkillInput
+              : label === "Insert Keyword"
+              ? insertKeywordInput
+              : removeRedundancyInput
+          }
           // sx={{ opacity: '30%' }}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setValue(event.target.value);
+            handleChange(event);
           }}
           InputProps={{
             endAdornment: (

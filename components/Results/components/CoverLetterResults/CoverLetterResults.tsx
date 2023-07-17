@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Global, css } from "@emotion/react";
 
 import { RichTextEditor, Link } from "@mantine/tiptap";
@@ -58,27 +58,65 @@ const ContentWrapper = styled(Grid)`
 `;
 
 export default function CoverLetterResults() {
-  const { coverLetter, loadingCoverLetter } = useCoverLetterResultsContext();
+  const {
+    setCurrentCoverLetter,
+    coverLetterOpener,
+    coverLetterP1,
+    coverLetterP2,
+    coverLetterP3,
+    coverLetterThankYou,
+    coverLetterSignature,
+    loadingCoverLetter,
+  } = useCoverLetterResultsContext();
 
-  const content = coverLetter;
+  const [coverLetter, setCoverLetter] = useState(``);
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Link,
-      Superscript,
-      SubScript,
-      Highlight,
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
-    ],
-    content: "<p>Awaiting Generation Results</p>",
-  });
+  useEffect(() => {
+    setCoverLetter(
+      `<div>
+          <p>${coverLetterOpener}</p>
+
+          <p>${coverLetterP1}</p>
+
+          <p>${coverLetterP2}</p>
+
+          <p>${coverLetterP3}</p>
+
+          <p>${coverLetterThankYou}</p>
+          
+          <p>${coverLetterSignature}</p>
+        </div>`
+    );
+  }, [
+    coverLetterOpener,
+    coverLetterP1,
+    coverLetterP2,
+    coverLetterP3,
+    coverLetterThankYou,
+    coverLetterSignature,
+  ]);
+
+  const editor = useEditor(
+    {
+      extensions: [
+        StarterKit,
+        Underline,
+        Link,
+        Superscript,
+        SubScript,
+        Highlight,
+        TextAlign.configure({ types: ["heading", "paragraph"] }),
+      ],
+      content: coverLetter,
+    },
+    [coverLetter]
+  );
 
   const { isReQuerySectionExpanded } = useContext<any>(ReQueryContext);
 
   useEffect(() => {
     if (editor) {
+      setCurrentCoverLetter(coverLetter);
       editor.commands.setContent(coverLetter);
     }
   }, [coverLetter, editor]);

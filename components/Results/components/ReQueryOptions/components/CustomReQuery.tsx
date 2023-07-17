@@ -3,6 +3,20 @@ import styled from "@emotion/styled";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
+import { UnSelectedButton } from "@/components/Global";
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+
+const SubmitButton = styled(UnSelectedButton)`
+  padding: 0 0:
+  width: 3vw;
+  height: 4.3vh;
+  margin-bottom: 2%;
+  margin-top: -2%;
+
+  font-size: 0.8rem;
+  border: 1px solid #006d4b;
+`;
+
 const CustomReQueryField = styled.textarea`
   width: 100%;
   height: 100%;
@@ -20,13 +34,16 @@ const CustomReQueryField = styled.textarea`
 `;
 
 export default function CustomReQuery() {
-  const [value, setValue] = useState("");
+  const { customAdjustment, setCustomAdjustment, makeCustomAdjustment } =
+    useCoverLetterResultsContext();
+
   const [placeholder, setPlaceholder] = useState(
     "Add any information that is not in your resume that you think is relevant to your application"
   );
 
   const handleChange = (e) => {
-    setValue(e.target.value);
+    // setValue(e.target.value);
+    setCustomAdjustment(e.target.value);
   };
 
   const handleFocus = () => {
@@ -34,10 +51,19 @@ export default function CustomReQuery() {
   };
 
   const handleBlur = () => {
-    if (value === "") {
+    if (customAdjustment === "") {
       setPlaceholder(
         "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
       );
+    }
+  };
+
+  const handleCustomAdjustment = async () => {
+    try {
+      await makeCustomAdjustment();
+    } catch (err) {
+      console.log("Error in handleCustomAdjustment");
+      console.log(err);
     }
   };
 
@@ -56,11 +82,13 @@ export default function CustomReQuery() {
       </Typography>
       <CustomReQueryField
         placeholder={placeholder}
-        value={value}
+        value={customAdjustment}
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
+
+      <SubmitButton onClick={handleCustomAdjustment}>REGENERATE</SubmitButton>
     </Grid>
   );
 }

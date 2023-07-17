@@ -56,11 +56,9 @@ export const GenerationContext = ({ children }) => {
   const [jobPostingInput, setJobPostingInput] = useState<string>("");
 
   const [uploadedResumeFile, setUploadedResumeFile] =
-    useState<FileUploadObject | null>(null); // will be object
+    useState<FileUploadObject | null>(null);
   const [freeTextPersonalDetails, setFreeTextPersonalDetails] =
     useState<string>("");
-
-  console.log("Free Text Personal Details: ", freeTextPersonalDetails);
 
   const [additionalDetails, setAdditionalDetails] =
     useState<AdditionalDetailsInputs>({
@@ -69,13 +67,13 @@ export const GenerationContext = ({ children }) => {
       simpleInput3: "",
       openEndedInput: "",
     });
+
   const handleFileChange = (e) => {
     const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
     setUploadedResumeFile(files[0]);
   };
 
   //--- Job Posting Upload ---//
-
   const uploadJobPosting = async (jobPostingData: string) => {
     if (jobPostingData === "") {
       throw new JobPostingUploadError(
