@@ -28,7 +28,7 @@ const MoreOptions = styled(UnSelectedButton)`
   background-color: #fff;
   padding: 0;
   margin: auto;
-  margin-bottom: 1%;
+  margin-bottom: 1.4%;
 `;
 
 export default function ReQueryOptions() {

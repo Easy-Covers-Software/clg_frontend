@@ -1,11 +1,6 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
+import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
-import FilledInput from "@mui/material/FilledInput";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -56,7 +51,7 @@ export default function MediumReQueryInput({ label }) {
     setRemoveRedundancyInput,
   } = useCoverLetterResultsContext();
 
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = useState("");
 
   const clearInput = () => {
     if (label === "Add Skill") {

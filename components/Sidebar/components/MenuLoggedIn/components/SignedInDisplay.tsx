@@ -6,7 +6,8 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 
 import { UnSelectedButton } from "@/components/Global";
-import axios from "axios";
+
+import Link from "next/link";
 
 import { useAuth } from "@/context/AuthContext";
 
@@ -48,7 +49,7 @@ const ProfilePicture = styled(Avatar)`
 export default function SignedInDisplay(props: SignedInDisplayProps) {
   const { user } = props;
   const { username, email } = user;
-  const { logout } = useAuth();
+  const { logout, toggleSettingsIsOpen } = useAuth();
 
   console.log("user", user);
 
@@ -63,7 +64,11 @@ export default function SignedInDisplay(props: SignedInDisplayProps) {
         {/* </UserEmailAndName> */}
       </UserProfileInfo>
 
-      <UnSelectedButton>Settings</UnSelectedButton>
+      {/* <Link href="/settings" style={{ textDecoration: "none" }}> */}
+      <UnSelectedButton onClick={() => toggleSettingsIsOpen()}>
+        UPGRADE
+      </UnSelectedButton>
+      {/* </Link> */}
       <UnSelectedButton onClick={logout}>Logout</UnSelectedButton>
     </Container>
   );

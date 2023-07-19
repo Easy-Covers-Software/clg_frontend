@@ -9,6 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import { CoverLetterResultsContext } from "@/context/ResultsContext";
 
 import LoginDialog from "@/components/Login/LoginDialog";
+import SettingsDialog from "@/components/Settings/SettingsDialog";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 
@@ -22,11 +23,12 @@ const Container = styled(Grid)`
 `;
 
 export default function GenerationMode(props: IHomeProps) {
-  const { user, isLoginOpen } = useAuth();
+  const { user, isLoginOpen, isSettingsOpen } = useAuth();
 
   return (
     <Container>
       {isLoginOpen ? <LoginDialog /> : null}
+      {isSettingsOpen ? <SettingsDialog /> : null}
       <GenerationContext>
         <CoverLetterResultsContext>
           <GenerationSetup />

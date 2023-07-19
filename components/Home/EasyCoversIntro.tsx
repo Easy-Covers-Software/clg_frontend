@@ -54,25 +54,6 @@ const WelcomePaper = styled(Paper)`
 // `;
 
 export default function EasyCoversIntro() {
-  const signInGoogle = async () => {
-    console.log("FUNCTION IS GETTING CALLED");
-
-    const endpoint = "https://127.0.0.1:8000/accounts/login/";
-
-    try {
-      const response = await axios.get(endpoint, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": Cookies.get("csrftoken"),
-        },
-      });
-      if (response.status === 200 || response.status === 201) {
-        console.log(response.data);
-      }
-    } catch (error) {}
-  };
-
   return (
     <Container>
       <WelcomePaper>

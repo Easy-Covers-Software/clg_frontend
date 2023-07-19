@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import https from "https";
 
 import axios from "axios";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -71,6 +70,7 @@ export const AuthProvider = ({
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | any>(null);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const setNotAuthenticated = (): void => {
     setIsAuthenticated(false);
@@ -80,6 +80,10 @@ export const AuthProvider = ({
 
   const toggleLoginIsOpen = () => {
     setIsLoginOpen((prevState) => !prevState);
+  };
+
+  const toggleSettingsIsOpen = () => {
+    setIsSettingsOpen((prevState) => !prevState);
   };
 
   async function fetchUser(): Promise<Response> {
@@ -146,12 +150,16 @@ export const AuthProvider = ({
     initUser();
   }, []);
 
+  console.log("isSettingsOpen", isSettingsOpen);
+
   const value = {
     isAuthenticated,
     user,
     loading,
     isLoginOpen,
+    isSettingsOpen,
     toggleLoginIsOpen,
+    toggleSettingsIsOpen,
     fetchUser,
     signInGoogle,
     logout,
