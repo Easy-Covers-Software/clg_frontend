@@ -48,13 +48,14 @@ const JobMatchScore = styled(Grid)`
 `;
 
 export default function ResultsSummary() {
+  const { state } = useCoverLetterResultsContext();
   const {
     jobTitle,
     companyName,
     matchScore,
     loadingSummary,
     loadingMatchScore,
-  } = useCoverLetterResultsContext();
+  } = state;
 
   return (
     <Container>

@@ -34,8 +34,9 @@ const CustomReQueryField = styled.textarea`
 `;
 
 export default function CustomReQuery() {
-  const { customAdjustment, setCustomAdjustment, makeCustomAdjustment } =
-    useCoverLetterResultsContext();
+  const { state, dispatch } = useCoverLetterResultsContext();
+
+  const { customAdjustment, makeCustomAdjustment } = state;
 
   const [placeholder, setPlaceholder] = useState(
     "Anything you want to change about the cover letter..."
@@ -43,7 +44,7 @@ export default function CustomReQuery() {
 
   const handleChange = (e) => {
     // setValue(e.target.value);
-    setCustomAdjustment(e.target.value);
+    dispatch({ type: "SET_CUSTOM_ADJUSTMENT", payload: e.target.value });
   };
 
   const handleFocus = () => {
@@ -71,7 +72,6 @@ export default function CustomReQuery() {
     <Grid
       display={"flex"}
       flexDirection={"column"}
-      // justifyContent={'space-between'}
       height={"100%"}
       width={"14vw"}
       gap={2}

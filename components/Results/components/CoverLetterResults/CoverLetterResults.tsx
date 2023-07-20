@@ -57,9 +57,9 @@ const ContentWrapper = styled(Grid)`
 `;
 
 export default function CoverLetterResults() {
+  const { state, dispatch } = useCoverLetterResultsContext();
   const {
     isReQuerySectionExpanded,
-    setCurrentCoverLetter,
     coverLetterOpener,
     coverLetterP1,
     coverLetterP2,
@@ -67,7 +67,7 @@ export default function CoverLetterResults() {
     coverLetterThankYou,
     coverLetterSignature,
     loadingCoverLetter,
-  } = useCoverLetterResultsContext();
+  } = state;
 
   const [coverLetter, setCoverLetter] = useState(``);
 
@@ -114,7 +114,7 @@ export default function CoverLetterResults() {
 
   useEffect(() => {
     if (editor) {
-      setCurrentCoverLetter(coverLetter);
+      dispatch({ type: "SET_CURRENT_COVER_LETTER", payload: coverLetter });
       editor.commands.setContent(coverLetter);
     }
   }, [coverLetter, editor]);

@@ -41,35 +41,33 @@ const QuestionContainer = styled(Grid)`
 `;
 
 export default function MediumReQueryInput({ label }) {
-  const {
-    makeIntermediateAdjustment,
-    addSkillInput,
-    insertKeywordInput,
-    removeRedundancyInput,
-    setAddSkillInput,
-    setInsertKeywordInput,
-    setRemoveRedundancyInput,
-  } = useCoverLetterResultsContext();
+  const { state, dispatch } = useCoverLetterResultsContext();
 
-  const [value, setValue] = useState("");
+  const { addSkillInput, insertKeywordInput, removeRedundancyInput } = state;
 
   const clearInput = () => {
     if (label === "Add Skill") {
-      setAddSkillInput("");
+      dispatch({ type: "SET_ADD_SKILL_INPUT", payload: "" });
     } else if (label === "Insert Keyword") {
-      setInsertKeywordInput("");
+      dispatch({ type: "SET_INSERT_KEYWORD_INPUT", payload: "" });
     } else if (label === "Remove Redundancy") {
-      setRemoveRedundancyInput("");
+      dispatch({ type: "SET_REMOVE_REDUNDANCY_INPUT", payload: "" });
     }
   };
 
   const handleChange = (event) => {
     if (label === "Add Skill") {
-      setAddSkillInput(event.target.value);
+      dispatch({ type: "SET_ADD_SKILL_INPUT", payload: event.target.value });
     } else if (label === "Insert Keyword") {
-      setInsertKeywordInput(event.target.value);
+      dispatch({
+        type: "SET_INSERT_KEYWORD_INPUT",
+        payload: event.target.value,
+      });
     } else if (label === "Remove Redundancy") {
-      setRemoveRedundancyInput(event.target.value);
+      dispatch({
+        type: "SET_REMOVE_REDUNDANCY_INPUT",
+        payload: event.target.value,
+      });
     }
   };
 
