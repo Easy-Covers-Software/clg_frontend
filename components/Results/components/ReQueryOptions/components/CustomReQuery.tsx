@@ -38,7 +38,7 @@ export default function CustomReQuery() {
     useCoverLetterResultsContext();
 
   const [placeholder, setPlaceholder] = useState(
-    "Add any information that is not in your resume that you think is relevant to your application"
+    "Anything you want to change about the cover letter..."
   );
 
   const handleChange = (e) => {

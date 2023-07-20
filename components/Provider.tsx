@@ -1,31 +1,32 @@
 "use client";
 
 import { FC, ReactNode } from "react";
-
+import { ThemeProvider } from "@mui/material";
 import Header from "./Header/Header";
 import Sidebar from "./Sidebar/Sidebar";
-
+import { AuthProvider } from "@/context/AuthContext";
+import theme from "../styles/theme/index.js";
 import "styles/globals.css";
 
-type Props = {
-  children: ReactNode;
-};
+// type Props = {
+//   children: ReactNode;
+// };
 
-import { AuthProvider } from "@/context/AuthContext";
-
-const Provider: FC<Props> = ({ children }) => {
+const Provider = ({ children }) => {
   return (
     <AuthProvider>
-      <div className="layout-grid">
-        <div className="header">
-          <Header />
-        </div>
+      <ThemeProvider theme={theme}>
+        <div className="layout-grid">
+          <div className="header">
+            <Header />
+          </div>
 
-        <div className="sidebar">
-          <Sidebar />
+          <div className="sidebar">
+            <Sidebar />
+          </div>
+          <main className="main-content">{children}</main>
         </div>
-        <main className="main-content">{children}</main>
-      </div>
+      </ThemeProvider>
     </AuthProvider>
   );
 };

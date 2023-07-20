@@ -7,12 +7,15 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import Divider from "@mui/material/Divider";
+import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
-import { PrimaryButton } from "../Global";
+import { PrimaryButton, UnSelectedButton } from "../Global";
 
 import UpgradeAccountOption from "./components/UpgradeAccountOption";
 import { useAuth } from "@/context/AuthContext";
 import { Typography } from "@mui/material";
+import { PayPalButtons } from "@paypal/react-paypal-js";
 
 const DialogContentContainer = styled(DialogContent)`
   display: flex;
@@ -21,6 +24,7 @@ const DialogContentContainer = styled(DialogContent)`
   align-items: center;
   margin-top: -8%;
   gap: 24px;
+  // width: 100%;
 `;
 
 const CreateAccountContainer = styled(Grid)`
@@ -54,13 +58,13 @@ let packages = [
       "Unlimited Cover Letters",
       "Unlimited Adjustments",
     ],
-    price: "$24.99/month",
+    price: "$19.99/month",
     price_gpt4: "NA",
   },
   {
     name: "Letter Luminary",
     features: [
-      "GPT-3.5 Turbo Access",
+      "GPT-3.5 Access",
       "Unlimited Cover Letters",
       "Unlimited Adjustments",
     ],
@@ -69,32 +73,48 @@ let packages = [
   },
   {
     name: "Dynamic Drafter",
-    features: [
-      "20 unique cover letters",
-      "25 adjustments/queries",
-      "GPT-4 or GPT-3.5 Turbo",
-    ],
-    price: "$4.99",
-    price_gpt4: "$8.99",
+    features: ["11 unique cover letters", "18 Adjustments", "GPT-4 or GPT-3.5"],
+    price: "$3.99",
+    price_gpt4: "$4.99",
   },
   {
     name: "Intro Drafter",
-    features: [
-      "6 Unique Cover Letters",
-      "8 Adjustments",
-      "GPT-4 or GPT-3.5 Turbo",
-    ],
-    price: "$2.99",
-    price_gpt4: "$4.99",
+    features: ["2 Unique Cover Letters", "5 Adjustments", "GPT-4 or GPT-3.5"],
+    price: "$0.99",
+    price_gpt4: "$1.99",
   },
 ];
 
 export default function SettingsDialog() {
   const { isSettingsOpen, toggleSettingsIsOpen } = useAuth();
+  const [selectedPackagePrice, setSelectedPackagePrice] = useState(null);
+  console.log("selectedPackagePrice", selectedPackagePrice);
+
+  const [hasSelectedPricingOption, setHasSelectedPricingOption] =
+    useState(false);
+
+  useEffect(() => {
+    if (selectedPackagePrice !== null) {
+      setHasSelectedPricingOption(true);
+    }
+  }, [selectedPackagePrice]);
 
   const handleClose = () => {
     toggleSettingsIsOpen(false);
   };
+
+  const extractPrice = (frontendValue) => {
+    const pattern = /(\d+\.\d+)/g;
+    const match = frontendValue.match(pattern);
+
+    if (match && match.length > 0) {
+      return match[0];
+    }
+
+    return null;
+  };
+
+  const handleStripePayment = () => {};
 
   return (
     <Dialog
@@ -111,10 +131,68 @@ export default function SettingsDialog() {
       <FullLogo src="/easy-covers-full.svg" alt="Description of Image" />
 
       <DialogContentContainer>
-        <UpgradeAccountOption packages={packages[0]} />
-        <UpgradeAccountOption packages={packages[1]} />
-        <UpgradeAccountOption packages={packages[2]} />
-        <UpgradeAccountOption packages={packages[3]} />
+        <UpgradeAccountOption
+          packages={packages[0]}
+          setSelectedPackagePrice={setSelectedPackagePrice}
+        />
+        <UpgradeAccountOption
+          packages={packages[1]}
+          setSelectedPackagePrice={setSelectedPackagePrice}
+        />
+        <UpgradeAccountOption
+          packages={packages[2]}
+          setSelectedPackagePrice={setSelectedPackagePrice}
+        />
+        <UpgradeAccountOption
+          packages={packages[3]}
+          setSelectedPackagePrice={setSelectedPackagePrice}
+        />
+
+        {hasSelectedPricingOption && (
+          <>
+            <PayPalButtons
+              style={{
+                layout: "horizontal",
+                height: 45,
+              }}
+              createOrder={(data, actions) => {
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: extractPrice(selectedPackagePrice),
+                      },
+                    },
+                  ],
+                });
+              }}
+              onCancel={() =>
+                toast(
+                  "You cancelled the payment. Try again by clicking the PayPal button",
+                  {
+                    duration: 6000,
+                  }
+                )
+              }
+              onError={(err) => {
+                toast.error(
+                  "There was an error processing your payment. If this error please contact support.",
+                  { duration: 6000 }
+                );
+              }}
+              onApprove={(data, actions) => {
+                return actions.order.capture().then(function (details) {
+                  toast.success(
+                    "Payment completed. Thank you, " +
+                      details.payer.name.given_name
+                  );
+                });
+              }}
+            />
+            {/* <UnSelectedButton>Debit/Credit</UnSelectedButton> */}
+          </>
+        )}
+        <Toaster position="top-center" />
       </DialogContentContainer>
     </Dialog>
   );

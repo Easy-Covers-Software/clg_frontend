@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 import axios from "axios";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -6,6 +7,9 @@ import Cookies from "js-cookie";
 
 const CLIENT_ID =
   "464586598349-3uu0huc0df86brd568ikatpa9avg015m.apps.googleusercontent.com";
+
+const PPAL_CLIENT_ID =
+  "AdqQqoVIY7CmxhdsTPRwN6vQmUnMsR1QoxR5o2HcVbR1zI9W-XUq2PYVSfQf72htFWZSxL4A7XzqqE4s";
 
 const API_BASE = "https://localhost:8000";
 
@@ -150,8 +154,6 @@ export const AuthProvider = ({
     initUser();
   }, []);
 
-  console.log("isSettingsOpen", isSettingsOpen);
-
   const value = {
     isAuthenticated,
     user,
@@ -167,7 +169,11 @@ export const AuthProvider = ({
 
   return (
     <AuthContext.Provider value={value}>
-      <GoogleOAuthProvider clientId={CLIENT_ID}>{children}</GoogleOAuthProvider>
+      <GoogleOAuthProvider clientId={CLIENT_ID}>
+        <PayPalScriptProvider options={{ clientId: PPAL_CLIENT_ID }}>
+          {children}
+        </PayPalScriptProvider>
+      </GoogleOAuthProvider>
     </AuthContext.Provider>
   );
 };

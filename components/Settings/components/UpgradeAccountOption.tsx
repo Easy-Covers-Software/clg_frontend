@@ -99,7 +99,14 @@ const PricingButtonContainer = styled(Grid)`
   gap: 5%;
 `;
 
-export default function UpgradeAccountOption({ packages }) {
+export default function UpgradeAccountOption({
+  packages,
+  setSelectedPackagePrice,
+}) {
+  const handlePackageSelection = (price) => {
+    setSelectedPackagePrice(price);
+  };
+
   return (
     <Container>
       {/* <SubContainer> */}
@@ -111,20 +118,34 @@ export default function UpgradeAccountOption({ packages }) {
           <PricingButtonContainer>
             <ButtonWithLabel>
               <Typography fontSize={"0.72rem"}>GPT-3.5 Turbo</Typography>
-              <PackageNameButtonDouble>
+              <PackageNameButtonDouble
+                onClick={() => {
+                  handlePackageSelection(packages.price);
+                }}
+              >
                 {packages.price}
               </PackageNameButtonDouble>
             </ButtonWithLabel>
 
             <ButtonWithLabel>
               <Typography fontSize={"0.72rem"}>GPT-4</Typography>
-              <PackageNameButtonDouble>
+              <PackageNameButtonDouble
+                onClick={() => {
+                  handlePackageSelection(packages.price_gpt4);
+                }}
+              >
                 {packages.price_gpt4}
               </PackageNameButtonDouble>
             </ButtonWithLabel>
           </PricingButtonContainer>
         ) : (
-          <PackageNameButtonSingle>{packages.price}</PackageNameButtonSingle>
+          <PackageNameButtonSingle
+            onClick={() => {
+              handlePackageSelection(packages.price);
+            }}
+          >
+            {packages.price}
+          </PackageNameButtonSingle>
         )}
       </PackageNameContainer>
 

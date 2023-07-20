@@ -31,7 +31,6 @@ body {
 .header {
   grid-area: header;
   display: flex;
-  /* width: 100vw; */
   height: 60px;
   padding: 10px 4px;
   justify-content: flex-end;
@@ -50,10 +49,6 @@ body {
   border-radius: 8px;
   height: calc(100vh - 100px);
   background-color: var(--theme-main, #f5f5f5);
-  /* background-color: #fff; */
-
-  /* ONLY WHEN LOGGING IN / CREATING ACCOUNT */
-  /* opacity: 0.10000000149011612; */
 }
 
 /* hide sidebar if screen is tablet or */
@@ -62,10 +57,3 @@ body {
     display: none;
   }
 }
-
-/* GREEN 900: #006D4B */
-/* GREEN 600: #35E8B0 */
-/* SECONDARY: #ECE1DA */
-
-/* Main: #F5F5F5 */
-/* Nav: #F8F8FF */

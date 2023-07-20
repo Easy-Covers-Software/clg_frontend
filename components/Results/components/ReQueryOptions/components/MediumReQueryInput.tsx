@@ -89,7 +89,13 @@ export default function MediumReQueryInput({ label }) {
         <InputField
           id="email-input"
           variant="outlined"
-          placeholder="2021-present"
+          placeholder={
+            label === "Add Skill"
+              ? "'excel', 'python', etc."
+              : label === "Insert Keyword"
+              ? "'big data', 'clinical', etc."
+              : "'I feel', 'I believe', etc."
+          }
           size="small"
           value={
             label === "Add Skill"

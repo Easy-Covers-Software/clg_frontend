@@ -17,7 +17,6 @@ import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
 
 import MoreOptionsReQueries from "../ReQueryOptions/components/MoreOptionsReQuerys";
-import { ReQueryContext } from "../../Results";
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 import CircularProgress from "@mui/material/CircularProgress";
 

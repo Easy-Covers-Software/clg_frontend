@@ -12,12 +12,16 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@fontsource/el-messiri": "^5.0.5",
     "@mantine/core": "^6.0.15",
     "@mantine/hooks": "^6.0.15",
     "@mantine/tiptap": "^6.0.15",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.6",
+    "@paypal/react-paypal-js": "^8.1.0",
     "@react-oauth/google": "^0.11.0",
+    "@stripe/react-stripe-js": "^2.1.1",
+    "@stripe/stripe-js": "^1.54.1",
     "@tabler/icons-react": "^2.23.0",
     "@tiptap/extension-highlight": "^2.0.3",
     "@tiptap/extension-link": "^2.0.3",
@@ -45,6 +49,7 @@
     "postcss": "8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.1",
     "typescript": "5.1.5"
   },
   "devDependencies": {
