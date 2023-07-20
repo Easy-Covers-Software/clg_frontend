@@ -7,8 +7,6 @@ import Avatar from "@mui/material/Avatar";
 
 import { UnSelectedButton } from "@/components/Global";
 
-import Link from "next/link";
-
 import { useAuth } from "@/context/AuthContext";
 
 type UserInfo = {

@@ -19,8 +19,8 @@ const FreeTextInputField = styled.textarea`
 `;
 
 export default function FreeTextInput() {
-  const { freeTextPersonalDetails, setFreeTextPersonalDetails } =
-    useGenerationSetupContext();
+  const { state, dispatch } = useGenerationSetupContext();
+  const { freeTextPersonalDetails } = state;
 
   const [value, setValue] = useState("");
   const [placeholder, setPlaceholder] = useState(
@@ -28,7 +28,10 @@ export default function FreeTextInput() {
   );
 
   const handleChange = (e) => {
-    setFreeTextPersonalDetails(e.target.value);
+    dispatch({
+      type: "SET_FREE_TEXT_PERSONAL_DETAILS",
+      payload: e.target.value,
+    });
   };
 
   const handleFocus = () => {

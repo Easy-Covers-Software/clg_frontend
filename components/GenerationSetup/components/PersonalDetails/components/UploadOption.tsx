@@ -38,7 +38,8 @@ const Label = styled.label`
 
 export default function UploadOption({ label, accept }) {
   const id = label.replace(/\s+/g, "-").toLowerCase();
-  const { handleFileChange, uploadedResumeFile } = useGenerationSetupContext();
+  const { state, handleFileChange } = useGenerationSetupContext();
+  const { uploadedResumeFile } = state;
 
   const [dragging, setDragging] = useState(false);
 

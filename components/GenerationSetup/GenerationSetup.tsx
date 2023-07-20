@@ -119,12 +119,14 @@ const GenerateButton = styled(PrimaryButton)`
 `;
 
 export default function GenerationSetup() {
+  const { state } = useGenerationSetupContext();
+
   const {
     jobPostingInput,
     uploadedResumeFile,
     freeTextPersonalDetails,
     additionalDetails,
-  } = useGenerationSetupContext();
+  } = state;
   const { generateCoverLetter, getJobTitle, getCompanyName, getJobMatchScore } =
     useCoverLetterResultsContext();
 

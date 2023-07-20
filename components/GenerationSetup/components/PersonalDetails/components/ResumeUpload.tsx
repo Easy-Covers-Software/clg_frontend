@@ -15,8 +15,6 @@ import styled from "@emotion/styled";
 import { UnSelectedButton } from "@/components/Global";
 import UploadOption from "./UploadOption";
 
-import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
-
 const Container = styled(Grid)`
   height: 100%;
   width: 100%;

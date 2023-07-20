@@ -17,16 +17,15 @@ const JobPostingTextInputField = styled.textarea`
 `;
 
 export default function JobPostingInput() {
-  const { jobPostingInput, setJobPostingInput } = useGenerationSetupContext();
+  const { state, dispatch } = useGenerationSetupContext();
+  const { jobPostingInput } = state;
 
-  const [value, setValue] = useState();
   const [placeholder, setPlaceholder] = useState(
     "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
   );
 
   const handleChange = (e) => {
-    setValue(e.target.value);
-    setJobPostingInput(e.target.value);
+    dispatch({ type: "SET_JOB_POSTING_INPUT", payload: e.target.value });
   };
 
   const handleFocus = () => {
@@ -34,7 +33,7 @@ export default function JobPostingInput() {
   };
 
   const handleBlur = () => {
-    if (value === "") {
+    if (jobPostingInput === "") {
       setPlaceholder(
         "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
       );

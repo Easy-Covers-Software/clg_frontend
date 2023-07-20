@@ -53,8 +53,8 @@ interface SimpleInputProps {
 
 export default function SimpleInput(props: SimpleInputProps) {
   const { id } = props;
-  const { additionalDetails, setAdditionalDetails } =
-    useGenerationSetupContext();
+  const { state, dispatch } = useGenerationSetupContext();
+  const { additionalDetails } = state;
 
   const [inputValue, setInputValue] = React.useState("");
 
@@ -66,7 +66,10 @@ export default function SimpleInput(props: SimpleInputProps) {
     for (const [key, inputValue] of Object.entries(additionalDetails)) {
       if (key === id) {
         setInputValue(currentInput);
-        setAdditionalDetails({ ...additionalDetails, [key]: currentInput });
+        dispatch({
+          type: "SET_ADDITIONAL_DETAILS",
+          payload: { [key]: currentInput },
+        });
       }
     }
   };

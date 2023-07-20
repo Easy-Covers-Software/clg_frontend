@@ -70,7 +70,6 @@ export const AuthProvider = ({
     dispatch({ type: "SET_EMAIL", payload: "" });
   };
 
-  // const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowPassword = () =>
     dispatch({ type: "SET_SHOW_PASSWORD", payload: !state.showPassword });
 

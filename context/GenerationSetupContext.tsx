@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useContext, useReducer, useEffect } from "react";
 
 const GenerationSetupContext = createContext(null);
 
@@ -52,25 +52,45 @@ const createResumeUploadFormDataPayload = (resumeData: string) => {
   return formData;
 };
 
+const initialState = {
+  jobPostingInput: "",
+  uploadedResumeFile: null,
+  freeTextPersonalDetails: "",
+  additionalDetails: {
+    simpleInput1: "",
+    simpleInput2: "",
+    simpleInput3: "",
+    openEndedInput: "",
+  },
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "SET_JOB_POSTING_INPUT":
+      return { ...state, jobPostingInput: action.payload };
+    case "SET_UPLOADED_RESUME_FILE":
+      return { ...state, uploadedResumeFile: action.payload };
+    case "SET_FREE_TEXT_PERSONAL_DETAILS":
+      return { ...state, freeTextPersonalDetails: action.payload };
+    case "SET_ADDITIONAL_DETAILS":
+      return {
+        ...state,
+        additionalDetails: {
+          ...state.additionalDetails,
+          ...action.payload,
+        },
+      };
+    default:
+      throw new Error(`Unknown action: ${action.type}`);
+  }
+}
+
 export const GenerationContext = ({ children }) => {
-  const [jobPostingInput, setJobPostingInput] = useState<string>("");
-
-  const [uploadedResumeFile, setUploadedResumeFile] =
-    useState<FileUploadObject | null>(null);
-  const [freeTextPersonalDetails, setFreeTextPersonalDetails] =
-    useState<string>("");
-
-  const [additionalDetails, setAdditionalDetails] =
-    useState<AdditionalDetailsInputs>({
-      simpleInput1: "",
-      simpleInput2: "",
-      simpleInput3: "",
-      openEndedInput: "",
-    });
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleFileChange = (e) => {
     const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-    setUploadedResumeFile(files[0]);
+    dispatch({ type: "SET_UPLOADED_RESUME_FILE", payload: files[0] });
   };
 
   //--- Job Posting Upload ---//
@@ -152,19 +172,12 @@ export const GenerationContext = ({ children }) => {
     }
   };
 
-  console.log("resume uploaded file", uploadedResumeFile);
-
   return (
     <GenerationSetupContext.Provider
       value={{
-        jobPostingInput,
-        setJobPostingInput,
-        uploadedResumeFile,
+        state,
+        dispatch,
         handleFileChange,
-        additionalDetails,
-        setAdditionalDetails,
-        freeTextPersonalDetails,
-        setFreeTextPersonalDetails,
         uploadJobPosting,
         uploadResume,
       }}
