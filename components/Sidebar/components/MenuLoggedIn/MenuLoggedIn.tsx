@@ -56,7 +56,7 @@ export default function MenuLoggedIn(props: MenuLoggedInProps) {
       <PrimaryButton>Generate</PrimaryButton>
 
       <Grid>
-        <SignedInDisplay user={props?.user} />
+        <SignedInDisplay />
       </Grid>
     </Container>
   );

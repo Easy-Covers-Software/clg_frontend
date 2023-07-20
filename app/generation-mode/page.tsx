@@ -23,7 +23,8 @@ const Container = styled(Grid)`
 `;
 
 export default function GenerationMode(props: IHomeProps) {
-  const { user, isLoginOpen, isSettingsOpen } = useAuth();
+  const { state } = useAuth();
+  const { user, isLoginOpen, isSettingsOpen } = state;
 
   return (
     <Container>

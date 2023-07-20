@@ -86,9 +86,9 @@ let packages = [
 ];
 
 export default function SettingsDialog() {
-  const { isSettingsOpen, toggleSettingsIsOpen } = useAuth();
+  const { state, toggleSettingsIsOpen } = useAuth();
+  const { isSettingsOpen } = state;
   const [selectedPackagePrice, setSelectedPackagePrice] = useState(null);
-  console.log("selectedPackagePrice", selectedPackagePrice);
 
   const [hasSelectedPricingOption, setHasSelectedPricingOption] =
     useState(false);

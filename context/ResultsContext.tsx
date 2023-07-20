@@ -2,6 +2,8 @@ import React, { createContext, useContext, useReducer, useEffect } from "react";
 import axios from "axios";
 import Cookie from "js-cookie";
 
+import { makeUrl, createGeneratePayload } from "./utils";
+
 const API_BASE_URL = "https://localhost:8000/ai_generator/";
 
 const ResultsContext = createContext(null);
@@ -72,50 +74,9 @@ function reducer(state, action) {
     case "SET_IS_RE_QUERY_SECTION_EXPANDED":
       return { ...state, isReQuerySectionExpanded: action.payload };
     default:
-      throw new Error();
+      throw new Error(`Unknown action: ${action.type}`);
   }
 }
-
-const checkResumeUpload = (resume) => {
-  if (resume === null) {
-    return false;
-  } else {
-    return true;
-  }
-};
-
-const checkAdditionalDetails = (additionalDetails) => {
-  for (const [key, inputValue] of Object.entries(additionalDetails)) {
-    if (inputValue !== "") {
-      return true;
-    }
-  }
-  return false;
-};
-
-const createGeneratePayload = (
-  jobPosting,
-  resume,
-  freeText,
-  additionalDetails
-) => {
-  const formData = new FormData();
-
-  formData.append("job_posting", jobPosting);
-
-  if (checkResumeUpload(resume)) {
-    console.log("adding resume to form data");
-    formData.append("resume", resume);
-  }
-
-  formData.append("free_text", freeText);
-
-  if (checkAdditionalDetails(additionalDetails)) {
-    console.log("adding additional details to form data");
-    formData.append("additional_details", additionalDetails);
-  }
-  return formData;
-};
 
 export function CoverLetterResultsContext({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);

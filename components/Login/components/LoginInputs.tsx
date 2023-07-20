@@ -34,24 +34,20 @@ const InputField = styled(TextField)`
 
 export default function LoginInputs() {
   const {
-    email,
-    setEmail,
-    password,
-    setPassword,
-    showPassword,
-    setShowPassword,
-    newPasswordRepeat,
-    setNewPasswordRepeat,
+    state,
+    dispatch,
     clearInput,
     handleClickShowPassword,
-    createAccountEasyCovers,
     handleClickShowPasswordRepeat,
-    showPasswordRepeat,
   } = useAuth();
-
-  // const [email, setEmail] = React.useState("");
-  // const [password, setPassword] = React.useState("");
-  // const [showPassword, setShowPassword] = React.useState(false);
+  const {
+    email,
+    password,
+    showPassword,
+    newPasswordRepeat,
+    createAccountEasyCovers,
+    showPasswordRepeat,
+  } = state;
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -75,7 +71,7 @@ export default function LoginInputs() {
           placeholder="Email"
           value={email}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setEmail(event.target.value);
+            dispatch({ type: "SET_EMAIL", payload: event.target.value });
           }}
           InputProps={{
             endAdornment: (
@@ -102,7 +98,7 @@ export default function LoginInputs() {
           value={password}
           type={showPassword ? "text" : "password"}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setPassword(event.target.value);
+            dispatch({ type: "SET_PASSWORD", payload: event.target.value });
           }}
           InputProps={{
             endAdornment: (
@@ -130,7 +126,10 @@ export default function LoginInputs() {
             value={newPasswordRepeat}
             type={showPasswordRepeat ? "text" : "password"}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setNewPasswordRepeat(event.target.value);
+              dispatch({
+                type: "SET_NEW_PASSWORD_REPEAT",
+                payload: event.target.value,
+              });
             }}
             InputProps={{
               endAdornment: (

@@ -15,9 +15,6 @@ type UserInfo = {
   username: string;
   email: string;
 };
-interface SignedInDisplayProps {
-  user: UserInfo;
-}
 
 const Container = styled(Grid)`
   display: flex;
@@ -46,10 +43,10 @@ const ProfilePicture = styled(Avatar)`
   width: 5vh;
 `;
 
-export default function SignedInDisplay(props: SignedInDisplayProps) {
-  const { user } = props;
+export default function SignedInDisplay() {
+  const { state, toggleSettingsIsOpen, logout } = useAuth();
+  const { user } = state;
   const { username, email } = user;
-  const { logout, toggleSettingsIsOpen } = useAuth();
 
   console.log("user", user);
 

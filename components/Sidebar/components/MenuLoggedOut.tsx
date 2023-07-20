@@ -22,7 +22,9 @@ const HorizontalDivider = styled(Divider)`
 `;
 
 export default function MenuLoggedOut() {
-  const { isLoginOpen, toggleLoginIsOpen } = useAuth();
+  const { state, toggleLoginIsOpen } = useAuth();
+  const { isLoginOpen } = state;
+
   if (isLoginOpen) {
     return (
       <Container>

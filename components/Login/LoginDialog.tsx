@@ -52,98 +52,11 @@ const FullLogo = styled.img`
 `;
 
 export default function LoginDialog() {
-  const {
-    isLoginOpen,
-    toggleLoginIsOpen,
-    createAccountEasyCovers,
-    email,
-    password,
-    newPasswordRepeat,
-  } = useAuth();
-  const [isMounted, setIsMounted] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    setIsMounted(true);
-    return () => setIsMounted(false);
-  }, []);
+  const { state, toggleLoginIsOpen, login, createAccount } = useAuth();
+  const { isLoginOpen, createAccountEasyCovers } = state;
 
   const handleClose = () => {
     toggleLoginIsOpen(false);
-  };
-
-  const createAccount = async () => {
-    const url = "https://localhost:8000/users/auth/register/";
-
-    const form = new FormData();
-    form.append("email", email);
-    form.append("password1", password);
-    form.append("password2", newPasswordRepeat);
-
-    try {
-      const response = await axios.post(url, form, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookies.get("csrftoken"),
-        },
-      });
-      if (response.status === 200 || response.status === 201) {
-        console.log(response.data);
-        await login();
-        // router.push("/generation-mode");
-      }
-    } catch (error) {
-      console.log("Error creating account");
-      console.log(error);
-    }
-  };
-
-  const login = async () => {
-    const url = "https://localhost:8000/users/auth/login/";
-
-    const form = new FormData();
-    form.append("email", email);
-    form.append("password", password);
-
-    try {
-      const response = await axios.post(url, form, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookies.get("csrftoken"),
-        },
-      });
-      if (response.status === 200 || response.status === 201) {
-        console.log(response.data);
-        console.log("cookies");
-        console.log(Cookies.get());
-        router.push("/generation-mode");
-      }
-    } catch (error) {
-      console.log("Error logging in");
-      console.log(error);
-    }
-  };
-
-  const signInGoogle = async () => {
-    console.log("FUNCTION IS GETTING CALLED");
-
-    const endpoint = "https://127.0.0.1:8000/accounts/login/";
-
-    try {
-      const response = await axios.get(endpoint, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": Cookies.get("csrftoken"),
-        },
-      });
-      if (response.status === 200 || response.status === 201) {
-        console.log(response.data);
-
-        router.push("/");
-      }
-    } catch (error) {}
   };
 
   return (
@@ -179,7 +92,7 @@ export default function LoginDialog() {
           <Divider>Or create account with</Divider>
         </DividerContainer>
 
-        <CreateAccountOptions signInGoogle={signInGoogle} />
+        <CreateAccountOptions />
       </CreateAccountContainer>
     </Dialog>
   );

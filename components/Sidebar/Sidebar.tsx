@@ -18,7 +18,9 @@ type UserInfo = {
 };
 
 export default function Sidebar() {
-  const { user } = useAuth();
+  const {
+    state: { user },
+  } = useAuth();
 
   console.log("user");
   console.log(user);

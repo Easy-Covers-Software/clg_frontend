@@ -35,15 +35,11 @@ const EasyCoversSignInIcon = styled.img`
   width: 130px;
 `;
 
-interface Props {
-  signInGoogle: () => void;
-}
-
-export default function CreateAccountOptions(props: Props) {
-  const { signInGoogle, setCreateAccountEasyCovers } = useAuth();
+export default function CreateAccountOptions() {
+  const { signInGoogle, dispatch } = useAuth();
 
   const handleCreateAccountEasyCovers = () => {
-    setCreateAccountEasyCovers(true);
+    dispatch({ type: "SET_CREATE_ACCOUNT_EASY_COVERS", payload: true });
   };
 
   return (
