@@ -8,6 +8,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
+import { useAuth } from "@/context/AuthContext";
+
 import styled from "@emotion/styled";
 
 const Container = styled(Box)`
@@ -31,21 +33,38 @@ const InputField = styled(TextField)`
 `;
 
 export default function LoginInputs() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [showPassword, setShowPassword] = React.useState(false);
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    showPassword,
+    setShowPassword,
+    newPasswordRepeat,
+    setNewPasswordRepeat,
+    clearInput,
+    handleClickShowPassword,
+    createAccountEasyCovers,
+    handleClickShowPasswordRepeat,
+    showPasswordRepeat,
+  } = useAuth();
 
-  const clearInput = () => {
-    setEmail("");
-  };
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  // const [email, setEmail] = React.useState("");
+  // const [password, setPassword] = React.useState("");
+  // const [showPassword, setShowPassword] = React.useState(false);
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
+  const handleMouseDownPasswordRepeat = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
+  console.log("email", email);
 
   return (
     <Container component="form">
@@ -101,6 +120,35 @@ export default function LoginInputs() {
           }}
         />
       </FormInput>
+
+      {createAccountEasyCovers && (
+        <FormInput variant="outlined">
+          <InputField
+            id="password-input-repeat"
+            variant="outlined"
+            placeholder="Re-enter Password"
+            value={newPasswordRepeat}
+            type={showPasswordRepeat ? "text" : "password"}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setNewPasswordRepeat(event.target.value);
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPasswordRepeat}
+                    onMouseDown={handleMouseDownPasswordRepeat}
+                    edge="end"
+                  >
+                    {showPasswordRepeat ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </FormInput>
+      )}
     </Container>
   );
 }

@@ -40,7 +40,11 @@ interface Props {
 }
 
 export default function CreateAccountOptions(props: Props) {
-  const { signInGoogle } = useAuth();
+  const { signInGoogle, setCreateAccountEasyCovers } = useAuth();
+
+  const handleCreateAccountEasyCovers = () => {
+    setCreateAccountEasyCovers(true);
+  };
 
   return (
     <Container>
@@ -48,7 +52,7 @@ export default function CreateAccountOptions(props: Props) {
         <GoogleSignInIcon src="/GoogleIcon.svg" alt="google icon" />
       </IconContainer>
 
-      <IconContainer>
+      <IconContainer onClick={handleCreateAccountEasyCovers}>
         <EasyCoversSignInIcon src="/easy-covers-full.svg" alt="google icon" />
       </IconContainer>
     </Container>

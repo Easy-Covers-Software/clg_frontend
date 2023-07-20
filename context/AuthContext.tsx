@@ -70,11 +70,26 @@ interface AuthProviderProps {
 export const AuthProvider = ({
   children,
 }: AuthProviderProps): React.ReactNode => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [newPasswordRepeat, setNewPasswordRepeat] = useState("");
+  const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
+
+  const clearInput = () => {
+    setEmail("");
+  };
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPasswordRepeat = () =>
+    setShowPasswordRepeat((show) => !show);
+
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | any>(null);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [createAccountEasyCovers, setCreateAccountEasyCovers] = useState(false);
 
   const setNotAuthenticated = (): void => {
     setIsAuthenticated(false);
@@ -160,11 +175,25 @@ export const AuthProvider = ({
     loading,
     isLoginOpen,
     isSettingsOpen,
+    createAccountEasyCovers,
+    email,
+    newPasswordRepeat,
+    password,
+    showPassword,
+    showPasswordRepeat,
+    setEmail,
+    setPassword,
+    setShowPassword,
+    setNewPasswordRepeat,
+    clearInput,
+    handleClickShowPassword,
     toggleLoginIsOpen,
     toggleSettingsIsOpen,
     fetchUser,
     signInGoogle,
     logout,
+    setCreateAccountEasyCovers,
+    handleClickShowPasswordRepeat,
   };
 
   return (
