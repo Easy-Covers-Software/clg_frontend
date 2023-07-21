@@ -53,9 +53,7 @@ export default function CustomReQuery() {
 
   const handleBlur = () => {
     if (customAdjustment === "") {
-      setPlaceholder(
-        "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
-      );
+      setPlaceholder("Anything you want to change about the cover letter...");
     }
   };
 

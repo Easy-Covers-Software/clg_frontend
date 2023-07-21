@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+// Global component import
 import { UnSelectedButton } from "../Global";
 
 // Material UI related imports
-import { styled } from "@mui/material/styles";
+import { styled as muiStyled } from "@mui/material/styles";
+import styled from "@emotion/styled";
+
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
@@ -13,12 +15,16 @@ import Typography from "@mui/material/Typography";
 import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
 import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import JobPostingInput from "./components/JobPostingInput/JobPostingInput";
+import PersonalDetails from "./components/PersonalDetails/PersonalDetails";
 
 // Accordion styles
-const Accordion = styled((props: AccordionProps & { currPanel?: string }) => {
-  const { currPanel, ...otherProps } = props;
-  return <MuiAccordion disableGutters elevation={0} square {...otherProps} />;
-})(({ currPanel }) => ({
+const Accordion = muiStyled(
+  (props: AccordionProps & { currPanel?: string }) => {
+    const { currPanel, ...otherProps } = props;
+    return <MuiAccordion disableGutters elevation={0} square {...otherProps} />;
+  }
+)(({ currPanel }) => ({
   backgroundColor: "#f8f8ff",
   border: "1px solid #006D4B",
   borderBottom: currPanel === "panel3" ? "1px solid #006D4B" : "none",
@@ -31,7 +37,7 @@ const Accordion = styled((props: AccordionProps & { currPanel?: string }) => {
 }));
 
 // AccordionSummary styles
-const AccordionSummary = styled(
+const AccordionSummary = muiStyled(
   (
     props: AccordionSummaryProps & {
       isExpanded?: boolean;
@@ -61,7 +67,7 @@ const AccordionSummary = styled(
 }));
 
 // AccordionDetails styles
-const AccordionDetails = styled(MuiAccordionDetails)(() => ({
+const AccordionDetails = muiStyled(MuiAccordionDetails)(() => ({
   padding: "0.2%",
   borderTop: "1px solid rgba(0, 0, 0, .125)",
   height: "calc(100vh - 320px)",
@@ -106,6 +112,7 @@ const CheckboxIconInComplete = styled(CheckCircleOutlineIcon)`
   color: #e9e9e9;
   opacity: 50%;
 `;
+
 const CheckboxIconComplete = styled(CheckCircleOutlineIcon)`
   color: limegreen;
   opacity: 1;

@@ -1,22 +1,9 @@
 import React, { useState } from "react";
-import styled from "@emotion/styled";
 import Typography from "@mui/material/Typography";
 
-const AdditionalDetailsFreeTextField = styled.textarea`
-  width: 100%;
-  height: 100%;
-  resize: none;
-  box-sizing: border-box;
-  background-color: white;
-  padding: 2%;
-  min-width: 100%;
-  max-width: 100%;
-  border-top: 1px solid #006d4b;
-  border-radius: 4px;
-  ::placeholder {
-    color: #e2e2e2; // Change this to the color you want
-  }
-`;
+import { AdditionalDetailsFreeTextStyledComponents } from "../AdditionalDetails.styles";
+const { AdditionalDetailsFreeTextField } =
+  AdditionalDetailsFreeTextStyledComponents;
 
 export default function AdditionalDetailsFreeText() {
   const [value, setValue] = useState("");

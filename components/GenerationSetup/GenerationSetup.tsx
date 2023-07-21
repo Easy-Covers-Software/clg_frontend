@@ -16,13 +16,9 @@ import {
 } from "./GenerationSetup.styles";
 
 // Custom Component Imports
-import JobPostingInput from "./components/JobPostingInput";
+import JobPostingInput from "./components/JobPostingInput/JobPostingInput";
 import PersonalDetails from "./components/PersonalDetails/PersonalDetails";
 import AdditionalDetails from "./components/AdditionalDetails/AdditionalDetails";
-
-// Material UI related imports
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import Typography from "@mui/material/Typography";
 
 // Context Imports
 import { useGenerationSetupContext } from "@/context/GenerationSetupContext";

@@ -2,22 +2,12 @@ import React from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 import AdditionalDetailsFreeText from "./components/AdditionalDetailsFreeText";
-import styled from "@emotion/styled";
 
 import SimpleInput from "./components/SimpleInput";
 
 import Typography from "@mui/material/Typography";
 
-const Container = styled(Grid)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  // align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 2% 1% 1% 1%;
-  gap: 3%;
-`;
+import { Container } from "./AdditionalDetails.styles";
 
 export default function AdditionalDetails() {
   return (
@@ -35,7 +25,6 @@ export default function AdditionalDetails() {
 
       <SimpleInput id={"simpleInput3"} />
 
-      {/* <SimpleInput id={"simpleInput4"} /> */}
       <AdditionalDetailsFreeText />
     </Container>
   );

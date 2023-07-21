@@ -3,38 +3,9 @@ import styled from "@emotion/styled";
 import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
-const Container = styled(Grid)`
-  height: 100%;
-  width: 100%;
-  border: 2px dashed #888;
-  display: flex;
-  background-color: white;
-  border-radius: 4px;
-`;
-
-const FileUploadInput = styled.input`
-  display: none;
-`;
-
-const Dropzone = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  cursor: pointer;
-  :hover {
-    background-color: #f5f5f5;
-  }
-`;
-
-const Label = styled.label`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  white-space: nowrap;
-`;
+import { UploadOptionStyledComponents } from "../PersonalDetails.styles";
+const { Container, FileUploadInput, Dropzone, Label } =
+  UploadOptionStyledComponents;
 
 export default function UploadOption({ label, accept }) {
   const id = label.replace(/\s+/g, "-").toLowerCase();

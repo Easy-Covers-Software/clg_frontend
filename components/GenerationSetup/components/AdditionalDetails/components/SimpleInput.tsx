@@ -1,51 +1,13 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
+import React from "react";
 import IconButton from "@mui/material/IconButton";
-import FilledInput from "@mui/material/FilledInput";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import Typography from "@mui/material/Typography";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Tooltip from "@mui/material/Tooltip";
-
-import Button from "@mui/material/Button";
-
-import styled from "@emotion/styled";
-
 import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 
-const Container = styled(Grid)`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 98%;
-`;
-
-const FormInput = styled(FormControl)`
-  width: 100%;
-  padding-right: 0;
-`;
-
-const InputField = styled(TextField)`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  border-radius: 4px;
-  background-color: #fff;
-  // background-color: white;
-`;
-
-const QuestionContainer = styled(Grid)`
-  display: flex;
-  justify-content: space-between;
-  margin: 0 5px;
-`;
+import { SimpleInputStyledComponents } from "../AdditionalDetails.styles";
+const { Container, InputField } = SimpleInputStyledComponents;
 
 interface SimpleInputProps {
   id: string;

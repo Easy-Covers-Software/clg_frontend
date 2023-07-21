@@ -33,7 +33,7 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: '"El Messiri", sans-serif',
-    fontColor: "#006D4B",
+    color: "#006D4B",
     h1: {
       fontSize: "1.4rem", // largest font size
     },

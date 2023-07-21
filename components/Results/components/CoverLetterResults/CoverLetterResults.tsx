@@ -29,9 +29,8 @@ const Container = styled(Grid)`
   height: calc(100vh - 196px);
   min-height: calc(100vh - 196px);
   max-height: calc(100vh - 196px);
-  margin: 0% 0.8%;
+  margin: 0% 1%;
   background-color: white;
-  padding: 0.5% 0.8%;
   background-color: #f8f8ff;
   // background-color: white;
   border-top: none;
@@ -49,6 +48,9 @@ const SubContainer = styled(Grid)`
   min-height: calc(100vh - 264px);
   max-height: calc(100vh - 264px);
   display: flex;
+  // justify-content: center;
+  margin: 0 auto;
+  width: 100%;
 `;
 
 const ContentWrapper = styled(Grid)`
@@ -141,7 +143,7 @@ export default function CoverLetterResults() {
             height: "100%",
             borderRadius: "4px",
             backgroundColor: "white",
-            width: "100%",
+            width: "99.8%",
           }}
         >
           <RichTextEditor.Toolbar

@@ -3,18 +3,7 @@ import styled from "@emotion/styled";
 
 import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 
-const JobPostingTextInputField = styled.textarea`
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  background-color: white;
-  padding: 2%;
-  border: none;
-  resize: none;
-  ::placeholder {
-    color: #e2e2e2; // Change this to the color you want
-  }
-`;
+import { JobPostingTextInputField } from "./JobPostingInput.styles";
 
 export default function JobPostingInput() {
   const { state, dispatch } = useGenerationSetupContext();
