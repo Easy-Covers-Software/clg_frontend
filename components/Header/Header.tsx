@@ -10,8 +10,8 @@ const Logo = styled.img`
 
 export default function Header() {
   return (
-    <Grid className="header">
+    <>
       <Logo src="/easy-covers-logo.svg" alt="Description of Image" />
-    </Grid>
+    </>
   );
 }
