@@ -26,7 +26,7 @@ const GenerationModeTab = styled(UnSelectedButton)`
     ${({ selected }) =>
       selected
         ? "none"
-        : "background-color: #f5faf5;"}// background-color: #e0e0e0;;;;;;;;;;;;;;;;;;;;;;
+        : "background-color: #f5faf5;"}// background-color: #e0e0e0;;;;;;;;;;;;;;;;;;;;;;;
   }
   &:active {
     border-bottom: 2px solid #87dbd0;
@@ -43,7 +43,6 @@ namespace SignedInDisplayStyledComponents {
   export const Container = styled(Grid)`
     display: flex;
     flex-direction: column;
-    // align-items: center;
     width: 100%;
     gap: 12px;
   `;
