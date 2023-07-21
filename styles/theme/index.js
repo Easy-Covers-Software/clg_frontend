@@ -73,6 +73,11 @@ const theme = createTheme({
     overline: {
       fontSize: "0.5rem",
     },
+    profileEmail: {
+      fontSize: "1.25rem",
+      letterSpacing: "0.05rem",
+      textAlign: "center",
+    },
     spacing: [0, 4, 8, 16, 32, 64, 128, 256, 512],
     transitions: {
       duration: {

@@ -12,7 +12,6 @@ import { useAuth } from "@/context/AuthContext";
 import { SignedInDisplayStyledComponents } from "../MenuLoggedIn.styles";
 const {
   Container,
-  UserProfileInfo,
   HorizontalDivider,
   CoverLetterStatsContainer,
   StatContainer,
@@ -34,16 +33,14 @@ export default function SignedInDisplay() {
 
   return (
     <Container>
-      <UserProfileInfo>
-        <CoverLetterStatsContainer>
-          <Stat statName="Generations Available" statValue={3} />
-          <Stat statName="Adjustments Available" statValue={2} />
-        </CoverLetterStatsContainer>
+      <CoverLetterStatsContainer>
+        <Stat statName="Generations Available" statValue={3} />
+        <Stat statName="Adjustments Available" statValue={2} />
+      </CoverLetterStatsContainer>
 
-        <Typography variant="h2" textAlign={"center"}>
-          {email}
-        </Typography>
-      </UserProfileInfo>
+      <Typography variant="profileEmail" m={"1% 3%"}>
+        {email}
+      </Typography>
 
       <HorizontalDivider />
 
