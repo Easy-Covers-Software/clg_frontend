@@ -83,7 +83,13 @@ export default function SimpleInput(props: SimpleInputProps) {
       <InputField
         id="email-input"
         variant="outlined"
-        placeholder="2021-present"
+        placeholder={
+          id === "simpleInput1"
+            ? "Years of relevant experience..."
+            : id === "simpleInput2"
+            ? "Relevant Awards / Skills / Certifications..."
+            : "Relevant Projects / Publications..."
+        }
         size="small"
         value={inputValue}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {

@@ -8,11 +8,11 @@ import { AuthProvider } from "@/context/AuthContext";
 import theme from "../styles/theme/index.js";
 import "styles/globals.css";
 
-// type Props = {
-//   children: ReactNode;
-// };
+type Props = {
+  children: ReactNode;
+};
 
-const Provider = ({ children }) => {
+const Provider: FC<Props> = ({ children }) => {
   return (
     <AuthProvider>
       <ThemeProvider theme={theme}>

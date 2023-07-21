@@ -30,6 +30,7 @@ const initialState = {
   isLoginOpen: false,
   isSettingsOpen: false,
   createAccountEasyCovers: false,
+  page: "generation-mode",
 };
 
 function reducer(state, action) {
@@ -56,6 +57,8 @@ function reducer(state, action) {
       return { ...state, isSettingsOpen: action.payload };
     case "SET_CREATE_ACCOUNT_EASY_COVERS":
       return { ...state, createAccountEasyCovers: action.payload };
+    case "SET_PAGE":
+      return { ...state, page: action.payload };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }

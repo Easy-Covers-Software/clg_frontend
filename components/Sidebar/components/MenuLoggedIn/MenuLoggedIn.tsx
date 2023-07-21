@@ -7,20 +7,9 @@ import Divider from "@mui/material/Divider";
 import styled from "@emotion/styled";
 import SignedInDisplay from "./components/SignedInDisplay";
 
-// const Container = styled(Grid)(
-//   ({ theme }) => `
-//   display: flex;
-//   flex-direction: column;
-//   align-items: space-between;
-//   justify-content: space-between;
-//   width: 100%;
-//   height: 100%;
-//   gap: 24px;
-//   margin-top: -24%;
-//   // margin-bottom: ${(props) => props.theme.spacing(3)}px; // in pixels
-//   color: ${(props) => props.theme.palette.primary.main};
-// `
-// );
+import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
+
 const Container = styled(Grid)`
   display: flex;
   flex-direction: column;
@@ -30,30 +19,54 @@ const Container = styled(Grid)`
   height: 100%;
   gap: 24px;
   margin-top: -24%;
-  padding-bottom: ${(props) => props.theme.spacing(20)}%; // in pixels
   color: ${(props) => props.theme.palette.primary.border_dark};
 `;
 
-const HorizontalDivider = styled(Divider)`
-  margin: 5%;
+const GenerationModeTab = styled(UnSelectedButton)`
+  ${(props) => (props.selected ? "background-color: #f5faf5;" : "white")}
+  ${(props) =>
+    props.selected
+      ? "none"
+      : "box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;"}
+  // border-bottom: 2px solid #E6EAE6;
+  &:hover {
+    ${(props) =>
+      props.selected
+        ? "none"
+        : "background-color: #f5faf5;"}// background-color: #e0e0e0;
+    // border-bottom: 2px solid #00bfa6;;;
+  }
+  &:active {
+    border-bottom: 2px solid #87dbd0;
+  }
 `;
 
-type UserInfo = {
-  user: {
-    id: string;
-    username: string;
-    email: string;
-  };
-};
+const Tabs = styled(Grid)`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
 
-interface MenuLoggedInProps {
-  user: UserInfo;
-}
+export default function MenuLoggedIn() {
+  const {
+    state: { page },
+  } = useAuth();
 
-export default function MenuLoggedIn(props: MenuLoggedInProps) {
   return (
     <Container>
-      <PrimaryButton>Generate</PrimaryButton>
+      <Tabs>
+        <Link href={"/generation-mode"} className={"no_underline"} passHref>
+          <GenerationModeTab selected={page === "generation-mode"}>
+            Generate Mode
+          </GenerationModeTab>
+        </Link>
+
+        <Link href={"/saved"} className={"no_underline"} passHref>
+          <GenerationModeTab selected={page === "saved"}>
+            Saved
+          </GenerationModeTab>
+        </Link>
+      </Tabs>
 
       <Grid>
         <SignedInDisplay />

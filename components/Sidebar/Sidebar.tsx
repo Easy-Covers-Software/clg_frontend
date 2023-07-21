@@ -9,21 +9,10 @@ const Logo = styled.img`
   margin-top: -55%;
 `;
 
-type UserInfo = {
-  user: {
-    id: string;
-    username: string;
-    email: string;
-  };
-};
-
 export default function Sidebar() {
   const {
     state: { user },
   } = useAuth();
-
-  console.log("user");
-  console.log(user);
 
   return (
     <>
@@ -32,7 +21,7 @@ export default function Sidebar() {
         alt="Description of Image"
         width={"100%"}
       />
-      {user ? <MenuLoggedIn user={user && user} /> : <MenuLoggedOut />}
+      {user ? <MenuLoggedIn /> : <MenuLoggedOut />}
     </>
   );
 }

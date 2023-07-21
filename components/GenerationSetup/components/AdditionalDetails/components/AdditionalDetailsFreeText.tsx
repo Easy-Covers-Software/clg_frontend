@@ -35,7 +35,7 @@ export default function AdditionalDetailsFreeText() {
   const handleBlur = () => {
     if (value === "") {
       setPlaceholder(
-        "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
+        "Add any information that is not in your resume that you think is relevant to your application"
       );
     }
   };

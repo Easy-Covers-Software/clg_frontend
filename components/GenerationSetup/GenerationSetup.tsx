@@ -17,7 +17,7 @@ import PersonalDetails from "./components/PersonalDetails/PersonalDetails";
 import AdditionalDetails from "./components/AdditionalDetails/AdditionalDetails";
 import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
 import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
-import { PrimaryButton } from "../Global";
+import { PrimaryButton, UnSelectedButton } from "../Global";
 
 import { uploadJobPosting, uploadResume } from "./api/generationSetupEndpoints";
 
@@ -96,7 +96,7 @@ const Container = styled(Grid)`
   height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 `;
 
@@ -112,10 +112,17 @@ const ButtonContainer = styled(Grid)`
   marting-top: 20%;
 `;
 
-const GenerateButton = styled(PrimaryButton)`
+const GenerateButton = styled(UnSelectedButton)`
   width: 55%;
-  // margin: 2% 0;
-  margin: auto;
+  background-color: #bacbba;
+  color: white;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+
+  &:hover {
+    background-color: #a5b4a5;
+    color: white;
+  }
 `;
 
 export default function GenerationSetup() {
