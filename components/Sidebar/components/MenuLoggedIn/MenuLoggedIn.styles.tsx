@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { PrimaryButton, UnSelectedButton } from "@/components/Global";
-import { Grid } from "@mui/material";
+import { Divider } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 const Container = styled(Grid)`
   display: flex;
@@ -26,7 +27,7 @@ const GenerationModeTab = styled(UnSelectedButton)`
       selected
         ? "none"
         : "background-color: #f5faf5;"}// background-color: #e0e0e0;
-    // border-bottom: 2px solid #00bfa6;;;;;;;;
+    // border-bottom: 2px solid #00bfa6;;;;;;;;;;;;;;;;;;
   }
   &:active {
     border-bottom: 2px solid #87dbd0;
@@ -48,13 +49,15 @@ namespace SignedInDisplayStyledComponents {
   `;
 
   export const UserProfileInfo = styled(Grid)`
+    width: 100%
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 2% 0 0;
+    // padding: 0 2% 0 0;
+
   `;
 
-  export const HorizontalDivider = styled(Grid)`
+  export const HorizontalDivider = styled(Divider)`
     margin: 1% 3%;
   `;
 

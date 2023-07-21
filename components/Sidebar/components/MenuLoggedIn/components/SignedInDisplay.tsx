@@ -39,7 +39,10 @@ export default function SignedInDisplay() {
           <Stat statName="Generations Available" statValue={3} />
           <Stat statName="Adjustments Available" statValue={2} />
         </CoverLetterStatsContainer>
-        <Typography variant="h2">{email}</Typography>
+
+        <Typography variant="h2" textAlign={"center"}>
+          {email}
+        </Typography>
       </UserProfileInfo>
 
       <HorizontalDivider />

@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 import Divider from "@mui/material/Divider";
 import { UnSelectedButton } from "@/components/Global";

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { UnSelectedButton } from "@/components/Global";
 import { FormControl, TextField } from "@mui/material";
 

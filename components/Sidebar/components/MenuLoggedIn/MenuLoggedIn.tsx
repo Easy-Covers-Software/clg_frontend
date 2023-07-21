@@ -1,6 +1,6 @@
 import React from "react";
 import { PrimaryButton, UnSelectedButton } from "@/components/Global";
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 import SignedInDisplay from "./components/SignedInDisplay";
 

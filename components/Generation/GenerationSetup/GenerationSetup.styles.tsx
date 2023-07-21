@@ -1,5 +1,5 @@
 // Global component import
-import { UnSelectedButton } from "../Global";
+import { UnSelectedButton } from "../../Global";
 
 // Material UI related imports
 import { styled as muiStyled } from "@mui/material/styles";
