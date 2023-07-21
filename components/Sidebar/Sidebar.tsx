@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import MenuLoggedOut from "./components/MenuLoggedOut";
+import MenuLoggedOut from "./components/MenuLoggedOut/MenuLoggedOut";
 import MenuLoggedIn from "./components/MenuLoggedIn/MenuLoggedIn";
 import { useAuth } from "@/context/AuthContext";
 

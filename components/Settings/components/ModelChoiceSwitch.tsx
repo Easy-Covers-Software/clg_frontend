@@ -5,28 +5,8 @@ import { Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 
-const Container = styled(Grid)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1%;
-`;
-
-const GreenSwitch = styled(Switch)(({ theme }) => ({
-  "& .MuiSwitch-switchBase": {
-    color: "#13d0b7",
-  },
-  "& .MuiSwitch-switchBase.Mui-checked": {
-    color: "white",
-  },
-  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-    backgroundColor: "#13d0b7",
-  },
-  "& .MuiSwitch-switchBase + .MuiSwitch-track": {
-    backgroundColor: "#13d0b7",
-    // opacity: 0.5, // You can control the color opacity when switch is not checked
-  },
-}));
+import { ModelChoiceSwitchStyledComponents } from "../SettingsDialog.styles";
+const { Container, GreenSwitch } = ModelChoiceSwitchStyledComponents;
 
 export default function ControlledSwitches() {
   const [checked, setChecked] = React.useState(true);

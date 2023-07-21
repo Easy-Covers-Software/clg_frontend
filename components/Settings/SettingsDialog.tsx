@@ -2,53 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 
-import styled from "@emotion/styled";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import Divider from "@mui/material/Divider";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
-
-import { PrimaryButton, UnSelectedButton } from "../Global";
-
 import UpgradeAccountOption from "./components/UpgradeAccountOption";
 import { useAuth } from "@/context/AuthContext";
-import { Typography } from "@mui/material";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
-const DialogContentContainer = styled(DialogContent)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: -8%;
-  gap: 24px;
-  // width: 100%;
-`;
-
-const CreateAccountContainer = styled(Grid)`
-  padding: 5%;
-`;
-
-const DividerContainer = styled(Grid)`
-  width: 90%;
-  margin: 0 auto;
-  margin-bottom: 5%;
-`;
-
-const SignInButton = styled(PrimaryButton)`
-  width: 68%;
-  margin: 0 auto;
-  padding: 10px 0;
-`;
-
-const FullLogo = styled.img`
-  height: 180px;
-  width: 50%;
-  margin: 0 auto;
-  margin-top: -3%;
-`;
+import { DialogContentContainer, FullLogo } from "./SettingsDialog.styles";
 
 let packages = [
   {

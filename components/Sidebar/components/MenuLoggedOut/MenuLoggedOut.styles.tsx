@@ -1,12 +1,7 @@
-import React from "react";
 import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
-import { useAuth } from "@/context/AuthContext";
-
 import Divider from "@mui/material/Divider";
-import { PrimaryButton, UnSelectedButton } from "@/components/Global";
-
-import Link from "next/link";
+import { UnSelectedButton } from "@/components/Global";
 
 const Container = styled(Grid)`
   display: flex;
@@ -35,19 +30,4 @@ const GenerationModeTab = styled(UnSelectedButton)`
   }
 `;
 
-export default function MenuLoggedOut() {
-  const { state, toggleLoginIsOpen } = useAuth();
-  const { isLoginOpen } = state;
-
-  return (
-    <Container>
-      <Link href={"/generation-mode"} className={"no_underline"}>
-        <GenerationModeTab>Generate Mode</GenerationModeTab>
-      </Link>
-
-      <UnSelectedButton onClick={() => toggleLoginIsOpen()}>
-        Sign In
-      </UnSelectedButton>
-    </Container>
-  );
-}
+export { Container, HorizontalDivider, GenerationModeTab };

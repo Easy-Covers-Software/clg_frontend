@@ -1,55 +1,22 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-import styled from "@emotion/styled";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
 import Divider from "@mui/material/Divider";
 
-import { PrimaryButton } from "../Global";
 import LoginInputs from "./components/LoginInputs";
 import CreateAccountOptions from "./components/CreateAccountOptions";
-import axios from "axios";
-
-import { useRouter } from "next/navigation";
-
-import Cookies from "js-cookie";
 
 import { useAuth } from "@/context/AuthContext";
 
-const DialogContentContainer = styled(DialogContent)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: -12%;
-  gap: 24px;
-`;
-
-const CreateAccountContainer = styled(Grid)`
-  padding: 5%;
-`;
-
-const DividerContainer = styled(Grid)`
-  width: 90%;
-  margin: 0 auto;
-  margin-bottom: 5%;
-`;
-
-const SignInButton = styled(PrimaryButton)`
-  width: 68%;
-  margin: 0 auto;
-  padding: 10px 0;
-`;
-
-const FullLogo = styled.img`
-  height: 180px;
-  width: 50%;
-  margin: 0 auto;
-  margin-top: -6%;
-`;
+import {
+  DialogContentContainer,
+  CreateAccountContainer,
+  DividerContainer,
+  SignInButton,
+  FullLogo,
+} from "./LoginDialog.styles";
 
 export default function LoginDialog() {
   const { state, toggleLoginIsOpen, login, createAccount } = useAuth();
@@ -83,8 +50,6 @@ export default function LoginDialog() {
         ) : (
           <SignInButton onClick={() => login()}>Sign In</SignInButton>
         )}
-
-        {/* <SignInButton onClick={handleClose}>Sign In</SignInButton> */}
       </DialogContentContainer>
 
       <CreateAccountContainer>

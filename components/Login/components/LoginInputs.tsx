@@ -1,36 +1,14 @@
 import React, { useState } from "react";
-import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 import { useAuth } from "@/context/AuthContext";
 
-import styled from "@emotion/styled";
-
-const Container = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-`;
-
-const FormInput = styled(FormControl)`
-  width: 95%;
-  padding-right: 0;
-`;
-
-const InputField = styled(TextField)`
-  border-radius: 4px;
-  border: 1px solid #006d4b;
-  // background-color: var(--theme-main, #f5f5f5);
-  background-color: #fff;
-`;
+import { LoginInputsStyledComponents } from "../LoginDialog.styles";
+const { Container, FormInput, InputField } = LoginInputsStyledComponents;
 
 export default function LoginInputs() {
   const {
