@@ -27,7 +27,7 @@ const GenerationModeTab = styled(UnSelectedButton)`
       selected
         ? "none"
         : "background-color: #f5faf5;"}// background-color: #e0e0e0;
-    // border-bottom: 2px solid #00bfa6;;;;;;;;;;;;;;;;;;
+    // border-bottom: 2px solid #00bfa6;;
   }
   &:active {
     border-bottom: 2px solid #87dbd0;
