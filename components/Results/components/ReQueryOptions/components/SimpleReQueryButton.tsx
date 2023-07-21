@@ -11,29 +11,8 @@ import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOut
 
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
-const Container = styled(Grid)`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-
-  width: 16%;
-  height: 68%;
-  margin: auto;
-  // margin-bottom: 1%;
-`;
-const ButtonContainer = styled(Grid)`
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 100%;
-  border: 1px solid #006d4b;
-  border-radius: 4px;
-  background-color: #fff;
-  height: 66%;
-  margin: auto;
-  margin-bottom: 2%;
-`;
+import { SimpleReQueryButtonStyledComponents } from "../ReQueryOptions.styles";
+const { Container, ButtonContainer } = SimpleReQueryButtonStyledComponents;
 
 export default function SimpleReQueryButton({ buttonLabel }) {
   const { makeSimpleAdjustment } = useCoverLetterResultsContext();

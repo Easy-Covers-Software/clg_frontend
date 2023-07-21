@@ -9,29 +9,9 @@ import CustomReQuery from "./CustomReQuery";
 import { UnSelectedButton } from "@/components/Global";
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
-const Container = styled(Grid)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  // margin-top: 2%;
-  width: 50%;
-`;
-
-const MediumOptionsContainer = styled(Grid)`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const SubmitButton = styled(UnSelectedButton)`
-  padding: 0 0:
-  width: 60%;
-  height: 4.3vh;
-  margin-top: 1%;
-  font-size: 0.8rem;
-  border: 1px solid #006d4b;
-`;
+import { MoreOptionsReQuerysStyledComponents } from "../ReQueryOptions.styles";
+const { Container, MediumOptionsContainer, SubmitButton } =
+  MoreOptionsReQuerysStyledComponents;
 
 export default function MoreOptionsReQueries() {
   const { makeIntermediateAdjustment } = useCoverLetterResultsContext();

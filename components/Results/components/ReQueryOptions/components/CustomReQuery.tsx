@@ -6,32 +6,8 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { UnSelectedButton } from "@/components/Global";
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
-const SubmitButton = styled(UnSelectedButton)`
-  padding: 0 0:
-  width: 3vw;
-  height: 4.3vh;
-  margin-bottom: 2%;
-  margin-top: -2%;
-
-  font-size: 0.8rem;
-  border: 1px solid #006d4b;
-`;
-
-const CustomReQueryField = styled.textarea`
-  width: 100%;
-  height: 100%;
-  resize: none;
-  box-sizing: border-box;
-  background-color: #fff;
-  padding: 2%;
-  min-width: 100%;
-  max-width: 100%;
-  border-top: 1px solid #006d4b;
-  border-radius: 4px;
-  ::placeholder {
-    color: #e2e2e2; // Change this to the color you want
-  }
-`;
+import { CustomReQueryStyledComponents } from "../ReQueryOptions.styles";
+const { CustomReQueryField, SubmitButton } = CustomReQueryStyledComponents;
 
 export default function CustomReQuery() {
   const { state, dispatch } = useCoverLetterResultsContext();

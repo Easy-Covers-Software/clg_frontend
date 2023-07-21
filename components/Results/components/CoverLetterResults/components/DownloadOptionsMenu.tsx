@@ -15,17 +15,8 @@ import { Tooltip } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 
-const Container = styled(Grid)`
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0 55%;
-  border: 1px solid #006d4b;
-  background-color: #f5f5f5;
-  border-radius: 4px;
-  width: 100%;
-  margin: 0;
-`;
+import { DownloadOptionsMenuStyledComponents } from "../CoverLetterResults.styles";
+const { Container } = DownloadOptionsMenuStyledComponents;
 
 export default function DownloadOptionsMenu() {
   const [downloadMenuAnchor, setDownloadMenuAnchor] =

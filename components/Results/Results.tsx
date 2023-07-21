@@ -5,7 +5,7 @@ import React, { createContext, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 
-import ResultsSummary from "./components/ResultsSummary";
+import ResultsSummary from "./components/ResultsSummary/ResultsSummary";
 import CoverLetterResults from "./components/CoverLetterResults/CoverLetterResults";
 import ReQueryOptions from "./components/ReQueryOptions/ReQueryOptions";
 
@@ -19,7 +19,6 @@ const Container = styled(Grid)`
   max-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
-  // justify-content: space-between;
   align-items: space-between;
   margin-left: 0.3%;
   gap: 1%;

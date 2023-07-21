@@ -59,11 +59,8 @@ namespace UpgradeAccountOptionStyledComponents {
   export const PackageNameContainer = styled(Grid)`
     display: flex;
     flex-direction: column;
-    // justify-content: space-around;
     gap: 16px;
-
     padding: 0 1%;
-    // align-items: center;
     margin-left: 5%;
     margin-top: 3%;
     width: 40%;
@@ -116,7 +113,6 @@ namespace UpgradeAccountOptionStyledComponents {
 
   export const PricingButtonContainer = styled(Grid)`
     display: flex;
-    // align-items: center;
     gap: 5%;
   `;
 }

@@ -13,32 +13,9 @@ import styled from "@emotion/styled";
 
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
-const Container = styled(Grid)`
-  display: flex;
-  align-items: center;
-  width: 14vw;
-  gap: 16px;
-`;
-
-const FormInput = styled(FormControl)`
-  width: 100%;
-  padding-right: 0;
-`;
-
-const InputField = styled(TextField)`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  border-radius: 4px;
-  background-color: #fff;
-  // background-color: #f8f8ff;
-`;
-
-const QuestionContainer = styled(Grid)`
-  display: flex;
-  justify-content: space-between;
-  margin: 0 5px;
-`;
+import { MediumReQueryInputStyledComponents } from "../ReQueryOptions.styles";
+const { Container, FormInput, QuestionContainer, InputField } =
+  MediumReQueryInputStyledComponents;
 
 export default function MediumReQueryInput({ label }) {
   const { state, dispatch } = useCoverLetterResultsContext();
