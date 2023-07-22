@@ -12,13 +12,16 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import { Tooltip } from "@mui/material";
 
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import styled from "@emotion/styled";
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useAuth } from "@/context/AuthContext";
 
 import { DownloadOptionsMenuStyledComponents } from "../CoverLetterResults.styles";
 const { Container } = DownloadOptionsMenuStyledComponents;
 
 export default function DownloadOptionsMenu() {
+  const { saveCoverLetterResults } = useCoverLetterResultsContext();
+  const { updateSnackbar } = useAuth();
+
   const [downloadMenuAnchor, setDownloadMenuAnchor] =
     React.useState<null | HTMLElement>(null);
 
@@ -37,7 +40,14 @@ export default function DownloadOptionsMenu() {
     setDownloadMenuAnchor(null);
   };
 
-  const handleSave = (event: React.MouseEvent<HTMLButtonElement>) => {};
+  const handleSave = async () => {
+    const response = await saveCoverLetterResults();
+    if (response.status === 200) {
+      updateSnackbar(true, "success", "Cover Letter Saved Successfully");
+    } else {
+      updateSnackbar(true, "error", `Error saving cover letter: ${response}`);
+    }
+  };
 
   return (
     <>

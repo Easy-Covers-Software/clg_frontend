@@ -29,6 +29,8 @@ const initialState = {
   loadingMatchScore: false,
   loadingCoverLetter: false,
   isReQuerySectionExpanded: false,
+  saveLoading: false,
+  jobPostingId: "",
 };
 
 function reducer(state, action) {
@@ -73,6 +75,10 @@ function reducer(state, action) {
       return { ...state, loadingCoverLetter: action.payload };
     case "SET_IS_RE_QUERY_SECTION_EXPANDED":
       return { ...state, isReQuerySectionExpanded: action.payload };
+    case "SET_SAVE_LOADING":
+      return { ...state, saveLoading: action.payload };
+    case "SET_JOB_POSTING_ID":
+      return { ...state, jobPostingId: action.payload };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -424,6 +430,11 @@ export function CoverLetterResultsContext({ children }) {
             type: "SET_COVER_LETTER_SIGNATURE",
             payload: data.cover_letter_signature,
           });
+
+          dispatch({
+            type: "SET_JOB_POSTING_ID",
+            payload: response.data.job_posting_id,
+          });
         } catch (error) {
           console.log("Error: Could not parse response (not valid json)");
           console.log(error);
@@ -436,6 +447,41 @@ export function CoverLetterResultsContext({ children }) {
       dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
     }
   };
+
+  const saveCoverLetterResults = async () => {
+    dispatch({ type: "SET_SAVE_LOADING", payload: true });
+    const url = "https://localhost:8000/ai_generator/generate/";
+
+    const form = new FormData();
+    form.append("cover_letter_opener", state.coverLetterOpener);
+    form.append("cover_letter_p1", state.coverLetterP1);
+    form.append("cover_letter_p2", state.coverLetterP2);
+    form.append("cover_letter_p3", state.coverLetterP3);
+    form.append("cover_letter_thank_you", state.coverLetterThankYou);
+    form.append("cover_letter_signature", state.coverLetterSignature);
+    form.append("job_posting", state.jobPostingId);
+
+    try {
+      const response = await axios.post(url, form, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+      });
+      if (response.statusText === "OK") {
+        console.log("Cover letter results saved successfully");
+
+        return response.data;
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch({ type: "SET_SAVE_LOADING", payload: false });
+    }
+  };
+
+  console.log("state.jobPostingId", state.jobPostingId);
 
   return (
     <ResultsContext.Provider
@@ -450,6 +496,7 @@ export function CoverLetterResultsContext({ children }) {
         makeSimpleAdjustment,
         makeIntermediateAdjustment,
         makeCustomAdjustment,
+        saveCoverLetterResults,
       }}
     >
       {children}
