@@ -12,6 +12,8 @@ import styled from "@emotion/styled";
 import GenerationSetup from "@/components/Generation/GenerationSetup/GenerationSetup";
 import Results from "@/components/Generation/Results/Results";
 
+import { SnackbarAlert } from "../Global/components/SnackbarAlert";
+
 const Container = styled(Grid)`
   display: flex;
   justify-content: space-between;
@@ -20,7 +22,7 @@ const Container = styled(Grid)`
 
 export default function Generation() {
   const { state } = useAuth();
-  const { isLoginOpen, isSettingsOpen } = state;
+  const { isLoginOpen, isSettingsOpen, snackbar } = state;
 
   return (
     <Container>
@@ -32,6 +34,13 @@ export default function Generation() {
           <Results />
         </CoverLetterResultsContext>
       </GenerationContext>
+
+      <SnackbarAlert
+        open={snackbar.open}
+        type={snackbar.type}
+        message={snackbar.message}
+        // onClose={handleSnackbarClose}
+      />
     </Container>
   );
 }

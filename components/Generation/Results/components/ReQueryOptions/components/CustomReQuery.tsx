@@ -3,16 +3,17 @@ import styled from "@emotion/styled";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
-import { UnSelectedButton } from "@/components/Global";
+import { UnSelectedButton } from "@/components/Global/Global";
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
 import { CustomReQueryStyledComponents } from "../ReQueryOptions.styles";
 const { CustomReQueryField, SubmitButton } = CustomReQueryStyledComponents;
 
 export default function CustomReQuery() {
-  const { state, dispatch } = useCoverLetterResultsContext();
+  const { state, dispatch, makeCustomAdjustment } =
+    useCoverLetterResultsContext();
 
-  const { customAdjustment, makeCustomAdjustment } = state;
+  const { customAdjustment } = state;
 
   const [placeholder, setPlaceholder] = useState(
     "Anything you want to change about the cover letter..."

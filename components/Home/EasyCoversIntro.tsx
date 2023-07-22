@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { UnSelectedButton } from "../Global";
+import { UnSelectedButton } from "../Global/Global";
 
 import {
   Container,

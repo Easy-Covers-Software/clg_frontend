@@ -6,7 +6,7 @@ import styled from "@emotion/styled";
 import MediumReQueryInput from "./MediumReQueryInput";
 import CustomReQuery from "./CustomReQuery";
 
-import { UnSelectedButton } from "@/components/Global";
+import { UnSelectedButton } from "@/components/Global/Global";
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
 import { MoreOptionsReQuerysStyledComponents } from "../ReQueryOptions.styles";

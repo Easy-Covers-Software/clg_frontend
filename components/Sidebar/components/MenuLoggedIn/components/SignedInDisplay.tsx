@@ -5,7 +5,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
-import { UnSelectedButton } from "@/components/Global";
+import { UnSelectedButton } from "@/components/Global/Global";
 
 import { useAuth } from "@/context/AuthContext";
 
@@ -14,6 +14,7 @@ const {
   Container,
   HorizontalDivider,
   CoverLetterStatsContainer,
+  UserEmail,
   StatContainer,
 } = SignedInDisplayStyledComponents;
 
@@ -38,9 +39,7 @@ export default function SignedInDisplay() {
         <Stat statName="Adjustments Available" statValue={2} />
       </CoverLetterStatsContainer>
 
-      <Typography variant="profileEmail" m={"1% 3%"}>
-        {email}
-      </Typography>
+      <UserEmail variant="profileEmail">{email}</UserEmail>
 
       <HorizontalDivider />
 

@@ -2,7 +2,7 @@ import React from "react";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { UnSelectedButton } from "@/components/Global";
+import { UnSelectedButton } from "@/components/Global/Global";
 import {
   Container,
   HorizontalDivider,

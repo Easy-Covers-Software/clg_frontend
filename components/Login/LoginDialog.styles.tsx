@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import DialogContent from "@mui/material/DialogContent";
-import { PrimaryButton, UnSelectedButton } from "../Global";
+import { PrimaryButton, UnSelectedButton } from "../Global/Global";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";

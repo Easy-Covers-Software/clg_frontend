@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import DialogContent from "@mui/material/DialogContent";
 import Switch from "@mui/material/Switch";
-import { UnSelectedButton } from "../Global";
+import { UnSelectedButton } from "../Global/Global";
 
 const DialogContentContainer = styled(DialogContent)`
   display: flex;

@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-
-import Dialog from "@mui/material/Dialog";
-import { Toaster } from "react-hot-toast";
-import toast from "react-hot-toast";
-import UpgradeAccountOption from "./components/UpgradeAccountOption";
-import { useAuth } from "@/context/AuthContext";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
+import Dialog from "@mui/material/Dialog";
+import UpgradeAccountOption from "./components/UpgradeAccountOption";
+import { useAuth } from "@/context/AuthContext";
+
 import { DialogContentContainer, FullLogo } from "./SettingsDialog.styles";
+
+import Paypal from "./components/Paypal";
 
 let packages = [
   {
@@ -111,7 +111,9 @@ export default function SettingsDialog() {
 
         {hasSelectedPricingOption && (
           <>
-            <PayPalButtons
+            <Paypal selectedPackagePrice={selectedPackagePrice} />
+
+            {/* <PayPalButtons
               style={{
                 layout: "horizontal",
                 height: 45,
@@ -127,33 +129,33 @@ export default function SettingsDialog() {
                   ],
                 });
               }}
-              onCancel={() =>
-                toast(
-                  "You cancelled the payment. Try again by clicking the PayPal button",
-                  {
-                    duration: 6000,
-                  }
-                )
-              }
+              onCancel={() => (
+                <SnackbarAlert
+                  type="warning"
+                  message="Payment Cancelled"
+                  open={true}
+                />
+              )}
               onError={(err) => {
-                toast.error(
-                  "There was an error processing your payment. If this error please contact support.",
-                  { duration: 6000 }
-                );
+                <SnackbarAlert
+                  type="error"
+                  message="Error during transaction, please try again."
+                  open={true}
+                />;
               }}
               onApprove={(data, actions) => {
+                toggleSettingsIsOpen();
                 return actions.order.capture().then(function (details) {
-                  toast.success(
-                    "Payment completed. Thank you, " +
-                      details.payer.name.given_name
-                  );
+                  <SnackbarAlert
+                    type="success"
+                    message="Success! Upgrade Complete!"
+                    open={true}
+                  />;
                 });
               }}
-            />
-            {/* <UnSelectedButton>Debit/Credit</UnSelectedButton> */}
+            /> */}
           </>
         )}
-        <Toaster position="top-center" />
       </DialogContentContainer>
     </Dialog>
   );

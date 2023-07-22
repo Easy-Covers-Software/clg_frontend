@@ -25,7 +25,7 @@ export default function ResultsSummary() {
       <JobOverview>
         {loadingSummary ? (
           <Grid m={"auto"}>
-            <CircularProgress />
+            <CircularProgress color="success" />
           </Grid>
         ) : (
           <>
@@ -44,7 +44,9 @@ export default function ResultsSummary() {
           Match Score
         </Typography>
         {loadingMatchScore ? (
-          <CircularProgress />
+          <Grid>
+            <CircularProgress color="success" />
+          </Grid>
         ) : (
           <Typography fontSize={"1.8rem"}>{matchScore}</Typography>
         )}

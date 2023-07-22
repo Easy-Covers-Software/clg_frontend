@@ -174,7 +174,7 @@ export default function CoverLetterResults() {
                 alignItems={"center"}
                 height={"100%"}
               >
-                <CircularProgress />
+                <CircularProgress color="success" />
               </Grid>
             ) : (
               <Grid m={"0 5%"}>

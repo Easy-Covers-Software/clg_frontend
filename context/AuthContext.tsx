@@ -31,6 +31,11 @@ const initialState = {
   isSettingsOpen: false,
   createAccountEasyCovers: false,
   page: "generation-mode",
+  snackbar: {
+    open: false,
+    type: "",
+    message: "",
+  },
 };
 
 function reducer(state, action) {
@@ -59,6 +64,14 @@ function reducer(state, action) {
       return { ...state, createAccountEasyCovers: action.payload };
     case "SET_PAGE":
       return { ...state, page: action.payload };
+    case "SET_SNACKBAR":
+      return {
+        ...state,
+        snackbar: {
+          ...state.snackbar,
+          ...action.payload,
+        },
+      };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -151,12 +164,19 @@ export const AuthProvider = ({
       });
       if (response.status === 200 || response.status === 201) {
         console.log(response.data);
+        toggleLoginIsOpen();
         await initUser();
-        window.location.reload();
+        updateSnackbar(true, "success", "Logged In Successfully");
+        // window.location.reload();
       }
     } catch (error) {
       console.log("Error logging in");
       console.log(error);
+      updateSnackbar(
+        true,
+        "error",
+        `Error logging in: ${error.response.data.error}`
+      );
     }
   };
 
@@ -178,11 +198,17 @@ export const AuthProvider = ({
       console.log(response);
       if (response.status === 200 || response.status === 201) {
         setNotAuthenticated();
-        window.location.reload();
+        updateSnackbar(true, "success", "Logged Out Successfully");
+        // window.location.reload();
       }
     } catch (error) {
       console.log("Error logging out user");
       console.log(error);
+      updateSnackbar(
+        true,
+        "error",
+        `Error logging out user: ${error.response.data.error}`
+      );
     }
   };
 
@@ -203,13 +229,40 @@ export const AuthProvider = ({
       });
       if (response.status === 200 || response.status === 201) {
         console.log(response.data);
+        updateSnackbar(true, "success", "Account Created Successfully");
         await login();
-        // router.push("/generation-mode");
       }
     } catch (error) {
       console.log("Error creating account");
       console.log(error);
+      updateSnackbar(
+        true,
+        "error",
+        `Error creating account: ${error.response.data.error}`
+      );
     }
+  };
+
+  const updateSnackbar = (isOpen, type, message) => {
+    dispatch({
+      type: "SET_SNACKBAR",
+      payload: {
+        open: isOpen,
+        type: type,
+        message: message,
+      },
+    });
+  };
+
+  const handleSnackbarClose = () => {
+    dispatch({
+      type: "SET_SNACKBAR",
+      payload: {
+        open: false,
+        type: "success",
+        message: "",
+      },
+    });
   };
 
   useEffect(() => {
@@ -231,6 +284,8 @@ export const AuthProvider = ({
         handleClickShowPasswordRepeat,
         login,
         createAccount,
+        updateSnackbar,
+        handleSnackbarClose,
       }}
     >
       <GoogleOAuthProvider clientId={CLIENT_ID}>

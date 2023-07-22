@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { PrimaryButton, UnSelectedButton } from "@/components/Global";
+import { PrimaryButton, UnSelectedButton } from "@/components/Global/Global";
 import { Divider } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Typography from "@mui/material/Typography";
@@ -26,7 +26,7 @@ const GenerationModeTab = styled(UnSelectedButton)`
     ${({ selected }) =>
       selected
         ? "none"
-        : "background-color: #f5faf5;"}// background-color: #e0e0e0;;;;;;;;;;;;;;;;;;;;;;;
+        : "background-color: #f5faf5;"}// background-color: #e0e0e0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   }
   &:active {
     border-bottom: 2px solid #87dbd0;
@@ -58,14 +58,25 @@ namespace SignedInDisplayStyledComponents {
     padding: 0 5%;
     // margin-bottom: 1%;
   `;
+  export const EmailGrid = styled(Grid)`
+    width: 100%
+    display: flex;
+  `;
 
   export const StatContainer = styled(Grid)`
-    width: 100%;
+    width: 90%;
     display: flex;
     justify-content: space-between;
   `;
 
-  export const UserEmail = styled(Typography)``;
+  export const UserEmail = styled(Typography)`
+    width: 90%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    margin: 0 auto;
+  `;
 }
 
 export { Container, GenerationModeTab, Tabs, SignedInDisplayStyledComponents };
