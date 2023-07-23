@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
+import { checkAdditionalDetails } from "./utils";
 
 const GenerationSetupContext = createContext(null);
 
 import axios from "axios";
 import Cookie from "js-cookie";
+import JobPostingInput from "@/components/Generation/GenerationSetup/components/JobPostingInput/JobPostingInput";
 
 type FileUploadObject = {
   lastModified: number;
@@ -62,6 +64,7 @@ const initialState = {
     simpleInput3: "",
     openEndedInput: "",
   },
+  disableGenerateButton: true,
 };
 
 function reducer(state, action) {
@@ -80,6 +83,8 @@ function reducer(state, action) {
           ...action.payload,
         },
       };
+    case "SET_DISABLE_GENERATE_BUTTON":
+      return { ...state, disableGenerateButton: action.payload };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -171,6 +176,25 @@ export const GenerationContext = ({ children }) => {
       throw new ResumeUploadError(error.message);
     }
   };
+
+  useEffect(() => {
+    if (state.jobPostingInput === "") {
+      dispatch({ type: "SET_DISABLE_GENERATE_BUTTON", payload: true });
+    } else if (
+      state.uploadedResumeFile === null &&
+      state.freeTextPersonalDetails === "" &&
+      !checkAdditionalDetails(state.additionalDetails)
+    ) {
+      dispatch({ type: "SET_DISABLE_GENERATE_BUTTON", payload: true });
+    } else {
+      dispatch({ type: "SET_DISABLE_GENERATE_BUTTON", payload: false });
+    }
+  }, [
+    state.JobPostingInput,
+    state.uploadedResumeFile,
+    state.freeTextPersonalDetails,
+    state.additionalDetails,
+  ]);
 
   return (
     <GenerationSetupContext.Provider
