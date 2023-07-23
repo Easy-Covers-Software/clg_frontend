@@ -31,35 +31,26 @@ const Stat = ({ statName, statValue }) => (
 
 export default function SignedInDisplay() {
   const { state, toggleSettingsIsOpen, logout } = useAuth();
-  const { user } = state;
-  const { email, access_level } = user;
-  const {
-    num_gpt3_generations_available,
-    num_gpt4_generations_available,
-    num_adjustments_available,
-  } = access_level;
-
-  console.log("state", state);
-  console.log("user", user);
+  const { user, accessLevel } = state;
 
   return (
     <Container>
       <CoverLetterStatsContainer>
         <Stat
-          statName="Gpt-4 Generations"
-          statValue={num_gpt3_generations_available}
+          statName="Gpt-3 Generations"
+          statValue={accessLevel.num_gpt3_generations_available}
         />
         <Stat
-          statName="Gpt-3 Generations"
-          statValue={num_gpt4_generations_available}
+          statName="Gpt-4 Generations"
+          statValue={accessLevel.num_gpt4_generations_available}
         />
         <Stat
           statName="Adjustments Available"
-          statValue={num_adjustments_available}
+          statValue={accessLevel.num_adjustments_available}
         />
       </CoverLetterStatsContainer>
 
-      <UserEmail variant="profileEmail">{email}</UserEmail>
+      <UserEmail variant="profileEmail">{user}</UserEmail>
 
       <HorizontalDivider />
 
