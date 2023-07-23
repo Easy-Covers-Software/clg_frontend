@@ -13,7 +13,7 @@ export default function AdditionalDetails() {
   return (
     <Container>
       <Grid m={"auto"}>
-        <Typography fontSize={"0.8rem"} m={"auto"}>
+        <Typography variant="additionalDetailsInfo">
           If you uploaded a resume and are confident with it, this generally
           isn't needed.
         </Typography>

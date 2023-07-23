@@ -38,10 +38,6 @@ export default function SimpleInput(props: SimpleInputProps) {
 
   return (
     <Container>
-      <Tooltip title="Delete" placement="top">
-        <InfoOutlinedIcon fontSize="medium" sx={{ opacity: "40%" }} />
-      </Tooltip>
-
       <InputField
         id="email-input"
         variant="outlined"
@@ -73,6 +69,18 @@ export default function SimpleInput(props: SimpleInputProps) {
         }}
       />
       {/* </FormInput> */}
+      <Tooltip
+        title={
+          id === "simpleInput1"
+            ? "The years you worked most recently worked in the field of the job you are applying for"
+            : id === "simpleInput2"
+            ? "Any awards, skills, or certifications that you might have left out of your résumé but are applicable to the job you are applying for."
+            : "Any projects or publications that you might have left out of your résumé but are applicable to the job you are applying for."
+        }
+        placement="top"
+      >
+        <InfoOutlinedIcon fontSize="medium" sx={{ opacity: "40%" }} />
+      </Tooltip>
     </Container>
   );
 }

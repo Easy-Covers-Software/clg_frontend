@@ -29,7 +29,7 @@ export default function AdditionalDetailsFreeText() {
 
   return (
     <>
-      <Typography ml={1} mb={-2}>
+      <Typography variant="additionalDetailsAnythingElse">
         Anything else you'd like to add?
       </Typography>
       <AdditionalDetailsFreeTextField
