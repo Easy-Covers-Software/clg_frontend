@@ -11,7 +11,12 @@ import { CustomReQueryStyledComponents } from "../ReQueryOptions.styles";
 const { CustomReQueryField, SubmitButton } = CustomReQueryStyledComponents;
 
 export default function CustomReQuery() {
-  const { state: authState, dispatch: authDispatch } = useAuth();
+  const {
+    state: authState,
+    dispatch: authDispatch,
+    updateSnackbar,
+    toggleSettingsIsOpen,
+  } = useAuth();
   const { state, dispatch, makeCustomAdjustment } =
     useCoverLetterResultsContext();
 
@@ -37,12 +42,28 @@ export default function CustomReQuery() {
   };
 
   const handleCustomAdjustment = async () => {
+    if (authState.accessLevel.num_adjustments_available === 0) {
+      toggleSettingsIsOpen();
+      updateSnackbar(
+        true,
+        "error",
+        "You have no adjustments available. Please upgrade your account to make more adjustments."
+      );
+      return;
+    }
+
     try {
       await makeCustomAdjustment();
       authDispatch({ type: "SET_UPDATE_USER", payload: authState.updateUser });
+      updateSnackbar(true, "success", "Adjustment made successfully.");
     } catch (err) {
       console.log("Error in handleCustomAdjustment");
       console.log(err);
+      updateSnackbar(
+        true,
+        "error",
+        "An error occured while making adjustment. Please try again."
+      );
     }
   };
 

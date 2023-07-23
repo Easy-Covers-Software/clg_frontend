@@ -14,15 +14,31 @@ const { Container, MediumOptionsContainer, SubmitButton } =
   MoreOptionsReQuerysStyledComponents;
 
 export default function MoreOptionsReQueries() {
-  const { state, dispatch } = useAuth();
+  const { state, dispatch, updateSnackbar, toggleSettingsIsOpen } = useAuth();
   const { makeIntermediateAdjustment } = useCoverLetterResultsContext();
 
   const handleIntermediateAdjustment = async () => {
+    if (state.accessLevel.num_adjustments_available === 0) {
+      toggleSettingsIsOpen();
+      updateSnackbar(
+        true,
+        "error",
+        "You have no adjustments available. Please upgrade your account to make more adjustments."
+      );
+      return;
+    }
+
     try {
       await makeIntermediateAdjustment();
       dispatch({ type: "SET_UPDATE_USER", payload: state.updateUser });
+      updateSnackbar(true, "success", "Adjustment made successfully.");
     } catch (err) {
       console.log(err);
+      updateSnackbar(
+        true,
+        "error",
+        "An error occured while making adjustment. Please try again."
+      );
     }
   };
 

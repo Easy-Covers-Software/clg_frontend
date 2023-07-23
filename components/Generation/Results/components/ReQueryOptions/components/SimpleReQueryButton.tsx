@@ -16,15 +16,30 @@ import { SimpleReQueryButtonStyledComponents } from "../ReQueryOptions.styles";
 const { Container, ButtonContainer } = SimpleReQueryButtonStyledComponents;
 
 export default function SimpleReQueryButton({ buttonLabel }) {
-  const { state, dispatch } = useAuth();
+  const { state, dispatch, updateSnackbar, toggleSettingsIsOpen } = useAuth();
   const { makeSimpleAdjustment } = useCoverLetterResultsContext();
 
   const handleSimpleAdjustment = async (adjustmentType, buttonLabel) => {
+    if ((state.accessLevel.num_adjustments_available = 0)) {
+      toggleSettingsIsOpen();
+      updateSnackbar(
+        true,
+        "error",
+        "You have no adjustments available. Please upgrade your account to make more adjustments."
+      );
+      return;
+    }
     try {
       await makeSimpleAdjustment(adjustmentType, buttonLabel);
       dispatch({ type: "SET_UPDATE_USER", payload: state.updateUser });
+      updateSnackbar(true, "success", "Adjustment made successfully.");
     } catch (err) {
       console.log(err);
+      updateSnackbar(
+        true,
+        "error",
+        "An error occured while making adjustment. Please try again."
+      );
     }
   };
 
