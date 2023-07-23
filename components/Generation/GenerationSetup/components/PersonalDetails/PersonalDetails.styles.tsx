@@ -42,7 +42,7 @@ namespace FreeTextInputStyledComponents {
 namespace PersonalDetailsModeSwitchStyledComponents {
   export const Container = styled(Grid)`
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     border-top: 1px solid #006d4b;
     border-left: 1px solid #006d4b;
