@@ -1,0 +1,173 @@
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import styled from "@emotion/styled";
+import { useAuth } from "@/context/AuthContext";
+import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import {
+  GenerateButton,
+  GenerateButtonDouble,
+} from "../GenerationSetup.styles";
+
+const Container = styled(Grid)`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.2%;
+`;
+
+interface ButtonSetProps {
+  user: any;
+  num_gpt3_generations_available: number;
+  num_gpt4_generations_available: number;
+  handleGenerateCoverLetter?: (model: string) => void;
+}
+
+const getModelAvailable = (
+  user,
+  num_gpt3_generations_available,
+  num_gpt4_generations_available
+) => {
+  console.log("user", user);
+  if (user === null) {
+    return "-1";
+  } else if (num_gpt3_generations_available > 0) {
+    return "3";
+  } else if (num_gpt4_generations_available > 0) {
+    return "4";
+  } else {
+    return "0";
+  }
+};
+
+const ButtonSet = (props: ButtonSetProps) => {
+  const {
+    user,
+    num_gpt3_generations_available,
+    num_gpt4_generations_available,
+    handleGenerateCoverLetter,
+  } = props;
+
+  if (
+    num_gpt3_generations_available > 0 &&
+    num_gpt4_generations_available > 0
+  ) {
+    return (
+      <>
+        <GenerateButtonDouble onClick={() => handleGenerateCoverLetter("3")}>
+          Generate GPT-3
+        </GenerateButtonDouble>
+        <GenerateButtonDouble onClick={() => handleGenerateCoverLetter("4")}>
+          Generate GPT-4
+        </GenerateButtonDouble>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <GenerateButton
+          onClick={() =>
+            handleGenerateCoverLetter(
+              getModelAvailable(
+                user,
+                num_gpt3_generations_available,
+                num_gpt4_generations_available
+              )
+            )
+          }
+        >
+          Generate
+        </GenerateButton>
+      </>
+    );
+  }
+};
+
+export default function GenerateButtons() {
+  const { state } = useGenerationSetupContext();
+  const {
+    jobPostingInput,
+    uploadedResumeFile,
+    freeTextPersonalDetails,
+    additionalDetails,
+  } = state;
+  const { generateCoverLetter, getJobTitle, getCompanyName, getJobMatchScore } =
+    useCoverLetterResultsContext();
+
+  const {
+    state: authState,
+    dispatch,
+    updateSnackbar,
+    toggleSettingsIsOpen,
+    toggleLoginIsOpen,
+  } = useAuth();
+  const { user, accessLevel } = authState;
+
+  // Cover Letter handler
+  const handleGenerateCoverLetter = async (model: string) => {
+    if (model === "-1") {
+      toggleLoginIsOpen();
+      updateSnackbar(
+        true,
+        "error",
+        "You must be logged in to generate a cover letter."
+      );
+      return;
+    }
+
+    if (model === "0") {
+      toggleSettingsIsOpen();
+      updateSnackbar(
+        true,
+        "error",
+        "You have no generations available. Upgrade to generate."
+      );
+      return;
+    }
+
+    try {
+      await getJobTitle(jobPostingInput);
+      await getCompanyName(jobPostingInput);
+      await getJobMatchScore(jobPostingInput);
+
+      const status = await generateCoverLetter(
+        jobPostingInput,
+        uploadedResumeFile,
+        freeTextPersonalDetails,
+        additionalDetails,
+        model
+      );
+
+      if (status === "success") {
+        dispatch({
+          type: "SET_UPDATE_USER",
+          payload: authState.updateUser,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      // Handle error, for example by showing an error message in the UI
+      // update a error variable in context
+      updateSnackbar(
+        true,
+        "error",
+        "Error generating cover letter. Please try again. If the problem persists, please contact us."
+      );
+    }
+  };
+
+  return (
+    <Container>
+      <ButtonSet
+        user={user}
+        num_gpt3_generations_available={
+          accessLevel?.num_gpt3_generations_available
+        }
+        num_gpt4_generations_available={
+          accessLevel?.num_gpt4_generations_available
+        }
+        handleGenerateCoverLetter={handleGenerateCoverLetter}
+      />
+    </Container>
+  );
+}
