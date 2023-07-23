@@ -1,8 +1,12 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
+import ReactDOM from "react-dom";
 import axios from "axios";
 import Cookie from "js-cookie";
+import jsPDF from "jspdf";
 
 import { makeUrl, createGeneratePayload } from "./utils";
+
+import CoverLetterPdf from "@/components/Download/Download";
 
 const API_BASE_URL = "https://localhost:8000/ai_generator/";
 
@@ -13,12 +17,18 @@ const initialState = {
   companyName: "",
   matchScore: 0,
   currentCoverLetter: "",
-  coverLetterOpener: "",
-  coverLetterP1: "",
-  coverLetterP2: "",
-  coverLetterP3: "",
-  coverLetterThankYou: "",
-  coverLetterSignature: "",
+  currentCoverLetterJson: "",
+  coverLetterOpener: "Dear Hiring Manager,",
+  coverLetterP1:
+    "I am writing to express my interest in the Full Stack Django Engineer position at WisdomTree. With my strong knowledge and experience in Python, Django, Django Rest Framework, SQL, JavaScript, HTML, and CSS, I believe I would be a valuable addition to your Technology and Digital Assets team.",
+  coverLetterP2:
+    "Throughout my career as a software engineer, I have developed backend services and administrative UIs, working closely with end-user mobile app developers. I have also been involved in the user-driven evolution of mobile products with complex backends. I am proficient with Agile methodologies, using Confluence and JIRA, and I have experience with Git for version control. Additionally, I am comfortable working in a dynamic and agile team environment.",
+  coverLetterP3:
+    "I am highly motivated to contribute to WisdomTree's mission of building next-generation digital products and structures in the financial and digital assets space. I stay well-informed of current technology and product trends in this industry and have a strong attention to detail when it comes to architecture, UX, and code. My excellent troubleshooting and communication skills make me an effective problem solver and collaborator.",
+  coverLetterThankYou:
+    "Thank you for considering my application. I am excited about the opportunity to join WisdomTree and contribute to its success. I look forward to discussing how my skills and experience align with your needs in more detail.",
+  coverLetterSignature: "Sincerely,",
+  coverLetterWriter: "David Silveira",
   addSkillInput: "",
   insertKeywordInput: "",
   removeRedundancyInput: "",
@@ -79,6 +89,10 @@ function reducer(state, action) {
       return { ...state, saveLoading: action.payload };
     case "SET_JOB_POSTING_ID":
       return { ...state, jobPostingId: action.payload };
+    case "SET_COVER_LETTER_WRITER":
+      return { ...state, coverLetterWriter: action.payload };
+    case "SET_CURRENT_COVER_LETTER_JSON":
+      return { ...state, currentCoverLetterJson: action.payload };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -202,6 +216,10 @@ export function CoverLetterResultsContext({ children }) {
     // setLoadingCoverLetter(true);
     const url = API_BASE_URL + "generate/make_simple_adjustment/";
 
+    console.log("current cover letter", state.currentCoverLetter);
+    console.log("increase or decrease", increaseOrDecrease);
+    console.log("type of adjustment", typeOfAdjustment);
+
     const form = new FormData();
     form.append("cover_letter", state.currentCoverLetter);
     form.append("increase_or_decrease", increaseOrDecrease);
@@ -241,6 +259,10 @@ export function CoverLetterResultsContext({ children }) {
           dispatch({
             type: "SET_COVER_LETTER_SIGNATURE",
             payload: data.cover_letter_signature,
+          });
+          dispatch({
+            type: "SET_COVER_LETTER_WRITER",
+            payload: data.cover_letter_writer,
           });
         } catch (error) {
           console.log("Error: Could not parse response (not valid json)");
@@ -430,6 +452,10 @@ export function CoverLetterResultsContext({ children }) {
             type: "SET_COVER_LETTER_SIGNATURE",
             payload: data.cover_letter_signature,
           });
+          dispatch({
+            type: "SET_COVER_LETTER_WRITER",
+            payload: data.cover_letter_writer,
+          });
 
           dispatch({
             type: "SET_JOB_POSTING_ID",
@@ -481,6 +507,115 @@ export function CoverLetterResultsContext({ children }) {
     }
   };
 
+  const generatePDF = () => {
+    const doc = new jsPDF("p", "px", "a4", true);
+
+    // Header Information
+    doc.setFont("Times New Roman");
+    doc.setFontSize(12);
+
+    const parts = [
+      { name: "opener", text: state.coverLetterOpener },
+      { name: "p1", text: state.coverLetterP1 },
+      { name: "p2", text: state.coverLetterP2 },
+      { name: "p3", text: state.coverLetterP3 },
+      { name: "thank you", text: state.coverLetterThankYou },
+    ];
+
+    const closingParts = [
+      { name: "signature", text: state.coverLetterSignature },
+      { name: "coverLetterWriter", text: state.coverLetterWriter },
+    ];
+
+    let totalChars = 0;
+    parts.forEach((part) => {
+      part.chars = part.text.length;
+      totalChars += part.chars;
+    });
+
+    const minSpace = 20; // Minimum space between parts
+    let y = 50 + minSpace; // Start the first part at 60 and add minimum space
+    parts.forEach((part) => {
+      part.y = y;
+      const percentage = part.chars / totalChars;
+      y += Math.round(percentage * (250 - minSpace * (parts.length - 1))); // Deduct the minimum spaces from the total available space
+      y += minSpace; // Add minimum space after each part
+    });
+
+    // Calculate position of closing parts based on the last paragraph
+    let closingY = parts[parts.length - 1].y + minSpace; // Add minimum space
+    closingParts.forEach((part, index) => {
+      part.y = (closingY + index * minSpace) * 1.08; // Each closing part is positioned at minimum space below the previous one
+    });
+
+    closingParts.forEach((part, index) => {
+      if (index === 0) {
+        // The first part in closingParts is "signature"
+        // Do nothing, keep the calculated position
+      } else if (index === 1) {
+        // The second part in closingParts is "coverLetterWriter"
+        part.y = closingParts[index - 1].y + 12; // Set its position 12 units below "signature"
+      }
+    });
+
+    [...parts, ...closingParts].forEach((part) => {
+      doc.text(part.text, 50, part.y, { maxWidth: 350 });
+    });
+
+    doc.save("cover-letter.pdf");
+  };
+
+  // const generatePDF = () => {
+  //   const doc = new jsPDF("p", "px", "a4", true);
+
+  //   // Header Information
+  //   doc.setFont("Times New Roman");
+  //   doc.setFontSize(12);
+
+  //   // param1=words, param2=x, param3=y,
+  //   doc.text("Dear Hiring Manager,", 50, 60);
+  //   doc.text(state.coverLetterP1, 50, 85, { maxWidth: 350 });
+  //   doc.text(state.coverLetterP2, 50, 145, { maxWidth: 350 });
+  //   doc.text(state.coverLetterP3, 50, 225, { maxWidth: 350 });
+  //   doc.text(state.coverLetterThankYou, 50, 295, { maxWidth: 350 });
+  //   doc.text("Sincerely,", 50, 340);
+  //   doc.text(state.coverLetterWriter, 50, 352);
+
+  //   doc.save("cover-letter.pdf");
+  // };
+
+  const generateDOCX = async () => {
+    const url =
+      "https://localhost:8000/ai_generator/generate/download_as_docx/";
+
+    const form = new FormData();
+    form.append("html", state.currentCoverLetter);
+
+    try {
+      const response = await axios.post(url, form, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+        responseType: "blob",
+      });
+
+      if (response.statusText === "OK") {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "file.docx"); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      }
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   console.log("state.jobPostingId", state.jobPostingId);
 
   return (
@@ -497,6 +632,8 @@ export function CoverLetterResultsContext({ children }) {
         makeIntermediateAdjustment,
         makeCustomAdjustment,
         saveCoverLetterResults,
+        generatePDF,
+        generateDOCX,
       }}
     >
       {children}

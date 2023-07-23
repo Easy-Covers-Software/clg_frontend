@@ -19,7 +19,8 @@ import { DownloadOptionsMenuStyledComponents } from "../CoverLetterResults.style
 const { Container } = DownloadOptionsMenuStyledComponents;
 
 export default function DownloadOptionsMenu() {
-  const { saveCoverLetterResults } = useCoverLetterResultsContext();
+  const { saveCoverLetterResults, generatePDF, generateDOCX } =
+    useCoverLetterResultsContext();
   const { updateSnackbar } = useAuth();
 
   const [downloadMenuAnchor, setDownloadMenuAnchor] =
@@ -83,14 +84,14 @@ export default function DownloadOptionsMenu() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleCloseDownload} disableRipple>
+        <MenuItem onClick={generatePDF} disableRipple>
           <ListItemIcon>
             <PictureAsPdfOutlinedIcon />
           </ListItemIcon>
           <ListItemText> Download as PDF</ListItemText>
         </MenuItem>
 
-        <MenuItem onClick={handleCloseDownload} disableRipple>
+        <MenuItem onClick={generateDOCX} disableRipple>
           <ListItemIcon>
             <PostAddOutlinedIcon />
           </ListItemIcon>
