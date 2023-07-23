@@ -8,7 +8,8 @@ import { SettingsUtils } from "@/Utils/utils";
 import { AlertColor } from "@mui/material";
 
 export default function Paypal({ selectedPackagePrice }) {
-  const { toggleSettingsIsOpen, updateSnackbar } = useAuth();
+  const { state, toggleSettingsIsOpen, updateSnackbar } = useAuth();
+  const { user } = state;
   const { extractPrice } = SettingsUtils;
 
   const handleClose = () => {
@@ -26,6 +27,7 @@ export default function Paypal({ selectedPackagePrice }) {
                 amount: {
                   value: extractPrice(selectedPackagePrice),
                 },
+                custom_id: user.email,
               },
             ],
           });
