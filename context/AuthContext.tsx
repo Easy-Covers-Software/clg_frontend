@@ -37,6 +37,11 @@ const initialState = {
     message: "",
   },
   updateUser: false,
+  accessLevel: {
+    num_gpt3_generations_available: 0,
+    num_gpt4_generations_available: 0,
+    num_adjustments_available: 0,
+  },
 };
 
 function reducer(state, action) {
@@ -75,6 +80,14 @@ function reducer(state, action) {
       };
     case "SET_UPDATE_USER":
       return { ...state, updateUser: !state.updateUser };
+    case "SET_ACCESS_LEVEL":
+      return {
+        ...state,
+        accessLevel: {
+          ...state.accessLevel,
+          ...action.payload,
+        },
+      };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -102,6 +115,7 @@ export const AuthProvider = ({
     dispatch({ type: "SET_IS_AUTHENTICATED", payload: false });
     dispatch({ type: "SET_LOADING", payload: false });
     dispatch({ type: "SET_USER", payload: null });
+    dispatch({ type: "SET_ACCESS_LEVEL", payload: initialState.accessLevel });
   };
 
   const toggleLoginIsOpen = () => {
@@ -121,6 +135,11 @@ export const AuthProvider = ({
       });
       console.log("USER response");
       console.log(response.data.data);
+      dispatch({ type: "SET_USER", payload: response.data.data.email });
+      dispatch({
+        type: "SET_ACCESS_LEVEL",
+        payload: response.data.data.access_level,
+      });
       return response.data.data;
     } catch (error) {
       console.log("Error fetching user");
@@ -130,7 +149,7 @@ export const AuthProvider = ({
 
   const initUser = async (): Promise<void> => {
     const user = await fetchUser();
-    dispatch({ type: "SET_USER", payload: user });
+    console.log("User found in session.", user);
   };
 
   const signInGoogle = async () => {
