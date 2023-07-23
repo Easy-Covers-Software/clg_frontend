@@ -11,12 +11,15 @@ import {
 
 export default function MenuLoggedOut() {
   const { state, toggleLoginIsOpen } = useAuth();
+  const { page } = state;
   const { isLoginOpen } = state;
 
   return (
     <Container>
-      <Link href={"/generation-mode"} className={"no_underline"}>
-        <GenerationModeTab>Generate Mode</GenerationModeTab>
+      <Link href={"/generation-mode"} className={"no_underline"} passHref>
+        <GenerationModeTab selected={page === "generation-mode"}>
+          Generate Mode
+        </GenerationModeTab>
       </Link>
 
       <Grid>
