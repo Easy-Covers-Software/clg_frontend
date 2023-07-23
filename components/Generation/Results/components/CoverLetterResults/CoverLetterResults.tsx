@@ -37,10 +37,12 @@ export default function CoverLetterResults() {
     coverLetterP3,
     coverLetterThankYou,
     coverLetterSignature,
+    coverLetterWriter,
     loadingCoverLetter,
   } = state;
 
   const [coverLetter, setCoverLetter] = useState(``);
+  const [coverLetterJSON, setCoverLetterJSON] = useState({});
 
   useEffect(() => {
     setCoverLetter(
@@ -56,8 +58,19 @@ export default function CoverLetterResults() {
           <p>${coverLetterThankYou}</p>
           
           <p>${coverLetterSignature}</p>
+
+          <p>${coverLetterWriter}</p>
         </div>`
     );
+    setCoverLetterJSON({
+      coverLetterOpener,
+      coverLetterP1,
+      coverLetterP2,
+      coverLetterP3,
+      coverLetterThankYou,
+      coverLetterSignature,
+      coverLetterWriter,
+    });
   }, [
     coverLetterOpener,
     coverLetterP1,
@@ -85,7 +98,14 @@ export default function CoverLetterResults() {
 
   useEffect(() => {
     if (editor) {
-      dispatch({ type: "SET_CURRENT_COVER_LETTER", payload: coverLetter });
+      dispatch({
+        type: "SET_CURRENT_COVER_LETTER",
+        payload: coverLetter,
+      });
+      dispatch({
+        type: "SET_CURRENT_COVER_LETTER_JSON",
+        payload: JSON.stringify(coverLetterJSON),
+      });
       editor.commands.setContent(coverLetter);
     }
   }, [coverLetter, editor]);
