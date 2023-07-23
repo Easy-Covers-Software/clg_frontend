@@ -22,6 +22,8 @@ import JobPostingInput from "./components/JobPostingInput/JobPostingInput";
 import PersonalDetails from "./components/PersonalDetails/PersonalDetails";
 import AdditionalDetails from "./components/AdditionalDetails/AdditionalDetails";
 
+import { checkAdditionalDetails } from "@/context/utils";
+
 // Context Imports
 import { useAuth } from "@/context/AuthContext";
 import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
@@ -211,8 +213,7 @@ export default function GenerationSetup() {
             expanded="panel3"
             tracker={`3-${expanded === "panel3"}`}
           >
-            {jobPostingInput === "" ||
-            (uploadedResumeFile === null && freeTextPersonalDetails === "") ? (
+            {!checkAdditionalDetails(additionalDetails) ? (
               <CheckboxIconInComplete />
             ) : (
               <CheckboxIconComplete />
@@ -226,9 +227,6 @@ export default function GenerationSetup() {
         </Accordion>
       </SubContainer>
 
-      {/* <GenerateButton onClick={() => handleGenerateCoverLetter()}>
-        Generate
-      </GenerateButton> */}
       <GenerateButtons />
     </Container>
   );
