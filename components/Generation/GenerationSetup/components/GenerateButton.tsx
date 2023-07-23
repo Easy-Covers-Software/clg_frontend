@@ -1,5 +1,6 @@
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
+import { Tooltip } from "@mui/material";
 import { useAuth } from "@/context/AuthContext";
 import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
@@ -20,6 +21,7 @@ interface ButtonSetProps {
   user: any;
   num_gpt3_generations_available: number;
   num_gpt4_generations_available: number;
+  disabled: boolean;
   handleGenerateCoverLetter?: (model: string) => void;
 }
 
@@ -45,6 +47,7 @@ const ButtonSet = (props: ButtonSetProps) => {
     user,
     num_gpt3_generations_available,
     num_gpt4_generations_available,
+    disabled,
     handleGenerateCoverLetter,
   } = props;
 
@@ -54,30 +57,77 @@ const ButtonSet = (props: ButtonSetProps) => {
   ) {
     return (
       <>
-        <GenerateButtonDouble onClick={() => handleGenerateCoverLetter("3")}>
-          Generate GPT-3
-        </GenerateButtonDouble>
-        <GenerateButtonDouble onClick={() => handleGenerateCoverLetter("4")}>
-          Generate GPT-4
-        </GenerateButtonDouble>
+        <Tooltip
+          sx={{
+            fontSize: "1.2rem",
+          }}
+          title={
+            disabled
+              ? "The Job Posting and Personal Details Sections are Required for Generation"
+              : ""
+          }
+        >
+          <Grid p={0} m={0} display={"flex"} width={"100%"}>
+            <GenerateButtonDouble
+              onClick={() => handleGenerateCoverLetter("3")}
+              disabled={disabled}
+            >
+              Generate GPT-3
+            </GenerateButtonDouble>
+          </Grid>
+        </Tooltip>
+
+        <Tooltip
+          style={{
+            fontSize: "2rem",
+          }}
+          title={
+            disabled
+              ? "The Job Posting and Personal Details Sections are Required for Generation"
+              : ""
+          }
+        >
+          <Grid p={0} m={0} display={"flex"} width={"100%"}>
+            <GenerateButtonDouble
+              onClick={() => handleGenerateCoverLetter("4")}
+              disabled={disabled}
+            >
+              Generate GPT-4
+            </GenerateButtonDouble>
+          </Grid>
+        </Tooltip>
       </>
     );
   } else {
     return (
       <>
-        <GenerateButton
-          onClick={() =>
-            handleGenerateCoverLetter(
-              getModelAvailable(
-                user,
-                num_gpt3_generations_available,
-                num_gpt4_generations_available
-              )
-            )
+        <Tooltip
+          style={{
+            fontSize: "1.2rem",
+          }}
+          title={
+            disabled
+              ? "The Job Posting and Personal Details Sections are Required for Generation"
+              : ""
           }
         >
-          Generate
-        </GenerateButton>
+          <Grid p={0} m={0} display={"flex"} width={"100%"}>
+            <GenerateButton
+              disabled={disabled}
+              onClick={() =>
+                handleGenerateCoverLetter(
+                  getModelAvailable(
+                    user,
+                    num_gpt3_generations_available,
+                    num_gpt4_generations_available
+                  )
+                )
+              }
+            >
+              Generate
+            </GenerateButton>
+          </Grid>
+        </Tooltip>
       </>
     );
   }
@@ -90,6 +140,7 @@ export default function GenerateButtons() {
     uploadedResumeFile,
     freeTextPersonalDetails,
     additionalDetails,
+    disableGenerateButton,
   } = state;
   const { generateCoverLetter, getJobTitle, getCompanyName, getJobMatchScore } =
     useCoverLetterResultsContext();
@@ -166,6 +217,7 @@ export default function GenerateButtons() {
         num_gpt4_generations_available={
           accessLevel?.num_gpt4_generations_available
         }
+        disabled={disableGenerateButton}
         handleGenerateCoverLetter={handleGenerateCoverLetter}
       />
     </Container>
