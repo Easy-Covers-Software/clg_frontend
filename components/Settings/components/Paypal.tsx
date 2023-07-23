@@ -27,7 +27,7 @@ export default function Paypal({ selectedPackagePrice }) {
                 amount: {
                   value: extractPrice(selectedPackagePrice),
                 },
-                custom_id: user.email,
+                custom_id: user,
               },
             ],
           });
