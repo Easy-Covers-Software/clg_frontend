@@ -26,7 +26,7 @@ const GenerationModeTab = styled(UnSelectedButton)`
     ${({ selected }) =>
       selected
         ? "none"
-        : "background-color: #f5faf5;"}// background-color: #e0e0e0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        : "background-color: #f5faf5;"}background-color: #e0e0e0;
   }
   &:active {
     border-bottom: 2px solid #87dbd0;
@@ -55,8 +55,6 @@ namespace SignedInDisplayStyledComponents {
     width: 100%
     display: flex;
     flex-direction: column;
-    padding: 0 5%;
-    // margin-bottom: 1%;
   `;
   export const EmailGrid = styled(Grid)`
     width: 100%
@@ -64,13 +62,15 @@ namespace SignedInDisplayStyledComponents {
   `;
 
   export const StatContainer = styled(Grid)`
-    width: 90%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    padding: 0 5%;
+    margin: 5% 0;
   `;
 
   export const UserEmail = styled(Typography)`
-    width: 90%;
+    width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
