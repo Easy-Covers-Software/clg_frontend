@@ -34,44 +34,9 @@ const theme = createTheme({
   typography: {
     fontFamily: '"El Messiri", sans-serif',
     color: "#006D4B",
-    h1: {
-      fontSize: "1.4rem", // largest font size
-    },
-    h2: {
-      fontSize: "1.33rem",
-    },
-    h3: {
-      fontSize: "1.26rem",
-    },
-    h4: {
-      fontSize: "1.19rem",
-    },
-    h5: {
-      fontSize: "1.12rem",
-    },
-    h6: {
-      fontSize: "1.05rem",
-    },
-    body1: {
-      fontSize: "0.98rem",
-    },
-    body2: {
-      fontSize: "0.91rem",
-    },
-    subtitle1: {
-      fontSize: "0.84rem",
-    },
-    subtitle2: {
-      fontSize: "0.77rem",
-    },
-    button: {
-      fontSize: "0.7rem",
-    },
-    caption: {
-      fontSize: "0.63rem",
-    },
-    overline: {
-      fontSize: "0.5rem",
+    accessStats: {
+      fontSize: "1rem",
+      color: "#006D4B",
     },
     profileEmail: {
       fontSize: "1.25rem",
