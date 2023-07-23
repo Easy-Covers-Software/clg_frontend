@@ -20,6 +20,7 @@ const Container = styled(Grid)`
 
 const TypographyColored = styled(Typography)`
   color: #006d4b;
+  text-decoration: ${({ selected }) => (selected ? "underline" : "none")};
 `;
 
 namespace FreeTextInputStyledComponents {

@@ -22,13 +22,24 @@ export default function PersonalDetailsModeSwitch(
 
   return (
     <Container>
-      <TypographyColored>Upload</TypographyColored>
+      <TypographyColored
+        variant="personalDetailsSwitch"
+        selected={mode === "upload"}
+        ml={"3%"}
+      >
+        Upload
+      </TypographyColored>
       <SwitchStyled
         checked={mode === "text"}
         onChange={handleChange}
         inputProps={{ "aria-label": "controlled" }}
       />
-      <TypographyColored>Free Text</TypographyColored>
+      <TypographyColored
+        variant="personalDetailsSwitch"
+        selected={mode === "text"}
+      >
+        Free Text
+      </TypographyColored>
     </Container>
   );
 }
