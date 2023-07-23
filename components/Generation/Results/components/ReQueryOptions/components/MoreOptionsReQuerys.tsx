@@ -6,7 +6,7 @@ import styled from "@emotion/styled";
 import MediumReQueryInput from "./MediumReQueryInput";
 import CustomReQuery from "./CustomReQuery";
 
-import { UnSelectedButton } from "@/components/Global/Global";
+import { useAuth } from "@/context/AuthContext";
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
 import { MoreOptionsReQuerysStyledComponents } from "../ReQueryOptions.styles";
@@ -14,11 +14,13 @@ const { Container, MediumOptionsContainer, SubmitButton } =
   MoreOptionsReQuerysStyledComponents;
 
 export default function MoreOptionsReQueries() {
+  const { state, dispatch } = useAuth();
   const { makeIntermediateAdjustment } = useCoverLetterResultsContext();
 
   const handleIntermediateAdjustment = async () => {
     try {
       await makeIntermediateAdjustment();
+      dispatch({ type: "SET_UPDATE_USER", payload: state.updateUser });
     } catch (err) {
       console.log(err);
     }

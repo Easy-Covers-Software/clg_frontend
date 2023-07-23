@@ -5,11 +5,13 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 import { UnSelectedButton } from "@/components/Global/Global";
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useAuth } from "@/context/AuthContext";
 
 import { CustomReQueryStyledComponents } from "../ReQueryOptions.styles";
 const { CustomReQueryField, SubmitButton } = CustomReQueryStyledComponents;
 
 export default function CustomReQuery() {
+  const { state: authState, dispatch: authDispatch } = useAuth();
   const { state, dispatch, makeCustomAdjustment } =
     useCoverLetterResultsContext();
 
@@ -37,6 +39,7 @@ export default function CustomReQuery() {
   const handleCustomAdjustment = async () => {
     try {
       await makeCustomAdjustment();
+      authDispatch({ type: "SET_UPDATE_USER", payload: authState.updateUser });
     } catch (err) {
       console.log("Error in handleCustomAdjustment");
       console.log(err);

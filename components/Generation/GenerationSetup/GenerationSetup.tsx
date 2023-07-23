@@ -21,11 +21,13 @@ import PersonalDetails from "./components/PersonalDetails/PersonalDetails";
 import AdditionalDetails from "./components/AdditionalDetails/AdditionalDetails";
 
 // Context Imports
+import { useAuth } from "@/context/AuthContext";
 import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
 export default function GenerationSetup() {
   // Contexts
+  const { state: authState, dispatch } = useAuth();
   const { state } = useGenerationSetupContext();
   const { generateCoverLetter, getJobTitle, getCompanyName, getJobMatchScore } =
     useCoverLetterResultsContext();
@@ -90,6 +92,11 @@ export default function GenerationSetup() {
         freeTextPersonalDetails,
         additionalDetails
       );
+
+      dispatch({
+        type: "SET_UPDATE_USER",
+        payload: authState.updateUser,
+      });
     } catch (err) {
       console.error(err);
       // Handle error, for example by showing an error message in the UI
