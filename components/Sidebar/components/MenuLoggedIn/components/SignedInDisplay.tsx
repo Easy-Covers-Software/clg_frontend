@@ -20,23 +20,43 @@ const {
 
 const Stat = ({ statName, statValue }) => (
   <StatContainer>
-    <Typography variant="h6">{statName}</Typography>
-    <Typography variant="h6">{statValue}</Typography>
+    <Typography variant="accessStats" ml={"1%"}>
+      {statName}
+    </Typography>
+    <Typography variant="accessStats" mr={"5%"}>
+      {statValue}
+    </Typography>
   </StatContainer>
 );
 
 export default function SignedInDisplay() {
   const { state, toggleSettingsIsOpen, logout } = useAuth();
   const { user } = state;
-  const { email } = user;
+  const { email, access_level } = user;
+  const {
+    num_gpt3_generations_available,
+    num_gpt4_generations_available,
+    num_adjustments_available,
+  } = access_level;
 
+  console.log("state", state);
   console.log("user", user);
 
   return (
     <Container>
       <CoverLetterStatsContainer>
-        <Stat statName="Generations Available" statValue={3} />
-        <Stat statName="Adjustments Available" statValue={2} />
+        <Stat
+          statName="Gpt-4 Generations"
+          statValue={num_gpt3_generations_available}
+        />
+        <Stat
+          statName="Gpt-3 Generations"
+          statValue={num_gpt4_generations_available}
+        />
+        <Stat
+          statName="Adjustments Available"
+          statValue={num_adjustments_available}
+        />
       </CoverLetterStatsContainer>
 
       <UserEmail variant="profileEmail">{email}</UserEmail>
