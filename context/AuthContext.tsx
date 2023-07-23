@@ -36,6 +36,7 @@ const initialState = {
     type: "",
     message: "",
   },
+  updateUser: false,
 };
 
 function reducer(state, action) {
@@ -72,6 +73,8 @@ function reducer(state, action) {
           ...action.payload,
         },
       };
+    case "SET_UPDATE_USER":
+      return { ...state, updateUser: !state.updateUser };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -116,8 +119,9 @@ export const AuthProvider = ({
       const response = await axios.get(url, {
         withCredentials: true,
       });
-      console.log(response);
-      return response.data.user;
+      console.log("USER response");
+      console.log(response.data.data);
+      return response.data.data;
     } catch (error) {
       console.log("Error fetching user");
       console.log(error);
@@ -179,6 +183,8 @@ export const AuthProvider = ({
       );
     }
   };
+
+  console.log("state", state);
 
   const logout = async () => {
     const url = "https://localhost:8000/users/logout/";
@@ -267,7 +273,7 @@ export const AuthProvider = ({
 
   useEffect(() => {
     initUser();
-  }, []);
+  }, [state.updateUser]);
 
   return (
     <AuthContext.Provider
