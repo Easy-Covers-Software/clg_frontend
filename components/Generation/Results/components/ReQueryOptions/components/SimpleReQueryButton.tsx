@@ -10,12 +10,23 @@ import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOu
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useAuth } from "@/context/AuthContext";
 
 import { SimpleReQueryButtonStyledComponents } from "../ReQueryOptions.styles";
 const { Container, ButtonContainer } = SimpleReQueryButtonStyledComponents;
 
 export default function SimpleReQueryButton({ buttonLabel }) {
+  const { state, dispatch } = useAuth();
   const { makeSimpleAdjustment } = useCoverLetterResultsContext();
+
+  const handleSimpleAdjustment = async (adjustmentType, buttonLabel) => {
+    try {
+      await makeSimpleAdjustment(adjustmentType, buttonLabel);
+      dispatch({ type: "SET_UPDATE_USER", payload: state.updateUser });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Container>
@@ -23,7 +34,7 @@ export default function SimpleReQueryButton({ buttonLabel }) {
       <ButtonContainer>
         <IconButton
           onClick={() => {
-            makeSimpleAdjustment("decrease", buttonLabel);
+            handleSimpleAdjustment("decrease", buttonLabel);
           }}
         >
           <RemoveCircleOutlineOutlinedIcon />
@@ -33,7 +44,7 @@ export default function SimpleReQueryButton({ buttonLabel }) {
 
         <IconButton
           onClick={() => {
-            makeSimpleAdjustment("increase", buttonLabel);
+            handleSimpleAdjustment("increase", buttonLabel);
           }}
         >
           <AddCircleOutlineOutlinedIcon />
