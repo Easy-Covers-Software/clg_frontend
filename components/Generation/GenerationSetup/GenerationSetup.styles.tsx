@@ -107,21 +107,33 @@ const GenerateButton = styled(UnSelectedButton)`
     background-color: #a5b4a5;
     color: white;
   }
+
+  &:disabled {
+    background-color: #e9e9e9;
+    color: lightgray;
+    border: 1px solid lightgray;
+  }
 `;
 
 const GenerateButtonDouble = styled(UnSelectedButton)`
-  height: 80%;
-  width: 45%;
+  // height: 88%;
+  width: 95%;
   margin: auto;
 
   background-color: #bacbba;
   color: white;
   font-size: 0.95rem;
   letter-spacing: 1px;
+  white-space: nowrap;
 
   &:hover {
     background-color: #a5b4a5;
     color: white;
+  }
+  &:disabled {
+    background-color: #e9e9e9;
+    color: lightgray;
+    border: 1px solid lightgray;
   }
 `;
 
