@@ -85,7 +85,7 @@ const Container = styled(Grid)`
   height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -96,7 +96,24 @@ const SubContainer = styled(Grid)`
 
 // // GenerateButton styles
 const GenerateButton = styled(UnSelectedButton)`
-  width: 55%;
+  background-color: #bacbba;
+  color: white;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  margin: auto;
+  width: 60%;
+
+  &:hover {
+    background-color: #a5b4a5;
+    color: white;
+  }
+`;
+
+const GenerateButtonDouble = styled(UnSelectedButton)`
+  height: 80%;
+  width: 45%;
+  margin: auto;
+
   background-color: #bacbba;
   color: white;
   font-size: 0.95rem;
@@ -129,6 +146,7 @@ export {
   Container,
   SubContainer,
   GenerateButton,
+  GenerateButtonDouble,
   CheckboxIconInComplete,
   CheckboxIconComplete,
   TypographyColored,

@@ -15,6 +15,8 @@ import {
   TypographyColored,
 } from "./GenerationSetup.styles";
 
+import GenerateButtons from "./components/GenerateButton";
+
 // Custom Component Imports
 import JobPostingInput from "./components/JobPostingInput/JobPostingInput";
 import PersonalDetails from "./components/PersonalDetails/PersonalDetails";
@@ -224,9 +226,10 @@ export default function GenerationSetup() {
         </Accordion>
       </SubContainer>
 
-      <GenerateButton onClick={() => handleGenerateCoverLetter()}>
+      {/* <GenerateButton onClick={() => handleGenerateCoverLetter()}>
         Generate
-      </GenerateButton>
+      </GenerateButton> */}
+      <GenerateButtons />
     </Container>
   );
 }
