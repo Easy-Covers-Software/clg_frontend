@@ -2,14 +2,14 @@ import { Typography } from "@mui/material";
 
 import { CircularProgress } from "@mui/material";
 
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 
 import { Container, JobOverview, JobMatchScore } from "./ResultsSummary.styles";
 
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 export default function ResultsSummary() {
-  const { state } = useCoverLetterResultsContext();
+  const { state } = useGenerationContext();
   const {
     jobTitle,
     companyName,

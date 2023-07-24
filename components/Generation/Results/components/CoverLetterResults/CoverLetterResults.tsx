@@ -16,7 +16,7 @@ import DownloadOptionsMenu from "./components/DownloadOptionsMenu";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 import MoreOptionsReQueries from "../ReQueryOptions/components/MoreOptionsReQuerys";
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import ReQueryOptions from "../ReQueryOptions/ReQueryOptions";
@@ -28,7 +28,7 @@ import {
 } from "./CoverLetterResults.styles";
 
 export default function CoverLetterResults() {
-  const { state, dispatch } = useCoverLetterResultsContext();
+  const { state, dispatch } = useGenerationContext();
   const {
     isReQuerySectionExpanded,
     coverLetterOpener,

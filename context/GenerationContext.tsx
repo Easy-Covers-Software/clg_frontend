@@ -27,7 +27,7 @@ const API_BASE_URL_GEN =
 
 const API_BASE_URL = "https://localhost:8000/ai_generator/";
 
-const ResultsContext = createContext(null);
+const Context = createContext(null);
 
 const initialState = {
   jobTitle: "",
@@ -152,7 +152,7 @@ const createResumeUploadFormDataPayload = (resumeData: string) => {
   return formData;
 };
 
-export function CoverLetterResultsContext({ children }) {
+export function GenerationContext({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -733,25 +733,6 @@ export function CoverLetterResultsContext({ children }) {
     doc.save("cover-letter.pdf");
   };
 
-  // const generatePDF = () => {
-  //   const doc = new jsPDF("p", "px", "a4", true);
-
-  //   // Header Information
-  //   doc.setFont("Times New Roman");
-  //   doc.setFontSize(12);
-
-  //   // param1=words, param2=x, param3=y,
-  //   doc.text("Dear Hiring Manager,", 50, 60);
-  //   doc.text(state.coverLetterP1, 50, 85, { maxWidth: 350 });
-  //   doc.text(state.coverLetterP2, 50, 145, { maxWidth: 350 });
-  //   doc.text(state.coverLetterP3, 50, 225, { maxWidth: 350 });
-  //   doc.text(state.coverLetterThankYou, 50, 295, { maxWidth: 350 });
-  //   doc.text("Sincerely,", 50, 340);
-  //   doc.text(state.coverLetterWriter, 50, 352);
-
-  //   doc.save("cover-letter.pdf");
-  // };
-
   const generateDOCX = async () => {
     const url =
       "https://localhost:8000/ai_generator/generate/download_as_docx/";
@@ -787,7 +768,7 @@ export function CoverLetterResultsContext({ children }) {
   console.log("state.jobPostingId", state.jobPostingId);
 
   return (
-    <ResultsContext.Provider
+    <Context.Provider
       value={{
         state,
         dispatch,
@@ -808,8 +789,8 @@ export function CoverLetterResultsContext({ children }) {
       }}
     >
       {children}
-    </ResultsContext.Provider>
+    </Context.Provider>
   );
 }
 
-export const useCoverLetterResultsContext = () => useContext(ResultsContext);
+export const useGenerationContext = () => useContext(Context);

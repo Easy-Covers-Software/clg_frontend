@@ -2,7 +2,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 import { Tooltip } from "@mui/material";
 import { useAuth } from "@/context/AuthContext";
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 import {
   GenerateButton,
   GenerateButtonDouble,
@@ -146,7 +146,7 @@ export default function GenerateButtons() {
     getJobTitle,
     getCompanyName,
     getJobMatchScore,
-  } = useCoverLetterResultsContext();
+  } = useGenerationContext();
   const {
     jobPosting,
     resume,

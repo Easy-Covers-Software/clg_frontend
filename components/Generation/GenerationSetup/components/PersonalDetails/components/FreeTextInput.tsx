@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 
 import { FreeTextInputStyledComponents } from "../PersonalDetails.styles";
 const { TextArea } = FreeTextInputStyledComponents;
 
 export default function FreeTextInput() {
-  const { state, dispatch } = useCoverLetterResultsContext();
+  const { state, dispatch } = useGenerationContext();
   const { freeText } = state;
 
   const [value, setValue] = useState("");

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 
 import { JobPostingTextInputField } from "./JobPostingInput.styles";
 
 export default function JobPostingInput() {
-  const { state, dispatch } = useCoverLetterResultsContext();
+  const { state, dispatch } = useGenerationContext();
   const { jobPosting } = state;
 
   const [placeholder, setPlaceholder] = useState(

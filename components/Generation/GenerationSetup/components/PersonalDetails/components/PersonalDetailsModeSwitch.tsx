@@ -1,4 +1,4 @@
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 import { Typography } from "@mui/material";
 import { PersonalDetailsModeSwitchStyledComponents } from "../PersonalDetails.styles";
 const { Container, SwitchStyled } = PersonalDetailsModeSwitchStyledComponents;
@@ -13,7 +13,7 @@ export default function PersonalDetailsModeSwitch(
 ) {
   const { mode, setMode } = props;
 
-  const { state } = useCoverLetterResultsContext();
+  const { state } = useGenerationContext();
   const { isUsingLastUploadedResume } = state;
 
   const handleChange = () => {

@@ -11,14 +11,14 @@ import Tooltip from "@mui/material/Tooltip";
 
 import styled from "@emotion/styled";
 
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 
 import { MediumReQueryInputStyledComponents } from "../ReQueryOptions.styles";
 const { Container, FormInput, QuestionContainer, InputField } =
   MediumReQueryInputStyledComponents;
 
 export default function MediumReQueryInput({ label }) {
-  const { state, dispatch } = useCoverLetterResultsContext();
+  const { state, dispatch } = useGenerationContext();
 
   const { addSkillInput, insertKeywordInput, removeRedundancyInput } = state;
 

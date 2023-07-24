@@ -3,7 +3,7 @@
 import UploadOption from "./UploadOption";
 
 import { useAuth } from "@/context/AuthContext";
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 
 import { ResumeUploadStyledComponents } from "../PersonalDetails.styles";
 import PostAddIcon from "@mui/icons-material/PostAdd";
@@ -18,7 +18,7 @@ export default function ResumeUploader() {
   const { state: authState } = useAuth();
   const { userResume } = authState;
 
-  const { state, dispatch } = useCoverLetterResultsContext();
+  const { state, dispatch } = useGenerationContext();
   const { isUsingLastUploadedResume } = state;
 
   console.log("isUsingLastUploadedResume", isUsingLastUploadedResume);

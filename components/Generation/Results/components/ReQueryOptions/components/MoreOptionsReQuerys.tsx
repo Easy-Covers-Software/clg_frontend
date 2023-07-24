@@ -5,7 +5,7 @@ import MediumReQueryInput from "./MediumReQueryInput";
 import CustomReQuery from "./CustomReQuery";
 
 import { useAuth } from "@/context/AuthContext";
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 
 import { MoreOptionsReQuerysStyledComponents } from "../ReQueryOptions.styles";
 const { Container, MediumOptionsContainer, SubmitButton } =
@@ -13,7 +13,7 @@ const { Container, MediumOptionsContainer, SubmitButton } =
 
 export default function MoreOptionsReQueries() {
   const { state, dispatch, updateSnackbar, toggleSettingsIsOpen } = useAuth();
-  const { makeIntermediateAdjustment } = useCoverLetterResultsContext();
+  const { makeIntermediateAdjustment } = useGenerationContext();
 
   const handleIntermediateAdjustment = async () => {
     if (state.accessLevel.num_adjustments_available === 0) {

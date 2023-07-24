@@ -12,7 +12,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import { Tooltip } from "@mui/material";
 
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 import { useAuth } from "@/context/AuthContext";
 
 import { DownloadOptionsMenuStyledComponents } from "../CoverLetterResults.styles";
@@ -20,7 +20,7 @@ const { Container } = DownloadOptionsMenuStyledComponents;
 
 export default function DownloadOptionsMenu() {
   const { saveCoverLetterResults, generatePDF, generateDOCX } =
-    useCoverLetterResultsContext();
+    useGenerationContext();
   const { updateSnackbar } = useAuth();
 
   const [downloadMenuAnchor, setDownloadMenuAnchor] =

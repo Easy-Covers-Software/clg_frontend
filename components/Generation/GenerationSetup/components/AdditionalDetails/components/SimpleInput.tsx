@@ -1,9 +1,11 @@
+import { useState } from "react";
+
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Tooltip from "@mui/material/Tooltip";
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 import { SimpleInputStyledComponents } from "../AdditionalDetails.styles";
 const { Container, InputField } = SimpleInputStyledComponents;
 
@@ -13,10 +15,10 @@ interface SimpleInputProps {
 
 export default function SimpleInput(props: SimpleInputProps) {
   const { id } = props;
-  const { state, dispatch } = useCoverLetterResultsContext();
+  const { state, dispatch } = useGenerationContext();
   const { additionalDetails } = state;
 
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = useState("");
 
   const clearInput = () => {
     setInputValue("");

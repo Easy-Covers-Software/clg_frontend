@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 import { UnSelectedButton } from "@/components/Global/Global";
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 import { useAuth } from "@/context/AuthContext";
 
 import { CustomReQueryStyledComponents } from "../ReQueryOptions.styles";
@@ -17,8 +17,7 @@ export default function CustomReQuery() {
     updateSnackbar,
     toggleSettingsIsOpen,
   } = useAuth();
-  const { state, dispatch, makeCustomAdjustment } =
-    useCoverLetterResultsContext();
+  const { state, dispatch, makeCustomAdjustment } = useGenerationContext();
 
   const { customAdjustment } = state;
 

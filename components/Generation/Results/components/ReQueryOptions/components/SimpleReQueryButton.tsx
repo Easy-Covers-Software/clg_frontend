@@ -7,7 +7,7 @@ import { IconButton } from "@mui/material";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 import { useAuth } from "@/context/AuthContext";
 
 import { SimpleReQueryButtonStyledComponents } from "../ReQueryOptions.styles";
@@ -15,7 +15,7 @@ const { Container, ButtonContainer } = SimpleReQueryButtonStyledComponents;
 
 export default function SimpleReQueryButton({ buttonLabel }) {
   const { state, dispatch, updateSnackbar, toggleSettingsIsOpen } = useAuth();
-  const { makeSimpleAdjustment } = useCoverLetterResultsContext();
+  const { makeSimpleAdjustment } = useGenerationContext();
 
   const handleSimpleAdjustment = async (adjustmentType, buttonLabel) => {
     if ((state.accessLevel.num_adjustments_available = 0)) {

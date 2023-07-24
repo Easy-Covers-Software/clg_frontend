@@ -26,7 +26,7 @@ import { checkAdditionalDetails } from "@/context/utils";
 
 // Context Imports
 import { useAuth } from "@/context/AuthContext";
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 
 export default function GenerationSetup() {
   // Contexts
@@ -37,7 +37,7 @@ export default function GenerationSetup() {
     getJobTitle,
     getCompanyName,
     getJobMatchScore,
-  } = useCoverLetterResultsContext();
+  } = useGenerationContext();
   const {
     isUsingLastUploadedResume,
     jobPosting,

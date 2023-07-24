@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Typography } from "@mui/material";
 
@@ -10,7 +10,7 @@ const { Container, FileUploadInput, Dropzone, Label } =
 
 export default function UploadOption({ label, accept }) {
   const id = label.replace(/\s+/g, "-").toLowerCase();
-  const { state, handleFileChange } = useCoverLetterResultsContext();
+  const { state, handleFileChange } = useGenerationContext();
   const { resume } = state;
 
   const [dragging, setDragging] = useState(false);

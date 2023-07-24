@@ -3,12 +3,12 @@
 import React, { useContext } from "react";
 
 import SimpleReQueryButton from "./components/SimpleReQueryButton";
-import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 
 import { Container, MoreOptions } from "./ReQueryOptions.styles";
 
 export default function ReQueryOptions() {
-  const { toggleIsReQuerySectionExpanded } = useCoverLetterResultsContext();
+  const { toggleIsReQuerySectionExpanded } = useGenerationContext();
 
   return (
     <Container>

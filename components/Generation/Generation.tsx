@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
-import { CoverLetterResultsContext } from "@/context/ResultsContext";
+import { GenerationContext } from "@/context/GenerationContext";
 
 import LoginDialog from "@/components/Login/LoginDialog";
 import SettingsDialog from "@/components/Settings/SettingsDialog";
@@ -27,16 +27,15 @@ export default function Generation() {
     <Container>
       {isLoginOpen ? <LoginDialog /> : null}
       {isSettingsOpen ? <SettingsDialog /> : null}
-      <CoverLetterResultsContext>
+      <GenerationContext>
         <GenerationSetup />
         <Results />
-      </CoverLetterResultsContext>
+      </GenerationContext>
 
       <SnackbarAlert
         open={snackbar.open}
         type={snackbar.type}
         message={snackbar.message}
-        // onClose={handleSnackbarClose}
       />
     </Container>
   );
