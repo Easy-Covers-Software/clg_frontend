@@ -42,6 +42,7 @@ const initialState = {
     num_gpt4_generations_available: 0,
     num_adjustments_available: 0,
   },
+  userResume: "",
 };
 
 function reducer(state, action) {
@@ -88,6 +89,8 @@ function reducer(state, action) {
           ...action.payload,
         },
       };
+    case "SET_USER_RESUME":
+      return { ...state, userResume: action.payload };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -136,6 +139,7 @@ export const AuthProvider = ({
       console.log("USER response");
       console.log(response.data.data);
       dispatch({ type: "SET_USER", payload: response.data.data.email });
+      dispatch({ type: "SET_USER_RESUME", payload: response.data.data.resume });
       dispatch({
         type: "SET_ACCESS_LEVEL",
         payload: response.data.data.access_level,
@@ -203,7 +207,7 @@ export const AuthProvider = ({
     }
   };
 
-  console.log("state", state);
+  // console.log("state", state);
 
   const logout = async () => {
     const url = "https://localhost:8000/users/logout/";
