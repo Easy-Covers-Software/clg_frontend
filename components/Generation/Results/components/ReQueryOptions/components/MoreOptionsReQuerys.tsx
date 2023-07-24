@@ -1,5 +1,3 @@
-import React from "react";
-
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 

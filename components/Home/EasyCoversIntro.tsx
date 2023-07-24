@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
 import { UnSelectedButton } from "../Global/Global";
 import { Typography } from "@mui/material";

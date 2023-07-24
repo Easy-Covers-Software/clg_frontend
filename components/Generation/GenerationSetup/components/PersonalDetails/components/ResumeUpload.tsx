@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import UploadOption from "./UploadOption";
 
 import { useAuth } from "@/context/AuthContext";

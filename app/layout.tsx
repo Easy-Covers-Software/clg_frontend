@@ -1,5 +1,3 @@
-import React from "react";
-
 import Provider from "@/components/Provider";
 
 import axios from "axios";

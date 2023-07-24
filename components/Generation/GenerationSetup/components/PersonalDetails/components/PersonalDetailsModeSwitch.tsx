@@ -1,5 +1,3 @@
-import React from "react";
-
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 import { Typography } from "@mui/material";
 import { PersonalDetailsModeSwitchStyledComponents } from "../PersonalDetails.styles";

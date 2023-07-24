@@ -1,5 +1,3 @@
-import React from "react";
-
 import styled from "@emotion/styled";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Typography from "@mui/material/Typography";
@@ -14,7 +12,6 @@ const {
   Container,
   HorizontalDivider,
   CoverLetterStatsContainer,
-  UserEmail,
   StatContainer,
 } = SignedInDisplayStyledComponents;
 

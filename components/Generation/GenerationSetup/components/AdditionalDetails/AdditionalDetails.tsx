@@ -1,11 +1,6 @@
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-
 import AdditionalDetailsFreeText from "./components/AdditionalDetailsFreeText";
 
 import SimpleInput from "./components/SimpleInput";
-
-import Typography from "@mui/material/Typography";
 
 import { Container } from "./AdditionalDetails.styles";
 
