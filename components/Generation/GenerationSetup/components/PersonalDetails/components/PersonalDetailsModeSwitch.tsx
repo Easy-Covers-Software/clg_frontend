@@ -1,11 +1,8 @@
 import React from "react";
 
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
-
-import {
-  TypographyColored,
-  PersonalDetailsModeSwitchStyledComponents,
-} from "../PersonalDetails.styles";
+import { Typography } from "@mui/material";
+import { PersonalDetailsModeSwitchStyledComponents } from "../PersonalDetails.styles";
 const { Container, SwitchStyled } = PersonalDetailsModeSwitchStyledComponents;
 
 interface PersonalDetailsModeSwitchProps {
@@ -31,24 +28,21 @@ export default function PersonalDetailsModeSwitch(
         opacity: isUsingLastUploadedResume ? 0.3 : 1,
       }}
     >
-      <TypographyColored
+      <Typography
         variant="personalDetailsSwitch"
         selected={mode === "upload"}
         ml={"3%"}
       >
         Upload
-      </TypographyColored>
+      </Typography>
       <SwitchStyled
         checked={mode === "text"}
         onChange={handleChange}
         inputProps={{ "aria-label": "controlled" }}
       />
-      <TypographyColored
-        variant="personalDetailsSwitch"
-        selected={mode === "text"}
-      >
+      <Typography variant="personalDetailsSwitch" selected={mode === "text"}>
         Free Text
-      </TypographyColored>
+      </Typography>
     </Container>
   );
 }

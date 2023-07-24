@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Paper } from "@mui/material";
-import { Typography } from "@mui/material";
 
 const Container = styled(Grid)`
   width: 100%;
@@ -28,19 +27,8 @@ const WelcomePaper = styled(Paper)`
   flex-direction: column;
   // justify-content: center;
   align-items: center;
-
   background-color: #f8f8ff;
   border: 3px solid #13d0b7;
 `;
 
-const Header = styled(Typography)`
-  margin-top: -5%;
-`;
-
-const SubHeader = styled(Typography)`
-  text-align: center;
-  margin-top: 1%;
-  margin-bottom: 5%;
-`;
-
-export { Container, FullLogo, WelcomePaper, Header, SubHeader };
+export { Container, FullLogo, WelcomePaper };

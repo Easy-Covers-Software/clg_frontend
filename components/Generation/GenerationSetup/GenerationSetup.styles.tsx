@@ -11,7 +11,6 @@ import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
 import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
-import Typography from "@mui/material/Typography";
 import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
 import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -147,10 +146,6 @@ const CheckboxIconComplete = styled(CheckCircleOutlineIcon)`
   opacity: 1;
 `;
 
-const TypographyColored = styled(Typography)`
-  color: #006d4b;
-`;
-
 export {
   Accordion,
   AccordionSummary,
@@ -161,5 +156,4 @@ export {
   GenerateButtonDouble,
   CheckboxIconInComplete,
   CheckboxIconComplete,
-  TypographyColored,
 };

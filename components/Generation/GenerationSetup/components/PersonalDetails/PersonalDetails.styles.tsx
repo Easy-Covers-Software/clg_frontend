@@ -2,7 +2,6 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 import { styled as muiStyled } from "@mui/material/styles";
 import { Switch } from "@mui/material";
-import Typography from "@mui/material/Typography";
 
 const Container = styled(Grid)`
   display: flex;
@@ -16,11 +15,6 @@ const Container = styled(Grid)`
   border: none;
   resize: none;
   z-index: -10;
-`;
-
-const TypographyColored = styled(Typography)`
-  color: #006d4b;
-  text-decoration: ${({ selected }) => (selected ? "underline" : "none")};
 `;
 
 namespace FreeTextInputStyledComponents {
@@ -137,12 +131,13 @@ namespace ResumeUploadStyledComponents {
     align-items: center;
     border: 1px solid #006d4b;
     border-radius: 4px;
-    gap: 5%;
+    // gap: 2%;
     // box-shadow: 7px 7px 0px 0px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     // padding-right: 5%;
-    padding-left: 5%;
+    padding-left: 3%;
     opacity: 100%;
+    overflow: scroll;
 
     background-color: #f8f8ff;
     border: 2px solid #13d0b7;
@@ -180,13 +175,14 @@ namespace UploadOptionStyledComponents {
     width: 100%;
     height: 100%;
     display: flex;
-    white-space: nowrap;
+    justify-content: center;
+    text-align: center;
+    // white-space: nowrap;
   `;
 }
 
 export {
   Container,
-  TypographyColored,
   FreeTextInputStyledComponents,
   PersonalDetailsModeSwitchStyledComponents,
   ResumeUploadStyledComponents,

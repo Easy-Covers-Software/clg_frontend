@@ -19,6 +19,7 @@ const HorizontalDivider = styled(Divider)`
 `;
 
 const GenerationModeTab = styled(UnSelectedButton)`
+  white-space: nowrap;
   ${({ selected }) => (selected ? "background-color: #f5faf5;" : "white")}
   ${({ selected }) =>
     selected

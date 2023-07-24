@@ -51,7 +51,7 @@ export default function UploadOption({ label, accept }) {
           onDragLeave={dragLeave}
           onDrop={fileDrop}
         >
-          <Typography>
+          <Typography variant="dragDrop">
             {resume && resume.name !== ""
               ? resume.name
               : "Drag and drop your files here or click to select files"}

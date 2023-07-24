@@ -45,7 +45,7 @@ export default function SimpleReQueryButton({ buttonLabel }) {
 
   return (
     <Container>
-      <Typography fontSize={"0.8rem"}>{buttonLabel}</Typography>
+      <Typography variant="simpleAdjustmentLabel">{buttonLabel}</Typography>
       <ButtonContainer>
         <IconButton
           onClick={() => {

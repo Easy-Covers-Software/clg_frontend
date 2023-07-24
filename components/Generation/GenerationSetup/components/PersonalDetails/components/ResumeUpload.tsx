@@ -66,17 +66,17 @@ export default function ResumeUploader() {
               : "7px 7px 0px 0px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Grid display={"flex"} alignItems={"center"} gap={"8%"} pl={"2%"}>
+          <Grid display={"flex"} alignItems={"center"} gap={"3%"}>
             <PostAddIcon
               fontSize="large"
-              style={{
+              // color="#006D4B"
+              sx={{
                 paddingBottom: "2%",
                 color: "#006D4B",
               }}
             />
             <Typography
-              whiteSpace={"nowrap"}
-              color={"#006D4B"}
+              variant="useLastResume"
               style={{
                 textDecoration: isUsingLastUploadedResume
                   ? "underline"

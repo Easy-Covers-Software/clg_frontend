@@ -76,7 +76,7 @@ export default function CustomReQuery() {
       gap={2}
       mt={2}
     >
-      <Typography ml={1} mb={-2} fontSize={"0.8rem"}>
+      <Typography variant="customAdjustmentHeading">
         Custom Adjustment
       </Typography>
       <CustomReQueryField

@@ -66,7 +66,14 @@ const ButtonSet = (props: ButtonSetProps) => {
               : ""
           }
         >
-          <Grid p={0} m={0} display={"flex"} width={"100%"}>
+          <Grid
+            p={0}
+            m={0}
+            display={"flex"}
+            width={"100%"}
+            bgcolor={"clear"}
+            mt={1}
+          >
             <GenerateButtonDouble
               onClick={() => handleGenerateCoverLetter("3")}
               disabled={disabled}
@@ -86,7 +93,7 @@ const ButtonSet = (props: ButtonSetProps) => {
               : ""
           }
         >
-          <Grid p={0} m={0} display={"flex"} width={"100%"}>
+          <Grid p={0} m={0} display={"flex"} width={"100%"} mt={1}>
             <GenerateButtonDouble
               onClick={() => handleGenerateCoverLetter("4")}
               disabled={disabled}

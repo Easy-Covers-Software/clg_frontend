@@ -17,6 +17,7 @@ const Container = styled(Grid)`
 `;
 
 const GenerationModeTab = styled(UnSelectedButton)`
+  white-space: nowrap;
   ${({ selected }) => (selected ? "background-color: #f5faf5;" : "white")}
   ${({ selected }) =>
     selected
@@ -43,18 +44,21 @@ namespace SignedInDisplayStyledComponents {
   export const Container = styled(Grid)`
     display: flex;
     flex-direction: column;
+    // align-items: center;
     width: 100%;
     gap: 12px;
   `;
 
   export const HorizontalDivider = styled(Divider)`
     margin: 1% 3%;
+    min-width: 94%;
   `;
 
   export const CoverLetterStatsContainer = styled(Grid)`
     width: 100%
     display: flex;
     flex-direction: column;
+    gap: 5%;
   `;
   export const EmailGrid = styled(Grid)`
     width: 100%
@@ -65,18 +69,19 @@ namespace SignedInDisplayStyledComponents {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 5%;
-    margin: 5% 0;
+    // padding: 3% 0;
+    margin: 8% 0;
   `;
 
-  export const UserEmail = styled(Typography)`
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    text-align: center;
-    margin: 0 auto;
-  `;
+  // export const UserEmail = styled(Typography)`
+  //   width: 100%;
+  //   overflow: hidden;
+  //   white-space: nowrap;
+  //   text-overflow: ellipsis;
+  //   text-align: center;
+  //   margin: 0 auto;
+  //   padding-left: 1%;
+  // `;
 }
 
 export { Container, GenerationModeTab, Tabs, SignedInDisplayStyledComponents };

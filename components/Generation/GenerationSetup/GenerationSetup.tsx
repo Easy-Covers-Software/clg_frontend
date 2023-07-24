@@ -3,6 +3,8 @@
 // React-related imports
 import React, { useState, useEffect } from "react";
 
+import { Typography } from "@mui/material";
+
 import {
   Accordion,
   AccordionSummary,
@@ -11,7 +13,6 @@ import {
   SubContainer,
   CheckboxIconInComplete,
   CheckboxIconComplete,
-  TypographyColored,
 } from "./GenerationSetup.styles";
 
 import GenerateButtons from "./components/GenerateButton";
@@ -170,7 +171,7 @@ export default function GenerationSetup() {
               <CheckboxIconComplete />
             )}
 
-            <TypographyColored>Job Posting</TypographyColored>
+            <Typography variant="accordionHeader">Job Posting</Typography>
           </AccordionSummary>
 
           <AccordionDetails>
@@ -199,9 +200,9 @@ export default function GenerationSetup() {
             ) : (
               <CheckboxIconComplete />
             )}
-            <TypographyColored>
+            <Typography variant="accordionHeader">
               Résumé Upload / Personal Details
-            </TypographyColored>
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <PersonalDetails />
@@ -224,7 +225,9 @@ export default function GenerationSetup() {
               <CheckboxIconComplete />
             )}
 
-            <TypographyColored>Additional Details (optional)</TypographyColored>
+            <Typography variant="accordionHeader">
+              Additional Details (optional)
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <AdditionalDetails />

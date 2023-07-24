@@ -30,9 +30,9 @@ export default function MenuLoggedIn() {
         </Link>
       </Tabs>
 
-      <Grid>
-        <SignedInDisplay />
-      </Grid>
+      {/* <Grid> */}
+      <SignedInDisplay />
+      {/* </Grid> */}
     </Container>
   );
 }

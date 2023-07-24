@@ -29,10 +29,10 @@ export default function ResultsSummary() {
           </Grid>
         ) : (
           <>
-            <Typography pl={3} pt={1.2} fontSize={"1.3rem"}>
+            <Typography variant="jobSummaryTitle">
               {jobTitle && jobTitle !== "" ? jobTitle : "Job Title"}
             </Typography>
-            <Typography pl={3} pb={2} fontSize={"1rem"}>
+            <Typography variant="jobSummaryCompany">
               {companyName && companyName !== "" ? companyName : "Company Name"}
             </Typography>
           </>
@@ -40,7 +40,7 @@ export default function ResultsSummary() {
       </JobOverview>
 
       <JobMatchScore>
-        <Typography mt={0.5} whiteSpace={"nowrap"} fontSize={"0.9rem"}>
+        <Typography variant="jobSummaryMatchScoreHeader">
           Match Score
         </Typography>
         {loadingMatchScore ? (
@@ -48,7 +48,7 @@ export default function ResultsSummary() {
             <CircularProgress color="success" />
           </Grid>
         ) : (
-          <Typography fontSize={"1.8rem"}>{matchScore}</Typography>
+          <Typography variant="jobSummaryMatchScore">{matchScore}</Typography>
         )}
       </JobMatchScore>
     </Container>
