@@ -14,7 +14,7 @@ const Search = muiStyled("div")(({ theme }) => ({
   color: "#006D4B",
   border: "1px solid #13D0B7",
   "&:hover": {
-    backgroundColor: alpha(theme.palette.primary.nav, 0.25),
+    // backgroundColor: alpha(theme.palette.grey[00], 0.18),
   },
   width: "100%",
   [theme.breakpoints.up("sm")]: {

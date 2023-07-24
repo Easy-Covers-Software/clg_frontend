@@ -5,8 +5,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Radio from "@mui/material/Radio";
 import IconButton from "@mui/material/IconButton";
-import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOfflineOutlined";
-
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 export default function RadioList() {
   const [selected, setSelected] = React.useState<number | null>(null);
 
@@ -23,7 +22,7 @@ export default function RadioList() {
       sx={{
         width: "94%",
         height: "100%",
-        bgcolor: "#F8F8FF",
+        bgcolor: "#fff",
         borderRadius: "4px",
         border: "1px solid #006D4B",
         paddingTop: "0px",
@@ -41,7 +40,7 @@ export default function RadioList() {
             }}
             secondaryAction={
               <IconButton edge="end" aria-label="comments">
-                <DownloadForOfflineOutlinedIcon />
+                <DeleteForeverOutlinedIcon />
               </IconButton>
             }
             disablePadding
