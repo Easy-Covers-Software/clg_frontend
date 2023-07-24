@@ -142,6 +142,11 @@ const theme = createTheme({
       marginTop: "1%",
       marginBottom: "5%",
     },
+    savedHeader: {
+      fontSize: "1.25rem",
+      color: "#006D4B",
+      textAlign: "center",
+    },
     spacing: [0, 4, 8, 16, 32, 64, 128, 256, 512],
     transitions: {
       duration: {
