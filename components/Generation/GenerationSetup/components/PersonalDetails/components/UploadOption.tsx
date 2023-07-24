@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Typography } from "@mui/material";
 
 import { UploadOptionStyledComponents } from "../PersonalDetails.styles";
 const { Container, FileUploadInput, Dropzone, Label } =
@@ -9,8 +10,8 @@ const { Container, FileUploadInput, Dropzone, Label } =
 
 export default function UploadOption({ label, accept }) {
   const id = label.replace(/\s+/g, "-").toLowerCase();
-  const { state, handleFileChange } = useGenerationSetupContext();
-  const { uploadedResumeFile } = state;
+  const { state, handleFileChange } = useCoverLetterResultsContext();
+  const { resume } = state;
 
   const [dragging, setDragging] = useState(false);
 
@@ -50,9 +51,11 @@ export default function UploadOption({ label, accept }) {
           onDragLeave={dragLeave}
           onDrop={fileDrop}
         >
-          {uploadedResumeFile && uploadedResumeFile.name !== ""
-            ? uploadedResumeFile.name
-            : "Drag and drop your files here or click to select files"}
+          <Typography>
+            {resume && resume.name !== ""
+              ? resume.name
+              : "Drag and drop your files here or click to select files"}
+          </Typography>
         </Dropzone>
       </Label>
     </Container>

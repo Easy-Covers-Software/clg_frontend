@@ -9,7 +9,6 @@ import {
   AccordionDetails,
   Container,
   SubContainer,
-  GenerateButton,
   CheckboxIconInComplete,
   CheckboxIconComplete,
   TypographyColored,
@@ -26,21 +25,23 @@ import { checkAdditionalDetails } from "@/context/utils";
 
 // Context Imports
 import { useAuth } from "@/context/AuthContext";
-import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
 export default function GenerationSetup() {
   // Contexts
   const { state: authState, dispatch } = useAuth();
-  const { state } = useGenerationSetupContext();
-  const { generateCoverLetter, getJobTitle, getCompanyName, getJobMatchScore } =
-    useCoverLetterResultsContext();
-
-  // State from Context
   const {
-    jobPostingInput,
-    uploadedResumeFile,
-    freeTextPersonalDetails,
+    state,
+    generateCoverLetter,
+    getJobTitle,
+    getCompanyName,
+    getJobMatchScore,
+  } = useCoverLetterResultsContext();
+  const {
+    isUsingLastUploadedResume,
+    jobPosting,
+    resume,
+    freeText,
     additionalDetails,
   } = state;
 
@@ -55,16 +56,16 @@ export default function GenerationSetup() {
 
   // Helper functions
   const isDifferentJobPostingSinceLastSubmission = () =>
-    jobPostingInput !== jobPostingLastSubmitted;
+    jobPosting !== jobPostingLastSubmitted;
   const isDifferentResumeSinceLastSubmission = () =>
-    jobPostingInput !== jobPostingLastSubmitted;
+    jobPosting !== jobPostingLastSubmitted;
 
   // Upload handlers
   const handleJobPostingUpload = async () => {
     if (isDifferentJobPostingSinceLastSubmission()) {
       try {
-        // await uploadJobPosting(jobPostingInput);
-        setJobPostingLastSubmitted(jobPostingInput);
+        // await uploadJobPosting(jobPosting);
+        setJobPostingLastSubmitted(jobPosting);
       } catch (err) {
         console.error(err);
         // Handle error, for example by showing an error message in the UI
@@ -76,7 +77,7 @@ export default function GenerationSetup() {
     if (isDifferentResumeSinceLastSubmission()) {
       try {
         // await uploadResume(uploadedResumeFile);
-        setResumeLastUploaded(uploadedResumeFile);
+        setResumeLastUploaded(resume);
       } catch (err) {
         console.error(err);
         // Handle error, for example by showing an error message in the UI
@@ -87,13 +88,13 @@ export default function GenerationSetup() {
   // Cover Letter handler
   const handleGenerateCoverLetter = async () => {
     try {
-      await getJobTitle(jobPostingInput);
-      await getCompanyName(jobPostingInput);
-      await getJobMatchScore(jobPostingInput);
+      await getJobTitle(jobPosting);
+      await getCompanyName(jobPosting);
+      await getJobMatchScore(jobPosting);
       await generateCoverLetter(
-        jobPostingInput,
-        uploadedResumeFile,
-        freeTextPersonalDetails,
+        jobPosting,
+        resume,
+        freeText,
         additionalDetails
       );
 
@@ -143,6 +144,8 @@ export default function GenerationSetup() {
     setPreviousPanel(expanded);
   }, [expanded]);
 
+  console.log("isUsingLastUploadedResume", isUsingLastUploadedResume);
+
   return (
     <Container>
       <SubContainer>
@@ -161,7 +164,7 @@ export default function GenerationSetup() {
             expanded="panel1"
             tracker={`1-${expanded === "panel1"}`}
           >
-            {jobPostingInput === "" ? (
+            {jobPosting === "" ? (
               <CheckboxIconInComplete />
             ) : (
               <CheckboxIconComplete />
@@ -189,7 +192,9 @@ export default function GenerationSetup() {
             expanded="panel2"
             tracker={`2-${expanded === "panel2"}`}
           >
-            {uploadedResumeFile === null && freeTextPersonalDetails === "" ? (
+            {resume === null &&
+            freeText === "" &&
+            !isUsingLastUploadedResume ? (
               <CheckboxIconInComplete />
             ) : (
               <CheckboxIconComplete />

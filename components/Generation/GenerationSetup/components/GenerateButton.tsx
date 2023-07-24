@@ -2,7 +2,6 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 import { Tooltip } from "@mui/material";
 import { useAuth } from "@/context/AuthContext";
-import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
 import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 import {
   GenerateButton,
@@ -134,16 +133,20 @@ const ButtonSet = (props: ButtonSetProps) => {
 };
 
 export default function GenerateButtons() {
-  const { state } = useGenerationSetupContext();
   const {
-    jobPostingInput,
-    uploadedResumeFile,
-    freeTextPersonalDetails,
+    state,
+    generateCoverLetter,
+    getJobTitle,
+    getCompanyName,
+    getJobMatchScore,
+  } = useCoverLetterResultsContext();
+  const {
+    jobPosting,
+    resume,
+    freeText,
     additionalDetails,
     disableGenerateButton,
   } = state;
-  const { generateCoverLetter, getJobTitle, getCompanyName, getJobMatchScore } =
-    useCoverLetterResultsContext();
 
   const {
     state: authState,
@@ -177,14 +180,14 @@ export default function GenerateButtons() {
     }
 
     try {
-      await getJobTitle(jobPostingInput);
-      await getCompanyName(jobPostingInput);
-      await getJobMatchScore(jobPostingInput);
+      await getJobTitle(jobPosting);
+      await getCompanyName(jobPosting);
+      await getJobMatchScore(jobPosting);
 
       const status = await generateCoverLetter(
-        jobPostingInput,
-        uploadedResumeFile,
-        freeTextPersonalDetails,
+        jobPosting,
+        resume,
+        freeText,
         additionalDetails,
         model
       );

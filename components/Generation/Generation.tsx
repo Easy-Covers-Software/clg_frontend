@@ -1,6 +1,5 @@
 "use client";
 
-import { GenerationContext } from "@/context/GenerationSetupContext";
 import { useAuth } from "@/context/AuthContext";
 import { CoverLetterResultsContext } from "@/context/ResultsContext";
 
@@ -28,12 +27,10 @@ export default function Generation() {
     <Container>
       {isLoginOpen ? <LoginDialog /> : null}
       {isSettingsOpen ? <SettingsDialog /> : null}
-      <GenerationContext>
-        <CoverLetterResultsContext>
-          <GenerationSetup />
-          <Results />
-        </CoverLetterResultsContext>
-      </GenerationContext>
+      <CoverLetterResultsContext>
+        <GenerationSetup />
+        <Results />
+      </CoverLetterResultsContext>
 
       <SnackbarAlert
         open={snackbar.open}

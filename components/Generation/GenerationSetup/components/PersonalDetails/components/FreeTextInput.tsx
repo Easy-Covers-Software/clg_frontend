@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 
-import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
 import { FreeTextInputStyledComponents } from "../PersonalDetails.styles";
 const { TextArea } = FreeTextInputStyledComponents;
 
 export default function FreeTextInput() {
-  const { state, dispatch } = useGenerationSetupContext();
-  const { freeTextPersonalDetails } = state;
+  const { state, dispatch } = useCoverLetterResultsContext();
+  const { freeText } = state;
 
   const [value, setValue] = useState("");
   const [placeholder, setPlaceholder] = useState(
@@ -37,7 +37,7 @@ export default function FreeTextInput() {
   return (
     <TextArea
       placeholder={placeholder}
-      value={freeTextPersonalDetails}
+      value={freeText}
       onChange={handleChange}
       onFocus={handleFocus}
       onBlur={handleBlur}

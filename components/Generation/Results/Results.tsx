@@ -1,13 +1,12 @@
 "use client";
 
-import React, { createContext, useState } from "react";
+import React from "react";
 
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 
 import ResultsSummary from "./components/ResultsSummary/ResultsSummary";
 import CoverLetterResults from "./components/CoverLetterResults/CoverLetterResults";
-import ReQueryOptions from "./components/ReQueryOptions/ReQueryOptions";
 
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`

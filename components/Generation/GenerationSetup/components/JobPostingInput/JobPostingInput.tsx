@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 
-import { useGenerationSetupContext } from "@/context/GenerationSetupContext";
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
 
 import { JobPostingTextInputField } from "./JobPostingInput.styles";
 
 export default function JobPostingInput() {
-  const { state, dispatch } = useGenerationSetupContext();
-  const { jobPostingInput } = state;
+  const { state, dispatch } = useCoverLetterResultsContext();
+  const { jobPosting } = state;
 
   const [placeholder, setPlaceholder] = useState(
     "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
@@ -22,7 +22,7 @@ export default function JobPostingInput() {
   };
 
   const handleBlur = () => {
-    if (jobPostingInput === "") {
+    if (jobPosting === "") {
       setPlaceholder(
         "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
       );
@@ -32,7 +32,7 @@ export default function JobPostingInput() {
   return (
     <JobPostingTextInputField
       placeholder={placeholder}
-      value={jobPostingInput}
+      value={jobPosting}
       onChange={handleChange}
       onFocus={handleFocus}
       onBlur={handleBlur}

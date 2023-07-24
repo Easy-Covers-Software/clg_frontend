@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+
 import {
   TypographyColored,
   PersonalDetailsModeSwitchStyledComponents,
@@ -16,12 +18,19 @@ export default function PersonalDetailsModeSwitch(
 ) {
   const { mode, setMode } = props;
 
+  const { state } = useCoverLetterResultsContext();
+  const { isUsingLastUploadedResume } = state;
+
   const handleChange = () => {
     setMode(mode === "upload" ? "text" : "upload");
   };
 
   return (
-    <Container>
+    <Container
+      style={{
+        opacity: isUsingLastUploadedResume ? 0.3 : 1,
+      }}
+    >
       <TypographyColored
         variant="personalDetailsSwitch"
         selected={mode === "upload"}
