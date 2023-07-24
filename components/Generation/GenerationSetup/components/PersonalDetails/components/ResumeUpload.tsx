@@ -1,25 +1,108 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import UploadOption from "./UploadOption";
+
+import { useAuth } from "@/context/AuthContext";
+import { useCoverLetterResultsContext } from "@/context/ResultsContext";
+
 import { ResumeUploadStyledComponents } from "../PersonalDetails.styles";
-const { Container, DragDropContainer } = ResumeUploadStyledComponents;
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import { Grid, Tooltip, Typography } from "@mui/material";
+import { Paper } from "@mui/material";
+import { IconButton } from "@mui/material";
+import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+const { Container, DragDropContainer, SelectLastUsedResume } =
+  ResumeUploadStyledComponents;
 
 export default function ResumeUploader() {
+  const { state: authState } = useAuth();
+  const { userResume } = authState;
+
+  const { state, dispatch } = useCoverLetterResultsContext();
+  const { isUsingLastUploadedResume } = state;
+
+  console.log("isUsingLastUploadedResume", isUsingLastUploadedResume);
+
+  const handleUseLastResume = () => {
+    dispatch({
+      type: "SET_IS_USING_LAST_UPLOADED_RESUME",
+      payload: true,
+    });
+  };
+
+  const handleUnselectLastResume = (event) => {
+    event.stopPropagation();
+    dispatch({
+      type: "SET_IS_USING_LAST_UPLOADED_RESUME",
+      payload: false,
+    });
+  };
+
   return (
     <Container>
-      <DragDropContainer>
+      <DragDropContainer
+        style={{
+          opacity: isUsingLastUploadedResume ? 0.3 : 1,
+        }}
+      >
         <UploadOption
           label="Upload From Computer"
           accept=".pdf,.doc,.docx,.txt"
         />
       </DragDropContainer>
 
-      {/* <AlternativeUploadContainer>
-        <AlternativeUploadButton>Upload From Indeed</AlternativeUploadButton>
+      {userResume && userResume !== "" && (
+        // <Tooltip title={`Date Uploaded: `}>
+        <SelectLastUsedResume
+          component={Paper}
+          onClick={handleUseLastResume}
+          // isUsingLastUploadedResume={state.isUsingLastUploadedResume}
+          style={{
+            opacity: 1,
+            elevation: isUsingLastUploadedResume ? 0 : 5,
+            boxShadow: isUsingLastUploadedResume
+              ? "none"
+              : "7px 7px 0px 0px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <Grid display={"flex"} alignItems={"center"} gap={"8%"} pl={"2%"}>
+            <PostAddIcon
+              fontSize="large"
+              style={{
+                paddingBottom: "2%",
+                color: "#006D4B",
+              }}
+            />
+            <Typography
+              whiteSpace={"nowrap"}
+              color={"#006D4B"}
+              style={{
+                textDecoration: isUsingLastUploadedResume
+                  ? "underline"
+                  : "none",
+              }}
+            >
+              Use Last Resume: {userResume}
+            </Typography>
+          </Grid>
 
-        <AlternativeUploadButton>Upload From LinkedIn</AlternativeUploadButton>
-      </AlternativeUploadContainer> */}
+          {isUsingLastUploadedResume && (
+            // <Grid flexGrow={1}>
+            <IconButton
+              onClick={handleUnselectLastResume}
+              style={{
+                marginRight: "2%",
+                color: "#006D4B",
+              }}
+            >
+              <HighlightOffOutlinedIcon />
+            </IconButton>
+            // </Grid>
+          )}
+        </SelectLastUsedResume>
+        // </Tooltip>
+      )}
     </Container>
   );
 }

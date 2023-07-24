@@ -26,13 +26,16 @@ export const createGeneratePayload = (
   jobPosting,
   resume,
   freeText,
-  additionalDetails
+  additionalDetails,
+  isUsingLastResume
 ) => {
   const formData = new FormData();
 
   formData.append("job_posting", jobPosting);
 
-  if (checkResumeUpload(resume)) {
+  if (isUsingLastResume) {
+    formData.append("resume", "previous");
+  } else if (checkResumeUpload(resume)) {
     console.log("adding resume to form data");
     formData.append("resume", resume);
   }

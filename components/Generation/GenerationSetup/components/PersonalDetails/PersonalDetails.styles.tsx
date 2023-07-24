@@ -110,8 +110,9 @@ namespace ResumeUploadStyledComponents {
     display: flex;
     flex-direction: column;
     align-items: center;
-    // justify-content: center;
+    justify-content: space-evenly;
     padding: 0 2%;
+    gap: 5%;
   `;
 
   export const DragDropContainer = styled(Grid)`
@@ -126,6 +127,25 @@ namespace ResumeUploadStyledComponents {
     border: 1px solid #006d4b;
     background-color: #f8f8ff;
     box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.1);
+    margin-bottom: 8%;
+  `;
+  export const SelectLastUsedResume = styled(Grid)`
+    width: 85%;
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #006d4b;
+    border-radius: 4px;
+    gap: 5%;
+    // box-shadow: 7px 7px 0px 0px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    // padding-right: 5%;
+    padding-left: 5%;
+    opacity: 100%;
+
+    background-color: #f8f8ff;
+    border: 2px solid #13d0b7;
   `;
 }
 
