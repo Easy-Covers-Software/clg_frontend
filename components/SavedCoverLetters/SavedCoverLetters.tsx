@@ -11,6 +11,7 @@ import styled from "@emotion/styled";
 import { SnackbarAlert } from "../Global/components/SnackbarAlert";
 
 import Edit from "./components/Edit/Edit";
+import SavedDisplay from "./components/SavedDisplay/SavedDisplay";
 
 const Container = styled(Grid)`
   display: flex;
@@ -28,7 +29,7 @@ export default function SavedCoverLetters() {
       {isLoginOpen ? <LoginDialog /> : null}
       {isSettingsOpen ? <SettingsDialog /> : null}
       <SavedCoverLettersContext>
-        {/* SavedCoverLetters */}
+        <SavedDisplay />
         <Edit />
       </SavedCoverLettersContext>
 

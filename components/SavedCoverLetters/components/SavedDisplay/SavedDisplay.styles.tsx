@@ -1,0 +1,27 @@
+import styled from "@emotion/styled";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+
+const Container = styled(Grid)`
+  height: 100%;
+  width: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1%;
+
+  flex: 1;
+  margin: 0 0.2%;
+  padding: 0.5%;
+
+  background-color: #fff;
+
+  border: 1px solid #13d0b7;
+  border-radius: 4px;
+`;
+
+namespace SavedLettersListStyledComponents {}
+
+namespace SearchAndFilterStyledComponents {}
+
+export { Container };
