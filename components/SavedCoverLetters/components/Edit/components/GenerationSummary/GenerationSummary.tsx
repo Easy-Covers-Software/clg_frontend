@@ -13,44 +13,34 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 export default function GenerationSummary() {
   const { state } = useSavedCoverLettersContext();
-  const {
-    jobTitle,
-    companyName,
-    matchScore,
-    loadingSummary,
-    loadingMatchScore,
-  } = state;
+  const { selectedCoverLetter, selectedCoverLetterJobPosting } = state;
+
+  console.log("selectedCoverLetter", selectedCoverLetterJobPosting);
 
   return (
     <Container>
       <JobOverview>
-        {loadingSummary ? (
-          <Grid m={"auto"}>
-            <CircularProgress color="success" />
-          </Grid>
-        ) : (
-          <>
-            <Typography variant="jobSummaryTitle">
-              {jobTitle && jobTitle !== "" ? jobTitle : "Job Title"}
-            </Typography>
-            <Typography variant="jobSummaryCompany">
-              {companyName && companyName !== "" ? companyName : "Company Name"}
-            </Typography>
-          </>
-        )}
+        <Typography variant="jobSummaryTitle">
+          {selectedCoverLetterJobPosting?.job_title !== ""
+            ? selectedCoverLetterJobPosting?.job_title
+            : "Job Title"}
+        </Typography>
+        <Typography variant="jobSummaryCompany">
+          {selectedCoverLetterJobPosting?.company_name !== ""
+            ? selectedCoverLetterJobPosting?.company_name
+            : "Company Name"}
+        </Typography>
       </JobOverview>
 
       <JobMatchScore>
         <Typography variant="jobSummaryMatchScoreHeader">
           Match Score
         </Typography>
-        {loadingMatchScore ? (
-          <Grid>
-            <CircularProgress color="success" />
-          </Grid>
-        ) : (
-          <Typography variant="jobSummaryMatchScore">{matchScore}</Typography>
-        )}
+        <Typography variant="jobSummaryMatchScore">
+          {selectedCoverLetter?.match_score !== ""
+            ? selectedCoverLetter?.match_score
+            : "0"}
+        </Typography>
       </JobMatchScore>
     </Container>
   );

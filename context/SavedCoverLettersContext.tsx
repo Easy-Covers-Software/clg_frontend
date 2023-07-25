@@ -10,6 +10,7 @@ const SavedContext = createContext({});
 const initialState = {
   savedCoverLetters: [],
   selectedCoverLetter: null,
+  selectedCoverLetterJobPosting: null,
   loadingCoverLetter: false,
   addSkillInput: "",
   insertKeywordInput: "",
@@ -22,6 +23,7 @@ const initialState = {
   isFilterDropdownOpen: false,
   filterValue: "",
   setLoadingSavedCoverLetters: false,
+  updateCoverLetter: null,
 };
 
 function reducer(state, action) {
@@ -58,6 +60,16 @@ function reducer(state, action) {
       return { ...state, isFilterDropdownOpen: action.payload };
     case "SET_LOADING_SAVED_COVER_LETTERS":
       return { ...state, setLoadingSavedCoverLetters: action.payload };
+    case "SET_UPDATE_COVER_LETTER":
+      return { ...state, updateCoverLetter: action.payload };
+    case "SET_SELECTED_COVER_LETTER_JOB_POSTING":
+      return {
+        ...state,
+        selectedCoverLetterJobPosting: {
+          ...state.selectedCoverLetterJobPosting,
+          ...action.payload,
+        },
+      };
     default:
       return state;
   }
@@ -442,7 +454,32 @@ export default function SavedCoverLettersContext(props) {
     getUsersSavedCoverLetters();
   }, []);
 
-  // useEffect(() => {}, [state.selectedCoverLetter]);
+  useEffect(() => {
+    const getJobPosting = async () => {
+      const url = `https://localhost:8000/ai_generator/generation_setup/upload_job_posting/${state.selectedCoverLetter?.job_posting}/`;
+
+      try {
+        const response = await axios.get(url, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "X-CSRFToken": Cookie.get("csrftoken"),
+          },
+        });
+        console.log("Job Posting", response);
+        if (response.statusText === "OK") {
+          dispatch({
+            type: "SET_SELECTED_COVER_LETTER_JOB_POSTING",
+            payload: response.data,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getJobPosting();
+  }, [state.selectedCoverLetter]);
 
   return (
     <SavedContext.Provider
