@@ -6,7 +6,16 @@ import ListItemText from "@mui/material/ListItemText";
 import Radio from "@mui/material/Radio";
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
-export default function RadioList() {
+import { useSavedCoverLettersContext } from "@/context/SavedCoverLettersContext";
+import { CircularProgress } from "@mui/material";
+
+export default function SavedLettersList() {
+  const { state } = useSavedCoverLettersContext();
+  const { savedCoverLetters } = state;
+
+  console.log("savedCoverLetters", savedCoverLetters);
+  console.log("state", state);
+
   const [selected, setSelected] = React.useState<number | null>(null);
 
   const handleToggle = (value: number) => () => {
@@ -29,12 +38,15 @@ export default function RadioList() {
         padding: "0 3%",
       }}
     >
-      {[0, 1, 2, 3].map((value) => {
-        const labelId = `radio-list-label-${value}`;
+      {!savedCoverLetters && <CircularProgress />}
+
+      {savedCoverLetters.map((value) => {
+        console.log("value", value);
+        const labelId = `radio-list-label-${value.save_name}`;
 
         return (
           <ListItem
-            key={value}
+            key={labelId}
             style={{
               borderBottom: "1px solid #006D4B",
             }}
@@ -59,7 +71,7 @@ export default function RadioList() {
                 }}
               />
             </IconButton>
-            <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
+            <ListItemText id={labelId} primary={value.save_name} />
           </ListItem>
         );
       })}
