@@ -21,10 +21,12 @@ const Container = styled(Grid)`
   padding: "0 20%",
 `;
 
-export default function FilterDropdown() {
+export default function SaveNameInput() {
   const { state, dispatch, saveCoverLetterResults, toggleIsSavedDropdownOpen } =
     useGenerationContext();
   const { companyName, isSavedDropdownOpen } = state;
+
+  console.log("companyName", companyName);
 
   const { updateSnackbar } = useAuth();
 
@@ -42,14 +44,24 @@ export default function FilterDropdown() {
 
   const handleSave = async () => {
     const response = await saveCoverLetterResults();
-    if (response.status === 200) {
-      updateSnackbar(true, "success", "Cover Letter Saved Successfully");
+
+    console.log("response", response);
+
+    console.log("response", response);
+    if (response === "success") {
+      updateSnackbar(
+        true,
+        "success",
+        `Cover Letter Saved Successfully as: '${companyName}'`
+      );
     } else {
       updateSnackbar(true, "error", `Error saving cover letter: ${response}`);
     }
   };
 
   const handleInputChange = (event) => {
+    console.log("event.target.value", event.target.value);
+
     dispatch({ type: "SET_SAVE_NAME", payload: event.target.value });
   };
 
