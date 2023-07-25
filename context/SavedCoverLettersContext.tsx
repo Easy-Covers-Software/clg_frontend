@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
+import { createContext, useContext, useReducer, useEffect, use } from "react";
 
 import axios from "axios";
 import Cookie from "js-cookie";
@@ -9,18 +9,7 @@ const SavedContext = createContext({});
 
 const initialState = {
   savedCoverLetters: [],
-  selectedCoverLetter: {
-    jobTitle: "",
-    companyName: "",
-    matchScore: 0,
-    coverLetterOpener: "",
-    coverLetterP1: "",
-    coverLetterP2: "",
-    coverLetterP3: "",
-    coverLetterThankYou: "",
-    coverLetterSignature: "",
-    coverLetterWriter: "",
-  },
+  selectedCoverLetter: null,
   loadingCoverLetter: false,
   addSkillInput: "",
   insertKeywordInput: "",
@@ -452,6 +441,8 @@ export default function SavedCoverLettersContext(props) {
   useEffect(() => {
     getUsersSavedCoverLetters();
   }, []);
+
+  // useEffect(() => {}, [state.selectedCoverLetter]);
 
   return (
     <SavedContext.Provider

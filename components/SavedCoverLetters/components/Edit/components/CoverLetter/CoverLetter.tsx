@@ -26,56 +26,45 @@ import { Container, SubContainer, ContentWrapper } from "./CoverLetter.styles";
 export default function CoverLetter() {
   const { state, dispatch } = useSavedCoverLettersContext();
 
-  const {
-    isReQuerySectionExpanded,
-    coverLetterOpener,
-    coverLetterP1,
-    coverLetterP2,
-    coverLetterP3,
-    coverLetterThankYou,
-    coverLetterSignature,
-    coverLetterWriter,
-    loadingCoverLetter,
-  } = state;
+  const { selectedCoverLetter, isReQuerySectionExpanded, loadingCoverLetter } =
+    state;
 
-  const [coverLetter, setCoverLetter] = useState(``);
+  const [coverLetter, setCoverLetter] = useState(
+    `Select a saved cover letter to edit`
+  );
   const [coverLetterJSON, setCoverLetterJSON] = useState({});
 
   useEffect(() => {
     setCoverLetter(
       `<div>
-          <p>${coverLetterOpener}</p>
+          <p>${selectedCoverLetter?.cover_letter_opener || ""}</p>
 
-          <p>${coverLetterP1}</p>
+          <p>${selectedCoverLetter?.cover_letter_p1 || ""}</p>
 
-          <p>${coverLetterP2}</p>
+          <p>${
+            selectedCoverLetter?.cover_letter_p2 ||
+            "Select a saved cover letter to start editing"
+          }</p>
 
-          <p>${coverLetterP3}</p>
+          <p>${selectedCoverLetter?.cover_letter_p3 || ""}</p>
 
-          <p>${coverLetterThankYou}</p>
+          <p>${selectedCoverLetter?.cover_letter_signature || ""}</p>
           
-          <p>${coverLetterSignature}</p>
+          <p>${selectedCoverLetter?.cover_letter_thank_you || ""}</p>
 
-          <p>${coverLetterWriter}</p>
+          <p>${selectedCoverLetter?.coverLetterWriter || ""}</p>
         </div>`
     );
     setCoverLetterJSON({
-      coverLetterOpener,
-      coverLetterP1,
-      coverLetterP2,
-      coverLetterP3,
-      coverLetterThankYou,
-      coverLetterSignature,
-      coverLetterWriter,
+      coverLetterOpener: selectedCoverLetter?.coverLetterOpener,
+      coverLetterP1: selectedCoverLetter?.coverLetterP1,
+      coverLetterP2: selectedCoverLetter?.coverLetterP2,
+      coverLetterP3: selectedCoverLetter?.coverLetterP3,
+      coverLetterThankYou: selectedCoverLetter?.coverLetterThankYou,
+      coverLetterSignature: selectedCoverLetter?.coverLetterSignature,
+      coverLetterWriter: selectedCoverLetter?.coverLetterWriter,
     });
-  }, [
-    coverLetterOpener,
-    coverLetterP1,
-    coverLetterP2,
-    coverLetterP3,
-    coverLetterThankYou,
-    coverLetterSignature,
-  ]);
+  }, [selectedCoverLetter]);
 
   const editor = useEditor(
     {

@@ -10,10 +10,10 @@ import { useSavedCoverLettersContext } from "@/context/SavedCoverLettersContext"
 import { CircularProgress } from "@mui/material";
 
 export default function SavedLettersList() {
-  const { state } = useSavedCoverLettersContext();
-  const { savedCoverLetters } = state;
+  const { state, dispatch } = useSavedCoverLettersContext();
+  const { savedCoverLetters, selectedCoverLetter } = state;
 
-  console.log("savedCoverLetters", savedCoverLetters);
+  console.log("savedCoverLetters", selectedCoverLetter);
   console.log("state", state);
 
   const [selected, setSelected] = React.useState<number | null>(null);
@@ -21,6 +21,10 @@ export default function SavedLettersList() {
   const handleToggle = (value: number) => () => {
     if (selected !== value) {
       setSelected(value);
+      dispatch({
+        type: "SET_SELECTED_COVER_LETTER",
+        payload: value,
+      });
     } else {
       setSelected(null);
     }
