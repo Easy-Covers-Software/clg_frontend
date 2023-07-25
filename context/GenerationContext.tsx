@@ -65,6 +65,9 @@ const initialState = {
     openEndedInput: "",
   },
   disableGenerateButton: true,
+  isSavedDropdownOpen: false,
+  isDownloadDropdownOpen: false,
+  saveName: "",
 };
 
 function reducer(state, action) {
@@ -135,6 +138,12 @@ function reducer(state, action) {
       };
     case "SET_DISABLE_GENERATE_BUTTON":
       return { ...state, disableGenerateButton: action.payload };
+    case "SET_IS_SAVED_DROPDOWN_OPEN":
+      return { ...state, isSavedDropdownOpen: action.payload };
+    case "SET_IS_DOWNLOAD_DROPDOWN_OPEN":
+      return { ...state, isDownloadDropdownOpen: action.payload };
+    case "SET_SAVE_NAME":
+      return { ...state, saveName: action.payload };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -319,26 +328,26 @@ export function GenerationContext({ children }) {
     const form = new FormData();
     form.append("job_posting", jobPosting);
 
-    // try {
-    //   const response = await axios.post(url, form, {
-    //     withCredentials: true,
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //       "X-CSRFToken": Cookie.get("csrftoken"),
-    //     },
-    //   });
-    //   console.log("Job title response", response);
-    //   if (response.statusText === "OK") {
-    //     dispatch({
-    //       type: "SET_COMPANY_NAME",
-    //       payload: response.data.company_name,
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // } finally {
-    //   dispatch({ type: "SET_LOADING_SUMMARY", payload: false });
-    // }
+    try {
+      const response = await axios.post(url, form, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+      });
+      console.log("Job title response", response);
+      if (response.statusText === "OK") {
+        dispatch({
+          type: "SET_COMPANY_NAME",
+          payload: response.data.company_name,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch({ type: "SET_LOADING_SUMMARY", payload: false });
+    }
   };
 
   const getJobMatchScore = async (jobPosting: string) => {
@@ -647,6 +656,7 @@ export function GenerationContext({ children }) {
     const url = "https://localhost:8000/ai_generator/generate/";
 
     const form = new FormData();
+    form.append("save_name", state.saveName);
     form.append("cover_letter_opener", state.coverLetterOpener);
     form.append("cover_letter_p1", state.coverLetterP1);
     form.append("cover_letter_p2", state.coverLetterP2);
@@ -765,7 +775,19 @@ export function GenerationContext({ children }) {
     }
   };
 
-  console.log("state.jobPostingId", state.jobPostingId);
+  const toggleIsSavedDropdownOpen = () => {
+    dispatch({
+      type: "SET_IS_SAVED_DROPDOWN_OPEN",
+      payload: !state.isSavedDropdownOpen,
+    });
+  };
+
+  const toggleIsDownloadDropdownOpen = () => {
+    dispatch({
+      type: "SET_IS_DOWNLOAD_DROPDOWN_OPEN",
+      payload: !state.isDownloadDropdownOpen,
+    });
+  };
 
   return (
     <Context.Provider
@@ -786,6 +808,8 @@ export function GenerationContext({ children }) {
         handleFileChange,
         uploadJobPosting,
         uploadResume,
+        toggleIsSavedDropdownOpen,
+        toggleIsDownloadDropdownOpen,
       }}
     >
       {children}
