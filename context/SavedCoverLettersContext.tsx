@@ -1,11 +1,11 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 
 import axios from "axios";
-import Cookies from "js-cookie";
+import Cookie from "js-cookie";
 
 const API_BASE = "https://localhost:8000/saved/";
 
-const Context = createContext({});
+const SavedContext = createContext({});
 
 const initialState = {
   savedCoverLetters: [],
@@ -30,6 +30,9 @@ const initialState = {
   customAdjustment: "",
   isReQuerySectionExpanded: false,
   saveLoading: false,
+  isFilterDropdownOpen: false,
+  filterValue: "",
+  setLoadingSavedCoverLetters: false,
 };
 
 function reducer(state, action) {
@@ -62,6 +65,10 @@ function reducer(state, action) {
       return { ...state, isReQuerySectionExpanded: action.payload };
     case "SET_SAVE_LOADING":
       return { ...state, saveLoading: action.payload };
+    case "SET_IS_FILTER_DROPDOWN_OPEN":
+      return { ...state, isFilterDropdownOpen: action.payload };
+    case "SET_LOADING_SAVED_COVER_LETTERS":
+      return { ...state, setLoadingSavedCoverLetters: action.payload };
     default:
       return state;
   }
@@ -409,8 +416,45 @@ export default function SavedCoverLettersContext(props) {
     });
   };
 
+  const toggleFilterDropdownIsOpen = () => {
+    dispatch({
+      type: "SET_IS_FILTER_DROPDOWN_OPEN",
+      payload: !state.isFilterDropdownOpen,
+    });
+  };
+
+  const getUsersSavedCoverLetters = async () => {
+    const url =
+      "https://localhost:8000/ai_generator/generate/get_users_saved_cover_letters/";
+
+    try {
+      const response = await axios.get(url, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+      });
+      console.log("Saved cover letters", response);
+      if (response.statusText === "OK") {
+        dispatch({
+          type: "SET_SAVED_COVER_LETTERS",
+          payload: response.data,
+        });
+
+        return "success";
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUsersSavedCoverLetters();
+  }, []);
+
   return (
-    <Context.Provider
+    <SavedContext.Provider
       value={{
         state,
         dispatch,
@@ -421,11 +465,13 @@ export default function SavedCoverLettersContext(props) {
         makeIntermediateAdjustment,
         makeCustomAdjustment,
         toggleIsReQuerySectionExpanded,
+        toggleFilterDropdownIsOpen,
+        getUsersSavedCoverLetters,
       }}
     >
       {props.children}
-    </Context.Provider>
+    </SavedContext.Provider>
   );
 }
 
-export const useSavedCoverLettersContext = () => useContext(Context);
+export const useSavedCoverLettersContext = () => useContext(SavedContext);
