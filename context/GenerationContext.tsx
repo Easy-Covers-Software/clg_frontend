@@ -661,6 +661,8 @@ export function GenerationContext({ children }) {
     dispatch({ type: "SET_SAVE_LOADING", payload: true });
     const url = "https://localhost:8000/ai_generator/generate/";
 
+    console.log("Match scoreeeee", state.matchScore);
+
     console.log("form data", state);
     const form = new FormData();
     form.append("save_name", state.saveName);
@@ -670,8 +672,9 @@ export function GenerationContext({ children }) {
     form.append("cover_letter_p3", state.coverLetterP3);
     form.append("cover_letter_thank_you", state.coverLetterThankYou);
     form.append("cover_letter_signature", state.coverLetterSignature);
+    form.append("cover_letter_writer", state.coverLetterWriter);
+    form.append("match_score", state.matchScore);
     form.append("job_posting", state.jobPostingId);
-    form.append("resume_id", state.resumeId);
     form.append("resume", state.resume);
 
     try {
