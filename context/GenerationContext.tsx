@@ -297,29 +297,31 @@ export function GenerationContext({ children }) {
   };
 
   const getJobTitle = async (jobPosting: string) => {
-    // dispatch({ type: "SET_LOADING_SUMMARY", payload: true });
+    dispatch({ type: "SET_LOADING_SUMMARY", payload: true });
+    dispatch({ type: "SET_LOADING_MATCH_SCORE", payload: true });
+    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
+
     const url = API_BASE_URL + "generate/get_job_title/";
 
     const form = new FormData();
     form.append("job_posting", jobPosting);
 
-    // try {
-    //   const response = await axios.post(url, form, {
-    //     withCredentials: true,
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //       "X-CSRFToken": Cookie.get("csrftoken"),
-    //     },
-    //   });
+    try {
+      const response = await axios.post(url, form, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+      });
 
-    //   // console.log("Job title response", response);
-    //   if (response.statusText === "OK") {
-    //     dispatch({ type: "SET_JOB_TITLE", payload: response.data.job_title });
-    //   }
-    // } catch (error) {
-    //   console.log("error getting job title");
-    //   console.log(error);
-    // }
+      if (response.statusText === "OK") {
+        dispatch({ type: "SET_JOB_TITLE", payload: response.data.job_title });
+      }
+    } catch (error) {
+      console.log("error getting job title");
+      console.log(error);
+    }
   };
 
   const getCompanyName = async (jobPosting: string) => {
@@ -342,6 +344,10 @@ export function GenerationContext({ children }) {
           type: "SET_COMPANY_NAME",
           payload: response.data.company_name,
         });
+        dispatch({
+          type: "SET_SAVE_NAME",
+          payload: response.data.company_name,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -351,32 +357,31 @@ export function GenerationContext({ children }) {
   };
 
   const getJobMatchScore = async (jobPosting: string) => {
-    // dispatch({ type: "SET_LOADING_MATCH_SCORE", payload: true });
     const url = API_BASE_URL + "generate/get_job_match_score/";
 
     const form = new FormData();
     form.append("job_posting", jobPosting);
 
-    // try {
-    //   const response = await axios.post(url, form, {
-    //     withCredentials: true,
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //       "X-CSRFToken": Cookie.get("csrftoken"),
-    //     },
-    //   });
-    //   console.log("Job title response", response);
-    //   if (response.statusText === "OK") {
-    //     dispatch({
-    //       type: "SET_MATCH_SCORE",
-    //       payload: response.data.job_match_score,
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // } finally {
-    //   dispatch({ type: "SET_LOADING_MATCH_SCORE", payload: false });
-    // }
+    try {
+      const response = await axios.post(url, form, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+      });
+      console.log("Job title response", response);
+      if (response.statusText === "OK") {
+        dispatch({
+          type: "SET_MATCH_SCORE",
+          payload: response.data.job_match_score,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch({ type: "SET_LOADING_MATCH_SCORE", payload: false });
+    }
   };
 
   const makeSimpleAdjustment = async (
@@ -578,7 +583,6 @@ export function GenerationContext({ children }) {
     additionalDetails,
     model
   ) => {
-    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
     const data = createGeneratePayload(
       jobPosting,
       resume,
@@ -596,6 +600,8 @@ export function GenerationContext({ children }) {
           "X-CSRFToken": Cookie.get("csrftoken"),
         },
       });
+
+      console.log("response gen", response);
 
       if (response.statusText === "OK") {
         try {
@@ -655,6 +661,7 @@ export function GenerationContext({ children }) {
     dispatch({ type: "SET_SAVE_LOADING", payload: true });
     const url = "https://localhost:8000/ai_generator/generate/";
 
+    console.log("form data", state);
     const form = new FormData();
     form.append("save_name", state.saveName);
     form.append("cover_letter_opener", state.coverLetterOpener);
@@ -664,6 +671,8 @@ export function GenerationContext({ children }) {
     form.append("cover_letter_thank_you", state.coverLetterThankYou);
     form.append("cover_letter_signature", state.coverLetterSignature);
     form.append("job_posting", state.jobPostingId);
+    form.append("resume_id", state.resumeId);
+    form.append("resume", state.resume);
 
     try {
       const response = await axios.post(url, form, {
@@ -676,7 +685,7 @@ export function GenerationContext({ children }) {
       if (response.statusText === "OK") {
         console.log("Cover letter results saved successfully");
 
-        return response.data;
+        return "success";
       }
     } catch (error) {
       console.log(error);
