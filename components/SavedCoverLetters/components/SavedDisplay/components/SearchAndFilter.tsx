@@ -3,8 +3,9 @@ import { styled as muiStyled, alpha } from "@mui/material/styles";
 import styled from "@emotion/styled";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { IconButton } from "@mui/material";
-import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+
+import FilterDropdown from "./FilterDropdown";
 
 const Search = muiStyled("div")(({ theme }) => ({
   position: "relative",
@@ -33,13 +34,13 @@ const SearchIconWrapper = muiStyled("div")(({ theme }) => ({
   color: "#006D4B",
 }));
 
-// const Container = styled(Grid)`
-//   width: 100%;
+const Container = styled(Grid)`
+  width: 100%;
 
-//   display: flex;
-//   padding: 0;
-//   margin: 0;
-// `;
+  display: flex;
+  padding: 0;
+  margin: 0;
+`;
 
 const StyledInputBase = muiStyled(InputBase)(({ theme }) => ({
   color: "#006D4B",
@@ -54,6 +55,7 @@ const StyledInputBase = muiStyled(InputBase)(({ theme }) => ({
 
 export default function SearchAndFilter() {
   return (
+    // <Container>
     <Search>
       <SearchIconWrapper>
         {" "}
@@ -65,5 +67,8 @@ export default function SearchAndFilter() {
         inputProps={{ "aria-label": "search" }}
       />
     </Search>
+
+    //   <FilterDropdown />
+    // </Container>
   );
 }
