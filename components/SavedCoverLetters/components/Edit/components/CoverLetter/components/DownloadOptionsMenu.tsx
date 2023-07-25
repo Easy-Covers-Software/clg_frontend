@@ -42,21 +42,21 @@ export default function DownloadOptionsMenu() {
     setDownloadMenuAnchor(null);
   };
 
-  const handleSave = async () => {
-    const response = await saveCoverLetterResults();
-    if (response.status === 200) {
-      updateSnackbar(true, "success", "Cover Letter Saved Successfully");
-    } else {
-      updateSnackbar(true, "error", `Error saving cover letter: ${response}`);
-    }
-  };
+  // const handleSave = async () => {
+  //   const response = await saveCoverLetterResults();
+  //   if (response === "success") {
+  //     updateSnackbar(true, "success", "Cover Letter Saved Successfully");
+  //   } else {
+  //     updateSnackbar(true, "error", `Error saving cover letter: ${response}`);
+  //   }
+  // };
 
   return (
     <>
       <Container>
         <Tooltip title="Save">
           <IconButton
-            onClick={handleSave}
+            onClick={handleDownload}
             sx={{
               display: "flex",
               justifyContent: "center",
