@@ -46,7 +46,7 @@ namespace SignedInDisplayStyledComponents {
     flex-direction: column;
     // align-items: center;
     width: 100%;
-    gap: 12px;
+    gap: 8px;
   `;
 
   export const HorizontalDivider = styled(Divider)`
@@ -58,7 +58,7 @@ namespace SignedInDisplayStyledComponents {
     width: 100%
     display: flex;
     flex-direction: column;
-    gap: 5%;
+    gap: 3%;
   `;
   export const EmailGrid = styled(Grid)`
     width: 100%

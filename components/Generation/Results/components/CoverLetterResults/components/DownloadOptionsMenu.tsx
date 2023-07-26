@@ -21,10 +21,6 @@ import { DownloadOptionsMenuStyledComponents } from "../CoverLetterResults.style
 const { Container } = DownloadOptionsMenuStyledComponents;
 
 export default function DownloadOptionsMenu() {
-  const { saveCoverLetterResults, generatePDF, generateDOCX } =
-    useGenerationContext();
-  const { updateSnackbar } = useAuth();
-
   const [downloadMenuAnchor, setDownloadMenuAnchor] =
     React.useState<null | HTMLElement>(null);
 
@@ -42,15 +38,6 @@ export default function DownloadOptionsMenu() {
   const handleCloseDownload = () => {
     setDownloadMenuAnchor(null);
   };
-
-  // const handleSave = async () => {
-  //   const response = await saveCoverLetterResults();
-  //   if (response.status === 200) {
-  //     updateSnackbar(true, "success", "Cover Letter Saved Successfully");
-  //   } else {
-  //     updateSnackbar(true, "error", `Error saving cover letter: ${response}`);
-  //   }
-  // };
 
   return (
     <Container>

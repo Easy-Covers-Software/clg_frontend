@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
-import { SnackbarAlert } from "@/components/Global/components/SnackbarAlert";
+// import SnackbarAlert from "@/components/Global/components/SnackbarAlert";
 import { useAuth } from "@/context/AuthContext";
 
 import { SettingsUtils } from "@/Utils/utils";

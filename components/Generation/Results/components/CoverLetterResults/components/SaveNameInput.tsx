@@ -24,6 +24,7 @@ const Container = styled(Grid)`
 export default function SaveNameInput() {
   const { state, dispatch, saveCoverLetterResults, toggleIsSavedDropdownOpen } =
     useGenerationContext();
+
   const { companyName, isSavedDropdownOpen } = state;
 
   console.log("companyName", companyName);
