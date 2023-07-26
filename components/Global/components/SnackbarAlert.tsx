@@ -45,4 +45,4 @@ function SnackbarAlert(props: SnackbarProps) {
   );
 }
 
-export { SnackbarAlert };
+export default SnackbarAlert;
