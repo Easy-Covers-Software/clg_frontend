@@ -33,7 +33,8 @@ const initialState = {
   jobTitle: "",
   companyName: "",
   matchScore: 0,
-  currentCoverLetter: "",
+  currentCoverLetter: [],
+  currentCoverLetterHtml: "",
   currentCoverLetterJson: "",
   coverLetterOpener: "Awaiting generation of cover letter...",
   coverLetterP1: "",
@@ -144,6 +145,8 @@ function reducer(state, action) {
       return { ...state, isDownloadDropdownOpen: action.payload };
     case "SET_SAVE_NAME":
       return { ...state, saveName: action.payload };
+    case "SET_CURRENT_COVER_LETTER_HTML":
+      return { ...state, currentCoverLetterHtml: action.payload };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -397,7 +400,7 @@ export function GenerationContext({ children }) {
     console.log("type of adjustment", typeOfAdjustment);
 
     const form = new FormData();
-    form.append("cover_letter", state.currentCoverLetter);
+    form.append("cover_letter", state.currentCoverLetterHtml);
     form.append("increase_or_decrease", increaseOrDecrease);
     form.append("type_of_adjustment", typeOfAdjustment);
 
@@ -412,6 +415,7 @@ export function GenerationContext({ children }) {
       if (response.statusText === "OK") {
         try {
           const data = JSON.parse(response.data.cover_letter);
+
           dispatch({
             type: "SET_COVER_LETTER_OPENER",
             payload: data.cover_letter_opener,
@@ -458,7 +462,7 @@ export function GenerationContext({ children }) {
     const url = API_BASE_URL + "generate/make_intermediate_adjustment/";
 
     const form = new FormData();
-    form.append("cover_letter", state.currentCoverLetter);
+    form.append("cover_letter", state.currentCoverLetterHtml);
     form.append("type_of_adjustment", state.selectedIntermediateType);
 
     if (state.selectedIntermediateType === "add skill") {
@@ -523,7 +527,7 @@ export function GenerationContext({ children }) {
     const url = API_BASE_URL + "generate/make_custom_adjustment/";
 
     const form = new FormData();
-    form.append("cover_letter", state.currentCoverLetter);
+    form.append("cover_letter", state.currentCoverLetterHtml);
     form.append("input_value", state.customAdjustment);
 
     try {
@@ -606,6 +610,13 @@ export function GenerationContext({ children }) {
       if (response.statusText === "OK") {
         try {
           const data = JSON.parse(response.data.cover_letter);
+
+          const coverLetterParts = Object.values(data);
+          dispatch({
+            type: "SET_CURRENT_COVER_LETTER",
+            payload: coverLetterParts,
+          });
+
           // console.log(data);
           dispatch({
             type: "SET_COVER_LETTER_OPENER",
@@ -657,15 +668,27 @@ export function GenerationContext({ children }) {
     }
   };
 
+  const enumerateArray = (array) => {
+    return array.map((content, section_number) => ({
+      content,
+      section_number,
+    }));
+  };
+
   const saveCoverLetterResults = async () => {
     dispatch({ type: "SET_SAVE_LOADING", payload: true });
     const url = "https://localhost:8000/ai_generator/generate/";
 
-    console.log("Match scoreeeee", state.matchScore);
+    console.log("Match scoreeeee", enumerateArray(state.currentCoverLetter));
 
     console.log("form data", state);
     const form = new FormData();
     form.append("save_name", state.saveName);
+    form.append(
+      "cover_letter_parts",
+      JSON.stringify(enumerateArray(state.currentCoverLetter))
+    );
+
     form.append("cover_letter_opener", state.coverLetterOpener);
     form.append("cover_letter_p1", state.coverLetterP1);
     form.append("cover_letter_p2", state.coverLetterP2);
@@ -760,7 +783,7 @@ export function GenerationContext({ children }) {
       "https://localhost:8000/ai_generator/generate/download_as_docx/";
 
     const form = new FormData();
-    form.append("html", state.currentCoverLetter);
+    form.append("html", state.currentCoverLetterHtml);
 
     try {
       const response = await axios.post(url, form, {
