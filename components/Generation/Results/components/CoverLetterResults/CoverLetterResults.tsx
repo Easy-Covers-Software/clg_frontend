@@ -30,6 +30,8 @@ import {
 export default function CoverLetterResults() {
   const { state, dispatch } = useGenerationContext();
   const {
+    currentCoverLetter,
+
     isReQuerySectionExpanded,
     coverLetterOpener,
     coverLetterP1,
@@ -42,7 +44,7 @@ export default function CoverLetterResults() {
   } = state;
 
   const [coverLetter, setCoverLetter] = useState(``);
-  const [coverLetterJSON, setCoverLetterJSON] = useState({});
+  const [coverLetterJSON, setCoverLetterJSON] = useState(null);
 
   useEffect(() => {
     setCoverLetter(
@@ -99,7 +101,7 @@ export default function CoverLetterResults() {
   useEffect(() => {
     if (editor) {
       dispatch({
-        type: "SET_CURRENT_COVER_LETTER",
+        type: "SET_CURRENT_COVER_LETTER_HTML",
         payload: coverLetter,
       });
       dispatch({
@@ -109,6 +111,43 @@ export default function CoverLetterResults() {
       editor.commands.setContent(coverLetter);
     }
   }, [coverLetter, editor]);
+
+  function parseSectionsFromHTML(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const paragraphs = doc.querySelectorAll("p");
+    const sections = Array.from(paragraphs).map((p) => p.innerHTML);
+    console.log("sections", sections);
+
+    return sections;
+  }
+
+  useEffect(() => {
+    if (editor) {
+      const updateHandler = () => {
+        // Parse the editor's HTML content into sections.
+        const html = editor.getHTML();
+        console.log("HTML", html);
+
+        const parsedSections = parseSectionsFromHTML(html); // You need to implement this function.
+
+        // Dispatch the update action.
+        dispatch({
+          type: "SET_CURRENT_COVER_LETTER",
+          payload: parsedSections,
+        });
+      };
+
+      editor.on("update", updateHandler);
+
+      return () => {
+        // Clean up the event listener when the component is unmounted or the editor instance changes.
+        editor.off("update", updateHandler);
+      };
+    }
+  }, [editor, dispatch]);
+
+  console.log("new curr cover letetr", state.currentCoverLetter);
 
   return (
     <Container>
@@ -181,7 +220,7 @@ export default function CoverLetterResults() {
               <RichTextEditor.Unlink />
             </RichTextEditor.ControlsGroup>
 
-            <RichTextEditor.ControlsGroup ml={"1%"}>
+            <RichTextEditor.ControlsGroup ml={"5%"}>
               <DownloadOptionsMenu />
             </RichTextEditor.ControlsGroup>
           </RichTextEditor.Toolbar>
