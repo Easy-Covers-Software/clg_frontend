@@ -4,7 +4,6 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { IconButton } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { useSavedCoverLettersContext } from "@/context/SavedCoverLettersContext";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import styled from "@emotion/styled";
 import { useAuth } from "@/context/AuthContext";
