@@ -43,6 +43,13 @@ const initialState = {
     num_adjustments_available: 0,
   },
   userResume: "",
+  alertDialogConfirmOpen: false,
+  alertDialogConfirm: {
+    open: false,
+    header: "",
+    message: "",
+  },
+  didConfirmAlert: false,
 };
 
 function reducer(state, action) {
@@ -91,6 +98,18 @@ function reducer(state, action) {
       };
     case "SET_USER_RESUME":
       return { ...state, userResume: action.payload };
+    case "SET_ALERT_DIALOG_CONFIRM_OPEN":
+      return { ...state, alertDialogConfirmOpen: action.payload };
+    case "SET_ALERT_DIALOG_CONFIRM":
+      return {
+        ...state,
+        alertDialogConfirm: {
+          ...state.alertDialogConfirm,
+          ...action.payload,
+        },
+      };
+    case "SET_DID_CONFIRM_ALERT":
+      return { ...state, didConfirmAlert: action.payload };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -294,6 +313,28 @@ export const AuthProvider = ({
     });
   };
 
+  const openAlertDialogConfirm = (open, header, message) => {
+    dispatch({
+      type: "SET_ALERT_DIALOG_CONFIRM",
+      payload: {
+        open: open,
+        header: header,
+        message: message,
+      },
+    });
+  };
+
+  const handleAlertDialogConfirmClose = () => {
+    dispatch({
+      type: "SET_ALERT_DIALOG_CONFIRM",
+      payload: {
+        open: false,
+        header: "",
+        message: "",
+      },
+    });
+  };
+
   useEffect(() => {
     initUser();
   }, [state.updateUser]);
@@ -315,6 +356,8 @@ export const AuthProvider = ({
         createAccount,
         updateSnackbar,
         handleSnackbarClose,
+        openAlertDialogConfirm,
+        handleAlertDialogConfirmClose,
       }}
     >
       <GoogleOAuthProvider clientId={CLIENT_ID}>
