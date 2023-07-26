@@ -5,11 +5,12 @@ import Cookie from "js-cookie";
 
 const API_BASE = "https://localhost:8000/saved/";
 
-const SavedContext = createContext({});
+const SavedContext = createContext(null);
 
 const initialState = {
   savedCoverLetters: [],
   selectedCoverLetter: null,
+  selectedCoverLetterParts: null,
   selectedCoverLetterJobPosting: null,
   loadingCoverLetter: false,
   addSkillInput: "",
@@ -24,6 +25,7 @@ const initialState = {
   filterValue: "",
   setLoadingSavedCoverLetters: false,
   updateCoverLetter: null,
+  updateSavedCoverLettersList: false,
 };
 
 function reducer(state, action) {
@@ -70,6 +72,10 @@ function reducer(state, action) {
           ...action.payload,
         },
       };
+    case "SET_SELECTED_COVER_LETTER_PARTS":
+      return { ...state, selectedCoverLetterParts: action.payload };
+    case "SET_UPDATE_SAVED_COVER_LETTERS_LIST":
+      return { ...state, updateSavedCoverLettersList: action.payload };
     default:
       return state;
   }
@@ -77,6 +83,7 @@ function reducer(state, action) {
 
 export default function SavedCoverLettersContext(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  console.log("state saved 4321", state);
 
   useEffect(() => {
     if (state.addSkillInput !== "") {
@@ -452,7 +459,7 @@ export default function SavedCoverLettersContext(props) {
 
   useEffect(() => {
     getUsersSavedCoverLetters();
-  }, []);
+  }, [state.updateSavedCoverLettersList]);
 
   useEffect(() => {
     const getJobPosting = async () => {
@@ -478,8 +485,52 @@ export default function SavedCoverLettersContext(props) {
       }
     };
 
+    const getCoverLetterParts = async () => {
+      const url = `https://localhost:8000/ai_generator/generate/${state.selectedCoverLetter?.id}/get_cover_letter_parts/`;
+
+      console.log("parts url", url);
+
+      try {
+        const response = await axios.get(url, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "X-CSRFToken": Cookie.get("csrftoken"),
+          },
+        });
+        console.log("Cover Letter Parts", response);
+        if (response.statusText === "OK") {
+          dispatch({
+            type: "SET_SELECTED_COVER_LETTER_PARTS",
+            payload: response.data.cover_letter_parts,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     getJobPosting();
+    getCoverLetterParts();
   }, [state.selectedCoverLetter]);
+
+  const deleteSavedCoverLetter = async () => {
+    const url = `https://localhost:8000/ai_generator/generate/${state.selectedCoverLetter.id}/`;
+
+    try {
+      const response = await axios.delete(url, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+      });
+      return "success";
+    } catch (error) {
+      console.log(error);
+      return "error";
+    }
+  };
 
   return (
     <SavedContext.Provider
@@ -495,6 +546,7 @@ export default function SavedCoverLettersContext(props) {
         toggleIsReQuerySectionExpanded,
         toggleFilterDropdownIsOpen,
         getUsersSavedCoverLetters,
+        deleteSavedCoverLetter,
       }}
     >
       {props.children}

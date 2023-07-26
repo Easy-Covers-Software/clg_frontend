@@ -7,11 +7,19 @@ import Radio from "@mui/material/Radio";
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import { useSavedCoverLettersContext } from "@/context/SavedCoverLettersContext";
+import { useAuth } from "@/context/AuthContext";
 import { CircularProgress } from "@mui/material";
 
 export default function SavedLettersList() {
-  const { state, dispatch } = useSavedCoverLettersContext();
-  const { savedCoverLetters, selectedCoverLetter } = state;
+  const { state, dispatch, deleteSavedCoverLetter } =
+    useSavedCoverLettersContext();
+  const {
+    savedCoverLetters,
+    selectedCoverLetter,
+    updateSavedCoverLettersList,
+  } = state;
+
+  const { updateSnackbar } = useAuth();
 
   console.log("savedCoverLetters", selectedCoverLetter);
   console.log("state", state);
@@ -27,6 +35,20 @@ export default function SavedLettersList() {
       });
     } else {
       setSelected(null);
+    }
+  };
+
+  const hamdleDelete = async () => {
+    const response = await deleteSavedCoverLetter();
+
+    if (response === "success") {
+      updateSnackbar(true, "success", "Cover Letter Deleted Successfully");
+      dispatch({
+        type: "SET_UPDATE_SAVED_COVER_LETTERS_LIST",
+        payload: !updateSavedCoverLettersList,
+      });
+    } else {
+      updateSnackbar(true, "error", "Error Deleting Cover Letter");
     }
   };
 
@@ -55,9 +77,17 @@ export default function SavedLettersList() {
               borderBottom: "1px solid #006D4B",
             }}
             secondaryAction={
-              <IconButton edge="end" aria-label="comments">
-                <DeleteForeverOutlinedIcon />
-              </IconButton>
+              <>
+                {selected === value && (
+                  <IconButton
+                    edge="end"
+                    aria-label="comments"
+                    onClick={hamdleDelete}
+                  >
+                    <DeleteForeverOutlinedIcon />
+                  </IconButton>
+                )}
+              </>
             }
             disablePadding
             onClick={handleToggle(value)}
