@@ -147,6 +147,10 @@ const theme = createTheme({
       color: "#006D4B",
       textAlign: "center",
     },
+    alertDialogButton: {
+      color: "#006D4B",
+      letterSpacing: "0.05rem",
+    },
     spacing: [0, 4, 8, 16, 32, 64, 128, 256, 512],
     transitions: {
       duration: {
