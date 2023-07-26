@@ -12,6 +12,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import DownloadOptionsMenu from "./components/DownloadOptionsMenu";
+// import DownloadOptionsMenu from "@/components/Generation/Results/components/CoverLetterResults/components/DownloadOptionsMenu";
 
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
@@ -26,45 +27,33 @@ import { Container, SubContainer, ContentWrapper } from "./CoverLetter.styles";
 export default function CoverLetter() {
   const { state, dispatch } = useSavedCoverLettersContext();
 
-  const { selectedCoverLetter, isReQuerySectionExpanded, loadingCoverLetter } =
-    state;
+  const {
+    selectedCoverLetter,
+    selectedCoverLetterParts,
+    isReQuerySectionExpanded,
+    loadingCoverLetter,
+  } = state;
+
+  console.log("edit mode parts", selectedCoverLetterParts);
 
   const [coverLetter, setCoverLetter] = useState(
     `Select a saved cover letter to edit`
   );
+  console.log("coverLetter =========****", coverLetter);
+
   const [coverLetterJSON, setCoverLetterJSON] = useState({});
 
   useEffect(() => {
-    setCoverLetter(
-      `<div>
-          <p>${selectedCoverLetter?.cover_letter_opener || ""}</p>
-
-          <p>${selectedCoverLetter?.cover_letter_p1 || ""}</p>
-
-          <p>${
-            selectedCoverLetter?.cover_letter_p2 ||
-            "Select a saved cover letter to start editing"
-          }</p>
-
-          <p>${selectedCoverLetter?.cover_letter_p3 || ""}</p>
-
-          <p>${selectedCoverLetter?.cover_letter_thank_you || ""}</p>
-          
-          <p>${selectedCoverLetter?.cover_letter_signature || ""}</p>
-
-          <p>${selectedCoverLetter?.cover_letter_writer || ""}</p>
-        </div>`
-    );
-    setCoverLetterJSON({
-      coverLetterOpener: selectedCoverLetter?.cover_letter_opener,
-      coverLetterP1: selectedCoverLetter?.cover_letter_p1,
-      coverLetterP2: selectedCoverLetter?.cover_letter_p2,
-      coverLetterP3: selectedCoverLetter?.cover_letter_p3,
-      coverLetterThankYou: selectedCoverLetter?.cover_letter_thank_you,
-      coverLetterSignature: selectedCoverLetter?.cover_letter_signature,
-      coverLetterWriter: selectedCoverLetter?.cover_letter_writer,
-    });
-  }, [selectedCoverLetter]);
+    if (selectedCoverLetterParts !== null) {
+      const sections = selectedCoverLetterParts
+        .map((part) => {
+          return `<p>${part.content}</p>`;
+        })
+        .join("");
+      const addDiv = `<div>${sections}</div>`;
+      setCoverLetter(addDiv);
+    }
+  }, [selectedCoverLetterParts]);
 
   const editor = useEditor(
     {
@@ -85,7 +74,7 @@ export default function CoverLetter() {
   useEffect(() => {
     if (editor) {
       dispatch({
-        type: "SET_CURRENT_COVER_LETTER",
+        type: "SET_CURRENT_COVER_LETTER_HTML",
         payload: coverLetter,
       });
       dispatch({
@@ -218,7 +207,7 @@ export default function CoverLetter() {
                 <CircularProgress color="success" />
               </Grid>
             ) : (
-              <Grid m={"0 5%"}>
+              <Grid m={"0 10%"}>
                 <RichTextEditor.Content />
               </Grid>
             )}
