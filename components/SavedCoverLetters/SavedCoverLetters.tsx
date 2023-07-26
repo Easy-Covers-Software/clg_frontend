@@ -8,10 +8,12 @@ import SettingsDialog from "@/components/Settings/SettingsDialog";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 
-import { SnackbarAlert } from "../Global/components/SnackbarAlert";
+import SnackbarAlert from "../Global/components/SnackbarAlert";
 
 import Edit from "./components/Edit/Edit";
 import SavedDisplay from "./components/SavedDisplay/SavedDisplay";
+
+import AlertDialogConfirm from "../Global/components/AlertDialogConfirm";
 
 const Container = styled(Grid)`
   display: flex;
@@ -22,7 +24,7 @@ const Container = styled(Grid)`
 
 export default function SavedCoverLetters() {
   const { state } = useAuth();
-  const { isLoginOpen, isSettingsOpen, snackbar } = state;
+  const { isLoginOpen, isSettingsOpen, snackbar, alertDialogConfirm } = state;
 
   return (
     <Container>
@@ -37,6 +39,12 @@ export default function SavedCoverLetters() {
         open={snackbar.open}
         type={snackbar.type}
         message={snackbar.message}
+      />
+
+      <AlertDialogConfirm
+        open={alertDialogConfirm.open}
+        header={alertDialogConfirm.header}
+        message={alertDialogConfirm.message}
       />
     </Container>
   );
