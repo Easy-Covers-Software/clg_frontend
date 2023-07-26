@@ -48,21 +48,21 @@ export default function CoverLetter() {
 
           <p>${selectedCoverLetter?.cover_letter_p3 || ""}</p>
 
-          <p>${selectedCoverLetter?.cover_letter_signature || ""}</p>
-          
           <p>${selectedCoverLetter?.cover_letter_thank_you || ""}</p>
+          
+          <p>${selectedCoverLetter?.cover_letter_signature || ""}</p>
 
-          <p>${selectedCoverLetter?.coverLetterWriter || ""}</p>
+          <p>${selectedCoverLetter?.cover_letter_writer || ""}</p>
         </div>`
     );
     setCoverLetterJSON({
-      coverLetterOpener: selectedCoverLetter?.coverLetterOpener,
-      coverLetterP1: selectedCoverLetter?.coverLetterP1,
-      coverLetterP2: selectedCoverLetter?.coverLetterP2,
-      coverLetterP3: selectedCoverLetter?.coverLetterP3,
-      coverLetterThankYou: selectedCoverLetter?.coverLetterThankYou,
-      coverLetterSignature: selectedCoverLetter?.coverLetterSignature,
-      coverLetterWriter: selectedCoverLetter?.coverLetterWriter,
+      coverLetterOpener: selectedCoverLetter?.cover_letter_opener,
+      coverLetterP1: selectedCoverLetter?.cover_letter_p1,
+      coverLetterP2: selectedCoverLetter?.cover_letter_p2,
+      coverLetterP3: selectedCoverLetter?.cover_letter_p3,
+      coverLetterThankYou: selectedCoverLetter?.cover_letter_thank_you,
+      coverLetterSignature: selectedCoverLetter?.cover_letter_signature,
+      coverLetterWriter: selectedCoverLetter?.cover_letter_writer,
     });
   }, [selectedCoverLetter]);
 
@@ -95,6 +95,41 @@ export default function CoverLetter() {
       editor.commands.setContent(coverLetter);
     }
   }, [coverLetter, editor]);
+
+  function parseSectionsFromHTML(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const paragraphs = doc.querySelectorAll("p");
+    const sections = Array.from(paragraphs).map((p) => p.innerHTML);
+    console.log("sections", sections);
+
+    return sections;
+  }
+
+  useEffect(() => {
+    if (editor) {
+      const updateHandler = () => {
+        // Parse the editor's HTML content into sections.
+        const html = editor.getHTML();
+        console.log("HTML", html);
+
+        const parsedSections = parseSectionsFromHTML(html); // You need to implement this function.
+
+        // Dispatch the update action.
+        dispatch({
+          type: "UPDATE_COVER_LETTER",
+          payload: parsedSections,
+        });
+      };
+
+      editor.on("update", updateHandler);
+
+      return () => {
+        // Clean up the event listener when the component is unmounted or the editor instance changes.
+        editor.off("update", updateHandler);
+      };
+    }
+  }, [editor, dispatch]);
 
   return (
     <Container>
