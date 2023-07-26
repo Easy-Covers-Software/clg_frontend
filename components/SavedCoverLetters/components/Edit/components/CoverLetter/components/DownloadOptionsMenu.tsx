@@ -12,10 +12,11 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import { Tooltip } from "@mui/material";
 
-import { useGenerationContext } from "@/context/GenerationContext";
 import { useSavedCoverLettersContext } from "@/context/SavedCoverLettersContext";
 import { useAuth } from "@/context/AuthContext";
 
+import SaveNameInput from "./SaveNameInput";
+import DownloadDropdown from "./DownloadDropdown";
 import { DownloadOptionsMenuStyledComponents } from "../CoverLetter.styles";
 const { Container } = DownloadOptionsMenuStyledComponents;
 
@@ -44,7 +45,7 @@ export default function DownloadOptionsMenu() {
 
   // const handleSave = async () => {
   //   const response = await saveCoverLetterResults();
-  //   if (response === "success") {
+  //   if (response.status === 200) {
   //     updateSnackbar(true, "success", "Cover Letter Saved Successfully");
   //   } else {
   //     updateSnackbar(true, "error", `Error saving cover letter: ${response}`);
@@ -52,53 +53,10 @@ export default function DownloadOptionsMenu() {
   // };
 
   return (
-    <>
-      <Container>
-        <Tooltip title="Save">
-          <IconButton
-            onClick={handleDownload}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: "0 20%",
-            }}
-          >
-            <SaveOutlinedIcon sx={{ fontSize: "1.7rem" }} />
-          </IconButton>
-        </Tooltip>
-
-        <Divider orientation="vertical" flexItem />
-        <Tooltip title="Download">
-          <IconButton onClick={handleDownload} sx={{ padding: "0 20%" }}>
-            <DownloadForOfflineOutlinedIcon sx={{ fontSize: "1.7rem" }} />
-          </IconButton>
-        </Tooltip>
-      </Container>
-
-      <Menu
-        id="basic-menu"
-        anchorEl={downloadMenuAnchor}
-        open={openDownload}
-        onClose={handleCloseDownload}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem onClick={generatePDF} disableRipple>
-          <ListItemIcon>
-            <PictureAsPdfOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText> Download as PDF</ListItemText>
-        </MenuItem>
-
-        <MenuItem onClick={generateDOCX} disableRipple>
-          <ListItemIcon>
-            <PostAddOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText>Download as DOCX</ListItemText>
-        </MenuItem>
-      </Menu>
-    </>
+    <Container>
+      <SaveNameInput />
+      <Divider orientation="vertical" flexItem />
+      <DownloadDropdown />
+    </Container>
   );
 }
