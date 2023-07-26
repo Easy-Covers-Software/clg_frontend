@@ -11,7 +11,8 @@ import styled from "@emotion/styled";
 import GenerationSetup from "@/components/Generation/GenerationSetup/GenerationSetup";
 import Results from "@/components/Generation/Results/Results";
 
-import { SnackbarAlert } from "../Global/components/SnackbarAlert";
+import SnackbarAlert from "../Global/components/SnackbarAlert";
+import AlertDialogConfirm from "../Global/components/AlertDialogConfirm";
 
 const Container = styled(Grid)`
   display: flex;
@@ -21,7 +22,9 @@ const Container = styled(Grid)`
 
 export default function Generation() {
   const { state } = useAuth();
-  const { isLoginOpen, isSettingsOpen, snackbar } = state;
+  const { isLoginOpen, isSettingsOpen, snackbar, alertDialogConfirm } = state;
+
+  console.log("alertDialogConfirm: ", alertDialogConfirm);
 
   return (
     <Container>
@@ -36,6 +39,12 @@ export default function Generation() {
         open={snackbar.open}
         type={snackbar.type}
         message={snackbar.message}
+      />
+
+      <AlertDialogConfirm
+        open={alertDialogConfirm.open}
+        header={alertDialogConfirm.header}
+        message={alertDialogConfirm.message}
       />
     </Container>
   );
