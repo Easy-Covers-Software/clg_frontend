@@ -26,6 +26,9 @@ const initialState = {
   setLoadingSavedCoverLetters: false,
   updateCoverLetter: null,
   updateSavedCoverLettersList: false,
+  isSavedDropdownOpen: false,
+  isDownloadDropdownOpen: false,
+  saveName: "",
 };
 
 function reducer(state, action) {
@@ -76,6 +79,12 @@ function reducer(state, action) {
       return { ...state, selectedCoverLetterParts: action.payload };
     case "SET_UPDATE_SAVED_COVER_LETTERS_LIST":
       return { ...state, updateSavedCoverLettersList: action.payload };
+    case "SET_IS_SAVED_DROPDOWN_OPEN":
+      return { ...state, isSavedDropdownOpen: action.payload };
+    case "SET_IS_DOWNLOAD_DROPDOWN_OPEN":
+      return { ...state, isDownloadDropdownOpen: action.payload };
+    case "SET_SAVE_NAME":
+      return { ...state, saveName: action.payload };
     default:
       return state;
   }
@@ -132,96 +141,6 @@ export default function SavedCoverLettersContext(props) {
       console.log(error);
     } finally {
       dispatch({ type: "SET_SAVE_LOADING", payload: false });
-    }
-  };
-
-  const generatePDF = () => {
-    const doc = new jsPDF("p", "px", "a4", true);
-
-    // Header Information
-    doc.setFont("Times New Roman");
-    doc.setFontSize(12);
-
-    const parts = [
-      { name: "opener", text: state.coverLetterOpener },
-      { name: "p1", text: state.coverLetterP1 },
-      { name: "p2", text: state.coverLetterP2 },
-      { name: "p3", text: state.coverLetterP3 },
-      { name: "thank you", text: state.coverLetterThankYou },
-    ];
-
-    const closingParts = [
-      { name: "signature", text: state.coverLetterSignature },
-      { name: "coverLetterWriter", text: state.coverLetterWriter },
-    ];
-
-    let totalChars = 0;
-    parts.forEach((part) => {
-      part.chars = part.text.length;
-      totalChars += part.chars;
-    });
-
-    const minSpace = 20; // Minimum space between parts
-    let y = 50 + minSpace; // Start the first part at 60 and add minimum space
-    parts.forEach((part) => {
-      part.y = y;
-      const percentage = part.chars / totalChars;
-      y += Math.round(percentage * (250 - minSpace * (parts.length - 1))); // Deduct the minimum spaces from the total available space
-      y += minSpace; // Add minimum space after each part
-    });
-
-    // Calculate position of closing parts based on the last paragraph
-    let closingY = parts[parts.length - 1].y + minSpace; // Add minimum space
-    closingParts.forEach((part, index) => {
-      part.y = (closingY + index * minSpace) * 1.08; // Each closing part is positioned at minimum space below the previous one
-    });
-
-    closingParts.forEach((part, index) => {
-      if (index === 0) {
-        // The first part in closingParts is "signature"
-        // Do nothing, keep the calculated position
-      } else if (index === 1) {
-        // The second part in closingParts is "coverLetterWriter"
-        part.y = closingParts[index - 1].y + 12; // Set its position 12 units below "signature"
-      }
-    });
-
-    [...parts, ...closingParts].forEach((part) => {
-      doc.text(part.text, 50, part.y, { maxWidth: 350 });
-    });
-
-    doc.save("cover-letter.pdf");
-  };
-
-  const generateDOCX = async () => {
-    const url =
-      "https://localhost:8000/ai_generator/generate/download_as_docx/";
-
-    const form = new FormData();
-    form.append("html", state.currentCoverLetter);
-
-    try {
-      const response = await axios.post(url, form, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookie.get("csrftoken"),
-        },
-        responseType: "blob",
-      });
-
-      if (response.statusText === "OK") {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "file.docx"); //or any other extension
-        document.body.appendChild(link);
-        link.click();
-      }
-
-      console.log(response);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -515,7 +434,7 @@ export default function SavedCoverLettersContext(props) {
   }, [state.selectedCoverLetter]);
 
   const deleteSavedCoverLetter = async () => {
-    const url = `https://localhost:8000/ai_generator/generate/${state.selectedCoverLetter.id}/`;
+    const url = `https://localhost:8000/ai_generator/generate/${state.selectedCoverLetter?.id}/`;
 
     try {
       const response = await axios.delete(url, {
@@ -530,6 +449,125 @@ export default function SavedCoverLettersContext(props) {
       console.log(error);
       return "error";
     }
+  };
+
+  const resetSelected = () => {
+    dispatch({
+      type: "SET_SELECTED_COVER_LETTER",
+      payload: null,
+    });
+    dispatch({
+      type: "SET_SELECTED_COVER_LETTER_PARTS",
+      payload: null,
+    });
+    dispatch({
+      type: "SET_SELECTED_COVER_LETTER_JOB_POSTING",
+      payload: null,
+    });
+  };
+
+  const generatePDF = () => {
+    const doc = new jsPDF("p", "px", "a4", true);
+
+    // Header Information
+    doc.setFont("Times New Roman");
+    doc.setFontSize(12);
+
+    const parts = [
+      { name: "opener", text: state.coverLetterOpener },
+      { name: "p1", text: state.coverLetterP1 },
+      { name: "p2", text: state.coverLetterP2 },
+      { name: "p3", text: state.coverLetterP3 },
+      { name: "thank you", text: state.coverLetterThankYou },
+    ];
+
+    const closingParts = [
+      { name: "signature", text: state.coverLetterSignature },
+      { name: "coverLetterWriter", text: state.coverLetterWriter },
+    ];
+
+    let totalChars = 0;
+    parts.forEach((part) => {
+      part.chars = part.text.length;
+      totalChars += part.chars;
+    });
+
+    const minSpace = 20; // Minimum space between parts
+    let y = 50 + minSpace; // Start the first part at 60 and add minimum space
+    parts.forEach((part) => {
+      part.y = y;
+      const percentage = part.chars / totalChars;
+      y += Math.round(percentage * (250 - minSpace * (parts.length - 1))); // Deduct the minimum spaces from the total available space
+      y += minSpace; // Add minimum space after each part
+    });
+
+    // Calculate position of closing parts based on the last paragraph
+    let closingY = parts[parts.length - 1].y + minSpace; // Add minimum space
+    closingParts.forEach((part, index) => {
+      part.y = (closingY + index * minSpace) * 1.08; // Each closing part is positioned at minimum space below the previous one
+    });
+
+    closingParts.forEach((part, index) => {
+      if (index === 0) {
+        // The first part in closingParts is "signature"
+        // Do nothing, keep the calculated position
+      } else if (index === 1) {
+        // The second part in closingParts is "coverLetterWriter"
+        part.y = closingParts[index - 1].y + 12; // Set its position 12 units below "signature"
+      }
+    });
+
+    [...parts, ...closingParts].forEach((part) => {
+      doc.text(part.text, 50, part.y, { maxWidth: 350 });
+    });
+
+    doc.save("cover-letter.pdf");
+  };
+
+  const generateDOCX = async () => {
+    const url =
+      "https://localhost:8000/ai_generator/generate/download_as_docx/";
+
+    const form = new FormData();
+    form.append("html", state.currentCoverLetterHtml);
+
+    try {
+      const response = await axios.post(url, form, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+        responseType: "blob",
+      });
+
+      if (response.statusText === "OK") {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "file.docx"); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      }
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const toggleIsSavedDropdownOpen = () => {
+    dispatch({
+      type: "SET_IS_SAVED_DROPDOWN_OPEN",
+      payload: !state.isSavedDropdownOpen,
+    });
+  };
+
+  const toggleIsDownloadDropdownOpen = () => {
+    dispatch({
+      type: "SET_IS_DOWNLOAD_DROPDOWN_OPEN",
+      payload: !state.isDownloadDropdownOpen,
+    });
   };
 
   return (
@@ -547,6 +585,9 @@ export default function SavedCoverLettersContext(props) {
         toggleFilterDropdownIsOpen,
         getUsersSavedCoverLetters,
         deleteSavedCoverLetter,
+        resetSelected,
+        toggleIsSavedDropdownOpen,
+        toggleIsDownloadDropdownOpen,
       }}
     >
       {props.children}
