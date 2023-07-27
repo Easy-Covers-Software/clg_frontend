@@ -65,10 +65,10 @@ export default function CoverLetter() {
           })
           .join("");
         const addDiv = `<div>${sections}</div>`;
-        dispatch({
-          type: "SET_SELECTED_COVER_LETTER_HTML",
-          payload: coverLetter,
-        });
+        // dispatch({
+        //   type: "SET_SELECTED_COVER_LETTER_HTML",
+        //   payload: coverLetter,
+        // });
         setCoverLetter(addDiv);
       }
     }
@@ -92,10 +92,10 @@ export default function CoverLetter() {
 
   useEffect(() => {
     if (editor) {
-      // dispatch({
-      //   type: "SET_SELECTED_COVER_LETTER_HTML",
-      //   payload: coverLetter,
-      // });
+      dispatch({
+        type: "SET_SELECTED_COVER_LETTER_HTML",
+        payload: coverLetter,
+      });
       dispatch({
         type: "SET_CURRENT_COVER_LETTER_JSON",
         payload: JSON.stringify(coverLetterJSON),
