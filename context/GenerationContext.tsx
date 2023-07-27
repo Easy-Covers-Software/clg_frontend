@@ -33,16 +33,9 @@ const initialState = {
   jobTitle: "",
   companyName: "",
   matchScore: 0,
-  currentCoverLetter: [],
+  currentCoverLetter: null,
   currentCoverLetterHtml: "",
   currentCoverLetterJson: "",
-  coverLetterOpener: "Awaiting generation of cover letter...",
-  coverLetterP1: "",
-  coverLetterP2: "",
-  coverLetterP3: "",
-  coverLetterThankYou: "",
-  coverLetterSignature: "",
-  coverLetterWriter: "",
   addSkillInput: "",
   insertKeywordInput: "",
   removeRedundancyInput: "",
@@ -69,6 +62,7 @@ const initialState = {
   isSavedDropdownOpen: false,
   isDownloadDropdownOpen: false,
   saveName: "",
+  updateCoverLetter: null,
 };
 
 function reducer(state, action) {
@@ -81,18 +75,6 @@ function reducer(state, action) {
       return { ...state, matchScore: action.payload };
     case "SET_CURRENT_COVER_LETTER":
       return { ...state, currentCoverLetter: action.payload };
-    case "SET_COVER_LETTER_OPENER":
-      return { ...state, coverLetterOpener: action.payload };
-    case "SET_COVER_LETTER_P1":
-      return { ...state, coverLetterP1: action.payload };
-    case "SET_COVER_LETTER_P2":
-      return { ...state, coverLetterP2: action.payload };
-    case "SET_COVER_LETTER_P3":
-      return { ...state, coverLetterP3: action.payload };
-    case "SET_COVER_LETTER_THANK_YOU":
-      return { ...state, coverLetterThankYou: action.payload };
-    case "SET_COVER_LETTER_SIGNATURE":
-      return { ...state, coverLetterSignature: action.payload };
     case "SET_ADD_SKILL_INPUT":
       return { ...state, addSkillInput: action.payload };
     case "SET_INSERT_KEYWORD_INPUT":
@@ -117,8 +99,7 @@ function reducer(state, action) {
       return { ...state, saveLoading: action.payload };
     case "SET_JOB_POSTING_ID":
       return { ...state, jobPostingId: action.payload };
-    case "SET_COVER_LETTER_WRITER":
-      return { ...state, coverLetterWriter: action.payload };
+
     case "SET_CURRENT_COVER_LETTER_JSON":
       return { ...state, currentCoverLetterJson: action.payload };
     case "SET_IS_USING_LAST_UPLOADED_RESUME":
@@ -147,6 +128,8 @@ function reducer(state, action) {
       return { ...state, saveName: action.payload };
     case "SET_CURRENT_COVER_LETTER_HTML":
       return { ...state, currentCoverLetterHtml: action.payload };
+    case "SET_UPDATE_COVER_LETTER":
+      return { ...state, updateCoverLetter: action.payload };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -395,10 +378,6 @@ export function GenerationContext({ children }) {
     // setLoadingCoverLetter(true);
     const url = API_BASE_URL + "generate/make_simple_adjustment/";
 
-    console.log("current cover letter", state.currentCoverLetter);
-    console.log("increase or decrease", increaseOrDecrease);
-    console.log("type of adjustment", typeOfAdjustment);
-
     const form = new FormData();
     form.append("cover_letter", state.currentCoverLetterHtml);
     form.append("increase_or_decrease", increaseOrDecrease);
@@ -417,40 +396,18 @@ export function GenerationContext({ children }) {
           const data = JSON.parse(response.data.cover_letter);
 
           dispatch({
-            type: "SET_COVER_LETTER_OPENER",
-            payload: data.cover_letter_opener,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P1",
-            payload: data.cover_letter_p1,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P2",
-            payload: data.cover_letter_p2,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P3",
-            payload: data.cover_letter_p3,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_THANK_YOU",
-            payload: data.cover_letter_thank_you,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_SIGNATURE",
-            payload: data.cover_letter_signature,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_WRITER",
-            payload: data.cover_letter_writer,
+            type: "SET_CURRENT_COVER_LETTER",
+            payload: Object.values(data),
           });
         } catch (error) {
           console.log("Error: Could not parse response (not valid json)");
           console.log(error);
+          return "error";
         }
       }
     } catch (error) {
       console.log(error);
+      return "error";
     } finally {
       dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
     }
@@ -486,28 +443,8 @@ export function GenerationContext({ children }) {
         try {
           const data = JSON.parse(response.data.cover_letter);
           dispatch({
-            type: "SET_COVER_LETTER_OPENER",
-            payload: data.cover_letter_opener,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P1",
-            payload: data.cover_letter_p1,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P2",
-            payload: data.cover_letter_p2,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P3",
-            payload: data.cover_letter_p3,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_THANK_YOU",
-            payload: data.cover_letter_thank_you,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_SIGNATURE",
-            payload: data.cover_letter_signature,
+            type: "SET_CURRENT_COVER_LETTER",
+            payload: Object.values(data),
           });
         } catch (error) {
           console.log("Error: Could not parse response (not valid json)");
@@ -517,6 +454,7 @@ export function GenerationContext({ children }) {
     } catch (error) {
       console.log("error occured during intermediate adjustment");
       console.log(error);
+      return "error";
     } finally {
       dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
     }
@@ -542,39 +480,22 @@ export function GenerationContext({ children }) {
         console.log("Intermediate Adjustment", response);
         try {
           const data = JSON.parse(response.data.cover_letter);
+          dispatch({
+            type: "SET_CURRENT_COVER_LETTER",
+            payload: Object.values(data),
+          });
+          return "success";
           console.log(data);
-          dispatch({
-            type: "SET_COVER_LETTER_OPENER",
-            payload: data.cover_letter_opener,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P1",
-            payload: data.cover_letter_p1,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P2",
-            payload: data.cover_letter_p2,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P3",
-            payload: data.cover_letter_p3,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_THANK_YOU",
-            payload: data.cover_letter_thank_you,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_SIGNATURE",
-            payload: data.cover_letter_signature,
-          });
         } catch (error) {
           console.log("Error: Could not parse response (not valid json)");
           console.log(error);
+          return "error";
         }
       }
     } catch (error) {
       console.log("error occured during intermediate adjustment");
       console.log(error);
+      return "error";
     } finally {
       dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
     }
@@ -605,46 +526,17 @@ export function GenerationContext({ children }) {
         },
       });
 
-      console.log("response gen", response);
+      console.log("response =====***", response);
 
       if (response.statusText === "OK") {
         try {
           const data = JSON.parse(response.data.cover_letter);
 
-          const coverLetterParts = Object.values(data);
+          console.log("data =====***", data);
+
           dispatch({
             type: "SET_CURRENT_COVER_LETTER",
-            payload: coverLetterParts,
-          });
-
-          // console.log(data);
-          dispatch({
-            type: "SET_COVER_LETTER_OPENER",
-            payload: data.cover_letter_opener,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P1",
-            payload: data.cover_letter_p1,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P2",
-            payload: data.cover_letter_p2,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P3",
-            payload: data.cover_letter_p3,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_THANK_YOU",
-            payload: data.cover_letter_thank_you,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_SIGNATURE",
-            payload: data.cover_letter_signature,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_WRITER",
-            payload: data.cover_letter_writer,
+            payload: Object.values(data),
           });
 
           dispatch({
@@ -684,21 +576,21 @@ export function GenerationContext({ children }) {
     console.log("form data", state);
     const form = new FormData();
     form.append("save_name", state.saveName);
-    form.append(
-      "cover_letter_parts",
-      JSON.stringify(enumerateArray(state.currentCoverLetter))
-    );
 
-    form.append("cover_letter_opener", state.coverLetterOpener);
-    form.append("cover_letter_p1", state.coverLetterP1);
-    form.append("cover_letter_p2", state.coverLetterP2);
-    form.append("cover_letter_p3", state.coverLetterP3);
-    form.append("cover_letter_thank_you", state.coverLetterThankYou);
-    form.append("cover_letter_signature", state.coverLetterSignature);
-    form.append("cover_letter_writer", state.coverLetterWriter);
+    if (state.updateCoverLetter !== null) {
+      form.append(
+        "cover_letter_parts",
+        JSON.stringify(state.updateCoverLetter)
+      );
+    } else {
+      form.append(
+        "cover_letter_parts",
+        JSON.stringify(state.currentCoverLetter)
+      );
+    }
+
     form.append("match_score", state.matchScore);
     form.append("job_posting", state.jobPostingId);
-    form.append("resume", state.resume);
 
     try {
       const response = await axios.post(url, form, {
@@ -720,6 +612,7 @@ export function GenerationContext({ children }) {
     }
   };
 
+  // THIS NEEDS TO BE UPDATED !!!!!
   const generatePDF = () => {
     const doc = new jsPDF("p", "px", "a4", true);
 
@@ -728,7 +621,6 @@ export function GenerationContext({ children }) {
     doc.setFontSize(12);
 
     const parts = [
-      { name: "opener", text: state.coverLetterOpener },
       { name: "p1", text: state.coverLetterP1 },
       { name: "p2", text: state.coverLetterP2 },
       { name: "p3", text: state.coverLetterP3 },
@@ -778,6 +670,7 @@ export function GenerationContext({ children }) {
     doc.save("cover-letter.pdf");
   };
 
+  // THIS NEEDS TO BE UPDATED !!!!!
   const generateDOCX = async () => {
     const url =
       "https://localhost:8000/ai_generator/generate/download_as_docx/";

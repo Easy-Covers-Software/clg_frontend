@@ -11,6 +11,7 @@ const initialState = {
   savedCoverLetters: [],
   selectedCoverLetter: null,
   selectedCoverLetterParts: null,
+  selectedCoverLetterHtml: "",
   selectedCoverLetterJobPosting: null,
   loadingCoverLetter: false,
   addSkillInput: "",
@@ -85,6 +86,8 @@ function reducer(state, action) {
       return { ...state, isDownloadDropdownOpen: action.payload };
     case "SET_SAVE_NAME":
       return { ...state, saveName: action.payload };
+    case "SET_SELECTED_COVER_LETTER_HTML":
+      return { ...state, selectedCoverLetterHtml: action.payload };
     default:
       return state;
   }
@@ -111,21 +114,40 @@ export default function SavedCoverLettersContext(props) {
     state.removeRedundancyInput,
   ]);
 
+  const enumerateArray = (array) => {
+    return array.map((content, section_number) => ({
+      content,
+      section_number,
+    }));
+  };
+
   const saveCoverLetterResults = async () => {
     dispatch({ type: "SET_SAVE_LOADING", payload: true });
-    const url = "https://localhost:8000/ai_generator/generate/";
+    console.log(
+      "selected cover letter parts state",
+      state.selectedCoverLetterParts
+    );
+
+    const url = `https://localhost:8000/ai_generator/generate/${state.selectedCoverLetter?.id}/`;
 
     const form = new FormData();
-    form.append("cover_letter_opener", state.coverLetterOpener);
-    form.append("cover_letter_p1", state.coverLetterP1);
-    form.append("cover_letter_p2", state.coverLetterP2);
-    form.append("cover_letter_p3", state.coverLetterP3);
-    form.append("cover_letter_thank_you", state.coverLetterThankYou);
-    form.append("cover_letter_signature", state.coverLetterSignature);
-    form.append("job_posting", state.jobPostingId);
+    form.append("save_name", state.saveName);
+
+    const values = state.selectedCoverLetterParts.map((part) => {
+      return part.content;
+    });
+
+    if (state.updateCoverLetter !== null) {
+      form.append(
+        "cover_letter_parts",
+        JSON.stringify(state.updateCoverLetter)
+      );
+    } else {
+      form.append("cover_letter_parts", JSON.stringify(values));
+    }
 
     try {
-      const response = await axios.post(url, form, {
+      const response = await axios.put(url, form, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -134,11 +156,16 @@ export default function SavedCoverLettersContext(props) {
       });
       if (response.statusText === "OK") {
         console.log("Cover letter results saved successfully");
+        dispatch({
+          type: "SET_UPDATE_SAVED_COVER_LETTERS_LIST",
+          payload: !state.updateSavedCoverLettersList,
+        });
 
-        return response.data;
+        return "success";
       }
     } catch (error) {
       console.log(error);
+      return "error";
     } finally {
       dispatch({ type: "SET_SAVE_LOADING", payload: false });
     }
@@ -150,14 +177,15 @@ export default function SavedCoverLettersContext(props) {
   ) => {
     dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
     // setLoadingCoverLetter(true);
-    const url = API_BASE_URL + "generate/make_simple_adjustment/";
+    const url =
+      "https://localhost:8000/ai_generator/generate/make_simple_adjustment/";
 
     console.log("current cover letter", state.currentCoverLetter);
     console.log("increase or decrease", increaseOrDecrease);
     console.log("type of adjustment", typeOfAdjustment);
 
     const form = new FormData();
-    form.append("cover_letter", state.currentCoverLetter);
+    form.append("cover_letter", state.selectedCoverLetterHtml);
     form.append("increase_or_decrease", increaseOrDecrease);
     form.append("type_of_adjustment", typeOfAdjustment);
 
@@ -172,33 +200,10 @@ export default function SavedCoverLettersContext(props) {
       if (response.statusText === "OK") {
         try {
           const data = JSON.parse(response.data.cover_letter);
+
           dispatch({
-            type: "SET_COVER_LETTER_OPENER",
-            payload: data.cover_letter_opener,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P1",
-            payload: data.cover_letter_p1,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P2",
-            payload: data.cover_letter_p2,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P3",
-            payload: data.cover_letter_p3,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_THANK_YOU",
-            payload: data.cover_letter_thank_you,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_SIGNATURE",
-            payload: data.cover_letter_signature,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_WRITER",
-            payload: data.cover_letter_writer,
+            type: "SET_SELECTED_COVER_LETTER_PARTS",
+            payload: Object.values(data),
           });
         } catch (error) {
           console.log("Error: Could not parse response (not valid json)");
@@ -215,15 +220,16 @@ export default function SavedCoverLettersContext(props) {
   const makeIntermediateAdjustment = async () => {
     dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
 
-    const url = API_BASE_URL + "generate/make_intermediate_adjustment/";
+    const url =
+      "https://localhost:8000/ai_generator/generate/make_intermediate_adjustment/";
 
     const form = new FormData();
-    form.append("cover_letter", state.currentCoverLetter);
-    form.append("type_of_adjustment", state.selectedIntermediateType);
+    form.append("cover_letter", state.selectedCoverLetterHtml);
+    form.append("type_of_adjustment", state.intermediateType);
 
-    if (state.selectedIntermediateType === "add skill") {
+    if (state.intermediateType === "add skill") {
       form.append("input_value", state.addSkillInput);
-    } else if (state.selectedIntermediateType === "insert keyword") {
+    } else if (state.intermediateType === "insert keyword") {
       form.append("input_value", state.insertKeywordInput);
     } else {
       form.append("input_value", state.removeRedundancyInput);
@@ -237,42 +243,28 @@ export default function SavedCoverLettersContext(props) {
           "X-CSRFToken": Cookie.get("csrftoken"),
         },
       });
+      console.log("intermediate response", response);
       if (response.statusText === "OK") {
         console.log("Intermediate Adjustment", response);
         try {
           const data = JSON.parse(response.data.cover_letter);
+          console.log("intermediate response data", data);
           dispatch({
-            type: "SET_COVER_LETTER_OPENER",
-            payload: data.cover_letter_opener,
+            type: "SET_SELECTED_COVER_LETTER_PARTS",
+            payload: Object.values(data),
           });
-          dispatch({
-            type: "SET_COVER_LETTER_P1",
-            payload: data.cover_letter_p1,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P2",
-            payload: data.cover_letter_p2,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P3",
-            payload: data.cover_letter_p3,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_THANK_YOU",
-            payload: data.cover_letter_thank_you,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_SIGNATURE",
-            payload: data.cover_letter_signature,
-          });
+
+          return "success";
         } catch (error) {
           console.log("Error: Could not parse response (not valid json)");
           console.log(error);
+          return "error";
         }
       }
     } catch (error) {
       console.log("error occured during intermediate adjustment");
       console.log(error);
+      return "error";
     } finally {
       dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
     }
@@ -280,10 +272,12 @@ export default function SavedCoverLettersContext(props) {
 
   const makeCustomAdjustment = async () => {
     dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
-    const url = API_BASE_URL + "generate/make_custom_adjustment/";
+    const url =
+      "https://localhost:8000/ai_generator/generate/make_custom_adjustment/";
 
     const form = new FormData();
-    form.append("cover_letter", state.currentCoverLetter);
+    console.log("selected cover letter html", state.selectedCoverLetterHtml);
+    form.append("cover_letter", state.selectedCoverLetterHtml);
     form.append("input_value", state.customAdjustment);
 
     try {
@@ -294,43 +288,28 @@ export default function SavedCoverLettersContext(props) {
           "X-CSRFToken": Cookie.get("csrftoken"),
         },
       });
+      console.log("Custom Adjustment", response);
       if (response.statusText === "OK") {
-        console.log("Intermediate Adjustment", response);
         try {
           const data = JSON.parse(response.data.cover_letter);
+          console.log("Custom adjustment");
           console.log(data);
           dispatch({
-            type: "SET_COVER_LETTER_OPENER",
-            payload: data.cover_letter_opener,
+            type: "SET_SELECTED_COVER_LETTER_PARTS",
+            payload: Object.values(data),
           });
-          dispatch({
-            type: "SET_COVER_LETTER_P1",
-            payload: data.cover_letter_p1,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P2",
-            payload: data.cover_letter_p2,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_P3",
-            payload: data.cover_letter_p3,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_THANK_YOU",
-            payload: data.cover_letter_thank_you,
-          });
-          dispatch({
-            type: "SET_COVER_LETTER_SIGNATURE",
-            payload: data.cover_letter_signature,
-          });
+
+          return "success";
         } catch (error) {
           console.log("Error: Could not parse response (not valid json)");
           console.log(error);
+          return "error";
         }
       }
     } catch (error) {
-      console.log("error occured during intermediate adjustment");
+      console.log("error occured during custom adjustment");
       console.log(error);
+      return "error";
     } finally {
       dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
     }
