@@ -53,9 +53,16 @@ export default function CustomReQuery() {
     }
 
     try {
-      await makeCustomAdjustment();
-      authDispatch({ type: "SET_UPDATE_USER", payload: authState.updateUser });
-      updateSnackbar(true, "success", "Adjustment made successfully.");
+      const response = await makeCustomAdjustment();
+      if (response === "success") {
+        authDispatch({
+          type: "SET_UPDATE_USER",
+          payload: authState.updateUser,
+        });
+        updateSnackbar(true, "success", "Adjustment made successfully.");
+      } else {
+        updateSnackbar(true, "error", response);
+      }
     } catch (err) {
       console.log("Error in handleCustomAdjustment");
       console.log(err);
