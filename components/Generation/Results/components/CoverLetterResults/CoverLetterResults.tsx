@@ -29,58 +29,30 @@ import {
 
 export default function CoverLetterResults() {
   const { state, dispatch } = useGenerationContext();
-  const {
-    currentCoverLetter,
+  const { currentCoverLetter, isReQuerySectionExpanded, loadingCoverLetter } =
+    state;
 
-    isReQuerySectionExpanded,
-    coverLetterOpener,
-    coverLetterP1,
-    coverLetterP2,
-    coverLetterP3,
-    coverLetterThankYou,
-    coverLetterSignature,
-    coverLetterWriter,
-    loadingCoverLetter,
-  } = state;
-
-  const [coverLetter, setCoverLetter] = useState(``);
+  const [coverLetter, setCoverLetter] = useState(
+    `Copy and paste a job posting (or summarize in your own words) + add your resume or personal details to create a cover letter`
+  );
   const [coverLetterJSON, setCoverLetterJSON] = useState(null);
 
   useEffect(() => {
-    setCoverLetter(
-      `<div>
-          <p>${coverLetterOpener}</p>
+    if (currentCoverLetter !== null) {
+      const sections = currentCoverLetter
+        .map((part) => {
+          return `<p>${part}</p>`;
+        })
+        .join("");
+      const addDiv = `<div>${sections}</div>`;
 
-          <p>${coverLetterP1}</p>
-
-          <p>${coverLetterP2}</p>
-
-          <p>${coverLetterP3}</p>
-
-          <p>${coverLetterThankYou}</p>
-          
-          <p>${coverLetterSignature}</p>
-
-          <p>${coverLetterWriter}</p>
-        </div>`
-    );
-    setCoverLetterJSON({
-      coverLetterOpener,
-      coverLetterP1,
-      coverLetterP2,
-      coverLetterP3,
-      coverLetterThankYou,
-      coverLetterSignature,
-      coverLetterWriter,
-    });
-  }, [
-    coverLetterOpener,
-    coverLetterP1,
-    coverLetterP2,
-    coverLetterP3,
-    coverLetterThankYou,
-    coverLetterSignature,
-  ]);
+      dispatch({
+        type: "SET_CURRENT_COVER_LETTER_HTML",
+        payload: addDiv,
+      });
+      setCoverLetter(addDiv);
+    }
+  }, [currentCoverLetter]);
 
   const editor = useEditor(
     {
@@ -100,10 +72,6 @@ export default function CoverLetterResults() {
 
   useEffect(() => {
     if (editor) {
-      dispatch({
-        type: "SET_CURRENT_COVER_LETTER_HTML",
-        payload: coverLetter,
-      });
       dispatch({
         type: "SET_CURRENT_COVER_LETTER_JSON",
         payload: JSON.stringify(coverLetterJSON),
@@ -133,7 +101,7 @@ export default function CoverLetterResults() {
 
         // Dispatch the update action.
         dispatch({
-          type: "SET_CURRENT_COVER_LETTER",
+          type: "SET_UPDATE_COVER_LETTER",
           payload: parsedSections,
         });
       };
@@ -148,6 +116,7 @@ export default function CoverLetterResults() {
   }, [editor, dispatch]);
 
   console.log("new curr cover letetr", state.currentCoverLetter);
+  console.log("new curr cover letetr", state.updateCoverLetter);
 
   return (
     <Container>
