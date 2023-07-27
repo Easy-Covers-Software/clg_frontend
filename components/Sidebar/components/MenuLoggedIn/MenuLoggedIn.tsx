@@ -11,19 +11,36 @@ import { Container, GenerationModeTab, Tabs } from "./MenuLoggedIn.styles";
 export default function MenuLoggedIn() {
   const {
     state: { page },
+    dispatch,
   } = useAuth();
 
   return (
     <Container>
       <Tabs>
         <Link href={"/generation-mode"} className={"no_underline"} passHref>
-          <GenerationModeTab selected={page === "generation-mode"}>
+          <GenerationModeTab
+            selected={page === "generation-mode"}
+            onClick={() =>
+              dispatch({
+                type: "SET_PAGE",
+                payload: "generation-mode",
+              })
+            }
+          >
             Generate Mode
           </GenerationModeTab>
         </Link>
 
         <Link href={"/saved"} className={"no_underline"} passHref>
-          <GenerationModeTab selected={page === "saved"}>
+          <GenerationModeTab
+            selected={page === "saved"}
+            onClick={() =>
+              dispatch({
+                type: "SET_PAGE",
+                payload: "saved",
+              })
+            }
+          >
             Saved
           </GenerationModeTab>
         </Link>
