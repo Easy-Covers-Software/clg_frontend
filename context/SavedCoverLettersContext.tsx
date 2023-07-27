@@ -1,4 +1,5 @@
 import { createContext, useContext, useReducer, useEffect, use } from "react";
+import jsPDF from "jspdf";
 
 import axios from "axios";
 import Cookie from "js-cookie";
@@ -143,7 +144,10 @@ export default function SavedCoverLettersContext(props) {
         JSON.stringify(state.updateCoverLetter)
       );
     } else {
-      form.append("cover_letter_parts", JSON.stringify(values));
+      form.append(
+        "cover_letter_parts",
+        JSON.stringify(state.selectedCoverLetterParts)
+      );
     }
 
     try {
@@ -398,9 +402,12 @@ export default function SavedCoverLettersContext(props) {
         });
         console.log("Cover Letter Parts", response);
         if (response.statusText === "OK") {
+          const values = response.data.cover_letter_parts.map((part) => {
+            return part.content;
+          });
           dispatch({
             type: "SET_SELECTED_COVER_LETTER_PARTS",
-            payload: response.data.cover_letter_parts,
+            payload: values,
           });
         }
       } catch (error) {
@@ -452,52 +459,24 @@ export default function SavedCoverLettersContext(props) {
     doc.setFont("Times New Roman");
     doc.setFontSize(12);
 
-    const parts = [
-      { name: "opener", text: state.coverLetterOpener },
-      { name: "p1", text: state.coverLetterP1 },
-      { name: "p2", text: state.coverLetterP2 },
-      { name: "p3", text: state.coverLetterP3 },
-      { name: "thank you", text: state.coverLetterThankYou },
-    ];
+    const parts = state.selectedCoverLetterParts;
 
-    const closingParts = [
-      { name: "signature", text: state.coverLetterSignature },
-      { name: "coverLetterWriter", text: state.coverLetterWriter },
-    ];
+    const textWidth = 350;
+    let y = 60;
 
-    let totalChars = 0;
-    parts.forEach((part) => {
-      part.chars = part.text.length;
-      totalChars += part.chars;
-    });
-
-    const minSpace = 20; // Minimum space between parts
-    let y = 50 + minSpace; // Start the first part at 60 and add minimum space
-    parts.forEach((part) => {
-      part.y = y;
-      const percentage = part.chars / totalChars;
-      y += Math.round(percentage * (250 - minSpace * (parts.length - 1))); // Deduct the minimum spaces from the total available space
-      y += minSpace; // Add minimum space after each part
-    });
-
-    // Calculate position of closing parts based on the last paragraph
-    let closingY = parts[parts.length - 1].y + minSpace; // Add minimum space
-    closingParts.forEach((part, index) => {
-      part.y = (closingY + index * minSpace) * 1.08; // Each closing part is positioned at minimum space below the previous one
-    });
-
-    closingParts.forEach((part, index) => {
+    parts.forEach((part, index) => {
+      const lines = doc.splitTextToSize(part, textWidth);
+      doc.text(lines, 50, y); // 20 is the x-coordinate (left offset)
+      y += lines.length * 7; // Increment y coordinate based on line height
       if (index === 0) {
-        // The first part in closingParts is "signature"
-        // Do nothing, keep the calculated position
-      } else if (index === 1) {
-        // The second part in closingParts is "coverLetterWriter"
-        part.y = closingParts[index - 1].y + 12; // Set its position 12 units below "signature"
+        y += 15;
+      } else if (parts.length - 3 === index) {
+        y += 30; // Add space between paragraphs
+      } else if (parts.length - 2 === index) {
+        y += 10;
+      } else {
+        y += 25;
       }
-    });
-
-    [...parts, ...closingParts].forEach((part) => {
-      doc.text(part.text, 50, part.y, { maxWidth: 350 });
     });
 
     doc.save("cover-letter.pdf");
@@ -508,7 +487,7 @@ export default function SavedCoverLettersContext(props) {
       "https://localhost:8000/ai_generator/generate/download_as_docx/";
 
     const form = new FormData();
-    form.append("html", state.currentCoverLetterHtml);
+    form.append("html", state.selectedCoverLetterHtml);
 
     try {
       const response = await axios.post(url, form, {
