@@ -29,6 +29,7 @@ export default function CoverLetter() {
 
   const {
     selectedCoverLetter,
+    selectedCoverLetterHtml,
     selectedCoverLetterParts,
     isReQuerySectionExpanded,
     loadingCoverLetter,
@@ -39,19 +40,37 @@ export default function CoverLetter() {
   const [coverLetter, setCoverLetter] = useState(
     `Select a saved cover letter to edit`
   );
-  console.log("coverLetter =========****", coverLetter);
+  console.log("coverLetter =========****", selectedCoverLetterHtml);
 
   const [coverLetterJSON, setCoverLetterJSON] = useState({});
 
   useEffect(() => {
     if (selectedCoverLetterParts !== null) {
-      const sections = selectedCoverLetterParts
-        .map((part) => {
-          return `<p>${part.content}</p>`;
-        })
-        .join("");
-      const addDiv = `<div>${sections}</div>`;
-      setCoverLetter(addDiv);
+      if (typeof selectedCoverLetterParts[0] !== "string") {
+        const sections = selectedCoverLetterParts
+          .map((part) => {
+            return `<p>${part.content}</p>`;
+          })
+          .join("");
+        const addDiv = `<div>${sections}</div>`;
+        dispatch({
+          type: "SET_SELECTED_COVER_LETTER_HTML",
+          payload: addDiv,
+        });
+        setCoverLetter(addDiv);
+      } else {
+        const sections = selectedCoverLetterParts
+          .map((part) => {
+            return `<p>${part}</p>`;
+          })
+          .join("");
+        const addDiv = `<div>${sections}</div>`;
+        dispatch({
+          type: "SET_SELECTED_COVER_LETTER_HTML",
+          payload: coverLetter,
+        });
+        setCoverLetter(addDiv);
+      }
     }
   }, [selectedCoverLetterParts]);
 
@@ -73,10 +92,10 @@ export default function CoverLetter() {
 
   useEffect(() => {
     if (editor) {
-      dispatch({
-        type: "SET_CURRENT_COVER_LETTER_HTML",
-        payload: coverLetter,
-      });
+      // dispatch({
+      //   type: "SET_SELECTED_COVER_LETTER_HTML",
+      //   payload: coverLetter,
+      // });
       dispatch({
         type: "SET_CURRENT_COVER_LETTER_JSON",
         payload: JSON.stringify(coverLetterJSON),
@@ -106,7 +125,7 @@ export default function CoverLetter() {
 
         // Dispatch the update action.
         dispatch({
-          type: "UPDATE_COVER_LETTER",
+          type: "SET_UPDATE_COVER_LETTER",
           payload: parsedSections,
         });
       };
@@ -119,6 +138,8 @@ export default function CoverLetter() {
       };
     }
   }, [editor, dispatch]);
+
+  console.log("state.updateCoverLetter", state.updateCoverLetter);
 
   return (
     <Container>
