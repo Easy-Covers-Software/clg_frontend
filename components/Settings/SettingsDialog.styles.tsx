@@ -10,7 +10,7 @@ const DialogContentContainer = styled(DialogContent)`
   justify-content: center;
   align-items: center;
   margin-top: -8%;
-  gap: 24px;
+  gap: 4px;
   // width: 100%;
 `;
 
