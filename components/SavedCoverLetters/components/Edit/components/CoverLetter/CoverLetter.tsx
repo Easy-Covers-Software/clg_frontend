@@ -96,10 +96,6 @@ export default function CoverLetter() {
         type: "SET_SELECTED_COVER_LETTER_HTML",
         payload: coverLetter,
       });
-      dispatch({
-        type: "SET_CURRENT_COVER_LETTER_JSON",
-        payload: JSON.stringify(coverLetterJSON),
-      });
       editor.commands.setContent(coverLetter);
     }
   }, [coverLetter, editor]);
@@ -127,6 +123,10 @@ export default function CoverLetter() {
         dispatch({
           type: "SET_UPDATE_COVER_LETTER",
           payload: parsedSections,
+        });
+        dispatch({
+          type: "SET_SELECTED_COVER_LETTER_HTML",
+          payload: html,
         });
       };
 
