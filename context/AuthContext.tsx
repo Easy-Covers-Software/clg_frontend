@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
@@ -16,7 +16,7 @@ const API_BASE = "https://localhost:8000";
 interface AuthProviderProps {
   children: React.ReactNode;
 }
-const AuthContext = React.createContext({});
+const AuthContext = createContext({});
 
 const initialState = {
   email: "",
@@ -155,18 +155,17 @@ export const AuthProvider = ({
       const response = await axios.get(url, {
         withCredentials: true,
       });
-      console.log("USER response");
-      console.log(response.data.data);
-      dispatch({ type: "SET_USER", payload: response.data.data.email });
-      dispatch({ type: "SET_USER_RESUME", payload: response.data.data.resume });
+      dispatch({ type: "SET_USER", payload: response.data.user.email });
+      dispatch({ type: "SET_USER_RESUME", payload: response.data.user.resume });
       dispatch({
         type: "SET_ACCESS_LEVEL",
-        payload: response.data.data.access_level,
+        payload: response.data.user.access_level,
       });
-      return response.data.data;
+      return response.data;
     } catch (error) {
       console.log("Error fetching user");
       console.log(error);
+      return error;
     }
   };
 
@@ -209,11 +208,9 @@ export const AuthProvider = ({
         },
       });
       if (response.status === 200 || response.status === 201) {
-        console.log(response.data);
         toggleLoginIsOpen();
         await initUser();
         updateSnackbar(true, "success", "Logged In Successfully");
-        // window.location.reload();
       }
     } catch (error) {
       console.log("Error logging in");
@@ -225,8 +222,6 @@ export const AuthProvider = ({
       );
     }
   };
-
-  // console.log("state", state);
 
   const logout = async () => {
     const url = "https://localhost:8000/users/logout/";
@@ -243,11 +238,9 @@ export const AuthProvider = ({
           },
         }
       );
-      console.log(response);
       if (response.status === 200 || response.status === 201) {
         setNotAuthenticated();
         updateSnackbar(true, "success", "Logged Out Successfully");
-        // window.location.reload();
       }
     } catch (error) {
       console.log("Error logging out user");
@@ -276,7 +269,6 @@ export const AuthProvider = ({
         },
       });
       if (response.status === 200 || response.status === 201) {
-        console.log(response.data);
         updateSnackbar(true, "success", "Account Created Successfully");
         await login();
       }
