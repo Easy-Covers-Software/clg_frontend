@@ -15,8 +15,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOfflineOutlined";
 
-import { TextField } from "@mui/material";
-import { UnSelectedButton } from "@/components/Global/Global";
+import { DownloadUtils } from "@/Utils/utils";
+const { generatePDF, generateDOCX } = DownloadUtils;
 
 const Container = styled(Grid)`
   display: "flex",
@@ -26,45 +26,32 @@ const Container = styled(Grid)`
 `;
 
 export default function DownloadDropdown() {
-  const { state, toggleIsDownloadDropdownOpen, generatePDF, generateDOCX } =
-    useSavedCoverLettersContext();
+  const { state, toggleIsDownloadDropdownOpen } = useSavedCoverLettersContext();
 
-  const { isDownloadDropdownOpen } = state;
+  const {
+    isDownloadDropdownOpen,
+    selectedCoverLetterParts,
+    saveName,
+    selectedCoverLetterHtml,
+    updateCoverLetter,
+  } = state;
 
   const { updateSnackbar } = useAuth();
 
   const [downloadMenuAnchor, setDownloadMenuAnchor] =
     React.useState<null | HTMLElement>(null);
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-    toggleIsDownloadDropdownOpen();
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setDownloadMenuAnchor(null);
-    // toggleIsDownloadDropdownOpen();
-  };
-
-  console.log("isDownloadDropdownOpen", isDownloadDropdownOpen);
-
   const handleDownload = (event: React.MouseEvent<HTMLButtonElement>) => {
     setDownloadMenuAnchor(event.currentTarget);
     toggleIsDownloadDropdownOpen();
   };
-  const handleDownloadPDF = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setDownloadMenuAnchor(event.currentTarget);
-  };
-  const handleDownloadDOCX = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setDownloadMenuAnchor(event.currentTarget);
-  };
+
   const handleCloseDownload = () => {
     setDownloadMenuAnchor(null);
     toggleIsDownloadDropdownOpen();
   };
+
+  console.log("selectedCoverLetterParts", selectedCoverLetterParts);
 
   return (
     <>
@@ -94,14 +81,26 @@ export default function DownloadDropdown() {
           marginTop: "1%",
         }}
       >
-        <MenuItem onClick={generatePDF} disableRipple>
+        <MenuItem
+          onClick={() => {
+            if (updateCoverLetter !== null) {
+              generatePDF(updateCoverLetter);
+            } else {
+              generatePDF(selectedCoverLetterParts);
+            }
+          }}
+          disableRipple
+        >
           <ListItemIcon>
             <PictureAsPdfOutlinedIcon />
           </ListItemIcon>
           <ListItemText> Download as PDF</ListItemText>
         </MenuItem>
 
-        <MenuItem onClick={generateDOCX} disableRipple>
+        <MenuItem
+          onClick={() => generateDOCX(saveName, selectedCoverLetterHtml)}
+          disableRipple
+        >
           <ListItemIcon>
             <PostAddOutlinedIcon />
           </ListItemIcon>
