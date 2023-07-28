@@ -25,9 +25,7 @@ export default function SaveNameInput() {
   const { state, dispatch, saveCoverLetterResults, toggleIsSavedDropdownOpen } =
     useGenerationContext();
 
-  const { companyName, isSavedDropdownOpen } = state;
-
-  console.log("companyName", companyName);
+  const { jobDetails, isSavedDropdownOpen } = state;
 
   const { updateSnackbar } = useAuth();
 
@@ -53,7 +51,7 @@ export default function SaveNameInput() {
       updateSnackbar(
         true,
         "success",
-        `Cover Letter Saved Successfully as: '${companyName}'`
+        `Cover Letter Saved Successfully as: '${jobDetails.company_name}'`
       );
     } else {
       updateSnackbar(true, "error", `Error saving cover letter: ${response}`);
@@ -95,7 +93,7 @@ export default function SaveNameInput() {
           <TextField
             variant="outlined"
             margin="dense"
-            defaultValue={companyName}
+            defaultValue={jobDetails.company_name}
             onChange={handleInputChange}
           />
           <UnSelectedButton onClick={handleSave}>Save</UnSelectedButton>
