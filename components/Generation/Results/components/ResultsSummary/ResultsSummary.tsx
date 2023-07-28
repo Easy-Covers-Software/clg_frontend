@@ -10,13 +10,10 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 export default function ResultsSummary() {
   const { state } = useGenerationContext();
-  const {
-    jobTitle,
-    companyName,
-    matchScore,
-    loadingSummary,
-    loadingMatchScore,
-  } = state;
+  const { jobDetails, loadingSummary, loadingMatchScore } = state;
+  const { job_title, company_name, match_score } = jobDetails;
+
+  console.log("jobDetails", jobDetails);
 
   return (
     <Container>
@@ -27,12 +24,8 @@ export default function ResultsSummary() {
           </Grid>
         ) : (
           <>
-            <Typography variant="jobSummaryTitle">
-              {jobTitle && jobTitle !== "" ? jobTitle : "Job Title"}
-            </Typography>
-            <Typography variant="jobSummaryCompany">
-              {companyName && companyName !== "" ? companyName : "Company Name"}
-            </Typography>
+            <Typography variant="jobSummaryTitle">{job_title}</Typography>
+            <Typography variant="jobSummaryCompany">{company_name}</Typography>
           </>
         )}
       </JobOverview>
@@ -46,7 +39,7 @@ export default function ResultsSummary() {
             <CircularProgress color="success" />
           </Grid>
         ) : (
-          <Typography variant="jobSummaryMatchScore">{matchScore}</Typography>
+          <Typography variant="jobSummaryMatchScore">{match_score}</Typography>
         )}
       </JobMatchScore>
     </Container>
