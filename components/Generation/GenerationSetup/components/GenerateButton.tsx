@@ -146,6 +146,7 @@ export default function GenerateButtons() {
     getJobTitle,
     getCompanyName,
     getJobMatchScore,
+    getJobDetails,
   } = useGenerationContext();
   const {
     jobPosting,
@@ -187,9 +188,10 @@ export default function GenerateButtons() {
     }
 
     try {
-      await getJobTitle(jobPosting);
-      await getCompanyName(jobPosting);
-      await getJobMatchScore(jobPosting);
+      const detailsResponse = await getJobDetails();
+      // if (detailsResponse) {
+
+      // }
 
       const status = await generateCoverLetter(
         jobPosting,
