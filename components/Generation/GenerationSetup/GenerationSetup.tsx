@@ -22,7 +22,8 @@ import JobPostingInput from "./components/JobPostingInput/JobPostingInput";
 import PersonalDetails from "./components/PersonalDetails/PersonalDetails";
 import AdditionalDetails from "./components/AdditionalDetails/AdditionalDetails";
 
-import { checkAdditionalDetails } from "@/context/utils";
+import { GenerationUtils } from "@/Utils/utils";
+const { checkAdditionalDetails } = GenerationUtils;
 
 // Context Imports
 import { useAuth } from "@/context/AuthContext";
@@ -37,6 +38,7 @@ export default function GenerationSetup() {
     getJobTitle,
     getCompanyName,
     getJobMatchScore,
+    getJobDetails,
   } = useGenerationContext();
   const {
     isUsingLastUploadedResume,
@@ -89,9 +91,7 @@ export default function GenerationSetup() {
   // Cover Letter handler
   const handleGenerateCoverLetter = async () => {
     try {
-      await getJobTitle(jobPosting);
-      await getCompanyName(jobPosting);
-      await getJobMatchScore(jobPosting);
+      await getJobDetails();
       await generateCoverLetter(
         jobPosting,
         resume,
