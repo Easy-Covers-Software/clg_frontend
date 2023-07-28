@@ -1,54 +1,22 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
-import axios from "axios";
-import Cookie from "js-cookie";
-import jsPDF from "jspdf";
-import { checkAdditionalDetails } from "./utils";
+import { GenerationUtils } from "@/Utils/utils";
+const {
+  fetchJobDetails,
+  fetchSimpleAdjustment,
+  fetchIntermediateAdjustment,
+  fetchCustomAdjustment,
+  fetchCoverLetter,
+  saveCoverLetter,
+  generateCoverLetterParts,
+  checkAdditionalDetails,
+} = GenerationUtils;
 
-import { makeUrl, createGeneratePayload } from "./utils";
-
-//--- Error Classes ---//
-class JobPostingUploadError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "JobPostingUploadError";
-    this.cause = message;
-  }
-}
-
-class ResumeUploadError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "ResumeUploadError";
-    this.cause = message;
-  }
-}
-const API_BASE_URL_GEN =
-  "https://localhost:8000/ai_generator/generation_setup/";
-
-const API_BASE_URL = "https://localhost:8000/ai_generator/";
+const API_BASE_URL = "https://localhost:8000/ai_generator";
 
 const Context = createContext(null);
 
 const initialState = {
-  jobTitle: "",
-  companyName: "",
-  matchScore: 0,
-  currentCoverLetter: null,
-  currentCoverLetterHtml: "",
-  currentCoverLetterJson: "",
-  addSkillInput: "",
-  insertKeywordInput: "",
-  removeRedundancyInput: "",
-  intermediateType: null,
-  disableIntermediateAdjustment: false,
-  customAdjustment: "",
-  loadingSummary: false,
-  loadingMatchScore: false,
-  loadingCoverLetter: false,
-  isReQuerySectionExpanded: false,
-  saveLoading: false,
-  jobPostingId: "",
-  isUsingLastUploadedResume: false,
+  // user inputs
   jobPosting: "",
   resume: null,
   freeText: "",
@@ -58,52 +26,46 @@ const initialState = {
     simpleInput3: "",
     openEndedInput: "",
   },
+
+  // generation results summary
+  jobDetails: {
+    job_title: "Job Title",
+    company_name: "Company",
+    match_score: 0,
+  },
+  loadingSummary: false,
+  loadingMatchScore: false,
+
+  // generation results
+  coverLetter: "<div><p>Awaiting Generation...</p></div>",
+  coverLetterParts: null,
+  loadingCoverLetter: false,
+  jobPostingId: "",
+  isUsingLastUploadedResume: false,
   disableGenerateButton: true,
+  updateCoverLetter: null,
+  updateCoverLetterParts: null,
+  saveName: "",
+
+  // intermediate adjustments
+  addSkillInput: "",
+  insertKeywordInput: "",
+  removeRedundancyInput: "",
+  intermediateType: null,
+  disableIntermediateAdjustment: false,
+
+  // custom adjustments
+  customAdjustment: "",
+
+  // toggles
+  isReQuerySectionExpanded: false,
   isSavedDropdownOpen: false,
   isDownloadDropdownOpen: false,
-  saveName: "",
-  updateCoverLetter: null,
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case "SET_JOB_TITLE":
-      return { ...state, jobTitle: action.payload };
-    case "SET_COMPANY_NAME":
-      return { ...state, companyName: action.payload };
-    case "SET_MATCH_SCORE":
-      return { ...state, matchScore: action.payload };
-    case "SET_CURRENT_COVER_LETTER":
-      return { ...state, currentCoverLetter: action.payload };
-    case "SET_ADD_SKILL_INPUT":
-      return { ...state, addSkillInput: action.payload };
-    case "SET_INSERT_KEYWORD_INPUT":
-      return { ...state, insertKeywordInput: action.payload };
-    case "SET_REMOVE_REDUNDANCY_INPUT":
-      return { ...state, removeRedundancyInput: action.payload };
-    case "SET_INTERMEDIATE_TYPE":
-      return { ...state, selectedIntermediateType: action.payload };
-    case "SET_DISABLE_INTERMEDIATE_ADJUSTMENT":
-      return { ...state, disableIntermediateAdjustment: action.payload };
-    case "SET_CUSTOM_ADJUSTMENT":
-      return { ...state, customAdjustment: action.payload };
-    case "SET_LOADING_SUMMARY":
-      return { ...state, loadingSummary: action.payload };
-    case "SET_LOADING_MATCH_SCORE":
-      return { ...state, loadingMatchScore: action.payload };
-    case "SET_LOADING_COVER_LETTER":
-      return { ...state, loadingCoverLetter: action.payload };
-    case "SET_IS_RE_QUERY_SECTION_EXPANDED":
-      return { ...state, isReQuerySectionExpanded: action.payload };
-    case "SET_SAVE_LOADING":
-      return { ...state, saveLoading: action.payload };
-    case "SET_JOB_POSTING_ID":
-      return { ...state, jobPostingId: action.payload };
-
-    case "SET_CURRENT_COVER_LETTER_JSON":
-      return { ...state, currentCoverLetterJson: action.payload };
-    case "SET_IS_USING_LAST_UPLOADED_RESUME":
-      return { ...state, isUsingLastUploadedResume: action.payload };
+    // User Inputs
     case "SET_JOB_POSTING_INPUT":
       return { ...state, jobPosting: action.payload };
     case "SET_UPLOADED_RESUME_FILE":
@@ -118,38 +80,305 @@ function reducer(state, action) {
           ...action.payload,
         },
       };
+
+    // Generation Results Summary
+    case "SET_LOADING_SUMMARY":
+      return { ...state, loadingSummary: action.payload };
+    case "SET_LOADING_MATCH_SCORE":
+      return { ...state, loadingMatchScore: action.payload };
+    case "SET_JOB_DETAILS":
+      return {
+        ...state,
+        jobDetails: {
+          ...state.jobDetails,
+          ...action.payload,
+        },
+      };
+
+    // Generation Results
+    case "SET_LOADING_COVER_LETTER":
+      return { ...state, loadingCoverLetter: action.payload };
+    case "SET_COVER_LETTER":
+      return { ...state, coverLetter: action.payload };
+    case "SET_COVER_LETTER_PARTS":
+      return { ...state, coverLetterParts: action.payload };
+    case "SET_JOB_POSTING_ID":
+      return { ...state, jobPostingId: action.payload };
+    case "SET_IS_USING_LAST_UPLOADED_RESUME":
+      return { ...state, isUsingLastUploadedResume: action.payload };
     case "SET_DISABLE_GENERATE_BUTTON":
       return { ...state, disableGenerateButton: action.payload };
+    case "SET_UPDATE_COVER_LETTER":
+      return { ...state, updateCoverLetter: action.payload };
+    case "SET_UPDATE_COVER_LETTER_PARTS":
+      return { ...state, updateCoverLetterParts: action.payload };
+    case "SET_SAVE_NAME":
+      return { ...state, saveName: action.payload };
+
+    // Intermediate Adjustments
+    case "SET_ADD_SKILL_INPUT":
+      return { ...state, addSkillInput: action.payload };
+    case "SET_INSERT_KEYWORD_INPUT":
+      return { ...state, insertKeywordInput: action.payload };
+    case "SET_REMOVE_REDUNDANCY_INPUT":
+      return { ...state, removeRedundancyInput: action.payload };
+    case "SET_INTERMEDIATE_TYPE":
+      return { ...state, intermediateType: action.payload };
+    case "SET_DISABLE_INTERMEDIATE_ADJUSTMENT":
+      return { ...state, disableIntermediateAdjustment: action.payload };
+
+    // Custom Adjustments
+    case "SET_CUSTOM_ADJUSTMENT":
+      return { ...state, customAdjustment: action.payload };
+
+    // Toggles
+    case "SET_IS_RE_QUERY_SECTION_EXPANDED":
+      return { ...state, isReQuerySectionExpanded: action.payload };
     case "SET_IS_SAVED_DROPDOWN_OPEN":
       return { ...state, isSavedDropdownOpen: action.payload };
     case "SET_IS_DOWNLOAD_DROPDOWN_OPEN":
       return { ...state, isDownloadDropdownOpen: action.payload };
-    case "SET_SAVE_NAME":
-      return { ...state, saveName: action.payload };
-    case "SET_CURRENT_COVER_LETTER_HTML":
-      return { ...state, currentCoverLetterHtml: action.payload };
-    case "SET_UPDATE_COVER_LETTER":
-      return { ...state, updateCoverLetter: action.payload };
+
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
 }
 
-const createJobPostingFormDataPayload = (jobPostingData: string) => {
-  const formData = new FormData();
-  formData.append("job_posting", jobPostingData);
-  return formData;
-};
-
-const createResumeUploadFormDataPayload = (resumeData: string) => {
-  const formData = new FormData();
-  formData.append("file", resumeData);
-  return formData;
-};
-
 export function GenerationContext({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  //-- HELPERS --//
+  const toggleIsReQuerySectionExpanded = () => {
+    dispatch({
+      type: "SET_IS_RE_QUERY_SECTION_EXPANDED",
+      payload: !state.isReQuerySectionExpanded,
+    });
+  };
+
+  const toggleIsSavedDropdownOpen = () => {
+    dispatch({
+      type: "SET_IS_SAVED_DROPDOWN_OPEN",
+      payload: !state.isSavedDropdownOpen,
+    });
+  };
+
+  const toggleIsDownloadDropdownOpen = () => {
+    dispatch({
+      type: "SET_IS_DOWNLOAD_DROPDOWN_OPEN",
+      payload: !state.isDownloadDropdownOpen,
+    });
+  };
+
+  const handleFileChange = (e) => {
+    const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+    dispatch({ type: "SET_UPLOADED_RESUME_FILE", payload: files[0] });
+  };
+
+  // makeIntermediateInputValueType helper
+  const determineIntermediateInputValueType = (intermediateTypeState) => {
+    if (intermediateTypeState === "add skill") {
+      return state.addSkillInput;
+    } else if (intermediateTypeState === "insert keyword") {
+      return state.insertKeywordInput;
+    } else {
+      return state.removeRedundancyInput;
+    }
+  };
+
+  // API Calls
+  const getJobDetails = async () => {
+    dispatch({ type: "SET_LOADING_SUMMARY", payload: true });
+    dispatch({ type: "SET_LOADING_MATCH_SCORE", payload: true });
+    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
+
+    const response = await fetchJobDetails(
+      state.jobPosting,
+      state.resume,
+      state.freeText,
+      state.isUsingLastUploadedResume
+    );
+
+    dispatch({ type: "SET_JOB_DETAILS", payload: response.job_details });
+    dispatch({ type: "SET_LOADING_SUMMARY", payload: false });
+    dispatch({ type: "SET_LOADING_MATCH_SCORE", payload: false });
+
+    return true;
+  };
+
+  const makeSimpleAdjustment = async (
+    increaseOrDecrease: string,
+    typeOfAdjustment: string
+  ) => {
+    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
+
+    const currCoverLetter = state.coverLetter;
+    if (state.updateCoverLetter !== null) {
+      const currCoverLetter = state.updateCoverLetter;
+    }
+
+    const response = await fetchSimpleAdjustment(
+      currCoverLetter,
+      increaseOrDecrease,
+      typeOfAdjustment
+    );
+
+    try {
+      const data = JSON.parse(response.cover_letter);
+      const newCoverLetter = Object.values(data);
+
+      const newCoverLetterHtml = generateCoverLetterParts(newCoverLetter);
+
+      dispatch({
+        type: "SET_COVER_LETTER",
+        payload: newCoverLetterHtml,
+      });
+      dispatch({
+        type: "SET_COVER_LETTER_PARTS",
+        payload: newCoverLetter,
+      });
+
+      return true;
+    } catch (error) {
+      console.log("Error: Could not parse response (not valid json)", error);
+      return error;
+    } finally {
+      dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
+    }
+  };
+
+  const makeIntermediateAdjustment = async () => {
+    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
+
+    const currCoverLetter = state.coverLetter;
+    if (state.updateCoverLetter !== null) {
+      const currCoverLetter = state.updateCoverLetter;
+    }
+
+    const response = await fetchIntermediateAdjustment(
+      currCoverLetter,
+      state.intermediateType,
+      determineIntermediateInputValueType(state.intermediateType)
+    );
+
+    try {
+      const data = JSON.parse(response.cover_letter);
+      const newCoverLetter = Object.values(data);
+      const newCoverLetterHtml = generateCoverLetterParts(newCoverLetter);
+
+      dispatch({
+        type: "SET_COVER_LETTER",
+        payload: newCoverLetterHtml,
+      });
+      dispatch({
+        type: "SET_COVER_LETTER_PARTS",
+        payload: newCoverLetter,
+      });
+      return true;
+    } catch (error) {
+      console.log("Error: Could not parse response (not valid json)", error);
+      return error;
+    } finally {
+      dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
+    }
+  };
+
+  const makeCustomAdjustment = async () => {
+    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
+
+    const currCoverLetter = state.coverLetter;
+    if (state.updateCoverLetter !== null) {
+      const currCoverLetter = state.updateCoverLetter;
+    }
+
+    const response = await fetchCustomAdjustment(
+      currCoverLetter,
+      state.customAdjustment
+    );
+
+    try {
+      const data = JSON.parse(response.cover_letter);
+      const newCoverLetter = Object.values(data);
+      const newCoverLetterHtml = generateCoverLetterParts(newCoverLetter);
+      console.log("newCoverLetterHtml", newCoverLetterHtml);
+
+      dispatch({
+        type: "SET_COVER_LETTER",
+        payload: newCoverLetterHtml,
+      });
+      dispatch({
+        type: "SET_COVER_LETTER_PARTS",
+        payload: newCoverLetter,
+      });
+
+      return true;
+    } catch (error) {
+      console.log("Error: Could not parse response (not valid json)");
+      console.log(error);
+      return error;
+    } finally {
+      dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
+    }
+  };
+
+  const generateCoverLetter = async (
+    jobPosting: string,
+    resume: any,
+    freeText: string,
+    additionalDetails,
+    model
+  ) => {
+    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
+    const response = await fetchCoverLetter(
+      jobPosting,
+      resume,
+      freeText,
+      additionalDetails,
+      state.isUsingLastUploadedResume,
+      model
+    );
+
+    try {
+      const data = JSON.parse(response.cover_letter);
+      const newCoverLetter = Object.values(data);
+      const newCoverLetterHtml = generateCoverLetterParts(newCoverLetter);
+      console.log("newCoverLetterHtml", newCoverLetterHtml);
+
+      dispatch({
+        type: "SET_COVER_LETTER",
+        payload: newCoverLetterHtml,
+      });
+      dispatch({
+        type: "SET_COVER_LETTER_PARTS",
+        payload: newCoverLetter,
+      });
+      dispatch({
+        type: "SET_JOB_POSTING_ID",
+        payload: response.job_posting_id,
+      });
+
+      return true;
+    } catch (error) {
+      console.log("Error: Could not parse response (not valid json)", error);
+      return error;
+    } finally {
+      dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
+    }
+  };
+
+  const saveCoverLetterResults = async () => {
+    const response = await saveCoverLetter(
+      state.saveName,
+      state.coverLetterParts,
+      state.updateCoverLetterParts,
+      state.jobPostingId,
+      state.matchScore
+    );
+
+    toggleIsSavedDropdownOpen();
+  };
+
+  //-- HOOKS --//
+  // determine intermediate input type
   useEffect(() => {
     if (state.addSkillInput !== "") {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "add skill" });
@@ -167,92 +396,11 @@ export function GenerationContext({ children }) {
     state.removeRedundancyInput,
   ]);
 
-  const handleFileChange = (e) => {
-    const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-    dispatch({ type: "SET_UPLOADED_RESUME_FILE", payload: files[0] });
-  };
-
-  //--- Job Posting Upload ---//
-  const uploadJobPosting = async (jobPostingData: string) => {
-    if (jobPostingData === "") {
-      throw new JobPostingUploadError(
-        "Error Uploading Job Posting: Job posting data is empty"
-      );
-    }
-
-    const endpoint = API_BASE_URL_GEN + "upload_job_posting/";
-    const formData = createJobPostingFormDataPayload(jobPostingData);
-    try {
-      const response = await axios.post(endpoint, formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookie.get("csrftoken"),
-        },
-      });
-
-      // Check if the response status code is 200 (OK) or 201 (Created), which usually indicate a successful API request
-      if (response.status === 200 || response.status === 201) {
-        console.log("Job Posting Uploaded Successfully");
-        return true;
-      } else {
-        // If the status code is not 200 or 201, throw an error
-        throw new JobPostingUploadError(
-          `Received status code ${response.status}`
-        );
-      }
-
-      // if response is a 200 or 201 return true else return false and throw Error based on response
-    } catch (error) {
-      // Wrap the original error in a JobPostingUploadError to provide more context
-      console.error(
-        "Error Setting up url or data for request body Uploading Job Posting:",
-        error
-      );
-      throw new JobPostingUploadError(error.message);
-    }
-  };
-
-  //--- Resume Upload ---//
-  const uploadResume = async (resumeData: string) => {
-    if (resumeData === "") {
-      throw new ResumeUploadError(
-        "Error Uploading Resume: Resume data is empty"
-      );
-    }
-
-    const endpoint = API_BASE_URL_GEN + "upload_resume/";
-    const formData = createResumeUploadFormDataPayload(resumeData);
-
-    try {
-      const response = await axios.post(endpoint, formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookie.get("csrftoken"),
-        },
-      });
-
-      // Check if the response status code is 200 (OK) or 201 (Created), which usually indicate a successful API request
-      if (response.status === 200 || response.status === 201) {
-        console.log("Resume Uploaded Successfully");
-        return true;
-      } else {
-        throw new ResumeUploadError(`Received status code ${response.status}`);
-      }
-
-      // if response is a 200 or 201 return true else return false and throw Error based on response
-    } catch (error) {
-      console.log(
-        "Error Setting up url or data for request body Uploading Resume:",
-        error
-      );
-      throw new ResumeUploadError(error.message);
-    }
-  };
-
+  // Disable Generation Button handling
   useEffect(() => {
-    if (state.jobPosting === "") {
+    if (state.loadingCoverLetter) {
+      dispatch({ type: "SET_DISABLE_GENERATE_BUTTON", payload: true });
+    } else if (state.jobPosting === "") {
       dispatch({ type: "SET_DISABLE_GENERATE_BUTTON", payload: true });
     } else if (
       state.resume === null &&
@@ -275,419 +423,16 @@ export function GenerationContext({ children }) {
     state.isUsingLastUploadedResume,
   ]);
 
-  const toggleIsReQuerySectionExpanded = () => {
-    dispatch({
-      type: "SET_IS_RE_QUERY_SECTION_EXPANDED",
-      payload: !state.isReQuerySectionExpanded,
-    });
-  };
-
-  const getJobTitle = async (jobPosting: string) => {
-    dispatch({ type: "SET_LOADING_SUMMARY", payload: true });
-    dispatch({ type: "SET_LOADING_MATCH_SCORE", payload: true });
-    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
-
-    const url = API_BASE_URL + "generate/get_job_title/";
-
-    const form = new FormData();
-    form.append("job_posting", jobPosting);
-
-    try {
-      const response = await axios.post(url, form, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookie.get("csrftoken"),
-        },
+  // update save name when job details are retrieved
+  useEffect(() => {
+    if (state.jobDetails.company_name !== "Company") {
+      const { company_name } = state.jobDetails;
+      dispatch({
+        type: "SET_SAVE_NAME",
+        payload: company_name,
       });
-
-      if (response.statusText === "OK") {
-        dispatch({ type: "SET_JOB_TITLE", payload: response.data.job_title });
-      }
-    } catch (error) {
-      console.log("error getting job title");
-      console.log(error);
     }
-  };
-
-  const getCompanyName = async (jobPosting: string) => {
-    const url = API_BASE_URL + "generate/get_company_name/";
-
-    const form = new FormData();
-    form.append("job_posting", jobPosting);
-
-    try {
-      const response = await axios.post(url, form, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookie.get("csrftoken"),
-        },
-      });
-      console.log("Job title response", response);
-      if (response.statusText === "OK") {
-        dispatch({
-          type: "SET_COMPANY_NAME",
-          payload: response.data.company_name,
-        });
-        dispatch({
-          type: "SET_SAVE_NAME",
-          payload: response.data.company_name,
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch({ type: "SET_LOADING_SUMMARY", payload: false });
-    }
-  };
-
-  const getJobMatchScore = async (jobPosting: string) => {
-    const url = API_BASE_URL + "generate/get_job_match_score/";
-
-    const form = new FormData();
-    form.append("job_posting", jobPosting);
-
-    try {
-      const response = await axios.post(url, form, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookie.get("csrftoken"),
-        },
-      });
-      console.log("Job title response", response);
-      if (response.statusText === "OK") {
-        dispatch({
-          type: "SET_MATCH_SCORE",
-          payload: response.data.job_match_score,
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch({ type: "SET_LOADING_MATCH_SCORE", payload: false });
-    }
-  };
-
-  const makeSimpleAdjustment = async (
-    increaseOrDecrease: string,
-    typeOfAdjustment: string
-  ) => {
-    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
-    // setLoadingCoverLetter(true);
-    const url = API_BASE_URL + "generate/make_simple_adjustment/";
-
-    const form = new FormData();
-    form.append("cover_letter", state.currentCoverLetterHtml);
-    form.append("increase_or_decrease", increaseOrDecrease);
-    form.append("type_of_adjustment", typeOfAdjustment);
-
-    try {
-      const response = await axios.post(url, form, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookie.get("csrftoken"),
-        },
-      });
-      if (response.statusText === "OK") {
-        try {
-          const data = JSON.parse(response.data.cover_letter);
-
-          dispatch({
-            type: "SET_CURRENT_COVER_LETTER",
-            payload: Object.values(data),
-          });
-        } catch (error) {
-          console.log("Error: Could not parse response (not valid json)");
-          console.log(error);
-          return "error";
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      return "error";
-    } finally {
-      dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
-    }
-  };
-
-  const makeIntermediateAdjustment = async () => {
-    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
-
-    const url = API_BASE_URL + "generate/make_intermediate_adjustment/";
-
-    const form = new FormData();
-    form.append("cover_letter", state.currentCoverLetterHtml);
-    form.append("type_of_adjustment", state.selectedIntermediateType);
-
-    if (state.selectedIntermediateType === "add skill") {
-      form.append("input_value", state.addSkillInput);
-    } else if (state.selectedIntermediateType === "insert keyword") {
-      form.append("input_value", state.insertKeywordInput);
-    } else {
-      form.append("input_value", state.removeRedundancyInput);
-    }
-
-    try {
-      const response = await axios.post(url, form, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookie.get("csrftoken"),
-        },
-      });
-      if (response.statusText === "OK") {
-        console.log("Intermediate Adjustment", response);
-        try {
-          const data = JSON.parse(response.data.cover_letter);
-          dispatch({
-            type: "SET_CURRENT_COVER_LETTER",
-            payload: Object.values(data),
-          });
-        } catch (error) {
-          console.log("Error: Could not parse response (not valid json)");
-          console.log(error);
-        }
-      }
-    } catch (error) {
-      console.log("error occured during intermediate adjustment");
-      console.log(error);
-      return "error";
-    } finally {
-      dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
-    }
-  };
-
-  const makeCustomAdjustment = async () => {
-    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
-    const url = API_BASE_URL + "generate/make_custom_adjustment/";
-
-    const form = new FormData();
-    form.append("cover_letter", state.currentCoverLetterHtml);
-    form.append("input_value", state.customAdjustment);
-
-    try {
-      const response = await axios.post(url, form, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookie.get("csrftoken"),
-        },
-      });
-      if (response.statusText === "OK") {
-        console.log("Intermediate Adjustment", response);
-        try {
-          const data = JSON.parse(response.data.cover_letter);
-          dispatch({
-            type: "SET_CURRENT_COVER_LETTER",
-            payload: Object.values(data),
-          });
-          return "success";
-          console.log(data);
-        } catch (error) {
-          console.log("Error: Could not parse response (not valid json)");
-          console.log(error);
-          return "error";
-        }
-      }
-    } catch (error) {
-      console.log("error occured during intermediate adjustment");
-      console.log(error);
-      return "error";
-    } finally {
-      dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
-    }
-  };
-
-  const generateCoverLetter = async (
-    jobPosting: string,
-    resume: any,
-    freeText: string,
-    additionalDetails,
-    model
-  ) => {
-    const data = createGeneratePayload(
-      jobPosting,
-      resume,
-      freeText,
-      additionalDetails,
-      state.isUsingLastUploadedResume
-    );
-    const url = `${API_BASE_URL}generate/cover_letter_gpt${model}/`;
-
-    try {
-      const response = await axios.post(url, data, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookie.get("csrftoken"),
-        },
-      });
-
-      console.log("response =====***", response);
-
-      if (response.statusText === "OK") {
-        try {
-          const data = JSON.parse(response.data.cover_letter);
-
-          console.log("data =====***", data);
-
-          dispatch({
-            type: "SET_CURRENT_COVER_LETTER",
-            payload: Object.values(data),
-          });
-
-          dispatch({
-            type: "SET_JOB_POSTING_ID",
-            payload: response.data.job_posting_id,
-          });
-
-          return "success";
-        } catch (error) {
-          console.log("Error: Could not parse response (not valid json)");
-          console.log(error);
-          return "error";
-        }
-      }
-      console.log(response);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
-    }
-  };
-
-  const enumerateArray = (array) => {
-    return array.map((content, section_number) => ({
-      content,
-      section_number,
-    }));
-  };
-
-  const saveCoverLetterResults = async () => {
-    dispatch({ type: "SET_SAVE_LOADING", payload: true });
-    const url = "https://localhost:8000/ai_generator/generate/";
-
-    console.log("Match scoreeeee", enumerateArray(state.currentCoverLetter));
-
-    console.log("form data", state);
-    const form = new FormData();
-    form.append("save_name", state.saveName);
-
-    if (state.updateCoverLetter !== null) {
-      form.append(
-        "cover_letter_parts",
-        JSON.stringify(state.updateCoverLetter)
-      );
-    } else {
-      form.append(
-        "cover_letter_parts",
-        JSON.stringify(state.currentCoverLetter)
-      );
-    }
-
-    form.append("match_score", state.matchScore);
-    form.append("job_posting", state.jobPostingId);
-
-    try {
-      const response = await axios.post(url, form, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookie.get("csrftoken"),
-        },
-      });
-      if (response.statusText === "OK") {
-        console.log("Cover letter results saved successfully");
-
-        return "success";
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch({ type: "SET_SAVE_LOADING", payload: false });
-    }
-  };
-
-  const generatePDF = () => {
-    const doc = new jsPDF("p", "px", "a4", true);
-
-    // Header Information
-    doc.setFont("Times New Roman");
-    doc.setFontSize(12);
-
-    const parts = state.currentCoverLetter;
-
-    const textWidth = 350;
-    let y = 60;
-
-    parts.forEach((part, index) => {
-      const lines = doc.splitTextToSize(part, textWidth);
-      doc.text(lines, 50, y); // 20 is the x-coordinate (left offset)
-      y += lines.length * 7; // Increment y coordinate based on line height
-      if (index === 0) {
-        y += 15;
-      } else if (parts.length - 3 === index) {
-        y += 30; // Add space between paragraphs
-      } else if (parts.length - 2 === index) {
-        y += 10;
-      } else {
-        y += 25;
-      }
-    });
-
-    doc.save("cover-letter.pdf");
-  };
-
-  // THIS NEEDS TO BE UPDATED !!!!!
-  const generateDOCX = async () => {
-    const url =
-      "https://localhost:8000/ai_generator/generate/download_as_docx/";
-
-    const form = new FormData();
-    form.append("html", state.currentCoverLetterHtml);
-
-    try {
-      const response = await axios.post(url, form, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookie.get("csrftoken"),
-        },
-        responseType: "blob",
-      });
-
-      if (response.statusText === "OK") {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "file.docx"); //or any other extension
-        document.body.appendChild(link);
-        link.click();
-      }
-
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const toggleIsSavedDropdownOpen = () => {
-    dispatch({
-      type: "SET_IS_SAVED_DROPDOWN_OPEN",
-      payload: !state.isSavedDropdownOpen,
-    });
-  };
-
-  const toggleIsDownloadDropdownOpen = () => {
-    dispatch({
-      type: "SET_IS_DOWNLOAD_DROPDOWN_OPEN",
-      payload: !state.isDownloadDropdownOpen,
-    });
-  };
+  }, [state.jobDetails.company_name]);
 
   return (
     <Context.Provider
@@ -695,21 +440,15 @@ export function GenerationContext({ children }) {
         state,
         dispatch,
         toggleIsReQuerySectionExpanded,
-        getJobTitle,
-        getCompanyName,
         generateCoverLetter,
-        getJobMatchScore,
         makeSimpleAdjustment,
         makeIntermediateAdjustment,
         makeCustomAdjustment,
         saveCoverLetterResults,
-        generatePDF,
-        generateDOCX,
         handleFileChange,
-        uploadJobPosting,
-        uploadResume,
         toggleIsSavedDropdownOpen,
         toggleIsDownloadDropdownOpen,
+        getJobDetails,
       }}
     >
       {children}
