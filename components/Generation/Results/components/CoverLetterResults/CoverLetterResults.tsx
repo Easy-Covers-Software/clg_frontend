@@ -29,30 +29,12 @@ import {
 
 export default function CoverLetterResults() {
   const { state, dispatch } = useGenerationContext();
-  const { currentCoverLetter, isReQuerySectionExpanded, loadingCoverLetter } =
-    state;
-
-  const [coverLetter, setCoverLetter] = useState(
-    `Copy and paste a job posting (or summarize in your own words) + add your resume or personal details to create a cover letter`
-  );
-  const [coverLetterJSON, setCoverLetterJSON] = useState(null);
-
-  useEffect(() => {
-    if (currentCoverLetter !== null) {
-      const sections = currentCoverLetter
-        .map((part) => {
-          return `<p>${part}</p>`;
-        })
-        .join("");
-      const addDiv = `<div>${sections}</div>`;
-
-      dispatch({
-        type: "SET_CURRENT_COVER_LETTER_HTML",
-        payload: addDiv,
-      });
-      setCoverLetter(addDiv);
-    }
-  }, [currentCoverLetter]);
+  const {
+    currentCoverLetter,
+    isReQuerySectionExpanded,
+    loadingCoverLetter,
+    coverLetter,
+  } = state;
 
   const editor = useEditor(
     {
@@ -72,10 +54,6 @@ export default function CoverLetterResults() {
 
   useEffect(() => {
     if (editor) {
-      dispatch({
-        type: "SET_CURRENT_COVER_LETTER_JSON",
-        payload: JSON.stringify(coverLetterJSON),
-      });
       editor.commands.setContent(coverLetter);
     }
   }, [coverLetter, editor]);
@@ -102,6 +80,10 @@ export default function CoverLetterResults() {
         // Dispatch the update action.
         dispatch({
           type: "SET_UPDATE_COVER_LETTER",
+          payload: html,
+        });
+        dispatch({
+          type: "SET_UPDATE_COVER_LETTER_PARTS",
           payload: parsedSections,
         });
       };
@@ -114,9 +96,6 @@ export default function CoverLetterResults() {
       };
     }
   }, [editor, dispatch]);
-
-  console.log("new curr cover letetr", state.currentCoverLetter);
-  console.log("new curr cover letetr", state.updateCoverLetter);
 
   return (
     <Container>
