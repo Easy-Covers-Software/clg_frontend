@@ -17,6 +17,8 @@ import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOffli
 
 import { TextField } from "@mui/material";
 import { UnSelectedButton } from "@/components/Global/Global";
+import { DownloadUtils } from "@/Utils/utils";
+const { generatePDF, generateDOCX } = DownloadUtils;
 
 const Container = styled(Grid)`
   display: "flex",
@@ -26,10 +28,15 @@ const Container = styled(Grid)`
 `;
 
 export default function DownloadDropdown() {
-  const { state, toggleIsDownloadDropdownOpen, generatePDF, generateDOCX } =
-    useGenerationContext();
+  const { state, toggleIsDownloadDropdownOpen } = useGenerationContext();
 
-  const { isDownloadDropdownOpen } = state;
+  const {
+    isDownloadDropdownOpen,
+    currentCoverLetter,
+    currentCoverLetterHtml,
+    saveName,
+    updateCoverLetter,
+  } = state;
 
   const { updateSnackbar } = useAuth();
 
@@ -94,14 +101,26 @@ export default function DownloadDropdown() {
           marginTop: "1%",
         }}
       >
-        <MenuItem onClick={generatePDF} disableRipple>
+        <MenuItem
+          onClick={() => {
+            if (updateCoverLetter !== null) {
+              generatePDF(updateCoverLetter);
+            } else {
+              generatePDF(currentCoverLetter);
+            }
+          }}
+          disableRipple
+        >
           <ListItemIcon>
             <PictureAsPdfOutlinedIcon />
           </ListItemIcon>
           <ListItemText> Download as PDF</ListItemText>
         </MenuItem>
 
-        <MenuItem onClick={generateDOCX} disableRipple>
+        <MenuItem
+          onClick={() => generateDOCX(saveName, currentCoverLetterHtml)}
+          disableRipple
+        >
           <ListItemIcon>
             <PostAddOutlinedIcon />
           </ListItemIcon>
