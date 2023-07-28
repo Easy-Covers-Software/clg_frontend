@@ -2,6 +2,7 @@ import jsPDF from "jspdf";
 import axios from "axios";
 import Cookie from "js-cookie";
 
+const API_BASE = "https://localhost:8000";
 const API_BASE_URL = "https://localhost:8000/ai_generator";
 
 namespace SettingsUtils {
@@ -325,4 +326,117 @@ namespace GenerationUtils {
   };
 }
 
-export { SettingsUtils, DownloadUtils, GenerationUtils };
+namespace LoginUtils {
+  export const signInGoogle = async () => {
+    const parameters = {
+      client_id:
+        "464586598349-3uu0huc0df86brd568ikatpa9avg015m.apps.googleusercontent.com",
+      redirect_uri: `${API_BASE}/users/auth/finish_google_login/`,
+      response_type: "code",
+      scope: "email profile openid",
+      access_type: "offline",
+      prompt: "consent",
+    };
+
+    const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+    Object.keys(parameters).forEach((key) =>
+      url.searchParams.append(key, parameters[key])
+    );
+    window.location.href = url.toString();
+  };
+
+  export const fetchUser = async () => {
+    const url = API_BASE + "/users/me/";
+
+    try {
+      const response = await axios.get(url, {
+        withCredentials: true,
+      });
+
+      if (response.statusText === "OK") {
+        return response.data;
+      }
+    } catch (error) {
+      console.log("Error fetching user", error);
+      return error;
+    }
+  };
+
+  export const postLogin = async (email, password) => {
+    const url = `${API_BASE}/users/auth/login/`;
+
+    const form = new FormData();
+    form.append("email", email);
+    form.append("password", password);
+
+    try {
+      const response = await axios.post(url, form, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+      });
+      if (response.statusText === "OK") {
+        return response.data;
+      }
+    } catch (error) {
+      console.log("Error logging in", error);
+      return error;
+    }
+  };
+
+  export const postLogout = async () => {
+    const url = `${API_BASE}/users/logout/`;
+
+    try {
+      const response = await axios.post(
+        url,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": Cookie.get("csrftoken"),
+          },
+        }
+      );
+      if (response.statusText === "OK") {
+        return response.data;
+      }
+    } catch (error) {
+      console.log("Error logging out user", error);
+      return error;
+    }
+  };
+
+  export const postCreateAccount = async (
+    email,
+    password,
+    newPasswordRepeat
+  ) => {
+    const url = `${API_BASE}/users/auth/register/`;
+
+    const form = new FormData();
+    form.append("email", email);
+    form.append("password1", password);
+    form.append("password2", newPasswordRepeat);
+
+    try {
+      const response = await axios.post(url, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+      });
+      if (response.statusText === "OK") {
+        return response.data;
+      }
+    } catch (error) {
+      console.log("Error creating account", error);
+      return error;
+    }
+  };
+}
+
+export { SettingsUtils, DownloadUtils, GenerationUtils, LoginUtils };
