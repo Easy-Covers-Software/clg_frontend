@@ -13,6 +13,9 @@ const PPAL_CLIENT_ID =
 
 const API_BASE = "https://localhost:8000";
 
+import { LoginUtils } from "@/Utils/utils";
+const { fetchUser } = LoginUtils;
+
 interface AuthProviderProps {
   children: React.ReactNode;
 }
@@ -124,14 +127,16 @@ export const AuthProvider = ({
     dispatch({ type: "SET_EMAIL", payload: "" });
   };
 
-  const handleClickShowPassword = () =>
+  const handleClickShowPassword = () => {
     dispatch({ type: "SET_SHOW_PASSWORD", payload: !state.showPassword });
+  };
 
-  const handleClickShowPasswordRepeat = () =>
+  const handleClickShowPasswordRepeat = () => {
     dispatch({
       type: "SET_SHOW_PASSWORD_REPEAT",
       payload: !state.showPasswordRepeat,
     });
+  };
 
   const setNotAuthenticated = (): void => {
     dispatch({ type: "SET_IS_AUTHENTICATED", payload: false });
@@ -148,139 +153,15 @@ export const AuthProvider = ({
     dispatch({ type: "SET_IS_SETTINGS_OPEN", payload: !state.isSettingsOpen });
   };
 
-  const fetchUser = async (): Promise<Response> => {
-    const url = "https://localhost:8000/users/me/";
-
-    try {
-      const response = await axios.get(url, {
-        withCredentials: true,
-      });
-      dispatch({ type: "SET_USER", payload: response.data.user.email });
-      dispatch({ type: "SET_USER_RESUME", payload: response.data.user.resume });
-      dispatch({
-        type: "SET_ACCESS_LEVEL",
-        payload: response.data.user.access_level,
-      });
-      return response.data;
-    } catch (error) {
-      console.log("Error fetching user");
-      console.log(error);
-      return error;
-    }
-  };
-
-  const initUser = async (): Promise<void> => {
-    const user = await fetchUser();
-    console.log("User found in session.", user);
-  };
-
-  const signInGoogle = async () => {
-    const parameters = {
-      client_id:
-        "464586598349-3uu0huc0df86brd568ikatpa9avg015m.apps.googleusercontent.com",
-      redirect_uri: "https://localhost:8000/users/auth/finish_google_login/",
-      response_type: "code",
-      scope: "email profile openid",
-      access_type: "offline",
-      prompt: "consent",
-    };
-
-    const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
-    Object.keys(parameters).forEach((key) =>
-      url.searchParams.append(key, parameters[key])
-    );
-    window.location.href = url.toString();
-  };
-
-  const login = async () => {
-    const url = "https://localhost:8000/users/auth/login/";
-
-    const form = new FormData();
-    form.append("email", state.email);
-    form.append("password", state.password);
-
-    try {
-      const response = await axios.post(url, form, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookies.get("csrftoken"),
-        },
-      });
-      if (response.status === 200 || response.status === 201) {
-        toggleLoginIsOpen();
-        await initUser();
-        updateSnackbar(true, "success", "Logged In Successfully");
-      }
-    } catch (error) {
-      console.log("Error logging in");
-      console.log(error);
-      updateSnackbar(
-        true,
-        "error",
-        `Error logging in: ${error.response.data.error}`
-      );
-    }
-  };
-
-  const logout = async () => {
-    const url = "https://localhost:8000/users/logout/";
-
-    try {
-      const response = await axios.post(
-        url,
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": Cookies.get("csrftoken"),
-          },
-        }
-      );
-      if (response.status === 200 || response.status === 201) {
-        setNotAuthenticated();
-        updateSnackbar(true, "success", "Logged Out Successfully");
-      }
-    } catch (error) {
-      console.log("Error logging out user");
-      console.log(error);
-      updateSnackbar(
-        true,
-        "error",
-        `Error logging out user: ${error.response.data.error}`
-      );
-    }
-  };
-
-  const createAccount = async () => {
-    const url = "https://localhost:8000/users/auth/register/";
-
-    const form = new FormData();
-    form.append("email", state.email);
-    form.append("password1", state.password);
-    form.append("password2", state.newPasswordRepeat);
-
-    try {
-      const response = await axios.post(url, form, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": Cookies.get("csrftoken"),
-        },
-      });
-      if (response.status === 200 || response.status === 201) {
-        updateSnackbar(true, "success", "Account Created Successfully");
-        await login();
-      }
-    } catch (error) {
-      console.log("Error creating account");
-      console.log(error);
-      updateSnackbar(
-        true,
-        "error",
-        `Error creating account: ${error.response.data.error}`
-      );
-    }
+  const handleSnackbarClose = () => {
+    dispatch({
+      type: "SET_SNACKBAR",
+      payload: {
+        open: false,
+        type: "success",
+        message: "",
+      },
+    });
   };
 
   const updateSnackbar = (isOpen, type, message) => {
@@ -290,17 +171,6 @@ export const AuthProvider = ({
         open: isOpen,
         type: type,
         message: message,
-      },
-    });
-  };
-
-  const handleSnackbarClose = () => {
-    dispatch({
-      type: "SET_SNACKBAR",
-      payload: {
-        open: false,
-        type: "success",
-        message: "",
       },
     });
   };
@@ -327,6 +197,69 @@ export const AuthProvider = ({
     });
   };
 
+  const initUser = async () => {
+    const response = await fetchUser();
+    console.log("User found in session.", response);
+    dispatch({ type: "SET_USER", payload: response.user?.email });
+    dispatch({ type: "SET_USER_RESUME", payload: response.user?.resume });
+    dispatch({
+      type: "SET_ACCESS_LEVEL",
+      payload: response.user?.access_level,
+    });
+  };
+
+  const createAccount = async () => {
+    const response = await postCreateAccount(
+      state.email,
+      state.password,
+      state.newPasswordRepeat
+    );
+
+    console.log("createAccount response", response);
+
+    if (response.type === "SUCCESS") {
+      toggleLoginIsOpen();
+      login();
+      updateSnackbar(true, "success", "Account Created Successfully");
+    } else {
+      console.log("Error creating account");
+      updateSnackbar(
+        true,
+        "error",
+        `Error creating account: ${response.error}`
+      );
+    }
+  };
+
+  const login = async () => {
+    const response = await postLogin(state.email, state.password);
+
+    console.log("login response", response);
+    if (response.type === "SUCCESS") {
+      toggleLoginIsOpen();
+      await initUser();
+      updateSnackbar(true, "success", "Logged In Successfully");
+    } else {
+      console.log("Error logging in");
+      updateSnackbar(true, "error", `Error logging in: ${response.error}`);
+    }
+  };
+
+  const logout = async () => {
+    const response = await postLogout();
+    if (response) {
+      setNotAuthenticated();
+      updateSnackbar(true, "success", "Logged Out Successfully");
+    } else {
+      console.log("Error logging out user");
+      updateSnackbar(
+        true,
+        "error",
+        `Error logging out user: ${response.error}`
+      );
+    }
+  };
+
   useEffect(() => {
     initUser();
   }, [state.updateUser]);
@@ -341,7 +274,6 @@ export const AuthProvider = ({
         toggleLoginIsOpen,
         toggleSettingsIsOpen,
         fetchUser,
-        signInGoogle,
         logout,
         handleClickShowPasswordRepeat,
         login,
