@@ -4,8 +4,11 @@ import { CreateAccountOptionsStyledComponents } from "../LoginDialog.styles";
 const { Container, GoogleSignInIcon, EasyCoversSignInIcon, IconContainer } =
   CreateAccountOptionsStyledComponents;
 
+import { LoginUtils } from "@/Utils/utils";
+const { signInGoogle } = LoginUtils;
+
 export default function CreateAccountOptions() {
-  const { signInGoogle, dispatch } = useAuth();
+  const { dispatch } = useAuth();
 
   const handleCreateAccountEasyCovers = () => {
     dispatch({ type: "SET_CREATE_ACCOUNT_EASY_COVERS", payload: true });
@@ -13,7 +16,7 @@ export default function CreateAccountOptions() {
 
   return (
     <Container>
-      <IconContainer onClick={signInGoogle}>
+      <IconContainer onClick={() => signInGoogle()}>
         <GoogleSignInIcon src="/GoogleIcon.svg" alt="google icon" />
       </IconContainer>
 
