@@ -9,14 +9,24 @@ import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined
 import { useSavedCoverLettersContext } from "@/context/SavedCoverLettersContext";
 import { useAuth } from "@/context/AuthContext";
 import { CircularProgress } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import Typography from "@mui/material/Typography";
 
 export default function SavedLettersList() {
-  const { state, dispatch, deleteSavedCoverLetter, resetSelected } =
-    useSavedCoverLettersContext();
+  const {
+    state,
+    dispatch,
+    getUsersSavedCoverLetters,
+    deleteSavedCoverLetter,
+    resetSelected,
+  } = useSavedCoverLettersContext();
+
   const {
     savedCoverLetters,
     selectedCoverLetter,
     updateSavedCoverLettersList,
+    getSavedLoading,
+    search,
   } = state;
 
   const {
@@ -25,10 +35,6 @@ export default function SavedLettersList() {
     openAlertDialogConfirm,
   } = useAuth();
   const { didConfirmAlert } = authState;
-
-  console.log("savedCoverLetters", selectedCoverLetter);
-  console.log("state", state);
-
   const [selected, setSelected] = useState<number | null>(null);
 
   const handleToggle = (value: number) => () => {
@@ -45,19 +51,37 @@ export default function SavedLettersList() {
 
   const confirmDelete = async () => {
     const response = await deleteSavedCoverLetter();
-    console.log("attempted delete", response);
+    console.log("delete response", response);
 
-    if (response === "success") {
+    if (response) {
       updateSnackbar(true, "success", "Cover Letter Deleted Successfully");
       resetSelected();
-      dispatch({
-        type: "SET_UPDATE_SAVED_COVER_LETTERS_LIST",
-        payload: !updateSavedCoverLettersList,
-      });
+      await getUsersSavedCoverLetters();
     } else {
       updateSnackbar(true, "error", "Error Deleting Cover Letter");
     }
   };
+
+  const [originalCoverLetters, setOriginalCoverLetters] = useState([]);
+  const [filteredCoverLetters, setFilteredCoverLetters] = useState([]);
+
+  // Assume you get your savedCoverLetters from somewhere
+  useEffect(() => {
+    setOriginalCoverLetters(savedCoverLetters);
+    setFilteredCoverLetters(savedCoverLetters);
+  }, [savedCoverLetters]);
+
+  useEffect(() => {
+    if (state.search !== "") {
+      const lowerCaseSearchString = state.search.toLowerCase();
+      const newFilteredCoverLetters = savedCoverLetters.filter((coverLetter) =>
+        coverLetter.save_name.toLowerCase().includes(lowerCaseSearchString)
+      );
+      setFilteredCoverLetters(newFilteredCoverLetters);
+    } else {
+      setFilteredCoverLetters(originalCoverLetters);
+    }
+  }, [search]);
 
   useEffect(() => {
     if (didConfirmAlert !== null && didConfirmAlert) {
@@ -73,6 +97,8 @@ export default function SavedLettersList() {
     );
   };
 
+  if (getSavedLoading) return <CircularProgress />;
+
   return (
     <List
       sx={{
@@ -85,51 +111,65 @@ export default function SavedLettersList() {
         padding: "0 3%",
       }}
     >
-      {!savedCoverLetters && <CircularProgress />}
+      {filteredCoverLetters?.length === 0 && search === "" ? (
+        <Grid textAlign={"center"} p={"1%"} mt={"5%"}>
+          <Typography>
+            None Saved! Generate a cover letter and save to view on this page.
+          </Typography>
+        </Grid>
+      ) : filteredCoverLetters?.length === 0 ? (
+        <Grid textAlign={"center"} p={"1%"} mt={"5%"}>
+          <Typography>
+            No cover letters found with that name. Try another search.
+          </Typography>
+        </Grid>
+      ) : (
+        <>
+          {filteredCoverLetters?.map((value) => {
+            console.log("value", value);
+            const labelId = `radio-list-label-${value.save_name}`;
 
-      {savedCoverLetters.map((value) => {
-        console.log("value", value);
-        const labelId = `radio-list-label-${value.save_name}`;
-
-        return (
-          <ListItem
-            key={labelId}
-            style={{
-              borderBottom: "1px solid #006D4B",
-            }}
-            secondaryAction={
-              <>
-                {selected === value && (
-                  <IconButton
-                    edge="end"
-                    aria-label="comments"
-                    onClick={hamdleDelete}
-                  >
-                    <DeleteForeverOutlinedIcon />
-                  </IconButton>
-                )}
-              </>
-            }
-            disablePadding
-            onClick={handleToggle(value)}
-            // dense
-          >
-            <IconButton disableRipple>
-              <Radio
-                edge="start"
-                checked={selected === value}
-                tabIndex={-1}
-                disableRipple
-                inputProps={{ "aria-labelledby": labelId }}
+            return (
+              <ListItem
+                key={labelId}
                 style={{
-                  color: "#006D4B",
+                  borderBottom: "1px solid #006D4B",
                 }}
-              />
-            </IconButton>
-            <ListItemText id={labelId} primary={value.save_name} />
-          </ListItem>
-        );
-      })}
+                secondaryAction={
+                  <>
+                    {selected === value && (
+                      <IconButton
+                        edge="end"
+                        aria-label="comments"
+                        onClick={hamdleDelete}
+                      >
+                        <DeleteForeverOutlinedIcon />
+                      </IconButton>
+                    )}
+                  </>
+                }
+                disablePadding
+                onClick={handleToggle(value)}
+                // dense
+              >
+                <IconButton disableRipple>
+                  <Radio
+                    edge="start"
+                    checked={selected === value}
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{ "aria-labelledby": labelId }}
+                    style={{
+                      color: "#006D4B",
+                    }}
+                  />
+                </IconButton>
+                <ListItemText id={labelId} primary={value.save_name} />
+              </ListItem>
+            );
+          })}
+        </>
+      )}
     </List>
   );
 }

@@ -7,6 +7,8 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 import FilterDropdown from "./FilterDropdown";
 
+import { useSavedCoverLettersContext } from "@/context/SavedCoverLettersContext";
+
 const Search = muiStyled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -54,8 +56,14 @@ const StyledInputBase = muiStyled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAndFilter() {
+  const { state, dispatch } = useSavedCoverLettersContext();
+  const { search } = state;
+
+  const handleSearchChange = (event) => {
+    dispatch({ type: "SET_SEARCH", payload: event.target.value });
+  };
+
   return (
-    // <Container>
     <Search>
       <SearchIconWrapper>
         {" "}
@@ -65,10 +73,9 @@ export default function SearchAndFilter() {
         sx={{ color: "white" }}
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
+        value={search}
+        onChange={handleSearchChange}
       />
     </Search>
-
-    //   <FilterDropdown />
-    // </Container>
   );
 }
