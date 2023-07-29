@@ -33,7 +33,7 @@ const initialState = {
   isLoginOpen: false,
   isSettingsOpen: false,
   createAccountEasyCovers: false,
-  page: "generation-mode",
+  page: "",
   snackbar: {
     open: false,
     type: "",

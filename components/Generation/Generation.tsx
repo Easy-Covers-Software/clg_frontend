@@ -13,6 +13,7 @@ import Results from "@/components/Generation/Results/Results";
 
 import SnackbarAlert from "../Global/components/SnackbarAlert";
 import AlertDialogConfirm from "../Global/components/AlertDialogConfirm";
+import { useEffect } from "react";
 
 const Container = styled(Grid)`
   display: flex;
@@ -24,7 +25,9 @@ export default function Generation() {
   const { state } = useAuth();
   const { isLoginOpen, isSettingsOpen, snackbar, alertDialogConfirm } = state;
 
-  console.log("alertDialogConfirm: ", alertDialogConfirm);
+  useEffect(() => {
+    dispatch({ type: "SET_PAGE", payload: "generation-mode" });
+  }, []);
 
   return (
     <Container>
