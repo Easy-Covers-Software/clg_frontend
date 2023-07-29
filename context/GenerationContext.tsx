@@ -1,15 +1,15 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
-import { GenerationUtils } from "@/Utils/utils";
+import { GenerationUtils, ReQueryUtils } from "@/Utils/utils";
+
+const { fetchCoverLetter, saveCoverLetter, checkAdditionalDetails } =
+  GenerationUtils;
+
 const {
-  fetchJobDetails,
   fetchSimpleAdjustment,
   fetchIntermediateAdjustment,
   fetchCustomAdjustment,
-  fetchCoverLetter,
-  saveCoverLetter,
   generateCoverLetterParts,
-  checkAdditionalDetails,
-} = GenerationUtils;
+} = ReQueryUtils;
 
 const API_BASE_URL = "https://localhost:8000/ai_generator";
 
@@ -211,9 +211,9 @@ export function GenerationContext({ children }) {
   ) => {
     dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
 
-    const currCoverLetter = state.coverLetter;
+    let currCoverLetter = state.coverLetter;
     if (state.updateCoverLetter !== null) {
-      const currCoverLetter = state.updateCoverLetter;
+      currCoverLetter = state.updateCoverLetter;
     }
 
     const response = await fetchSimpleAdjustment(
@@ -249,9 +249,9 @@ export function GenerationContext({ children }) {
   const makeIntermediateAdjustment = async () => {
     dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
 
-    const currCoverLetter = state.coverLetter;
+    let currCoverLetter = state.coverLetter;
     if (state.updateCoverLetter !== null) {
-      const currCoverLetter = state.updateCoverLetter;
+      currCoverLetter = state.updateCoverLetter;
     }
 
     const response = await fetchIntermediateAdjustment(
@@ -285,9 +285,9 @@ export function GenerationContext({ children }) {
   const makeCustomAdjustment = async () => {
     dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
 
-    const currCoverLetter = state.coverLetter;
+    let currCoverLetter = state.coverLetter;
     if (state.updateCoverLetter !== null) {
-      const currCoverLetter = state.updateCoverLetter;
+      currCoverLetter = state.updateCoverLetter;
     }
 
     const response = await fetchCustomAdjustment(
@@ -371,10 +371,11 @@ export function GenerationContext({ children }) {
       state.coverLetterParts,
       state.updateCoverLetterParts,
       state.jobPostingId,
-      state.matchScore
+      state.jobDetails.match_score
     );
 
     toggleIsSavedDropdownOpen();
+    return response;
   };
 
   //-- HOOKS --//

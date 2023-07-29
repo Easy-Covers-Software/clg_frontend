@@ -14,7 +14,7 @@ const PPAL_CLIENT_ID =
 const API_BASE = "https://localhost:8000";
 
 import { LoginUtils } from "@/Utils/utils";
-const { fetchUser } = LoginUtils;
+const { fetchUser, postLogin, postLogout, postCreateAccount } = LoginUtils;
 
 interface AuthProviderProps {
   children: React.ReactNode;
