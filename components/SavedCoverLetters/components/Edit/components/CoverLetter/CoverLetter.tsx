@@ -122,11 +122,11 @@ export default function CoverLetter() {
         // Dispatch the update action.
         dispatch({
           type: "SET_UPDATE_COVER_LETTER",
-          payload: parsedSections,
+          payload: html,
         });
         dispatch({
-          type: "SET_SELECTED_COVER_LETTER_HTML",
-          payload: html,
+          type: "SET_UPDATE_COVER_LETTER_PARTS",
+          payload: parsedSections,
         });
       };
 
