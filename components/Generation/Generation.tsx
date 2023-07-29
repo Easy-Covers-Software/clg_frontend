@@ -22,7 +22,7 @@ const Container = styled(Grid)`
 `;
 
 export default function Generation() {
-  const { state } = useAuth();
+  const { state, dispatch } = useAuth();
   const { isLoginOpen, isSettingsOpen, snackbar, alertDialogConfirm } = state;
 
   useEffect(() => {
