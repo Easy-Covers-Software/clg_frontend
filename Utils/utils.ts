@@ -2,14 +2,13 @@ import jsPDF from "jspdf";
 import axios from "axios";
 import Cookie from "js-cookie";
 
-const API_BASE = "https://localhost:8000";
-const API_BASE_URL = "https://localhost:8000/ai_generator";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 namespace LoginUtils {
   export const signInGoogle = async () => {
     const parameters = {
-      client_id:
-        "464586598349-3uu0huc0df86brd568ikatpa9avg015m.apps.googleusercontent.com",
+      client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
       redirect_uri: `${API_BASE}/users/auth/finish_google_login/`,
       response_type: "code",
       scope: "email profile openid",
@@ -302,9 +301,8 @@ namespace SavedCoverLettersUtils {
         },
       });
       console.log("Saved cover letters", response);
-      if (response.statusText === "OK") {
-        return response.data;
-      }
+
+      return response.data;
     } catch (error) {
       console.log(error);
       return error;
@@ -461,7 +459,7 @@ namespace ReQueryUtils {
 }
 
 namespace DownloadUtils {
-  export const generatePDF = async (parts: string[]) => {
+  export const generatePDF = async (parts: string[], saveName: string) => {
     const doc = new jsPDF("p", "px", "a4", true);
 
     doc.setFont("Times New Roman");
@@ -496,7 +494,7 @@ namespace DownloadUtils {
       yAxis += lines.length * lineHeight + spacing;
     });
 
-    doc.save("cover-letter.pdf");
+    doc.save(`${saveName}.pdf`);
 
     return true;
   };
