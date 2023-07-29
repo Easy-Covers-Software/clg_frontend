@@ -35,18 +35,19 @@ export default function SavedLettersList() {
     openAlertDialogConfirm,
   } = useAuth();
   const { didConfirmAlert } = authState;
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, setSelected] = useState<any | null>(null);
 
-  const handleToggle = (value: number) => () => {
-    if (selected !== value) {
-      setSelected(value);
-      dispatch({
-        type: "SET_SELECTED_COVER_LETTER",
-        payload: value,
-      });
-    } else {
-      setSelected(null);
-    }
+  const handleToggle = (selectedCoverLetter) => () => {
+    // if (selected !== null && selected.id === selectedCoverLetter.id) {
+    // setSelected(null);
+    // dispatch({ type: "SET_SELECTED_COVER_LETTER", payload: null });
+    // } else {
+    setSelected(selectedCoverLetter);
+    dispatch({
+      type: "SET_SELECTED_COVER_LETTER",
+      payload: selectedCoverLetter,
+    });
+    // }
   };
 
   const confirmDelete = async () => {
@@ -97,6 +98,9 @@ export default function SavedLettersList() {
     );
   };
 
+  console.log("filteredCoverLetters", typeof filteredCoverLetters);
+  console.log("selected", selected);
+
   if (getSavedLoading) return <CircularProgress />;
 
   return (
@@ -125,9 +129,9 @@ export default function SavedLettersList() {
         </Grid>
       ) : (
         <>
-          {filteredCoverLetters?.map((value) => {
-            console.log("value", value);
-            const labelId = `radio-list-label-${value.save_name}`;
+          {filteredCoverLetters?.map((coverLetter) => {
+            console.log("coverLetter ==*", coverLetter);
+            const labelId = `radio-list-label-${coverLetter.save_name}`;
 
             return (
               <ListItem
@@ -137,7 +141,7 @@ export default function SavedLettersList() {
                 }}
                 secondaryAction={
                   <>
-                    {selected === value && (
+                    {selected?.id === coverLetter.id && ( // Assuming coverLetter has an id property
                       <IconButton
                         edge="end"
                         aria-label="comments"
@@ -149,13 +153,12 @@ export default function SavedLettersList() {
                   </>
                 }
                 disablePadding
-                onClick={handleToggle(value)}
-                // dense
+                onClick={handleToggle(coverLetter)} // Assuming coverLetter has an id property
               >
                 <IconButton disableRipple>
                   <Radio
                     edge="start"
-                    checked={selected === value}
+                    checked={selected?.id === coverLetter.id} // Assuming coverLetter has an id property
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ "aria-labelledby": labelId }}
@@ -164,7 +167,10 @@ export default function SavedLettersList() {
                     }}
                   />
                 </IconButton>
-                <ListItemText id={labelId} primary={value.save_name} />
+                <ListItemText
+                  id={coverLetter.id}
+                  primary={coverLetter.save_name}
+                />
               </ListItem>
             );
           })}
