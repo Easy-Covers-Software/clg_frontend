@@ -57,9 +57,9 @@ export default function DownloadDropdown() {
   const handlePDFDownload = async () => {
     let success = false;
     if (updateCoverLetterParts !== null) {
-      success = await generatePDF(updateCoverLetterParts);
+      success = await generatePDF(updateCoverLetterParts, saveName);
     } else {
-      success = await generatePDF(coverLetterParts);
+      success = await generatePDF(coverLetterParts, saveName);
     }
 
     console.log("success", success);
