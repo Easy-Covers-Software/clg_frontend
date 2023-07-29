@@ -46,8 +46,8 @@ export default function SaveNameInput() {
 
     console.log("response", response);
 
-    console.log("response", response);
-    if (response === "success") {
+    console.log("response =====(*(**", response);
+    if (response.status === 200) {
       updateSnackbar(
         true,
         "success",

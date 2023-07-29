@@ -21,8 +21,13 @@ const Container = styled(Grid)`
 `;
 
 export default function SaveNameInput() {
-  const { state, dispatch, saveCoverLetterResults, toggleIsSavedDropdownOpen } =
-    useSavedCoverLettersContext();
+  const {
+    state,
+    dispatch,
+    saveCoverLetterResults,
+    toggleIsSavedDropdownOpen,
+    getUsersSavedCoverLetters,
+  } = useSavedCoverLettersContext();
 
   const { companyName, isSavedDropdownOpen } = state;
 
@@ -45,15 +50,9 @@ export default function SaveNameInput() {
   const handleSave = async () => {
     const response = await saveCoverLetterResults();
 
-    console.log("response", response);
-
-    console.log("response", response);
-    if (response === "success") {
-      updateSnackbar(
-        true,
-        "success",
-        `Cover Letter Saved Successfully as: '${companyName}'`
-      );
+    if (response) {
+      updateSnackbar(true, "success", "Cover Letter Successfully Saved");
+      await getUsersSavedCoverLetters();
     } else {
       updateSnackbar(true, "error", `Error saving cover letter: ${response}`);
     }
