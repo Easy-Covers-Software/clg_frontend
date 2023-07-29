@@ -1,8 +1,12 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 import { GenerationUtils, ReQueryUtils } from "@/Utils/utils";
 
-const { fetchCoverLetter, saveCoverLetter, checkAdditionalDetails } =
-  GenerationUtils;
+const {
+  fetchJobDetails,
+  fetchCoverLetter,
+  saveCoverLetter,
+  checkAdditionalDetails,
+} = GenerationUtils;
 
 const {
   fetchSimpleAdjustment,
@@ -10,8 +14,6 @@ const {
   fetchCustomAdjustment,
   generateCoverLetterParts,
 } = ReQueryUtils;
-
-const API_BASE_URL = "https://localhost:8000/ai_generator";
 
 const Context = createContext(null);
 

@@ -1,17 +1,5 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-
-import axios from "axios";
-import Cookies from "js-cookie";
-
-const CLIENT_ID =
-  "464586598349-3uu0huc0df86brd568ikatpa9avg015m.apps.googleusercontent.com";
-
-const PPAL_CLIENT_ID =
-  "AdqQqoVIY7CmxhdsTPRwN6vQmUnMsR1QoxR5o2HcVbR1zI9W-XUq2PYVSfQf72htFWZSxL4A7XzqqE4s";
-
-const API_BASE = "https://localhost:8000";
 
 import { LoginUtils } from "@/Utils/utils";
 const { fetchUser, postLogin, postLogout, postCreateAccount } = LoginUtils;
@@ -284,11 +272,13 @@ export const AuthProvider = ({
         handleAlertDialogConfirmClose,
       }}
     >
-      <GoogleOAuthProvider clientId={CLIENT_ID}>
-        <PayPalScriptProvider options={{ clientId: PPAL_CLIENT_ID }}>
-          {children}
-        </PayPalScriptProvider>
-      </GoogleOAuthProvider>
+      {/* <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}> */}
+      <PayPalScriptProvider
+        options={{ clientId: process.env.NEXT_PUBLIC_PPAL_CLIENT_ID }}
+      >
+        {children}
+      </PayPalScriptProvider>
+      {/* </GoogleOAuthProvider> */}
     </AuthContext.Provider>
   );
 };

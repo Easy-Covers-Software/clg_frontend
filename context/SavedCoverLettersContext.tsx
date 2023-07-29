@@ -19,8 +19,6 @@ const {
   postSaveCoverLetterResults,
 } = SavedCoverLettersUtils;
 
-const API_BASE = "https://localhost:8000/saved/";
-
 const SavedContext = createContext(null);
 
 const initialState = {
@@ -175,8 +173,9 @@ export default function SavedCoverLettersContext(props) {
     dispatch({ type: "SET_GET_SAVED_LOADING", payload: true });
 
     const response = await fetchSavedCoverLetters();
+    console.log("saved cs response", response);
 
-    if (response?.data?.length === 0) {
+    if (response.length === 0) {
       dispatch({ type: "SET_GET_SAVED_LOADING", payload: false });
       return "no saved cover letters";
     } else {
@@ -311,12 +310,15 @@ export default function SavedCoverLettersContext(props) {
     );
 
     if (response.data) {
+      toggleIsSavedDropdownOpen();
       return true;
     }
     return response;
   };
 
   const deleteSavedCoverLetter = async () => {
+    console.log("selectedCoverLetter ========fff", state.selectedCoverLetter);
+
     try {
       await postDeleteSavedCoverLetter(state.selectedCoverLetter?.id);
       return true;
@@ -402,6 +404,11 @@ export default function SavedCoverLettersContext(props) {
       }
     };
 
+    dispatch({
+      type: "SET_SAVE_NAME",
+      payload: state.selectedCoverLetter?.save_name,
+    });
+
     getJobPosting();
     getCoverLetterParts();
   }, [state.selectedCoverLetter]);
@@ -412,7 +419,6 @@ export default function SavedCoverLettersContext(props) {
         state,
         dispatch,
         saveCoverLetterResults,
-
         makeSimpleAdjustment,
         makeIntermediateAdjustment,
         makeCustomAdjustment,
