@@ -31,10 +31,11 @@ export default function DownloadDropdown() {
   const { state, toggleIsDownloadDropdownOpen } = useGenerationContext();
 
   const {
-    isDownloadDropdownOpen,
-    currentCoverLetter,
-    currentCoverLetterHtml,
     saveName,
+    isDownloadDropdownOpen,
+    coverLetter,
+    coverLetterParts,
+    updateCoverLetterParts,
     updateCoverLetter,
   } = state;
 
@@ -43,34 +44,56 @@ export default function DownloadDropdown() {
   const [downloadMenuAnchor, setDownloadMenuAnchor] =
     React.useState<null | HTMLElement>(null);
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-    toggleIsDownloadDropdownOpen();
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setDownloadMenuAnchor(null);
-    // toggleIsDownloadDropdownOpen();
-  };
-
-  console.log("isDownloadDropdownOpen", isDownloadDropdownOpen);
-
   const handleDownload = (event: React.MouseEvent<HTMLButtonElement>) => {
     setDownloadMenuAnchor(event.currentTarget);
     toggleIsDownloadDropdownOpen();
   };
-  const handleDownloadPDF = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setDownloadMenuAnchor(event.currentTarget);
-  };
-  const handleDownloadDOCX = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setDownloadMenuAnchor(event.currentTarget);
-  };
+
   const handleCloseDownload = () => {
     setDownloadMenuAnchor(null);
     toggleIsDownloadDropdownOpen();
+  };
+
+  const handlePDFDownload = async () => {
+    let success = false;
+    if (updateCoverLetterParts !== null) {
+      success = await generatePDF(updateCoverLetterParts);
+    } else {
+      success = await generatePDF(coverLetterParts);
+    }
+
+    console.log("success", success);
+
+    if (success) {
+      updateSnackbar(
+        true,
+        "success",
+        "Successfully Exported Cover Letter as PDF"
+      );
+    } else {
+      updateSnackbar(true, "error", "Error Exporting Cover Letter as PDF");
+    }
+    handleCloseDownload();
+  };
+
+  const handleDOCXDownload = async () => {
+    let success = false;
+    if (updateCoverLetter !== null) {
+      success = await generateDOCX(saveName, updateCoverLetter);
+    } else {
+      success = await generateDOCX(saveName, coverLetter);
+    }
+
+    if (success) {
+      updateSnackbar(
+        true,
+        "success",
+        "Successfully Exported Cover Letter as DOCX"
+      );
+    } else {
+      updateSnackbar(true, "error", "Error Saving Cover Letter as DOCX");
+    }
+    handleCloseDownload();
   };
 
   return (
@@ -101,26 +124,14 @@ export default function DownloadDropdown() {
           marginTop: "1%",
         }}
       >
-        <MenuItem
-          onClick={() => {
-            if (updateCoverLetter !== null) {
-              generatePDF(updateCoverLetter);
-            } else {
-              generatePDF(currentCoverLetter);
-            }
-          }}
-          disableRipple
-        >
+        <MenuItem onClick={handlePDFDownload} disableRipple>
           <ListItemIcon>
             <PictureAsPdfOutlinedIcon />
           </ListItemIcon>
           <ListItemText> Download as PDF</ListItemText>
         </MenuItem>
 
-        <MenuItem
-          onClick={() => generateDOCX(saveName, currentCoverLetterHtml)}
-          disableRipple
-        >
+        <MenuItem onClick={handleDOCXDownload} disableRipple>
           <ListItemIcon>
             <PostAddOutlinedIcon />
           </ListItemIcon>
