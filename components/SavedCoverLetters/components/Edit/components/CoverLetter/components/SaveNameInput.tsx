@@ -29,9 +29,7 @@ export default function SaveNameInput() {
     getUsersSavedCoverLetters,
   } = useSavedCoverLettersContext();
 
-  const { companyName, isSavedDropdownOpen } = state;
-
-  console.log("companyName", companyName);
+  const { isSavedDropdownOpen, saveName } = state;
 
   const { updateSnackbar } = useAuth();
 
@@ -93,7 +91,7 @@ export default function SaveNameInput() {
           <TextField
             variant="outlined"
             margin="dense"
-            defaultValue={companyName}
+            defaultValue={saveName}
             onChange={handleInputChange}
           />
           <UnSelectedButton onClick={handleSave}>Save</UnSelectedButton>

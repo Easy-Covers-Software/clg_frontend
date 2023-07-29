@@ -1,41 +1,30 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { IconButton } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { useSavedCoverLettersContext } from "@/context/SavedCoverLettersContext";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import styled from "@emotion/styled";
-import { useAuth } from "@/context/AuthContext";
-import { Tooltip } from "@mui/material";
+import {
+  IconButton,
+  Tooltip,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOfflineOutlined";
-
+import { useSavedCoverLettersContext } from "@/context/SavedCoverLettersContext";
+import { useAuth } from "@/context/AuthContext";
 import { DownloadUtils } from "@/Utils/utils";
 const { generatePDF, generateDOCX } = DownloadUtils;
 
-const Container = styled(Grid)`
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  padding: "0 20%",
-`;
-
 export default function DownloadDropdown() {
   const { state, toggleIsDownloadDropdownOpen } = useSavedCoverLettersContext();
-
   const {
     isDownloadDropdownOpen,
     selectedCoverLetterParts,
     saveName,
     selectedCoverLetterHtml,
     updateCoverLetter,
+    updateCoverLetterParts,
   } = state;
-
   const { updateSnackbar } = useAuth();
 
   const [downloadMenuAnchor, setDownloadMenuAnchor] =
@@ -51,7 +40,43 @@ export default function DownloadDropdown() {
     toggleIsDownloadDropdownOpen();
   };
 
-  console.log("selectedCoverLetterParts", selectedCoverLetterParts);
+  const handlePDFDownload = async () => {
+    let success = false;
+    if (updateCoverLetter !== null) {
+      success = await generatePDF(updateCoverLetterParts, saveName);
+    } else {
+      success = await generatePDF(selectedCoverLetterParts, saveName);
+    }
+    if (success) {
+      updateSnackbar(
+        true,
+        "success",
+        "Successfully Exported Cover Letter as PDF"
+      );
+    } else {
+      updateSnackbar(true, "error", "Error Exporting Cover Letter as PDF");
+    }
+    handleCloseDownload();
+  };
+
+  const handleDOCXDownload = async () => {
+    let success = false;
+    if (updateCoverLetter !== null) {
+      success = await generateDOCX(saveName, updateCoverLetter);
+    } else {
+      success = await generateDOCX(saveName, selectedCoverLetterHtml);
+    }
+    if (success) {
+      updateSnackbar(
+        true,
+        "success",
+        "Successfully Exported Cover Letter as DOCX"
+      );
+    } else {
+      updateSnackbar(true, "error", "Error Saving Cover Letter as DOCX");
+    }
+    handleCloseDownload();
+  };
 
   return (
     <>
@@ -81,26 +106,14 @@ export default function DownloadDropdown() {
           marginTop: "1%",
         }}
       >
-        <MenuItem
-          onClick={() => {
-            if (updateCoverLetter !== null) {
-              generatePDF(updateCoverLetter);
-            } else {
-              generatePDF(selectedCoverLetterParts);
-            }
-          }}
-          disableRipple
-        >
+        <MenuItem onClick={handlePDFDownload} disableRipple>
           <ListItemIcon>
             <PictureAsPdfOutlinedIcon />
           </ListItemIcon>
           <ListItemText> Download as PDF</ListItemText>
         </MenuItem>
 
-        <MenuItem
-          onClick={() => generateDOCX(saveName, selectedCoverLetterHtml)}
-          disableRipple
-        >
+        <MenuItem onClick={handleDOCXDownload} disableRipple>
           <ListItemIcon>
             <PostAddOutlinedIcon />
           </ListItemIcon>
