@@ -24,19 +24,19 @@ export default function MoreOptionsReQueries() {
         "You have no adjustments available. Please upgrade your account to make more adjustments."
       );
       return;
-    }
+    } else {
+      const response = await makeIntermediateAdjustment();
 
-    try {
-      await makeIntermediateAdjustment();
-      dispatch({ type: "SET_UPDATE_USER", payload: state.updateUser });
-      updateSnackbar(true, "success", "Adjustment made successfully.");
-    } catch (err) {
-      console.log(err);
-      updateSnackbar(
-        true,
-        "error",
-        "An error occured while making adjustment. Please try again."
-      );
+      if (response) {
+        dispatch({ type: "SET_UPDATE_USER", payload: state.updateUser });
+        updateSnackbar(true, "success", "Adjustment made successfully.");
+      } else {
+        updateSnackbar(
+          true,
+          "error",
+          "An error occured while making adjustment. Please try again."
+        );
+      }
     }
   };
 
