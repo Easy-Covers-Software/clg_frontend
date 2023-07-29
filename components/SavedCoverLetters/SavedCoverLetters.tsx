@@ -14,6 +14,7 @@ import Edit from "./components/Edit/Edit";
 import SavedDisplay from "./components/SavedDisplay/SavedDisplay";
 
 import AlertDialogConfirm from "../Global/components/AlertDialogConfirm";
+import { useEffect } from "react";
 
 const Container = styled(Grid)`
   display: flex;
@@ -23,8 +24,12 @@ const Container = styled(Grid)`
 `;
 
 export default function SavedCoverLetters() {
-  const { state } = useAuth();
+  const { state, dispatch } = useAuth();
   const { isLoginOpen, isSettingsOpen, snackbar, alertDialogConfirm } = state;
+
+  useEffect(() => {
+    dispatch({ type: "SET_PAGE", payload: "saved" });
+  }, []);
 
   return (
     <Container>
