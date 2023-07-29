@@ -14,9 +14,13 @@ export default function CreateAccountOptions() {
     dispatch({ type: "SET_CREATE_ACCOUNT_EASY_COVERS", payload: true });
   };
 
+  const handleGoogle = () => {
+    signInGoogle();
+  };
+
   return (
     <Container>
-      <IconContainer onClick={() => signInGoogle()}>
+      <IconContainer onClick={handleGoogle}>
         <GoogleSignInIcon src="/GoogleIcon.svg" alt="google icon" />
       </IconContainer>
 
