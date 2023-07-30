@@ -14,11 +14,20 @@ import { SimpleReQueryButtonStyledComponents } from "../ReQueryOptions.styles";
 const { Container, ButtonContainer } = SimpleReQueryButtonStyledComponents;
 
 export default function SimpleReQueryButton({ buttonLabel }) {
-  const { state, dispatch, updateSnackbar, toggleSettingsIsOpen } = useAuth();
-  const { makeSimpleAdjustment } = useSavedCoverLettersContext();
+  const {
+    state: authState,
+    dispatch,
+    updateSnackbar,
+    toggleSettingsIsOpen,
+  } = useAuth();
+  const { accessLevel, updateUser } = authState;
+  let { num_adjustments_available } = accessLevel;
+
+  const { state, makeSimpleAdjustment } = useSavedCoverLettersContext();
+  const { disableRequery } = state;
 
   const handleSimpleAdjustment = async (adjustmentType, buttonLabel) => {
-    if ((state.accessLevel.num_adjustments_available = 0)) {
+    if ((num_adjustments_available = 0)) {
       toggleSettingsIsOpen();
       updateSnackbar(
         true,
@@ -46,6 +55,7 @@ export default function SimpleReQueryButton({ buttonLabel }) {
       <Typography variant="simpleAdjustmentLabel">{buttonLabel}</Typography>
       <ButtonContainer>
         <IconButton
+          disabled={disableRequery}
           onClick={() => {
             handleSimpleAdjustment("decrease", buttonLabel);
           }}
@@ -56,6 +66,7 @@ export default function SimpleReQueryButton({ buttonLabel }) {
         <Divider orientation="vertical" />
 
         <IconButton
+          disabled={disableRequery}
           onClick={() => {
             handleSimpleAdjustment("increase", buttonLabel);
           }}

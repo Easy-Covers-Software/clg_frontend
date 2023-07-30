@@ -424,6 +424,7 @@ export function GenerationContext({ children }) {
     state.freeText,
     state.additionalDetails,
     state.isUsingLastUploadedResume,
+    state.loadingCoverLetter,
   ]);
 
   // update save name when job details are retrieved

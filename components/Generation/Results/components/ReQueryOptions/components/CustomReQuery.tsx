@@ -19,7 +19,7 @@ export default function CustomReQuery() {
   } = useAuth();
   const { state, dispatch, makeCustomAdjustment } = useGenerationContext();
 
-  const { customAdjustment } = state;
+  const { customAdjustment, disableGenerateButton } = state;
 
   const [placeholder, setPlaceholder] = useState(
     "Anything you want to change about the cover letter..."
@@ -84,7 +84,12 @@ export default function CustomReQuery() {
         onBlur={handleBlur}
       />
 
-      <SubmitButton onClick={handleCustomAdjustment}>REGENERATE</SubmitButton>
+      <SubmitButton
+        onClick={handleCustomAdjustment}
+        disabled={disableGenerateButton}
+      >
+        REGENERATE
+      </SubmitButton>
     </Grid>
   );
 }

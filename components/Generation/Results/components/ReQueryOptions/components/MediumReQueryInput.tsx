@@ -20,7 +20,12 @@ const { Container, FormInput, QuestionContainer, InputField } =
 export default function MediumReQueryInput({ label }) {
   const { state, dispatch } = useGenerationContext();
 
-  const { addSkillInput, insertKeywordInput, removeRedundancyInput } = state;
+  const {
+    addSkillInput,
+    insertKeywordInput,
+    removeRedundancyInput,
+    disableGenerateButton,
+  } = state;
 
   const clearInput = () => {
     if (label === "Add Skill") {

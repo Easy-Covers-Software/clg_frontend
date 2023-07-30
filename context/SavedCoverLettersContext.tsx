@@ -37,6 +37,7 @@ const initialState = {
   loadingCoverLetter: false,
   updateCoverLetter: null,
   updateCoverLetterParts: null,
+  disableRequery: false,
   saveName: "",
 
   // intermediate adjustments
@@ -106,6 +107,8 @@ function reducer(state, action) {
       return { ...state, isDownloadDropdownOpen: action.payload };
     case "SET_IS_FILTER_DROPDOWN_OPEN":
       return { ...state, isFilterDropdownOpen: action.payload };
+    case "SET_DISABLE_REQUERY":
+      return { ...state, disableRequery: action.payload };
     default:
       return state;
   }
@@ -412,6 +415,20 @@ export default function SavedCoverLettersContext(props) {
     getJobPosting();
     getCoverLetterParts();
   }, [state.selectedCoverLetter]);
+
+  useEffect(() => {
+    if (state.loadingCoverLetter) {
+      dispatch({
+        type: "SET_DISABLE_REQUERY",
+        payload: true,
+      });
+    } else {
+      dispatch({
+        type: "SET_DISABLE_REQUERY",
+        payload: false,
+      });
+    }
+  }, [state.loadingCoverLetter]);
 
   return (
     <SavedContext.Provider

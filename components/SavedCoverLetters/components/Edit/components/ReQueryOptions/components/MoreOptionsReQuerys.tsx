@@ -12,11 +12,20 @@ const { Container, MediumOptionsContainer, SubmitButton } =
   MoreOptionsReQuerysStyledComponents;
 
 export default function MoreOptionsReQueries() {
-  const { state, dispatch, updateSnackbar, toggleSettingsIsOpen } = useAuth();
-  const { makeIntermediateAdjustment } = useSavedCoverLettersContext();
+  const {
+    state: authState,
+    dispatch,
+    updateSnackbar,
+    toggleSettingsIsOpen,
+  } = useAuth();
+  const { accessLevel, updateUser } = authState;
+  let { num_adjustments_available } = accessLevel;
+
+  const { state, makeIntermediateAdjustment } = useSavedCoverLettersContext();
+  const { disableRequery } = state;
 
   const handleIntermediateAdjustment = async () => {
-    if (state.accessLevel.num_adjustments_available === 0) {
+    if (num_adjustments_available === 0) {
       toggleSettingsIsOpen();
       updateSnackbar(
         true,
@@ -28,7 +37,7 @@ export default function MoreOptionsReQueries() {
 
     try {
       await makeIntermediateAdjustment();
-      dispatch({ type: "SET_UPDATE_USER", payload: state.updateUser });
+      dispatch({ type: "SET_UPDATE_USER", payload: updateUser });
       updateSnackbar(true, "success", "Adjustment made successfully.");
     } catch (err) {
       console.log(err);
@@ -46,7 +55,10 @@ export default function MoreOptionsReQueries() {
         <MediumReQueryInput label={"Add Skill"} />
         <MediumReQueryInput label={"Insert Keyword"} />
         <MediumReQueryInput label={"Remove Redundancy"} />
-        <SubmitButton onClick={handleIntermediateAdjustment}>
+        <SubmitButton
+          disabled={disableRequery}
+          onClick={handleIntermediateAdjustment}
+        >
           REGENERATE
         </SubmitButton>
       </MediumOptionsContainer>

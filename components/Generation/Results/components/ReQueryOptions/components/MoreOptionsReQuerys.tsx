@@ -12,8 +12,10 @@ const { Container, MediumOptionsContainer, SubmitButton } =
   MoreOptionsReQuerysStyledComponents;
 
 export default function MoreOptionsReQueries() {
-  const { state, dispatch, updateSnackbar, toggleSettingsIsOpen } = useAuth();
-  const { makeIntermediateAdjustment } = useGenerationContext();
+  const { dispatch, updateSnackbar, toggleSettingsIsOpen } = useAuth();
+
+  const { state, makeIntermediateAdjustment } = useGenerationContext();
+  const { disableGenerateButton } = state;
 
   const handleIntermediateAdjustment = async () => {
     if (state.accessLevel.num_adjustments_available === 0) {
@@ -40,13 +42,18 @@ export default function MoreOptionsReQueries() {
     }
   };
 
+  console.log("MoreOptionsReQueries.tsx: state", disableGenerateButton);
+
   return (
     <Container>
       <MediumOptionsContainer>
         <MediumReQueryInput label={"Add Skill"} />
         <MediumReQueryInput label={"Insert Keyword"} />
         <MediumReQueryInput label={"Remove Redundancy"} />
-        <SubmitButton onClick={handleIntermediateAdjustment}>
+        <SubmitButton
+          onClick={handleIntermediateAdjustment}
+          disabled={disableGenerateButton}
+        >
           REGENERATE
         </SubmitButton>
       </MediumOptionsContainer>

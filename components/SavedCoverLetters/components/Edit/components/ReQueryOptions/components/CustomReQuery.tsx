@@ -20,7 +20,7 @@ export default function CustomReQuery() {
   const { state, dispatch, makeCustomAdjustment } =
     useSavedCoverLettersContext();
 
-  const { customAdjustment } = state;
+  const { customAdjustment, disableRequery } = state;
 
   const [placeholder, setPlaceholder] = useState(
     "Anything you want to change about the cover letter..."
@@ -99,7 +99,9 @@ export default function CustomReQuery() {
         onBlur={handleBlur}
       />
 
-      <SubmitButton onClick={handleCustomAdjustment}>REGENERATE</SubmitButton>
+      <SubmitButton onClick={handleCustomAdjustment} disabled={disableRequery}>
+        REGENERATE
+      </SubmitButton>
     </Grid>
   );
 }
