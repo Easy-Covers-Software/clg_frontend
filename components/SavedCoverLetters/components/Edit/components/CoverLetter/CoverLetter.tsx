@@ -65,10 +65,6 @@ export default function CoverLetter() {
           })
           .join("");
         const addDiv = `<div>${sections}</div>`;
-        // dispatch({
-        //   type: "SET_SELECTED_COVER_LETTER_HTML",
-        //   payload: coverLetter,
-        // });
         setCoverLetter(addDiv);
       }
     }

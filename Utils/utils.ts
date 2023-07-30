@@ -40,10 +40,11 @@ namespace LoginUtils {
     }
   };
 
-  export const postLogin = async (email, password) => {
+  export const postLogin = async (username, email, password) => {
     const url = `${API_BASE}/users/auth/login/`;
 
     const form = new FormData();
+    form.append("username", username);
     form.append("email", email);
     form.append("password", password);
 
@@ -89,6 +90,7 @@ namespace LoginUtils {
   };
 
   export const postCreateAccount = async (
+    username,
     email,
     password,
     newPasswordRepeat
@@ -96,6 +98,7 @@ namespace LoginUtils {
     const url = `${API_BASE}/users/auth/register/`;
 
     const form = new FormData();
+    form.append("username", username);
     form.append("email", email);
     form.append("password1", password);
     form.append("password2", newPasswordRepeat);

@@ -13,6 +13,7 @@ const initialState = {
   email: "",
   password: "",
   newPasswordRepeat: "",
+  username: "",
   showPassword: false,
   showPasswordRepeat: false,
   loading: true,
@@ -49,6 +50,8 @@ function reducer(state, action) {
       return { ...state, email: action.payload };
     case "SET_PASSWORD":
       return { ...state, password: action.payload };
+    case "SET_USERNAME":
+      return { ...state, username: action.payload };
     case "SET_NEW_PASSWORD_REPEAT":
       return { ...state, newPasswordRepeat: action.payload };
     case "SET_SHOW_PASSWORD":
@@ -197,7 +200,10 @@ export const AuthProvider = ({
   };
 
   const createAccount = async () => {
+    console.log("create account username", state.username);
+
     const response = await postCreateAccount(
+      state.username,
       state.email,
       state.password,
       state.newPasswordRepeat
@@ -220,7 +226,11 @@ export const AuthProvider = ({
   };
 
   const login = async () => {
-    const response = await postLogin(state.email, state.password);
+    const response = await postLogin(
+      state.username,
+      state.email,
+      state.password
+    );
 
     console.log("login response", response);
     if (response.type === "SUCCESS") {
@@ -251,6 +261,23 @@ export const AuthProvider = ({
   useEffect(() => {
     initUser();
   }, [state.updateUser]);
+
+  useEffect(() => {
+    if (state.email !== "") {
+      // check if the state.email contains an @ symbol
+      const atSymbolIndex = state.email.indexOf("@");
+
+      if (atSymbolIndex !== -1) {
+        // get everything in the state.email string before the @ symbol
+        const substringBeforeAt = state.email.slice(0, atSymbolIndex);
+
+        dispatch({
+          type: "SET_USERNAME",
+          payload: substringBeforeAt,
+        });
+      }
+    }
+  }, [state.email]);
 
   return (
     <AuthContext.Provider
