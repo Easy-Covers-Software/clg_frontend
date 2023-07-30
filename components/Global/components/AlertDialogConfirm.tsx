@@ -1,11 +1,13 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { Typography } from "@mui/material";
+import React from "react";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Typography,
+} from "@mui/material";
 import { useAuth } from "@/context/AuthContext";
 
 interface AlertDialogConfirmProps {
@@ -14,8 +16,11 @@ interface AlertDialogConfirmProps {
   message: string;
 }
 
-export default function AlertDialogConfirm(props: AlertDialogConfirmProps) {
-  const { open, header, message } = props;
+export default function AlertDialogConfirm({
+  open,
+  header,
+  message,
+}: AlertDialogConfirmProps) {
   const { handleAlertDialogConfirmClose, dispatch } = useAuth();
 
   const handleCancel = () => {
@@ -28,35 +33,28 @@ export default function AlertDialogConfirm(props: AlertDialogConfirmProps) {
     handleAlertDialogConfirmClose();
   };
 
-  console.log("header", header);
-
   return (
-    <div>
-      <Dialog
-        open={open}
-        onClose={handleCancel}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{header}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {message}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          {/* <UnSelectedButton onClick={handleCancel}>Cancel</UnSelectedButton>
-          <UnSelectedButton onClick={handleConfirm} autoFocus>
-            Delete
-          </UnSelectedButton> */}
-          <Button onClick={handleCancel}>
-            <Typography variant="alertDialogButton">Cancel</Typography>
-          </Button>
-          <Button onClick={handleConfirm} autoFocus>
-            <Typography variant="alertDialogButton">Delete</Typography>
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      open={open}
+      onClose={handleCancel}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{header}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          {message}
+        </DialogContentText>
+      </DialogContent>
+
+      <DialogActions>
+        <Button variant="outlined" onClick={handleCancel}>
+          <Typography variant="body1">Cancel</Typography>
+        </Button>
+        <Button variant="outlined" onClick={handleConfirm} autoFocus>
+          <Typography variant="body1">Delete</Typography>
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

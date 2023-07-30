@@ -1,19 +1,7 @@
-import * as React from "react";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
-
-import { AlertColor } from "@mui/material/Alert";
-
+import React, { SyntheticEvent } from "react";
+import { Snackbar, Alert as MuiAlert, AlertColor } from "@mui/material";
+import { AlertProps } from "@mui/material/Alert";
 import { useAuth } from "@/context/AuthContext";
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 interface SnackbarProps {
   type: AlertColor;
@@ -21,18 +9,17 @@ interface SnackbarProps {
   open: boolean;
 }
 
-function SnackbarAlert(props: SnackbarProps) {
-  const { type, message, open } = props;
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
+  <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+));
+
+function SnackbarAlert({ type, message, open }: SnackbarProps) {
   const { handleSnackbarClose } = useAuth();
 
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
+  const handleClose = (event?: SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
-    // call the onClose prop to notify the parent to close the snackbar
     handleSnackbarClose();
   };
 
