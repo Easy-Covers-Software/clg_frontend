@@ -201,7 +201,7 @@ export default function GenerateButtons() {
         model
       );
 
-      if (status === "success") {
+      if (status) {
         dispatch({
           type: "SET_UPDATE_USER",
           payload: authState.updateUser,

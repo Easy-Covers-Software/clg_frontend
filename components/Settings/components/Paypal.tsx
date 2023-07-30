@@ -8,7 +8,7 @@ import { SettingsUtils } from "@/Utils/utils";
 import { AlertColor } from "@mui/material";
 
 export default function Paypal({ selectedPackagePrice }) {
-  const { state, toggleSettingsIsOpen, updateSnackbar } = useAuth();
+  const { state, dispatch, toggleSettingsIsOpen, updateSnackbar } = useAuth();
   const { user } = state;
   const { extractPrice } = SettingsUtils;
 
@@ -42,6 +42,7 @@ export default function Paypal({ selectedPackagePrice }) {
         }}
         onApprove={(data, actions) => {
           handleClose();
+          dispatch({ type: "SET_UPDATE_USER", payload: true });
           updateSnackbar(true, "success", "Success! Upgrade Complete!");
           return actions.order.capture().then(function (details) {
             console.log("details", details);

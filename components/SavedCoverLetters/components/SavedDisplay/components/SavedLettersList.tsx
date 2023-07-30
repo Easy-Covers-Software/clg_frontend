@@ -115,13 +115,13 @@ export default function SavedLettersList() {
         padding: "0 3%",
       }}
     >
-      {filteredCoverLetters?.length === 0 && search === "" ? (
+      {filteredCoverLetters.length === 0 && search === "" ? (
         <Grid textAlign={"center"} p={"1%"} mt={"5%"}>
           <Typography>
             None Saved! Generate a cover letter and save to view on this page.
           </Typography>
         </Grid>
-      ) : filteredCoverLetters?.length === 0 ? (
+      ) : filteredCoverLetters.length === 0 ? (
         <Grid textAlign={"center"} p={"1%"} mt={"5%"}>
           <Typography>
             No cover letters found with that name. Try another search.
@@ -129,51 +129,52 @@ export default function SavedLettersList() {
         </Grid>
       ) : (
         <>
-          {filteredCoverLetters?.map((coverLetter) => {
-            console.log("coverLetter ==*", coverLetter);
-            const labelId = `radio-list-label-${coverLetter.save_name}`;
+          {filteredCoverLetters.length > 0 &&
+            filteredCoverLetters?.map((coverLetter) => {
+              console.log("coverLetter ==*", coverLetter);
+              const labelId = `radio-list-label-${coverLetter.save_name}`;
 
-            return (
-              <ListItem
-                key={labelId}
-                style={{
-                  borderBottom: "1px solid #006D4B",
-                }}
-                secondaryAction={
-                  <>
-                    {selected?.id === coverLetter.id && ( // Assuming coverLetter has an id property
-                      <IconButton
-                        edge="end"
-                        aria-label="comments"
-                        onClick={hamdleDelete}
-                      >
-                        <DeleteForeverOutlinedIcon />
-                      </IconButton>
-                    )}
-                  </>
-                }
-                disablePadding
-                onClick={handleToggle(coverLetter)} // Assuming coverLetter has an id property
-              >
-                <IconButton disableRipple>
-                  <Radio
-                    edge="start"
-                    checked={selected?.id === coverLetter.id} // Assuming coverLetter has an id property
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ "aria-labelledby": labelId }}
-                    style={{
-                      color: "#006D4B",
-                    }}
+              return (
+                <ListItem
+                  key={labelId}
+                  style={{
+                    borderBottom: "1px solid #006D4B",
+                  }}
+                  secondaryAction={
+                    <>
+                      {selected?.id === coverLetter.id && ( // Assuming coverLetter has an id property
+                        <IconButton
+                          edge="end"
+                          aria-label="comments"
+                          onClick={hamdleDelete}
+                        >
+                          <DeleteForeverOutlinedIcon />
+                        </IconButton>
+                      )}
+                    </>
+                  }
+                  disablePadding
+                  onClick={handleToggle(coverLetter)} // Assuming coverLetter has an id property
+                >
+                  <IconButton disableRipple>
+                    <Radio
+                      edge="start"
+                      checked={selected?.id === coverLetter.id} // Assuming coverLetter has an id property
+                      tabIndex={-1}
+                      disableRipple
+                      inputProps={{ "aria-labelledby": labelId }}
+                      style={{
+                        color: "#006D4B",
+                      }}
+                    />
+                  </IconButton>
+                  <ListItemText
+                    id={coverLetter.id}
+                    primary={coverLetter.save_name}
                   />
-                </IconButton>
-                <ListItemText
-                  id={coverLetter.id}
-                  primary={coverLetter.save_name}
-                />
-              </ListItem>
-            );
-          })}
+                </ListItem>
+              );
+            })}
         </>
       )}
     </List>
