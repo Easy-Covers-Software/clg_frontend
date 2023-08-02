@@ -140,14 +140,7 @@ const ButtonSet = (props: ButtonSetProps) => {
 };
 
 export default function GenerateButtons() {
-  const {
-    state,
-    generateCoverLetter,
-    getJobTitle,
-    getCompanyName,
-    getJobMatchScore,
-    getJobDetails,
-  } = useGenerationContext();
+  const { state, generateCoverLetter, getJobDetails } = useGenerationContext();
   const {
     jobPosting,
     resume,
@@ -189,9 +182,6 @@ export default function GenerateButtons() {
 
     try {
       const detailsResponse = await getJobDetails();
-      // if (detailsResponse) {
-
-      // }
 
       const status = await generateCoverLetter(
         jobPosting,
