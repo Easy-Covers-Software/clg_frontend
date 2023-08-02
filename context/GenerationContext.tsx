@@ -19,7 +19,12 @@ const Context = createContext(null);
 
 const initialState = {
   // user inputs
-  jobPosting: "",
+  jobPosting:
+    typeof window !== "undefined" &&
+    localStorage.getItem("jobPostingText") !== null &&
+    localStorage.getItem("jobPostingText") !== ""
+      ? localStorage.getItem("jobPostingText")
+      : "",
   resume: null,
   freeText: "",
   additionalDetails: {
@@ -68,7 +73,7 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     // User Inputs
-    case "SET_JOB_POSTING_INPUT":
+    case "SET_JOB_POSTING":
       return { ...state, jobPosting: action.payload };
     case "SET_UPLOADED_RESUME_FILE":
       return { ...state, resume: action.payload };
@@ -437,6 +442,16 @@ export function GenerationContext({ children }) {
       });
     }
   }, [state.jobDetails.company_name]);
+
+  useEffect(() => {
+    const savedJobPosting = localStorage.getItem("jobPostingText");
+    if (savedJobPosting !== null && savedJobPosting !== "") {
+      dispatch({
+        type: "SET_JOB_POSTING",
+        payload: savedJobPosting,
+      });
+    }
+  }, []);
 
   return (
     <Context.Provider
