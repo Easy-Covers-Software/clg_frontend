@@ -52,7 +52,7 @@ export default function MediumReQueryInput({ label }) {
     <Container>
       <FormInput variant="outlined">
         <QuestionContainer>
-          <Typography variant="mediumRequeryLabel">{label}</Typography>
+          <Typography className="medium-requery-label">{label}</Typography>
 
           <Tooltip title="Delete" placement="top">
             <InfoOutlinedIcon fontSize="small" sx={{ opacity: "40%" }} />

@@ -88,7 +88,7 @@ export default function CustomReQuery() {
       gap={2}
       mt={2}
     >
-      <Typography variant="customAdjustmentHeading">
+      <Typography className="custom-adjustment-heading">
         Custom Adjustment
       </Typography>
       <CustomReQueryField

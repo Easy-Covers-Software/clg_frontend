@@ -27,9 +27,9 @@ export default function PersonalDetailsModeSwitch(
       }}
     >
       <Typography
-        variant="personalDetailsSwitch"
-        selected={mode === "upload"}
-        ml={"3%"}
+        className={`personal-details-switch ${
+          mode === "upload" ? "selected" : ""
+        }`}
       >
         Upload
       </Typography>
@@ -38,7 +38,11 @@ export default function PersonalDetailsModeSwitch(
         onChange={handleChange}
         inputProps={{ "aria-label": "controlled" }}
       />
-      <Typography variant="personalDetailsSwitch" selected={mode === "text"}>
+      <Typography
+        className={`personal-details-switch ${
+          mode === "text" ? "selected" : ""
+        }`}
+      >
         Free Text
       </Typography>
     </Container>

@@ -24,14 +24,16 @@ export default function ResultsSummary() {
           </Grid>
         ) : (
           <>
-            <Typography variant="jobSummaryTitle">{job_title}</Typography>
-            <Typography variant="jobSummaryCompany">{company_name}</Typography>
+            <Typography className="job-summary-title">{job_title}</Typography>
+            <Typography className="job-summary-company">
+              {company_name}
+            </Typography>
           </>
         )}
       </JobOverview>
 
       <JobMatchScore>
-        <Typography variant="jobSummaryMatchScoreHeader">
+        <Typography className="job-summary-match-score-header">
           Match Score
         </Typography>
         {loadingMatchScore ? (
@@ -39,7 +41,9 @@ export default function ResultsSummary() {
             <CircularProgress color="success" />
           </Grid>
         ) : (
-          <Typography variant="jobSummaryMatchScore">{match_score}</Typography>
+          <Typography className="job-summary-match-score">
+            {match_score}
+          </Typography>
         )}
       </JobMatchScore>
     </Container>

@@ -20,12 +20,12 @@ export default function GenerationSummary() {
   return (
     <Container>
       <JobOverview>
-        <Typography variant="jobSummaryTitle">
+        <Typography className="job-summary-title">
           {selectedCoverLetterJobPosting?.job_title !== ""
             ? selectedCoverLetterJobPosting?.job_title
             : "Job Title"}
         </Typography>
-        <Typography variant="jobSummaryCompany">
+        <Typography className="job-summary-company">
           {selectedCoverLetterJobPosting?.company_name !== ""
             ? selectedCoverLetterJobPosting?.company_name
             : "Company Name"}
@@ -33,10 +33,10 @@ export default function GenerationSummary() {
       </JobOverview>
 
       <JobMatchScore>
-        <Typography variant="jobSummaryMatchScoreHeader">
+        <Typography className="job-summary-match-score-header">
           Match Score
         </Typography>
-        <Typography variant="jobSummaryMatchScore">
+        <Typography className="job-summary-match-score">
           {selectedCoverLetter?.match_score !== ""
             ? selectedCoverLetter?.match_score
             : "0"}

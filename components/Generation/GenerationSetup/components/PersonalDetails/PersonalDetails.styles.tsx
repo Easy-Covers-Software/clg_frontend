@@ -10,7 +10,6 @@ const Container = styled(Grid)`
   align-items: center;
   align-content: center;
   margin-top: 2%;
-  height: ${({ mode }) => (mode === "upload" ? "auto" : "100%")};
   background-color: white;
   border: none;
   resize: none;

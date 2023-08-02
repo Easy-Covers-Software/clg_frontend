@@ -12,11 +12,11 @@ export default function EasyCoversIntro() {
       <WelcomePaper>
         <FullLogo src="/easy-covers-full.svg" alt="Description of Image" />
 
-        <Typography variant="homeHeader">
+        <Typography className="home-header">
           Easy Covers -- AI Cover Letter Generator
         </Typography>
 
-        <Typography variant="homeSubHeader">
+        <Typography className="home-sub-header">
           Save time, increase your interview chances, and stand out from the
           crowd with a cover letter uniquely made to the job you're applying
           for.

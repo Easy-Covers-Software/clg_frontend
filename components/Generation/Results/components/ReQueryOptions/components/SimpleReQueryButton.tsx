@@ -54,7 +54,7 @@ export default function SimpleReQueryButton({ buttonLabel }) {
 
   return (
     <Container>
-      <Typography variant="simpleAdjustmentLabel">{buttonLabel}</Typography>
+      <Typography className="simple-adjustment-label">{buttonLabel}</Typography>
       <ButtonContainer>
         <IconButton
           disabled={disableGenerateButton}
