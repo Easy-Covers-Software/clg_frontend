@@ -19,7 +19,9 @@ export default function MenuLoggedIn() {
       <Tabs>
         <Link href={"/generation-mode"} className={"no_underline"} passHref>
           <GenerationModeTab
-            selected={page === "generation-mode"}
+            style={{
+              backgroundColor: page === "generation-mode" ? "#f5faf5" : "white",
+            }}
             onClick={() =>
               dispatch({
                 type: "SET_PAGE",
@@ -33,7 +35,9 @@ export default function MenuLoggedIn() {
 
         <Link href={"/saved"} className={"no_underline"} passHref>
           <GenerationModeTab
-            selected={page === "saved"}
+            style={{
+              backgroundColor: page === "saved" ? "#f5faf5" : "white",
+            }}
             onClick={() =>
               dispatch({
                 type: "SET_PAGE",
