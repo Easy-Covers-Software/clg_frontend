@@ -54,10 +54,10 @@ export default function ResumeUploader() {
       {userResume && userResume !== "" && (
         // <Tooltip title={`Date Uploaded: `}>
         <SelectLastUsedResume
-          component={Paper}
+          // component={Paper}
           onClick={handleUseLastResume}
           // isUsingLastUploadedResume={state.isUsingLastUploadedResume}
-          style={{
+          sx={{
             opacity: 1,
             elevation: isUsingLastUploadedResume ? 0 : 5,
             boxShadow: isUsingLastUploadedResume
@@ -75,7 +75,7 @@ export default function ResumeUploader() {
               }}
             />
             <Typography
-              variant="useLastResume"
+              className="use-last-resume"
               style={{
                 textDecoration: isUsingLastUploadedResume
                   ? "underline"
