@@ -15,7 +15,11 @@ export default function PersonalDetails() {
   const [mode, setMode] = React.useState("upload"); // 'resume' or 'text'
 
   return (
-    <Container mode={mode}>
+    <Container
+      style={{
+        height: mode === "upload" ? "auto" : "100%",
+      }}
+    >
       <PersonalDetailsModeSwitch mode={mode} setMode={setMode} />
 
       {mode === "upload" ? <ResumeUploader /> : <FreeTextInput />}
