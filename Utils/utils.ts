@@ -292,8 +292,7 @@ namespace GenerationUtils {
 
 namespace SavedCoverLettersUtils {
   export const fetchSavedCoverLetters = async () => {
-    const url =
-      "https://localhost:8000/ai_generator/generate/get_users_saved_cover_letters/";
+    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/generate/get_users_saved_cover_letters/`;
 
     try {
       const response = await axios.get(url, {
@@ -313,7 +312,7 @@ namespace SavedCoverLettersUtils {
   };
 
   export const postDeleteSavedCoverLetter = async (selectedCoverLetterId) => {
-    const url = `https://localhost:8000/ai_generator/generate/${selectedCoverLetterId}/`;
+    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/generate/${selectedCoverLetterId}/`;
 
     try {
       const response = await axios.delete(url, {
@@ -338,10 +337,7 @@ namespace SavedCoverLettersUtils {
     currCoverLetterParts,
     updateCoverLetterParts
   ) => {
-    console.log("currCoverLetterParts", currCoverLetterParts);
-    console.log("updateCoverLetterParts", updateCoverLetterParts);
-
-    const url = `https://localhost:8000/ai_generator/generate/${selectedCoverLetterId}/`;
+    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/generate/${selectedCoverLetterId}/`;
 
     const form = new FormData();
     form.append("save_name", saveName);
