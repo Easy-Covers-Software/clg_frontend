@@ -14,7 +14,7 @@ export default function JobPostingInput() {
   );
 
   const handleChange = (e) => {
-    dispatch({ type: "SET_JOB_POSTING_INPUT", payload: e.target.value });
+    dispatch({ type: "SET_JOB_POSTING", payload: e.target.value });
   };
 
   const handleFocus = () => {
