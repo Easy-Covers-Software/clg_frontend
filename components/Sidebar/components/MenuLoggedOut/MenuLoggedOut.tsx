@@ -16,7 +16,11 @@ export default function MenuLoggedOut() {
   return (
     <Container>
       <Link href={"/generation-mode"} className={"no_underline"} passHref>
-        <GenerationModeTab selected={page === "generation-mode"}>
+        <GenerationModeTab
+          style={{
+            backgroundColor: page === "generation-mode" ? "#f5faf5" : "white",
+          }}
+        >
           Generate Mode
         </GenerationModeTab>
       </Link>

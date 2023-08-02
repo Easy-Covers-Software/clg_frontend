@@ -9,7 +9,7 @@ export default function SavedDisplay() {
   return (
     <Container>
       <SubContainer>
-        <Typography variant="savedHeader">Saved Cover Letters</Typography>
+        <Typography className="saved-header">Saved Cover Letters</Typography>
         <SearchAndFilter />
         <SavedLettersList />
       </SubContainer>

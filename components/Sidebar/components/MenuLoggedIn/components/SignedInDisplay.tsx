@@ -17,12 +17,8 @@ const {
 
 const Stat = ({ statName, statValue }) => (
   <StatContainer>
-    <Typography variant="accessStats" ml={"3%"}>
-      {statName}
-    </Typography>
-    <Typography variant="accessStats" mr={"3%"}>
-      {statValue}
-    </Typography>
+    <Typography className="access-stats left">{statName}</Typography>
+    <Typography className="access-stats right">{statValue}</Typography>
   </StatContainer>
 );
 
@@ -46,7 +42,7 @@ export default function SignedInDisplay() {
           statValue={accessLevel.num_adjustments_available}
         />
       </CoverLetterStatsContainer>
-      <Typography variant="profileEmail">{user}</Typography>
+      <Typography className="profile-email">{user}</Typography>
 
       <HorizontalDivider />
 

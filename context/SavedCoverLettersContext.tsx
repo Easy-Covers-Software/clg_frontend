@@ -358,7 +358,7 @@ export default function SavedCoverLettersContext(props) {
   // get selected cover letter stored details
   useEffect(() => {
     const getJobPosting = async () => {
-      const url = `https://localhost:8000/ai_generator/generation_setup/upload_job_posting/${state.selectedCoverLetter?.job_posting}/`;
+      const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/generation_setup/upload_job_posting/${state.selectedCoverLetter?.job_posting}/`;
 
       try {
         const response = await axios.get(url, {
@@ -380,7 +380,7 @@ export default function SavedCoverLettersContext(props) {
     };
 
     const getCoverLetterParts = async () => {
-      const url = `https://localhost:8000/ai_generator/generate/${state.selectedCoverLetter?.id}/get_cover_letter_parts/`;
+      const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/generate/${state.selectedCoverLetter?.id}/get_cover_letter_parts/`;
 
       console.log("parts url", url);
 

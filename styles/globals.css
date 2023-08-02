@@ -60,3 +60,151 @@ body {
   text-decoration: none;
   color: inherit;
 }
+
+/* Typography styles */
+.access-stats,
+.access-stats .left,
+.access-stats .right {
+  font-size: 1rem;
+  color: #006d4b;
+}
+
+.access-stats .left {
+  margin-left: 3%;
+}
+
+.access-stats .right {
+  margin-right: 3%;
+}
+
+.personal-details-switch {
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
+  color: #006d4b;
+  margin-left: 3%;
+}
+
+.personal-details-switch .selected {
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
+  color: #006d4b;
+  margin-left: 3%;
+}
+
+.profile-email {
+  font-size: 1.25rem;
+  letter-spacing: 0.095rem;
+  text-align: center;
+  width: 100%;
+  color: #006d4b;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0 auto;
+  padding-left: 1%;
+}
+
+.additional-details-info {
+  font-size: 0.85rem;
+  text-align: center;
+  color: #006d4b;
+  letter-spacing: 0.05rem;
+  padding: 0 3%;
+  white-space: nowrap;
+}
+
+.additional-details-anything-else {
+  font-size: 1.1rem;
+  color: #006d4b;
+  letter-spacing: 0.03rem;
+  margin: -2% 0 0 1%;
+}
+
+.custom-adjustment-heading {
+  font-size: 0.95rem;
+  color: #006d4b;
+  letter-spacing: 0.05rem;
+  margin: -5% 0 0 1%;
+}
+
+.medium-requery-label {
+  font-size: 0.9rem;
+  color: #006d4b;
+  letter-spacing: 0.05rem;
+  margin-top: 0.5%;
+}
+
+.simple-adjustment-label {
+  font-size: 0.85rem;
+  color: #006d4b;
+  letter-spacing: 0.05rem;
+  margin-bottom: 0.5%;
+}
+
+.job-summary-title {
+  font-size: 1.25rem;
+  color: #006d4b;
+  letter-spacing: 0.08rem;
+  padding: 1.5% 0 0 5%;
+}
+
+.job-summary-company {
+  font-size: 1.1rem;
+  color: #006d4b;
+  letter-spacing: 0.05rem;
+  padding: 0 0 2.8% 5%;
+}
+
+.job-summary-match-score-header {
+  font-size: 1.1rem;
+  color: #006d4b;
+  letter-spacing: 0.05rem;
+  margin-top: 3%;
+  white-space: nowrap;
+}
+
+.job-summary-match-score {
+  font-size: 2.2rem;
+  color: #006d4b;
+  margin-top: 3%;
+}
+
+.accordion-header {
+  font-size: 1rem;
+  color: #006d4b;
+  letter-spacing: 0.08rem;
+  padding-top: 0.5%;
+  margin-left: 1%;
+}
+
+.use-last-resume {
+  font-size: 1.1rem;
+  white-space: nowrap;
+  color: #006d4b;
+}
+
+.drag-drop {
+  font-size: 1.05rem;
+  color: #006d4b;
+  display: flex;
+}
+
+.home-header {
+  margin-top: -5%;
+}
+
+.home-sub-header {
+  text-align: center;
+  margin: 1% 0 5%;
+}
+
+.saved-header {
+  font-size: 1.25rem;
+  color: #006d4b;
+  text-align: center;
+}
+
+.alert-dialog-button {
+  color: #006d4b;
+  letter-spacing: 0.05rem;
+}
