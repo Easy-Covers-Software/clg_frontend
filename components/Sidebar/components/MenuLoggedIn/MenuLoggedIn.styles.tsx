@@ -13,24 +13,18 @@ const Container = styled(Grid)`
   height: 100%;
   gap: 24px;
   margin-top: -24%;
-  color: ${(props) => props.theme.palette.primary.border_dark};
+  color: #006d4b;
 `;
 
 const GenerationModeTab = styled(UnSelectedButton)`
   white-space: nowrap;
-  ${({ selected }) => (selected ? "background-color: #f5faf5;" : "white")}
-  ${({ selected }) =>
-    selected
-      ? "none"
-      : "box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;"}
-  &:hover {
-    ${({ selected }) =>
-      selected
-        ? "none"
-        : "background-color: #f5faf5;"}background-color: #e0e0e0;
-  }
   &:active {
     border-bottom: 2px solid #87dbd0;
+  }
+
+  &:hover {
+    border-bottom: 2px solid #87dbd0;
+    background-color: #f5f5f5;
   }
 `;
 
@@ -72,16 +66,6 @@ namespace SignedInDisplayStyledComponents {
     // padding: 3% 0;
     margin: 8% 0;
   `;
-
-  // export const UserEmail = styled(Typography)`
-  //   width: 100%;
-  //   overflow: hidden;
-  //   white-space: nowrap;
-  //   text-overflow: ellipsis;
-  //   text-align: center;
-  //   margin: 0 auto;
-  //   padding-left: 1%;
-  // `;
 }
 
 export { Container, GenerationModeTab, Tabs, SignedInDisplayStyledComponents };
