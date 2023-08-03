@@ -171,7 +171,7 @@ export default function GenerationSetup() {
               <CheckboxIconComplete />
             )}
 
-            <Typography variant="accordionHeader">Job Posting</Typography>
+            <Typography className="accordion-header">Job Posting</Typography>
           </AccordionSummary>
 
           <AccordionDetails>
@@ -200,7 +200,7 @@ export default function GenerationSetup() {
             ) : (
               <CheckboxIconComplete />
             )}
-            <Typography variant="accordionHeader">
+            <Typography className="accordion-header">
               Résumé Upload / Personal Details
             </Typography>
           </AccordionSummary>
@@ -225,7 +225,7 @@ export default function GenerationSetup() {
               <CheckboxIconComplete />
             )}
 
-            <Typography variant="accordionHeader">
+            <Typography className="accordion-header">
               Additional Details (optional)
             </Typography>
           </AccordionSummary>
