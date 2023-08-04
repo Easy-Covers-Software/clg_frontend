@@ -1,7 +1,7 @@
 "use client";
 
 // React-related imports
-import { useState, useEffect } from "react";
+import { useState, useEffect, SyntheticEvent } from "react";
 
 import { Typography } from "@mui/material";
 
@@ -49,8 +49,8 @@ export default function GenerationSetup() {
   } = state;
 
   // Component State
-  const [expanded, setExpanded] = React.useState<string | false>("panel1");
-  const [previousPanel, setPreviousPanel] = React.useState<string | false>(
+  const [expanded, setExpanded] = useState<string | false>("panel1");
+  const [previousPanel, setPreviousPanel] = useState<string | false>(
     "panel1"
   );
   const [jobPostingLastSubmitted, setJobPostingLastSubmitted] =
@@ -112,7 +112,7 @@ export default function GenerationSetup() {
   // Panel change handler
   const handleChange =
     (panel: string, nextPanel: string | false, tracker: string) =>
-    (event: React.SyntheticEvent, isExpanded: boolean) => {
+    (event: SyntheticEvent, isExpanded: boolean) => {
       if (isExpanded) {
         setExpanded(panel);
       } else if (nextPanel === "up") {

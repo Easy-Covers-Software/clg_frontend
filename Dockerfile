@@ -15,6 +15,8 @@ FROM node:20
 WORKDIR /app
 COPY --from=builder /app .
 
+RUN npm install --only=production
+
 EXPOSE 3000
 
 CMD ["npm", "run", "start"]
