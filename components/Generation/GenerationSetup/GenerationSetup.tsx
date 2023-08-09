@@ -49,10 +49,8 @@ export default function GenerationSetup() {
   } = state;
 
   // Component State
-  const [expanded, setExpanded] = React.useState<string | false>("panel1");
-  const [previousPanel, setPreviousPanel] = React.useState<string | false>(
-    "panel1"
-  );
+  const [expanded, setExpanded] = useState<string | false>("panel1");
+  const [previousPanel, setPreviousPanel] = useState<string | false>("panel1");
   const [jobPostingLastSubmitted, setJobPostingLastSubmitted] =
     useState<string>("");
   const [resumeLastUploaded, setResumeLastUploaded] = useState<any>({});

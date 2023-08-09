@@ -17,7 +17,7 @@ export default function MenuLoggedIn() {
   return (
     <Container>
       <Tabs>
-        <Link href={"/generation-mode"} className={"no_underline"} passHref>
+        <Link href={"/"} className={"no_underline"} passHref>
           <GenerationModeTab
             style={{
               backgroundColor: page === "generation-mode" ? "#f5faf5" : "white",

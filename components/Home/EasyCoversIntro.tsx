@@ -22,7 +22,7 @@ export default function EasyCoversIntro() {
           for.
         </Typography>
 
-        <Link href={"/generation-mode"} className="no_underline">
+        <Link href={"/"} className="no_underline">
           <UnSelectedButton>Get Started</UnSelectedButton>
         </Link>
       </WelcomePaper>

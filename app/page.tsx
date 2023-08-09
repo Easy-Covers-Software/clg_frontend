@@ -1,9 +1,9 @@
-import EasyCoversIntro from "@/components/Home/EasyCoversIntro";
+import Generation from "@/components/Generation/Generation";
 
-export default function Home(props) {
+export default function GenerationMode() {
   return (
     <>
-      <EasyCoversIntro />
+      <Generation />
     </>
   );
 }
