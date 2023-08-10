@@ -54,7 +54,8 @@ const initialState = {
   insertKeywordInput: "",
   removeRedundancyInput: "",
   intermediateType: null,
-  disableIntermediateAdjustment: false,
+  disableIntermediateAdjustment: true,
+  disableCustomAdjustment: true,
 
   // custom adjustments
   customAdjustment: "",
@@ -132,6 +133,8 @@ function reducer(state, action) {
       return { ...state, intermediateType: action.payload };
     case "SET_DISABLE_INTERMEDIATE_ADJUSTMENT":
       return { ...state, disableIntermediateAdjustment: action.payload };
+    case "SET_DISABLE_CUSTOM_ADJUSTMENT":
+      return { ...state, disableCustomAdjustment: action.payload };
 
     // Custom Adjustments
     case "SET_CUSTOM_ADJUSTMENT":
@@ -155,6 +158,13 @@ function reducer(state, action) {
         ...initialState,
         resume: state.resume,
         additionalDetails: state.additionalDetails,
+        jobPosting: "",
+        coverLetter: "<div><p>Awaiting Generation...</p></div>",
+        coverLetterParts: null,
+        jobPostingId: "",
+        isUsingLastUploadedResume: false,
+        updateCoverLetter: null,
+        updateCoverLetterParts: null,
       };
 
     default:
@@ -412,18 +422,54 @@ export function GenerationContext({ children }) {
   useEffect(() => {
     if (state.addSkillInput !== "") {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "add skill" });
+      if (!state.loadingCoverLetter && state.coverLetterParts !== null) {
+        dispatch({
+          type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT",
+          payload: false,
+        });
+      }
     } else if (state.insertKeywordInput !== "") {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "insert keyword" });
+      if (!state.loadingCoverLetter && state.coverLetterParts !== null) {
+        dispatch({
+          type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT",
+          payload: false,
+        });
+      }
     } else if (state.removeRedundancyInput !== "") {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "remove" });
+      if (!state.loadingCoverLetter && state.coverLetterParts !== null) {
+        dispatch({
+          type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT",
+          payload: false,
+        });
+      }
     } else {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: null });
-      dispatch({ type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT", payload: false });
+      dispatch({ type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT", payload: true });
     }
   }, [
     state.addSkillInput,
     state.insertKeywordInput,
     state.removeRedundancyInput,
+    state.loadingCoverLetter,
+    state.coverLetterParts,
+  ]);
+
+  useEffect(() => {
+    if (!state.loadingCoverLetter && state.coverLetterParts !== null) {
+      if (state.customAdjustment !== "") {
+        dispatch({ type: "SET_DISABLE_CUSTOM_ADJUSTMENT", payload: false });
+      } else {
+        dispatch({ type: "SET_DISABLE_CUSTOM_ADJUSTMENT", payload: true });
+      }
+    } else {
+      dispatch({ type: "SET_DISABLE_CUSTOM_ADJUSTMENT", payload: true });
+    }
+  }, [
+    state.customAdjustment,
+    state.loadingCoverLetter,
+    state.coverLetterParts,
   ]);
 
   // Disable Generation Button handling
@@ -474,6 +520,8 @@ export function GenerationContext({ children }) {
       });
     }
   }, []);
+
+  console.log("state.coverLetterParts", state.coverLetterParts);
 
   return (
     <Context.Provider
