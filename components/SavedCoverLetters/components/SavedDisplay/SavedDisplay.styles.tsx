@@ -2,8 +2,9 @@ import styled from "@emotion/styled";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 const Container = styled(Grid)`
-  height: 100%;
-  width: fit-content;
+  height: calc(100vh - 98px);
+  width: 25vw;
+  min-width: 25vw;
 
   display: flex;
   flex-direction: column;
@@ -12,9 +13,9 @@ const Container = styled(Grid)`
 
   flex: 1;
   margin: 0 0.2%;
-  padding: 0.5%;
+  padding: 0.3%;
 
-  background-color: #fff;
+  background-color: white;
 
   border: 1px solid #13d0b7;
   border-radius: 4px;

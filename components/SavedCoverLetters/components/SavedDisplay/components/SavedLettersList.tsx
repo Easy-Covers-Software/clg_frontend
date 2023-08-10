@@ -31,6 +31,7 @@ export default function SavedLettersList() {
 
   const {
     state: authState,
+    dispatch: authDispatch,
     updateSnackbar,
     openAlertDialogConfirm,
   } = useAuth();
@@ -89,6 +90,15 @@ export default function SavedLettersList() {
       confirmDelete();
     }
   }, [didConfirmAlert]);
+
+  useEffect(() => {
+    if (selectedCoverLetter !== null) {
+      authDispatch({
+        type: "SET_MOBILE_MODE_SAVED",
+        payload: "edit",
+      });
+    }
+  }, [selectedCoverLetter]);
 
   const hamdleDelete = async () => {
     openAlertDialogConfirm(

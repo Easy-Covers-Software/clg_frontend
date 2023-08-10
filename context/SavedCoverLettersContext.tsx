@@ -33,7 +33,7 @@ const initialState = {
   selectedCoverLetter: null,
   selectedCoverLetterParts: null,
   selectedCoverLetterHtml: "",
-  selectedCoverLetterJobPosting: null,
+  selectedCoverLetterJobPosting: "",
   loadingCoverLetter: false,
   updateCoverLetter: null,
   updateCoverLetterParts: null,
@@ -109,6 +109,18 @@ function reducer(state, action) {
       return { ...state, isFilterDropdownOpen: action.payload };
     case "SET_DISABLE_REQUERY":
       return { ...state, disableRequery: action.payload };
+    case "RESET_SELECTED_COVER_LETTER_DATA":
+      return {
+        ...state,
+        selectedCoverLetter: initialState.selectedCoverLetter,
+        selectedCoverLetterParts: initialState.selectedCoverLetterParts,
+        selectedCoverLetterHtml: initialState.selectedCoverLetterHtml,
+        selectedCoverLetterJobPosting:
+          initialState.selectedCoverLetterJobPosting,
+        updateCoverLetter: initialState.updateCoverLetter,
+        updateCoverLetterParts: initialState.updateCoverLetterParts,
+        saveName: initialState.saveName,
+      };
     default:
       return state;
   }

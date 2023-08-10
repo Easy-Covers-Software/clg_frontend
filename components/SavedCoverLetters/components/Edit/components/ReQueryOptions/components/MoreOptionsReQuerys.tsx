@@ -6,12 +6,15 @@ import CustomReQuery from "./CustomReQuery";
 
 import { useAuth } from "@/context/AuthContext";
 import { useSavedCoverLettersContext } from "@/context/SavedCoverLettersContext";
+import { useMediaQuery } from "@mui/material";
 
 import { MoreOptionsReQuerysStyledComponents } from "../ReQueryOptions.styles";
 const { Container, MediumOptionsContainer, SubmitButton } =
   MoreOptionsReQuerysStyledComponents;
 
 export default function MoreOptionsReQueries() {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   const {
     state: authState,
     dispatch,
@@ -21,10 +24,15 @@ export default function MoreOptionsReQueries() {
   const { accessLevel, updateUser } = authState;
   let { num_adjustments_available } = accessLevel;
 
-  const { state, makeIntermediateAdjustment } = useSavedCoverLettersContext();
+  const { state, makeIntermediateAdjustment, toggleIsReQuerySectionExpanded } =
+    useSavedCoverLettersContext();
   const { disableRequery } = state;
 
   const handleIntermediateAdjustment = async () => {
+    if (isMobile) {
+      toggleIsReQuerySectionExpanded();
+    }
+
     if (num_adjustments_available === 0) {
       toggleSettingsIsOpen();
       updateSnackbar(

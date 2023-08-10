@@ -9,99 +9,113 @@ import { useAuth } from "@/context/AuthContext";
 
 import { CustomReQueryStyledComponents } from "../ReQueryOptions.styles";
 const { CustomReQueryField, SubmitButton } = CustomReQueryStyledComponents;
+import { useMediaQuery } from "@mui/material";
 
 const Container = styled(Grid)`
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
-  // width: 14vw;
+  width: 50%;
   margin-top: 10%;
-  // padding: 0 20%;
+  // padding: 0 10%;
 
-  @media screen and (min-width: 0px) and (max-width: 700px) {
+  @media screen and (min-width: 0px) and (max-width: 600px) {
     padding: 0 1%;
+    width: 100%;
+    margin-top: 2%;
   }
 
-  @media screen and (min-width: 600px) and (max-width: 700px) {
-  }
+  // @media screen and (min-width: 600px) and (max-width: 700px) {
+  // }
 
-  @media screen and (min-width: 700px) and (max-width: 800px) {
-    padding: 0 10%;
-  }
+  // @media screen and (min-width: 700px) and (max-width: 800px) {
+  //   padding: 0 10%;
+  // }
 
-  @media screen and (min-width: 800px) and (max-width: 900px) {
-    padding: 0 12%;
-  }
+  // @media screen and (min-width: 800px) and (max-width: 900px) {
+  //   padding: 0 12%;
+  // }
 
-  @media screen and (min-width: 900px) and (max-width: 950px) {
-    padding: 0 14%;
-  }
+  // @media screen and (min-width: 900px) and (max-width: 950px) {
+  //   padding: 0 14%;
+  // }
 
-  @media screen and (min-width: 950px) and (max-width: 1000px) {
-    padding: 0 15%;
-  }
+  // @media screen and (min-width: 950px) and (max-width: 1000px) {
+  //   padding: 0 15%;
+  // }
 
-  @media screen and (min-width: 1000px) and (max-width: 1100px) {
-    padding: 0 16%;
-  }
+  // @media screen and (min-width: 1000px) and (max-width: 1100px) {
+  //   padding: 0 16%;
+  // }
 
-  @media screen and (min-width: 1100px) and (max-width: 1200px) {
-  }
+  // @media screen and (min-width: 1100px) and (max-width: 1200px) {
+  //   padding: 0 16%;
+  // }
 
-  @media screen and (min-width: 1200px) and (max-width: 1300px) {
-  }
+  // @media screen and (min-width: 1200px) and (max-width: 1300px) {
+  //   padding: 0 16%;
+  // }
 `;
 
 const SubContainer = styled(Grid)`
   height: 100%;
-  margin-bottom: 36px;
-  width: 14vw;
-  // padding: 0 20%;
+  margin-bottom: 15%;
+  width: 96%;
+  // // padding: 0 20%;
 
-  @media screen and (min-width: 0px) and (max-width: 700px) {
+  @media screen and (min-width: 0px) and (max-width: 600px) {
     padding: 0 1%;
+    width: 100%;
   }
 
-  @media screen and (min-width: 600px) and (max-width: 700px) {
-  }
+  // @media screen and (min-width: 600px) and (max-width: 700px) {
+  // }
 
-  @media screen and (min-width: 700px) and (max-width: 800px) {
-    padding: 0 10%;
-  }
+  // @media screen and (min-width: 700px) and (max-width: 800px) {
+  //   padding: 0 10%;
+  // }
 
-  @media screen and (min-width: 800px) and (max-width: 900px) {
-    padding: 0 12%;
-  }
+  // @media screen and (min-width: 800px) and (max-width: 900px) {
+  //   padding: 0 12%;
+  // }
 
-  @media screen and (min-width: 900px) and (max-width: 950px) {
-    padding: 0 14%;
-  }
+  // @media screen and (min-width: 900px) and (max-width: 950px) {
+  //   padding: 0 14%;
+  // }
 
-  @media screen and (min-width: 950px) and (max-width: 1000px) {
-    padding: 0 15%;
-  }
+  // @media screen and (min-width: 950px) and (max-width: 1000px) {
+  //   padding: 0 15%;
+  // }
 
-  @media screen and (min-width: 1000px) and (max-width: 1100px) {
-    padding: 0 16%;
-  }
+  // @media screen and (min-width: 1000px) and (max-width: 1100px) {
+  //   padding: 0 16%;
+  // }
 
-  @media screen and (min-width: 1100px) and (max-width: 1200px) {
-  }
+  // @media screen and (min-width: 1100px) and (max-width: 1200px) {
+  //   padding: 0 16%;
+  // }
 
-  @media screen and (min-width: 1200px) and (max-width: 1300px) {
-  }
+  // @media screen and (min-width: 1200px) and (max-width: 1300px) {
+  //   padding: 0 16%;
+  // }
 `;
 
 export default function CustomReQuery() {
+  const isMobile = useMediaQuery("(max-width:600px)");
+
   const {
     state: authState,
     dispatch: authDispatch,
     updateSnackbar,
     toggleSettingsIsOpen,
   } = useAuth();
-  const { state, dispatch, makeCustomAdjustment } =
-    useSavedCoverLettersContext();
+  const {
+    state,
+    dispatch,
+    makeCustomAdjustment,
+    toggleIsReQueryMobileSectionExpanded,
+  } = useSavedCoverLettersContext();
 
   const { customAdjustment, disableRequery } = state;
 
@@ -133,6 +147,10 @@ export default function CustomReQuery() {
         "You have no adjustments available. Please upgrade your account to make more adjustments."
       );
       return;
+    }
+
+    if (isMobile) {
+      toggleIsReQuerySectionExpanded();
     }
 
     try {
