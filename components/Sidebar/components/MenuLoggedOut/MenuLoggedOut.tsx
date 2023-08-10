@@ -27,7 +27,12 @@ export default function MenuLoggedOut() {
 
       <Grid>
         <HorizontalDivider />
-        <UnSelectedButton onClick={() => toggleLoginIsOpen()}>
+        <UnSelectedButton
+          onClick={() => toggleLoginIsOpen()}
+          style={{
+            whiteSpace: "nowrap",
+          }}
+        >
           Sign In
         </UnSelectedButton>
       </Grid>

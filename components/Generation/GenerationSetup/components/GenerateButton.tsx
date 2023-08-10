@@ -120,15 +120,15 @@ const ButtonSet = (props: ButtonSetProps) => {
           <Grid p={0} m={0} display={"flex"} width={"100%"}>
             <GenerateButton
               disabled={disabled}
-              onClick={() =>
+              onClick={() => {
                 handleGenerateCoverLetter(
                   getModelAvailable(
                     user,
                     num_gpt3_generations_available,
                     num_gpt4_generations_available
                   )
-                )
-              }
+                );
+              }}
             >
               Generate
             </GenerateButton>
@@ -195,6 +195,10 @@ export default function GenerateButtons() {
         dispatch({
           type: "SET_UPDATE_USER",
           payload: authState.updateUser,
+        });
+        dispatch({
+          type: "SET_MOBILE_MODE",
+          payload: "results",
         });
       }
     } catch (err) {

@@ -54,7 +54,7 @@ export default function MoreOptionsReQueries() {
       <MediumOptionsContainer>
         <MediumReQueryInput label={"Add Skill"} />
         <MediumReQueryInput label={"Insert Keyword"} />
-        <MediumReQueryInput label={"Remove Redundancy"} />
+        <MediumReQueryInput label={"Remove"} />
         <SubmitButton
           disabled={disableRequery}
           onClick={handleIntermediateAdjustment}

@@ -54,6 +54,10 @@ const UnSelectedButton = styled(Button)`
   &:active {
     background-color: #87dbd0;
   }
+
+  @media (max-width: 900px) {
+    font-size: 0.8rem;
+  }
 `;
 
 export { PrimaryButton, UnSelectedButton };

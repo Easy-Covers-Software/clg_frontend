@@ -23,6 +23,7 @@ const initialState = {
   isSettingsOpen: false,
   createAccountEasyCovers: false,
   page: "",
+  mobileMode: "setup",
   snackbar: {
     open: false,
     type: "",
@@ -104,6 +105,8 @@ function reducer(state, action) {
       };
     case "SET_DID_CONFIRM_ALERT":
       return { ...state, didConfirmAlert: action.payload };
+    case "SET_MOBILE_MODE":
+      return { ...state, mobileMode: action.payload };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }

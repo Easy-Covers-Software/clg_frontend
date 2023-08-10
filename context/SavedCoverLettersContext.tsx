@@ -344,7 +344,7 @@ export default function SavedCoverLettersContext(props) {
     } else if (state.insertKeywordInput !== "") {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "insert keyword" });
     } else if (state.removeRedundancyInput !== "") {
-      dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "remove redundancy" });
+      dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "remove" });
     } else {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: null });
       dispatch({ type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT", payload: false });

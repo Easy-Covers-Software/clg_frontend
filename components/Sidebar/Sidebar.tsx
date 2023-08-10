@@ -7,6 +7,12 @@ import { useAuth } from "@/context/AuthContext";
 const Logo = styled.img`
   margin-top: -55%;
   width: 100%;
+
+  @media screen and (max-width: 900px) {
+    margin-top: -16%;
+    // text-align: center;
+    width: 100%;
+  }
 `;
 
 export default function Sidebar() {

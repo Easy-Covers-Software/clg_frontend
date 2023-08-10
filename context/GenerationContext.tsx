@@ -19,12 +19,7 @@ const Context = createContext(null);
 
 const initialState = {
   // user inputs
-  jobPosting:
-    typeof window !== "undefined" &&
-    localStorage.getItem("jobPostingText") !== null &&
-    localStorage.getItem("jobPostingText") !== ""
-      ? localStorage.getItem("jobPostingText")
-      : "",
+  jobPosting: "",
   resume: null,
   freeText: "",
   additionalDetails: {
@@ -66,8 +61,12 @@ const initialState = {
 
   // toggles
   isReQuerySectionExpanded: false,
+  isReQueryMobileSectionExpanded: false,
   isSavedDropdownOpen: false,
   isDownloadDropdownOpen: false,
+
+  // mobile
+  mobileGenerationMode: "setup",
 };
 
 function reducer(state, action) {
@@ -141,10 +140,22 @@ function reducer(state, action) {
     // Toggles
     case "SET_IS_RE_QUERY_SECTION_EXPANDED":
       return { ...state, isReQuerySectionExpanded: action.payload };
+    case "SET_IS_RE_QUERY_MOBILE_SECTION_EXPANDED":
+      return { ...state, isReQueryMobileSectionExpanded: action.payload };
     case "SET_IS_SAVED_DROPDOWN_OPEN":
       return { ...state, isSavedDropdownOpen: action.payload };
     case "SET_IS_DOWNLOAD_DROPDOWN_OPEN":
       return { ...state, isDownloadDropdownOpen: action.payload };
+
+    case "SET_MOBILE_GENERATION_MODE":
+      return { ...state, mobileGenerationMode: action.payload };
+
+    case "RESET_STATE":
+      return {
+        ...initialState,
+        resume: state.resume,
+        additionalDetails: state.additionalDetails,
+      };
 
     default:
       throw new Error(`Unknown action: ${action.type}`);
@@ -159,6 +170,13 @@ export function GenerationContext({ children }) {
     dispatch({
       type: "SET_IS_RE_QUERY_SECTION_EXPANDED",
       payload: !state.isReQuerySectionExpanded,
+    });
+  };
+
+  const toggleIsReQueryMobileSectionExpanded = () => {
+    dispatch({
+      type: "SET_IS_RE_QUERY_MOBILE_SECTION_EXPANDED",
+      payload: !state.isReQueryMobileSectionExpanded,
     });
   };
 
@@ -362,6 +380,10 @@ export function GenerationContext({ children }) {
         type: "SET_JOB_POSTING_ID",
         payload: response.job_posting_id,
       });
+      dispatch({
+        type: "SET_MOBILE_GENERATION_MODE",
+        payload: "results",
+      });
 
       return true;
     } catch (error) {
@@ -393,7 +415,7 @@ export function GenerationContext({ children }) {
     } else if (state.insertKeywordInput !== "") {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "insert keyword" });
     } else if (state.removeRedundancyInput !== "") {
-      dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "remove redundancy" });
+      dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "remove" });
     } else {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: null });
       dispatch({ type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT", payload: false });
@@ -459,6 +481,7 @@ export function GenerationContext({ children }) {
         state,
         dispatch,
         toggleIsReQuerySectionExpanded,
+        toggleIsReQueryMobileSectionExpanded,
         generateCoverLetter,
         makeSimpleAdjustment,
         makeIntermediateAdjustment,

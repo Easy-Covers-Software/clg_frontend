@@ -42,14 +42,12 @@ export default function MoreOptionsReQueries() {
     }
   };
 
-  console.log("MoreOptionsReQueries.tsx: state", disableGenerateButton);
-
   return (
     <Container>
       <MediumOptionsContainer>
         <MediumReQueryInput label={"Add Skill"} />
         <MediumReQueryInput label={"Insert Keyword"} />
-        <MediumReQueryInput label={"Remove Redundancy"} />
+        <MediumReQueryInput label={"Remove"} />
         <SubmitButton
           onClick={handleIntermediateAdjustment}
           disabled={disableGenerateButton}

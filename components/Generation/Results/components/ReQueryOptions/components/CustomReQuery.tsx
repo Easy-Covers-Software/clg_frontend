@@ -10,6 +10,96 @@ import { useAuth } from "@/context/AuthContext";
 import { CustomReQueryStyledComponents } from "../ReQueryOptions.styles";
 const { CustomReQueryField, SubmitButton } = CustomReQueryStyledComponents;
 
+const Container = styled(Grid)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  margin-top: 10%;
+  // padding: 0 10%;
+
+  @media screen and (min-width: 0px) and (max-width: 600px) {
+    padding: 0 1%;
+    width: 100%;
+    margin-top: 2%;
+  }
+
+  // @media screen and (min-width: 600px) and (max-width: 700px) {
+  // }
+
+  // @media screen and (min-width: 700px) and (max-width: 800px) {
+  //   padding: 0 10%;
+  // }
+
+  // @media screen and (min-width: 800px) and (max-width: 900px) {
+  //   padding: 0 12%;
+  // }
+
+  // @media screen and (min-width: 900px) and (max-width: 950px) {
+  //   padding: 0 14%;
+  // }
+
+  // @media screen and (min-width: 950px) and (max-width: 1000px) {
+  //   padding: 0 15%;
+  // }
+
+  // @media screen and (min-width: 1000px) and (max-width: 1100px) {
+  //   padding: 0 16%;
+  // }
+
+  // @media screen and (min-width: 1100px) and (max-width: 1200px) {
+  //   padding: 0 16%;
+  // }
+
+  // @media screen and (min-width: 1200px) and (max-width: 1300px) {
+  //   padding: 0 16%;
+  // }
+`;
+
+const SubContainer = styled(Grid)`
+  height: 100%;
+  margin-bottom: 15%;
+  width: 96%;
+  // // padding: 0 20%;
+
+  @media screen and (min-width: 0px) and (max-width: 600px) {
+    padding: 0 1%;
+    width: 100%;
+  }
+
+  // @media screen and (min-width: 600px) and (max-width: 700px) {
+  // }
+
+  // @media screen and (min-width: 700px) and (max-width: 800px) {
+  //   padding: 0 10%;
+  // }
+
+  // @media screen and (min-width: 800px) and (max-width: 900px) {
+  //   padding: 0 12%;
+  // }
+
+  // @media screen and (min-width: 900px) and (max-width: 950px) {
+  //   padding: 0 14%;
+  // }
+
+  // @media screen and (min-width: 950px) and (max-width: 1000px) {
+  //   padding: 0 15%;
+  // }
+
+  // @media screen and (min-width: 1000px) and (max-width: 1100px) {
+  //   padding: 0 16%;
+  // }
+
+  // @media screen and (min-width: 1100px) and (max-width: 1200px) {
+  //   padding: 0 16%;
+  // }
+
+  // @media screen and (min-width: 1200px) and (max-width: 1300px) {
+  //   padding: 0 16%;
+  // }
+`;
+
 export default function CustomReQuery() {
   const {
     state: authState,
@@ -65,24 +155,19 @@ export default function CustomReQuery() {
   };
 
   return (
-    <Grid
-      display={"flex"}
-      flexDirection={"column"}
-      height={"100%"}
-      width={"14vw"}
-      gap={2}
-      mt={2}
-    >
-      <Typography className="custom-adjustment-heading">
-        Custom Adjustment
-      </Typography>
-      <CustomReQueryField
-        placeholder={placeholder}
-        value={customAdjustment}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-      />
+    <Container>
+      <SubContainer>
+        <Typography className="custom-adjustment-heading">
+          Custom Adjustment
+        </Typography>
+        <CustomReQueryField
+          placeholder={placeholder}
+          value={customAdjustment}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+      </SubContainer>
 
       <SubmitButton
         onClick={handleCustomAdjustment}
@@ -90,6 +175,6 @@ export default function CustomReQuery() {
       >
         REGENERATE
       </SubmitButton>
-    </Grid>
+    </Container>
   );
 }

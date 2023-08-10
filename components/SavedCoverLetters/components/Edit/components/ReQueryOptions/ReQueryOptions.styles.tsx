@@ -18,12 +18,28 @@ const MoreOptions = styled(UnSelectedButton)`
   padding: 0;
   margin: auto;
   margin-bottom: 1.4%;
+  white-space: nowrap;
+
+  @media screen and (min-width: 600px) and (max-width: 900px) {
+    font-size: 0.64rem;
+  }
+
+  @media screen and (min-width: 900px) and (max-width: 950px) {
+    font-size: 0.68rem;
+  }
+
+  @media screen and (min-width: 950px) and (max-width: 1000px) {
+    font-size: 0.7rem;
+  }
+
+  @media screen and (min-width: 1000px) and (max-width: 1100px) {
+    font-size: 0.72rem;
+  }
 `;
 
 namespace CustomReQueryStyledComponents {
   export const SubmitButton = styled(UnSelectedButton)`
-    padding: 0 0:
-    width: 3vw;
+    // width: 96%;
     height: 4.3vh;
     margin-bottom: 2%;
     margin-top: -2%;
@@ -35,6 +51,7 @@ namespace CustomReQueryStyledComponents {
   export const CustomReQueryField = styled.textarea`
     width: 100%;
     height: 100%;
+    min-height: 8vh
     resize: none;
     box-sizing: border-box;
     background-color: #fff;
@@ -55,6 +72,44 @@ namespace MediumReQueryInputStyledComponents {
     align-items: center;
     width: 14vw;
     gap: 16px;
+    height: 100%;
+    margin-top: 2%;
+    // padding: 0 20%;
+
+    @media screen and (min-width: 0px) and (max-width: 700px) {
+      padding: 0 0;
+    }
+
+    @media screen and (min-width: 600px) and (max-width: 700px) {
+      padding: 0 0;
+    }
+
+    @media screen and (min-width: 700px) and (max-width: 800px) {
+      padding: 0 0;
+    }
+
+    @media screen and (min-width: 800px) and (max-width: 900px) {
+      padding: 0 0;
+    }
+
+    @media screen and (min-width: 900px) and (max-width: 950px) {
+      padding: 0 8%;
+    }
+
+    @media screen and (min-width: 950px) and (max-width: 1000px) {
+      padding: 0 8%;
+    }
+
+    @media screen and (min-width: 1000px) and (max-width: 1100px) {
+      padding: 0 8%;
+    }
+
+    @media screen and (min-width: 1100px) and (max-width: 1200px) {
+      padding: 0 8%;
+    }
+
+    @media screen and (min-width: 1200px) and (max-width: 1300px) {
+    }
   `;
 
   export const FormInput = styled(FormControl)`
@@ -85,20 +140,37 @@ namespace MoreOptionsReQuerysStyledComponents {
     align-items: center;
     justify-content: space-between;
     // margin-top: 2%;
-    width: 50%;
+    width: fits-content;
+
+    @media screen and (min-width: 0px) and (max-width: 600px) {
+      width: 80vw;
+    }
+    @media screen and (min-width: 600px) and (max-width: 900px) {
+      // width: 100%;
+    }
   `;
 
   export const MediumOptionsContainer = styled(Grid)`
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 10px;
+    width: 100%;
+    padding: 0 5%;
+
+    @media screen and (min-width: 0px) and (max-width: 600px) {
+      padding: 0 0%;
+    }
+    @media screen and (min-width: 600px) and (max-width: 900px) {
+      padding: 0 2%;
+    }
   `;
 
   export const SubmitButton = styled(UnSelectedButton)`
-    padding: 0 0:
-    width: 60%;
     height: 4.3vh;
-    margin-top: 1%;
+    margin-bottom: 2%;
+    margin-top: -2%;
+
     font-size: 0.8rem;
     border: 1px solid #006d4b;
   `;

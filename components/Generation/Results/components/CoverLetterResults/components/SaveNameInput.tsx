@@ -13,6 +13,7 @@ import { Tooltip } from "@mui/material";
 
 import { TextField } from "@mui/material";
 import { UnSelectedButton } from "@/components/Global/Global";
+import { useMediaQuery } from "@mui/material";
 
 const Container = styled(Grid)`
   display: "flex",
@@ -22,6 +23,8 @@ const Container = styled(Grid)`
 `;
 
 export default function SaveNameInput() {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   const { state, dispatch, saveCoverLetterResults, toggleIsSavedDropdownOpen } =
     useGenerationContext();
 
@@ -67,8 +70,15 @@ export default function SaveNameInput() {
   return (
     <>
       <Tooltip title="Save">
-        <IconButton onClick={handleClick}>
-          <SaveOutlinedIcon />
+        <IconButton
+          onClick={handleClick}
+          disableRipple
+          disableFocusRipple
+          style={{
+            margin: isMobile ? "auto" : "none",
+          }}
+        >
+          <SaveOutlinedIcon fontSize="medium" />
         </IconButton>
       </Tooltip>
 
