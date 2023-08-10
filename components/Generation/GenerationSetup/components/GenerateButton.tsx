@@ -22,6 +22,7 @@ interface ButtonSetProps {
   num_gpt4_generations_available: number;
   disabled: boolean;
   handleGenerateCoverLetter?: (model: string) => void;
+  dispatch: any;
 }
 
 const getModelAvailable = (
@@ -48,6 +49,7 @@ const ButtonSet = (props: ButtonSetProps) => {
     num_gpt4_generations_available,
     disabled,
     handleGenerateCoverLetter,
+    dispatch,
   } = props;
 
   if (
@@ -121,6 +123,10 @@ const ButtonSet = (props: ButtonSetProps) => {
             <GenerateButton
               disabled={disabled}
               onClick={() => {
+                dispatch({
+                  type: "SET_MOBILE_MODE",
+                  payload: "results",
+                });
                 handleGenerateCoverLetter(
                   getModelAvailable(
                     user,
@@ -182,7 +188,6 @@ export default function GenerateButtons() {
 
     try {
       const detailsResponse = await getJobDetails();
-
       const status = await generateCoverLetter(
         jobPosting,
         resume,
@@ -195,10 +200,6 @@ export default function GenerateButtons() {
         dispatch({
           type: "SET_UPDATE_USER",
           payload: authState.updateUser,
-        });
-        dispatch({
-          type: "SET_MOBILE_MODE",
-          payload: "results",
         });
       }
     } catch (err) {
@@ -225,6 +226,7 @@ export default function GenerateButtons() {
         }
         disabled={disableGenerateButton}
         handleGenerateCoverLetter={handleGenerateCoverLetter}
+        dispatch={dispatch}
       />
     </Container>
   );
