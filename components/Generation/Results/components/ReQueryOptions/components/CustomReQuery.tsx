@@ -9,6 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 
 import { CustomReQueryStyledComponents } from "../ReQueryOptions.styles";
 const { CustomReQueryField, SubmitButton } = CustomReQueryStyledComponents;
+import { useMediaQuery } from "@mui/material";
 
 const Container = styled(Grid)`
   display: flex;
@@ -101,15 +102,21 @@ const SubContainer = styled(Grid)`
 `;
 
 export default function CustomReQuery() {
+  const isMobile = useMediaQuery("(max-width:600px)");
   const {
     state: authState,
     dispatch: authDispatch,
     updateSnackbar,
     toggleSettingsIsOpen,
   } = useAuth();
-  const { state, dispatch, makeCustomAdjustment } = useGenerationContext();
+  const {
+    state,
+    dispatch,
+    makeCustomAdjustment,
+    toggleIsReQuerySectionExpanded,
+  } = useGenerationContext();
 
-  const { customAdjustment, disableGenerateButton } = state;
+  const { customAdjustment, disableCustomAdjustment } = state;
 
   const [placeholder, setPlaceholder] = useState(
     "Anything you want to change about the cover letter..."
@@ -141,6 +148,9 @@ export default function CustomReQuery() {
       return;
     }
 
+    if (isMobile) {
+      toggleIsReQuerySectionExpanded();
+    }
     const response = await makeCustomAdjustment();
     if (response) {
       authDispatch({ type: "SET_UPDATE_USER", payload: authState.updateUser });
@@ -171,7 +181,7 @@ export default function CustomReQuery() {
 
       <SubmitButton
         onClick={handleCustomAdjustment}
-        disabled={disableGenerateButton}
+        disabled={disableCustomAdjustment}
       >
         REGENERATE
       </SubmitButton>
