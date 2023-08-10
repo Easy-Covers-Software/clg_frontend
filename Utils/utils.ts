@@ -118,6 +118,30 @@ namespace LoginUtils {
       return error;
     }
   };
+
+  export const passwordReset = async (email) => {
+    const url = `${API_BASE}/users/auth/reset_password/`;
+
+    const data = {
+      email: email,
+    };
+
+    try {
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+      });
+
+      if (response.statusText === "OK") {
+        return response.data;
+      }
+    } catch (error) {
+      console.log("Error resetting password", error);
+      return error;
+    }
+  };
 }
 
 namespace SettingsUtils {
