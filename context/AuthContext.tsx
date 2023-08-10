@@ -25,6 +25,7 @@ const initialState = {
   createAccountEasyCovers: false,
   page: "",
   mobileMode: "setup",
+  mobileModeSaved: "choose",
   snackbar: {
     open: false,
     type: "",
@@ -111,6 +112,8 @@ function reducer(state, action) {
       return { ...state, didConfirmAlert: action.payload };
     case "SET_MOBILE_MODE":
       return { ...state, mobileMode: action.payload };
+    case "SET_MOBILE_MODE_SAVED":
+      return { ...state, mobileModeSaved: action.payload };
     case "RESET_INPUTS":
       return {
         ...state,
