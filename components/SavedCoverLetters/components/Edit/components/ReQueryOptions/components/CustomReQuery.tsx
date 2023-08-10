@@ -16,7 +16,7 @@ const Container = styled(Grid)`
   flex-direction: column;
   align-items: center;
   height: 100%;
-  width: 50%;
+  width: 100%;
   margin-top: 10%;
   // padding: 0 10%;
 
@@ -114,10 +114,10 @@ export default function CustomReQuery() {
     state,
     dispatch,
     makeCustomAdjustment,
-    toggleIsReQueryMobileSectionExpanded,
+    toggleIsReQuerySectionExpanded,
   } = useSavedCoverLettersContext();
 
-  const { customAdjustment, disableRequery } = state;
+  const { customAdjustment, disableCustomAdjustment } = state;
 
   const [placeholder, setPlaceholder] = useState(
     "Anything you want to change about the cover letter..."
@@ -195,7 +195,10 @@ export default function CustomReQuery() {
         />
       </SubContainer>
 
-      <SubmitButton onClick={handleCustomAdjustment} disabled={disableRequery}>
+      <SubmitButton
+        onClick={handleCustomAdjustment}
+        disabled={disableCustomAdjustment}
+      >
         REGENERATE
       </SubmitButton>
     </Container>

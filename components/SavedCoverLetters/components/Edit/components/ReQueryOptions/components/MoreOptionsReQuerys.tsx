@@ -26,7 +26,7 @@ export default function MoreOptionsReQueries() {
 
   const { state, makeIntermediateAdjustment, toggleIsReQuerySectionExpanded } =
     useSavedCoverLettersContext();
-  const { disableRequery } = state;
+  const { disableIntermediateAdjustment } = state;
 
   const handleIntermediateAdjustment = async () => {
     if (isMobile) {
@@ -64,7 +64,7 @@ export default function MoreOptionsReQueries() {
         <MediumReQueryInput label={"Insert Keyword"} />
         <MediumReQueryInput label={"Remove"} />
         <SubmitButton
-          disabled={disableRequery}
+          disabled={disableIntermediateAdjustment}
           onClick={handleIntermediateAdjustment}
         >
           REGENERATE

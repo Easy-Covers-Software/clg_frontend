@@ -58,13 +58,35 @@ const MoreOptions = styled(UnSelectedButton)`
 
 namespace CustomReQueryStyledComponents {
   export const SubmitButton = styled(UnSelectedButton)`
-    // width: 96%;
     height: 4.3vh;
     margin-bottom: 2%;
-    margin-top: -2%;
 
     font-size: 0.8rem;
     border: 1px solid #006d4b;
+
+    width: 90%;
+    margin: auto;
+
+    background-color: #bacbba;
+    color: white;
+
+    &:hover {
+      background-color: #a5b4a5;
+      color: white;
+    }
+
+    &:disabled {
+      background-color: #e9e9e9;
+      color: lightgray;
+      border: 1px solid lightgray;
+      cursor: not-allowed;
+    }
+
+    @media screen and (min-width: 0px) and (max-width: 600px) {
+      margin-top: 2%;
+      width: 50%;
+      margin-bottom: 0.5%;
+    }
   `;
 
   export const CustomReQueryField = styled.textarea`
@@ -160,6 +182,21 @@ namespace MoreOptionsReQuerysStyledComponents {
 
     width: 90%;
     margin: auto;
+
+    background-color: #bacbba;
+    color: white;
+
+    &:hover {
+      background-color: #a5b4a5;
+      color: white;
+    }
+
+    &:disabled {
+      background-color: #e9e9e9;
+      color: lightgray;
+      border: 1px solid lightgray;
+      cursor: not-allowed;
+    }
 
     @media screen and (min-width: 0px) and (max-width: 600px) {
       margin-top: 2%;

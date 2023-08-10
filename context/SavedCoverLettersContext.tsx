@@ -45,7 +45,8 @@ const initialState = {
   insertKeywordInput: "",
   removeRedundancyInput: "",
   intermediateType: null,
-  disableIntermediateAdjustment: false,
+  disableIntermediateAdjustment: true,
+  disableCustomAdjustment: true,
 
   // custom adjustments
   customAdjustment: "",
@@ -93,6 +94,8 @@ function reducer(state, action) {
       return { ...state, intermediateType: action.payload };
     case "SET_DISABLE_INTERMEDIATE_ADJUSTMENT":
       return { ...state, disableIntermediateAdjustment: action.payload };
+    case "SET_DISABLE_CUSTOM_ADJUSTMENT":
+      return { ...state, disableCustomAdjustment: action.payload };
     case "SET_CUSTOM_ADJUSTMENT":
       return { ...state, customAdjustment: action.payload };
     case "SET_IS_RE_QUERY_SECTION_EXPANDED":
@@ -353,18 +356,63 @@ export default function SavedCoverLettersContext(props) {
   useEffect(() => {
     if (state.addSkillInput !== "") {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "add skill" });
+      if (
+        !state.loadingCoverLetter &&
+        state.selectedCoverLetterParts !== null
+      ) {
+        dispatch({
+          type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT",
+          payload: false,
+        });
+      }
     } else if (state.insertKeywordInput !== "") {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "insert keyword" });
+      if (
+        !state.loadingCoverLetter &&
+        state.selectedCoverLetterParts !== null
+      ) {
+        dispatch({
+          type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT",
+          payload: false,
+        });
+      }
     } else if (state.removeRedundancyInput !== "") {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "remove" });
+      if (
+        !state.loadingCoverLetter &&
+        state.selectedCoverLetterParts !== null
+      ) {
+        dispatch({
+          type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT",
+          payload: false,
+        });
+      }
     } else {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: null });
-      dispatch({ type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT", payload: false });
+      dispatch({ type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT", payload: true });
     }
   }, [
     state.addSkillInput,
     state.insertKeywordInput,
     state.removeRedundancyInput,
+    state.loadingCoverLetter,
+    state.selectedCoverLetterParts,
+  ]);
+
+  useEffect(() => {
+    if (!state.loadingCoverLetter && state.selectedCoverLetterParts !== null) {
+      if (state.customAdjustment !== "") {
+        dispatch({ type: "SET_DISABLE_CUSTOM_ADJUSTMENT", payload: false });
+      } else {
+        dispatch({ type: "SET_DISABLE_CUSTOM_ADJUSTMENT", payload: true });
+      }
+    } else {
+      dispatch({ type: "SET_DISABLE_CUSTOM_ADJUSTMENT", payload: true });
+    }
+  }, [
+    state.customAdjustment,
+    state.loadingCoverLetter,
+    state.selectedCoverLetterParts,
   ]);
 
   // get selected cover letter stored details
