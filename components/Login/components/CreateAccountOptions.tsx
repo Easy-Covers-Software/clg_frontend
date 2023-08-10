@@ -5,10 +5,12 @@ const { Container, GoogleSignInIcon, EasyCoversSignInIcon, IconContainer } =
   CreateAccountOptionsStyledComponents;
 
 import { LoginUtils } from "@/Utils/utils";
+import { Typography } from "@mui/material";
 const { signInGoogle } = LoginUtils;
 
 export default function CreateAccountOptions() {
-  const { dispatch } = useAuth();
+  const { state, dispatch } = useAuth();
+  const { createAccountEasyCovers } = state;
 
   const handleCreateAccountEasyCovers = () => {
     dispatch({ type: "SET_CREATE_ACCOUNT_EASY_COVERS", payload: true });
@@ -25,7 +27,26 @@ export default function CreateAccountOptions() {
       </IconContainer>
 
       <IconContainer onClick={handleCreateAccountEasyCovers}>
-        <EasyCoversSignInIcon src="/easy-covers-full.svg" alt="google icon" />
+        {createAccountEasyCovers ? (
+          <Typography
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              dispatch({
+                type: "SET_CREATE_ACCOUNT_EASY_COVERS",
+                payload: false,
+              });
+            }}
+            style={{
+              fontSize: "1.4rem",
+              color: "#13d0b7",
+            }}
+          >
+            Log In
+          </Typography>
+        ) : (
+          <EasyCoversSignInIcon src="/easy-covers-full.svg" alt="google icon" />
+        )}
       </IconContainer>
     </Container>
   );

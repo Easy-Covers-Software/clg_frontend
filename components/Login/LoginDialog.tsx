@@ -7,6 +7,7 @@ import LoginInputs from "./components/LoginInputs";
 import CreateAccountOptions from "./components/CreateAccountOptions";
 
 import { useAuth } from "@/context/AuthContext";
+import { Typography } from "@mui/material";
 // import { SuccessSnackbar } from "@/components/Global/components/Snackbars";
 
 import {
@@ -18,8 +19,15 @@ import {
 } from "./LoginDialog.styles";
 
 export default function LoginDialog() {
-  const { state, toggleLoginIsOpen, login, createAccount } = useAuth();
-  const { isLoginOpen, createAccountEasyCovers } = state;
+  const {
+    state,
+    dispatch,
+    toggleLoginIsOpen,
+    login,
+    createAccount,
+    resetPassword,
+  } = useAuth();
+  const { isLoginOpen, createAccountEasyCovers, forgotPassword } = state;
 
   const handleClose = () => {
     toggleLoginIsOpen(false);
@@ -46,14 +54,58 @@ export default function LoginDialog() {
           <SignInButton onClick={() => createAccount()}>
             Create Account
           </SignInButton>
+        ) : forgotPassword ? (
+          <>
+            <Typography
+              style={{
+                cursor: "pointer",
+                position: "relative",
+                top: "-10px",
+                right: "-100px",
+                fontSize: "0.9rem",
+                color: "#13d0b7",
+              }}
+              onClick={() => {
+                dispatch({
+                  type: "SET_FORGOT_PASSWORD",
+                  payload: false,
+                });
+              }}
+            >
+              Log In
+            </Typography>
+            <SignInButton onClick={() => resetPassword()}>
+              Send Reset Email
+            </SignInButton>
+          </>
         ) : (
-          <SignInButton onClick={() => login()}>Sign In</SignInButton>
+          <>
+            <Typography
+              style={{
+                cursor: "pointer",
+                position: "relative",
+                top: "-10px",
+                right: "-100px",
+                fontSize: "0.9rem",
+                color: "#13d0b7",
+              }}
+              onClick={() => {
+                dispatch({
+                  type: "SET_FORGOT_PASSWORD",
+                  payload: true,
+                });
+              }}
+            >
+              Forgot password?
+            </Typography>
+            <SignInButton onClick={() => login()}>Sign In</SignInButton>
+          </>
         )}
       </DialogContentContainer>
 
       <CreateAccountContainer>
         <DividerContainer>
-          <Divider>Or create account with</Divider>
+          <Divider>Or continue with Google / Easy Covers</Divider>
         </DividerContainer>
 
         <CreateAccountOptions />
