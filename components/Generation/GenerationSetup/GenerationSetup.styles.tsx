@@ -78,18 +78,19 @@ const AccordionDetails = muiStyled(MuiAccordionDetails)(() => ({
 const Container = styled(Grid)`
   width: 40vw;
   padding: 0.3%;
-  background-color: white;
-  border-radius: 4px;
-  border: 1px solid #006d4b;
   height: calc(100vh - 98px);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   overflow: auto; // Add overflow property to handle child elements
+  background-color: white;
+  border: 1px solid #006d4b;
+  border-radius: 4px;
 
   @media screen and (min-width: 0px) and (max-width: 600px) {
     width: 100vw;
+    height: calc(100vh - 80px);
   }
 
   @media screen and (min-width: 600px) and (max-width: 900px) {

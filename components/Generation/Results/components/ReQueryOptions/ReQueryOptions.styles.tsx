@@ -14,7 +14,7 @@ const MobileMoreOptionsContainer = styled(Grid)`
   width: 100%;
   display: flex;
   justify-content: space-around;
-  padding: 0 3%;
+  padding: 2% 3%;
 
   // @media screen and (min-width: 0px) and (max-width: 600px) {
   //   width: 80vw;
@@ -64,6 +64,21 @@ namespace CustomReQueryStyledComponents {
 
     font-size: 0.8rem;
     border: 1px solid #006d4b;
+
+    background-color: #bacbba;
+    color: white;
+
+    &:hover {
+      background-color: #a5b4a5;
+      color: white;
+    }
+
+    &:disabled {
+      background-color: #e9e9e9;
+      color: lightgray;
+      border: 1px solid lightgray;
+      cursor: not-allowed;
+    }
 
     @media screen and (min-width: 0px) and (max-width: 600px) {
       width: 50%;
@@ -158,8 +173,24 @@ namespace MoreOptionsReQuerysStyledComponents {
     font-size: 0.8rem;
     border: 1px solid #006d4b;
 
+    cursor: pointer;
+
     width: 90%;
     margin: auto;
+    background-color: #bacbba;
+    color: white;
+
+    &:hover {
+      background-color: #a5b4a5;
+      color: white;
+    }
+
+    &:disabled {
+      background-color: #e9e9e9;
+      color: lightgray;
+      border: 1px solid lightgray;
+      cursor: not-allowed;
+    }
 
     @media screen and (min-width: 0px) and (max-width: 600px) {
       margin-top: 2%;

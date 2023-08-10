@@ -10,7 +10,6 @@ const Container = styled(Grid)`
   overflow: hidden; // Add this line
   border-radius: 4px 4px 0 0;
   padding: 0.2% 0.75% 0 0.75%;
-  // border: 1px solid #006d4b;
   margin-bottom: 0.25%;
 `;
 
@@ -43,19 +42,19 @@ const JobMatchScore = styled(Grid)`
   margin: 0.3% 0;
 
   @media screen and (min-width: 0px) and (max-width: 500px) {
-    width: 24vw;
+    width: 32vw;
   }
 
   @media screen and (min-width: 500px) and (max-width: 600px) {
-    width: 24vw;
+    width: 32vw;
   }
 
   @media screen and (min-width: 600px) and (max-width: 700px) {
-    width: 22vw;
+    width: 28vw;
   }
 
   @media screen and (min-width: 700px) and (max-width: 800px) {
-    width: 20vw;
+    width: 24vw;
   }
 
   @media screen and (min-width: 800px) and (max-width: 900px) {

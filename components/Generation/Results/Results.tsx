@@ -9,7 +9,6 @@ import CoverLetterResults from "./components/CoverLetterResults/CoverLetterResul
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`
   width: 100%;
-  overflow: hidden;
   background-color: white;
   border-radius: 4px;
   border: 1px solid #006d4b;

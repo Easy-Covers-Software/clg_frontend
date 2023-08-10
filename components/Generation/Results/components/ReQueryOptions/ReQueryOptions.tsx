@@ -19,6 +19,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import DownloadOptionsMenu from "../CoverLetterResults/components/DownloadOptionsMenu";
 
 export default function ReQueryOptions() {
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const {
     dispatch,
     toggleIsReQuerySectionExpanded,
@@ -26,7 +27,6 @@ export default function ReQueryOptions() {
   } = useGenerationContext();
   const { state, dispatch: authDispatch, openAlertDialogConfirm } = useAuth();
   const { didConfirmAlert } = state;
-  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const handleReset = () => {
     dispatch({ type: "RESET_STATE" });
