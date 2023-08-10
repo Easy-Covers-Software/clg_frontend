@@ -1,6 +1,6 @@
 body {
   height: 100%;
-  weight: 100%;
+  /* weight: 100%; */
   padding: 0;
   margin: 0;
   background: var(--theme-nav, #f8f8ff);
@@ -571,6 +571,39 @@ body {
 .alert-dialog-button {
   color: #006d4b;
   letter-spacing: 0.05rem;
+}
+
+.package-name {
+  font-size: 1.2rem;
+  color: #006d4b;
+  white-space: nowrap;
+  position: relative;
+  top: 0.8rem;
+
+  @media screen and (min-width: 0px) and (max-width: 600px) {
+    font-size: 1rem;
+    /* margin-bottom: -0.5rem; */
+    margin-top: 1%;
+    /* top: 0.3rem; */
+  }
+}
+
+.package-features {
+  font-size: 1.1rem;
+  color: #006d4b;
+
+  @media screen and (min-width: 0px) and (max-width: 600px) {
+    font-size: 0.7rem;
+  }
+}
+
+.package-model {
+  font-size: 0.72rem;
+  white-space: nowrap;
+
+  @media screen and (min-width: 0px) and (max-width: 600px) {
+    font-size: 0.6rem;
+  }
 }
 
 /* @media screen and (max-width: 1000px) and (min-width: 900px) {

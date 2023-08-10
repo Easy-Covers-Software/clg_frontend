@@ -19,7 +19,7 @@ export default function Paypal({ selectedPackagePrice }) {
   return (
     <>
       <PayPalButtons
-        style={{ layout: "horizontal", height: 45 }}
+        style={{ layout: "vertical", height: 45 }}
         createOrder={(data, actions) => {
           return actions.order.create({
             purchase_units: [
