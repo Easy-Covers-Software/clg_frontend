@@ -57,7 +57,11 @@ export default function SaveNameInput() {
         `Cover Letter Saved Successfully as: '${jobDetails.company_name}'`
       );
     } else {
-      updateSnackbar(true, "error", `Error saving cover letter: ${response}`);
+      updateSnackbar(
+        true,
+        "error",
+        `Error saving cover letter: ${response.type}`
+      );
     }
   };
 

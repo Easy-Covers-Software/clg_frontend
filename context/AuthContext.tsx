@@ -236,11 +236,7 @@ export const AuthProvider = ({
     } else {
       console.log("Error creating account");
       dispatch({ type: "SET_CREATE_ACCOUNT_EASY_COVERS", payload: false });
-      updateSnackbar(
-        true,
-        "error",
-        `Error creating account: ${response.error}`
-      );
+      updateSnackbar(true, "error", `Error creating account: ${response.type}`);
     }
   };
 
@@ -258,8 +254,8 @@ export const AuthProvider = ({
       await initUser();
       updateSnackbar(true, "success", "Logged In Successfully");
     } else {
-      console.log("Error logging in");
-      updateSnackbar(true, "error", `Error logging in: ${response.error}`);
+      console.log("Error logging in", response);
+      updateSnackbar(true, "error", `Error logging in: ${response.type}`);
     }
   };
 

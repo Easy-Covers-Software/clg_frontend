@@ -54,7 +54,11 @@ export default function SaveNameInput() {
       updateSnackbar(true, "success", "Cover Letter Successfully Saved");
       await getUsersSavedCoverLetters();
     } else {
-      updateSnackbar(true, "error", `Error saving cover letter: ${response}`);
+      updateSnackbar(
+        true,
+        "error",
+        `Error saving cover letter: ${response.type}`
+      );
     }
   };
 
