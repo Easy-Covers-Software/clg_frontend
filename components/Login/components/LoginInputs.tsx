@@ -89,7 +89,7 @@ export default function LoginInputs() {
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
                   >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -121,7 +121,7 @@ export default function LoginInputs() {
                     onMouseDown={handleMouseDownPasswordRepeat}
                     edge="end"
                   >
-                    {showPasswordRepeat ? <VisibilityOff /> : <Visibility />}
+                    {showPasswordRepeat ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               ),
