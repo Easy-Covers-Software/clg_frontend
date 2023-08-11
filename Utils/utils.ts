@@ -9,10 +9,10 @@ namespace LoginUtils {
   export const signInGoogle = async () => {
     const parameters = {
       client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      redirect_uri: `${API_BASE}/users/auth/finish_google_login/`,
+      redirect_uri: `${API_BASE}/users/auth/google-callback`,
       response_type: "code",
       scope: "email profile openid",
-      access_type: "offline",
+      access_type: "online",
       prompt: "consent",
     };
 

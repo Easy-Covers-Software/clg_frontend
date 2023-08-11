@@ -285,155 +285,155 @@ body {
 }
 
 .job-summary-company {
-  font-size: 1.1rem;
+  font-size: 1.1rem !important;
   color: #006d4b;
   letter-spacing: 0.16rem;
   padding: 0 0 5% 5%;
 
   @media screen and (min-width: 0px) and (max-width: 500px) {
-    font-size: 0.88rem;
+    font-size: 0.88rem !important;
     letter-spacing: 0.22rem;
     padding: 0 0 8% 5%;
   }
 
   @media screen and (min-width: 500px) and (max-width: 600px) {
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
     letter-spacing: 0.21rem;
     padding: 0 0 7% 5%;
   }
 
   @media screen and (min-width: 600px) and (max-width: 700px) {
-    font-size: 0.92rem;
+    font-size: 0.92rem !important;
     letter-spacing: 0.2rem;
     padding: 0 0 6% 5%;
   }
   @media screen and (min-width: 700px) and (max-width: 800px) {
-    font-size: 0.94rem;
+    font-size: 0.94rem !important;
     letter-spacing: 0.19rem;
     padding: 0 0 5% 5%;
   }
   @media screen and (min-width: 800px) and (max-width: 900px) {
-    font-size: 0.98rem;
+    font-size: 0.98rem !important;
     letter-spacing: 0.18rem;
     padding: 0 0 4% 5%;
   }
   @media screen and (min-width: 900px) and (max-width: 950px) {
-    font-size: 1rem;
+    font-size: 1rem !important;
     letter-spacing: 0.17rem;
     padding: 0 0 3% 5%;
   }
   @media screen and (min-width: 950px) and (max-width: 1000px) {
-    font-size: 1.02rem;
+    font-size: 1.02rem !important;
     letter-spacing: 0.16rem;
     padding: 0 0 2.8% 5%;
   }
   @media screen and (min-width: 1000px) and (max-width: 1100px) {
-    font-size: 1.04rem;
+    font-size: 1.04rem !important;
     letter-spacing: 0.16rem;
     padding: 0 0 2.8% 5%;
   }
   @media screen and (min-width: 1100px) and (max-width: 1200px) {
-    font-size: 1.06rem;
+    font-size: 1.06rem !important;
     letter-spacing: 0.16rem;
     padding: 0 0 2.8% 5%;
   }
   @media screen and (min-width: 1200px) and (max-width: 1300px) {
-    font-size: 1.06rem;
+    font-size: 1.06rem !important;
     letter-spacing: 0.16rem;
     padding: 0 0 2.8% 5%;
   }
 }
 
 .job-summary-match-score-header {
-  font-size: 1.1rem;
+  font-size: 1.1rem !important;
   color: #006d4b;
   letter-spacing: 0.05rem;
   margin-top: 3%;
   white-space: nowrap;
 
   @media screen and (min-width: 0px) and (max-width: 500px) {
-    font-size: 0.96rem;
+    font-size: 0.96rem !important;
   }
 
   @media screen and (min-width: 500px) and (max-width: 600px) {
-    font-size: 0.97rem;
+    font-size: 0.97rem !important;
   }
 
   @media screen and (min-width: 600px) and (max-width: 700px) {
-    font-size: 0.98rem;
+    font-size: 0.98rem !important;
   }
 
   @media screen and (min-width: 700px) and (max-width: 800px) {
-    font-size: 0.98rem;
+    font-size: 0.98rem !important;
   }
 
   @media screen and (min-width: 800px) and (max-width: 900px) {
-    font-size: 0.99rem;
+    font-size: 0.99rem !important;
   }
 
   @media screen and (min-width: 900px) and (max-width: 950px) {
-    font-size: 1rem;
+    font-size: 1rem !important;
   }
 
   @media screen and (min-width: 950px) and (max-width: 1000px) {
-    font-size: 1.02rem;
+    font-size: 1.02rem !important;
   }
 
   @media screen and (min-width: 1000px) and (max-width: 1100px) {
-    font-size: 1.04rem;
+    font-size: 1.04rem !important;
   }
 
   @media screen and (min-width: 1100px) and (max-width: 1200px) {
-    font-size: 1.06rem;
+    font-size: 1.06rem !important;
   }
 
   @media screen and (min-width: 1200px) and (max-width: 1300px) {
-    font-size: 1.08rem;
+    font-size: 1.08rem !important;
   }
 }
 
 .job-summary-match-score {
-  font-size: 2.1rem;
+  font-size: 2.1rem !important;
   color: #006d4b;
 
   @media screen and (min-width: 0px) and (max-width: 500px) {
-    font-size: 1.9rem;
+    font-size: 1.9rem !important;
   }
 
   @media screen and (min-width: 500px) and (max-width: 600px) {
-    font-size: 1.92rem;
+    font-size: 1.92rem !important;
   }
 
   @media screen and (min-width: 600px) and (max-width: 700px) {
-    font-size: 1.94rem;
+    font-size: 1.94rem !important;
   }
 
   @media screen and (min-width: 700px) and (max-width: 800px) {
-    font-size: 1.96rem;
+    font-size: 1.96rem !important;
   }
 
   @media screen and (min-width: 800px) and (max-width: 900px) {
-    font-size: 1.98rem;
+    font-size: 1.98rem !important;
   }
 
   @media screen and (min-width: 900px) and (max-width: 950px) {
-    font-size: 2rem;
+    font-size: 2rem !important;
   }
 
   @media screen and (min-width: 950px) and (max-width: 1000px) {
-    font-size: 2.02rem;
+    font-size: 2.02rem !important;
   }
 
   @media screen and (min-width: 1000px) and (max-width: 1100px) {
-    font-size: 2.04rem;
+    font-size: 2.04rem !important;
   }
 
   @media screen and (min-width: 1100px) and (max-width: 1200px) {
-    font-size: 2.06rem;
+    font-size: 2.06rem !important;
   }
 
   @media screen and (min-width: 1200px) and (max-width: 1300px) {
-    font-size: 2.08rem;
+    font-size: 2.08rem !important;
   }
 }
 
