@@ -2,7 +2,8 @@ import { createContext, useContext, useReducer, useEffect } from "react";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import { LoginUtils } from "@/Utils/utils";
-const { fetchUser, postLogin, postLogout, postCreateAccount } = LoginUtils;
+const { fetchUser, postLogin, postLogout, postCreateAccount, passwordReset } =
+  LoginUtils;
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -23,6 +24,8 @@ const initialState = {
   isSettingsOpen: false,
   createAccountEasyCovers: false,
   page: "",
+  mobileMode: "setup",
+  mobileModeSaved: "choose",
   snackbar: {
     open: false,
     type: "",
@@ -42,6 +45,7 @@ const initialState = {
     message: "",
   },
   didConfirmAlert: false,
+  forgotPassword: false,
 };
 
 function reducer(state, action) {
@@ -70,6 +74,8 @@ function reducer(state, action) {
       return { ...state, isSettingsOpen: action.payload };
     case "SET_CREATE_ACCOUNT_EASY_COVERS":
       return { ...state, createAccountEasyCovers: action.payload };
+    case "SET_FORGOT_PASSWORD":
+      return { ...state, forgotPassword: action.payload };
     case "SET_PAGE":
       return { ...state, page: action.payload };
     case "SET_SNACKBAR":
@@ -104,6 +110,23 @@ function reducer(state, action) {
       };
     case "SET_DID_CONFIRM_ALERT":
       return { ...state, didConfirmAlert: action.payload };
+    case "SET_MOBILE_MODE":
+      return { ...state, mobileMode: action.payload };
+    case "SET_MOBILE_MODE_SAVED":
+      return { ...state, mobileModeSaved: action.payload };
+    case "RESET_INPUTS":
+      return {
+        ...state,
+        email: "",
+        password: "",
+        newPasswordRepeat: "",
+      };
+    case "RESET_LOGIN":
+      return {
+        ...state,
+        createAccountEasyCovers: false,
+        forgotPassword: false,
+      };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -209,20 +232,17 @@ export const AuthProvider = ({
       state.newPasswordRepeat
     );
 
-    console.log("createAccount response", response);
-
     if (response.type === "SUCCESS") {
       toggleLoginIsOpen();
       login();
       updateSnackbar(true, "success", "Account Created Successfully");
+      dispatch({ type: "RESET_LOGIN" });
     } else {
       console.log("Error creating account");
-      updateSnackbar(
-        true,
-        "error",
-        `Error creating account: ${response.error}`
-      );
+      dispatch({ type: "SET_CREATE_ACCOUNT_EASY_COVERS", payload: false });
+      updateSnackbar(true, "error", `Error creating account: ${response.type}`);
     }
+    dispatch({ type: "RESET_LOGIN" });
   };
 
   const login = async () => {
@@ -235,12 +255,16 @@ export const AuthProvider = ({
     console.log("login response", response);
     if (response.type === "SUCCESS") {
       toggleLoginIsOpen();
+      dispatch({ type: "RESET_INPUTS" });
       await initUser();
       updateSnackbar(true, "success", "Logged In Successfully");
     } else {
-      console.log("Error logging in");
-      updateSnackbar(true, "error", `Error logging in: ${response.error}`);
+      console.log("Error logging in", response);
+      updateSnackbar(true, "error", `Error logging in: ${response.type}`);
     }
+    dispatch({
+      type: "RESET_INPUTS",
+    });
   };
 
   const logout = async () => {
@@ -256,6 +280,34 @@ export const AuthProvider = ({
         `Error logging out user: ${response.error}`
       );
     }
+  };
+
+  const resetPassword = async () => {
+    if (state.email.trim() !== "") {
+      const response = await passwordReset(state.email);
+
+      if (response && response.type === "SUCCESS") {
+        toggleLoginIsOpen();
+
+        updateSnackbar(
+          true,
+          "success",
+          "Password reset link sent to your email."
+        );
+      } else {
+        console.log("Error resetting password");
+        updateSnackbar(
+          true,
+          "error",
+          `Error resetting password: ${response.error}`
+        );
+      }
+    } else {
+      console.log("Email is empty");
+      updateSnackbar(true, "error", "Please provide an email address.");
+    }
+    dispatch({ type: "RESET_INPUTS" });
+    dispatch({ type: "RESET_LOGIN" });
   };
 
   useEffect(() => {
@@ -297,6 +349,7 @@ export const AuthProvider = ({
         handleSnackbarClose,
         openAlertDialogConfirm,
         handleAlertDialogConfirmClose,
+        resetPassword,
       }}
     >
       {/* <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}> */}

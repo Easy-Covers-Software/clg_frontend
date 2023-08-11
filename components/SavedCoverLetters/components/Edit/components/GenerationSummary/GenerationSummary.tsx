@@ -21,12 +21,14 @@ export default function GenerationSummary() {
     <Container>
       <JobOverview>
         <Typography className="job-summary-title">
-          {selectedCoverLetterJobPosting?.job_title !== ""
+          {selectedCoverLetterJobPosting?.job_title &&
+          selectedCoverLetterJobPosting?.job_title !== ""
             ? selectedCoverLetterJobPosting?.job_title
             : "Job Title"}
         </Typography>
         <Typography className="job-summary-company">
-          {selectedCoverLetterJobPosting?.company_name !== ""
+          {selectedCoverLetterJobPosting?.company_name &&
+          selectedCoverLetterJobPosting?.company_name !== ""
             ? selectedCoverLetterJobPosting?.company_name
             : "Company Name"}
         </Typography>

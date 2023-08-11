@@ -25,6 +25,7 @@ export default function LoginInputs() {
     newPasswordRepeat,
     createAccountEasyCovers,
     showPasswordRepeat,
+    forgotPassword,
   } = state;
 
   const handleMouseDownPassword = (
@@ -68,32 +69,34 @@ export default function LoginInputs() {
         />
       </FormInput>
 
-      <FormInput variant="outlined">
-        <InputField
-          id="password-input"
-          variant="outlined"
-          placeholder="Password"
-          value={password}
-          type={showPassword ? "text" : "password"}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            dispatch({ type: "SET_PASSWORD", payload: event.target.value });
-          }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </FormInput>
+      {!forgotPassword && (
+        <FormInput variant="outlined">
+          <InputField
+            id="password-input"
+            variant="outlined"
+            placeholder="Password"
+            value={password}
+            type={showPassword ? "text" : "password"}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              dispatch({ type: "SET_PASSWORD", payload: event.target.value });
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </FormInput>
+      )}
 
       {createAccountEasyCovers && (
         <FormInput variant="outlined">
@@ -118,7 +121,7 @@ export default function LoginInputs() {
                     onMouseDown={handleMouseDownPasswordRepeat}
                     edge="end"
                   >
-                    {showPasswordRepeat ? <VisibilityOff /> : <Visibility />}
+                    {showPasswordRepeat ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               ),

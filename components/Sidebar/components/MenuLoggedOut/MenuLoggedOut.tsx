@@ -15,7 +15,7 @@ export default function MenuLoggedOut() {
 
   return (
     <Container>
-      <Link href={"/generation-mode"} className={"no_underline"} passHref>
+      <Link href={"/"} className={"no_underline"} passHref>
         <GenerationModeTab
           style={{
             backgroundColor: page === "generation-mode" ? "#f5faf5" : "white",
@@ -27,7 +27,12 @@ export default function MenuLoggedOut() {
 
       <Grid>
         <HorizontalDivider />
-        <UnSelectedButton onClick={() => toggleLoginIsOpen()}>
+        <UnSelectedButton
+          onClick={() => toggleLoginIsOpen()}
+          style={{
+            whiteSpace: "nowrap",
+          }}
+        >
           Sign In
         </UnSelectedButton>
       </Grid>

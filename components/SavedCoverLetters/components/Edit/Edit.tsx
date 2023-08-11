@@ -8,7 +8,7 @@ import CoverLetter from "./components/CoverLetter/CoverLetter";
 
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`
-  width: 70%;
+  width: 100%;
   background-color: white;
   border-radius: 4px;
   border: 1px solid #006d4b;
@@ -16,10 +16,14 @@ const Container = styled(Grid)`
   max-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
-  align-items: space-between;
   margin-left: 0.3%;
   gap: 1%;
-  overflow: scroll;
+
+  @media screen and (min-width: 0px) and (max-width: 600px) {
+    width: 100vw;
+    height: calc(100vh - 90px);
+    max-height: calc(100vh - 90px);
+  }
 `;
 
 export default function Edit() {

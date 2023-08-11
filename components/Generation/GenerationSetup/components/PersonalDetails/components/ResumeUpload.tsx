@@ -50,57 +50,58 @@ export default function ResumeUploader() {
           accept=".pdf,.doc,.docx,.txt"
         />
       </DragDropContainer>
-
       {userResume && userResume !== "" && (
-        // <Tooltip title={`Date Uploaded: `}>
-        <SelectLastUsedResume
-          // component={Paper}
-          onClick={handleUseLastResume}
-          // isUsingLastUploadedResume={state.isUsingLastUploadedResume}
-          sx={{
-            opacity: 1,
-            elevation: isUsingLastUploadedResume ? 0 : 5,
-            boxShadow: isUsingLastUploadedResume
-              ? "none"
-              : "7px 7px 0px 0px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <Grid display={"flex"} alignItems={"center"} gap={"3%"}>
-            <PostAddIcon
-              fontSize="large"
-              // color="#006D4B"
-              sx={{
-                paddingBottom: "2%",
-                color: "#006D4B",
-              }}
-            />
-            <Typography
-              className="use-last-resume"
-              style={{
-                textDecoration: isUsingLastUploadedResume
-                  ? "underline"
-                  : "none",
-              }}
-            >
-              Use Last Resume: {userResume}
-            </Typography>
-          </Grid>
+        // {/* //{" "} */}
+        <Tooltip title={`Date Uploaded: `}>
+          <SelectLastUsedResume
+            // component={Paper}
+            onClick={handleUseLastResume}
+            // isUsingLastUploadedResume={state.isUsingLastUploadedResume}
+            sx={{
+              opacity: 1,
+              elevation: isUsingLastUploadedResume ? 0 : 5,
+              boxShadow: isUsingLastUploadedResume
+                ? "none"
+                : "7px 7px 0px 0px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <Grid display={"flex"} alignItems={"center"} gap={"3%"}>
+              <PostAddIcon
+                fontSize="large"
+                // color="#006D4B"
+                sx={{
+                  paddingBottom: "2%",
+                  color: "#006D4B",
+                }}
+              />
+              <Typography
+                className="use-last-resume"
+                style={{
+                  textDecoration: isUsingLastUploadedResume
+                    ? "underline"
+                    : "none",
+                }}
+              >
+                Use Previous: {userResume}
+              </Typography>
+            </Grid>
 
-          {isUsingLastUploadedResume && (
-            // <Grid flexGrow={1}>
-            <IconButton
-              onClick={handleUnselectLastResume}
-              style={{
-                marginRight: "2%",
-                color: "#006D4B",
-              }}
-            >
-              <HighlightOffOutlinedIcon />
-            </IconButton>
-            // </Grid>
-          )}
-        </SelectLastUsedResume>
-        // </Tooltip>
+            {isUsingLastUploadedResume && (
+              // <Grid flexGrow={1}>
+              <IconButton
+                onClick={handleUnselectLastResume}
+                style={{
+                  marginRight: "2%",
+                  color: "#006D4B",
+                }}
+              >
+                <HighlightOffOutlinedIcon />
+              </IconButton>
+              // </Grid>
+            )}
+          </SelectLastUsedResume>
+          {/* //{" "} */}
+        </Tooltip>
       )}
     </Container>
   );

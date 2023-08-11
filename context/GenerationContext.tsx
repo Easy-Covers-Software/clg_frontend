@@ -19,12 +19,7 @@ const Context = createContext(null);
 
 const initialState = {
   // user inputs
-  jobPosting:
-    typeof window !== "undefined" &&
-    localStorage.getItem("jobPostingText") !== null &&
-    localStorage.getItem("jobPostingText") !== ""
-      ? localStorage.getItem("jobPostingText")
-      : "",
+  jobPosting: "",
   resume: null,
   freeText: "",
   additionalDetails: {
@@ -59,15 +54,20 @@ const initialState = {
   insertKeywordInput: "",
   removeRedundancyInput: "",
   intermediateType: null,
-  disableIntermediateAdjustment: false,
+  disableIntermediateAdjustment: true,
+  disableCustomAdjustment: true,
 
   // custom adjustments
   customAdjustment: "",
 
   // toggles
   isReQuerySectionExpanded: false,
+  isReQueryMobileSectionExpanded: false,
   isSavedDropdownOpen: false,
   isDownloadDropdownOpen: false,
+
+  // mobile
+  mobileGenerationMode: "setup",
 };
 
 function reducer(state, action) {
@@ -133,6 +133,8 @@ function reducer(state, action) {
       return { ...state, intermediateType: action.payload };
     case "SET_DISABLE_INTERMEDIATE_ADJUSTMENT":
       return { ...state, disableIntermediateAdjustment: action.payload };
+    case "SET_DISABLE_CUSTOM_ADJUSTMENT":
+      return { ...state, disableCustomAdjustment: action.payload };
 
     // Custom Adjustments
     case "SET_CUSTOM_ADJUSTMENT":
@@ -141,10 +143,29 @@ function reducer(state, action) {
     // Toggles
     case "SET_IS_RE_QUERY_SECTION_EXPANDED":
       return { ...state, isReQuerySectionExpanded: action.payload };
+    case "SET_IS_RE_QUERY_MOBILE_SECTION_EXPANDED":
+      return { ...state, isReQueryMobileSectionExpanded: action.payload };
     case "SET_IS_SAVED_DROPDOWN_OPEN":
       return { ...state, isSavedDropdownOpen: action.payload };
     case "SET_IS_DOWNLOAD_DROPDOWN_OPEN":
       return { ...state, isDownloadDropdownOpen: action.payload };
+
+    case "SET_MOBILE_GENERATION_MODE":
+      return { ...state, mobileGenerationMode: action.payload };
+
+    case "RESET_STATE":
+      return {
+        ...initialState,
+        resume: state.resume,
+        additionalDetails: state.additionalDetails,
+        jobPosting: "",
+        coverLetter: "<div><p>Awaiting Generation...</p></div>",
+        coverLetterParts: null,
+        jobPostingId: "",
+        isUsingLastUploadedResume: false,
+        updateCoverLetter: null,
+        updateCoverLetterParts: null,
+      };
 
     default:
       throw new Error(`Unknown action: ${action.type}`);
@@ -159,6 +180,13 @@ export function GenerationContext({ children }) {
     dispatch({
       type: "SET_IS_RE_QUERY_SECTION_EXPANDED",
       payload: !state.isReQuerySectionExpanded,
+    });
+  };
+
+  const toggleIsReQueryMobileSectionExpanded = () => {
+    dispatch({
+      type: "SET_IS_RE_QUERY_MOBILE_SECTION_EXPANDED",
+      payload: !state.isReQueryMobileSectionExpanded,
     });
   };
 
@@ -362,6 +390,10 @@ export function GenerationContext({ children }) {
         type: "SET_JOB_POSTING_ID",
         payload: response.job_posting_id,
       });
+      dispatch({
+        type: "SET_MOBILE_GENERATION_MODE",
+        payload: "results",
+      });
 
       return true;
     } catch (error) {
@@ -390,18 +422,54 @@ export function GenerationContext({ children }) {
   useEffect(() => {
     if (state.addSkillInput !== "") {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "add skill" });
+      if (!state.loadingCoverLetter && state.coverLetterParts !== null) {
+        dispatch({
+          type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT",
+          payload: false,
+        });
+      }
     } else if (state.insertKeywordInput !== "") {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "insert keyword" });
+      if (!state.loadingCoverLetter && state.coverLetterParts !== null) {
+        dispatch({
+          type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT",
+          payload: false,
+        });
+      }
     } else if (state.removeRedundancyInput !== "") {
-      dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "remove redundancy" });
+      dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "remove" });
+      if (!state.loadingCoverLetter && state.coverLetterParts !== null) {
+        dispatch({
+          type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT",
+          payload: false,
+        });
+      }
     } else {
       dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: null });
-      dispatch({ type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT", payload: false });
+      dispatch({ type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT", payload: true });
     }
   }, [
     state.addSkillInput,
     state.insertKeywordInput,
     state.removeRedundancyInput,
+    state.loadingCoverLetter,
+    state.coverLetterParts,
+  ]);
+
+  useEffect(() => {
+    if (!state.loadingCoverLetter && state.coverLetterParts !== null) {
+      if (state.customAdjustment !== "") {
+        dispatch({ type: "SET_DISABLE_CUSTOM_ADJUSTMENT", payload: false });
+      } else {
+        dispatch({ type: "SET_DISABLE_CUSTOM_ADJUSTMENT", payload: true });
+      }
+    } else {
+      dispatch({ type: "SET_DISABLE_CUSTOM_ADJUSTMENT", payload: true });
+    }
+  }, [
+    state.customAdjustment,
+    state.loadingCoverLetter,
+    state.coverLetterParts,
   ]);
 
   // Disable Generation Button handling
@@ -453,12 +521,15 @@ export function GenerationContext({ children }) {
     }
   }, []);
 
+  console.log("state.coverLetterParts", state.coverLetterParts);
+
   return (
     <Context.Provider
       value={{
         state,
         dispatch,
         toggleIsReQuerySectionExpanded,
+        toggleIsReQueryMobileSectionExpanded,
         generateCoverLetter,
         makeSimpleAdjustment,
         makeIntermediateAdjustment,

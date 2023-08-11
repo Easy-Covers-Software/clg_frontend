@@ -13,6 +13,8 @@ import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import { useMediaQuery } from "@mui/material";
+
 import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOfflineOutlined";
 
 import { TextField } from "@mui/material";
@@ -28,6 +30,8 @@ const Container = styled(Grid)`
 `;
 
 export default function DownloadDropdown() {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   const { state, toggleIsDownloadDropdownOpen } = useGenerationContext();
 
   const {
@@ -99,7 +103,14 @@ export default function DownloadDropdown() {
   return (
     <>
       <Tooltip title="Download">
-        <IconButton onClick={handleDownload}>
+        <IconButton
+          onClick={handleDownload}
+          disableRipple
+          disableFocusRipple
+          style={{
+            margin: isMobile ? "auto" : "none",
+          }}
+        >
           <DownloadForOfflineOutlinedIcon />
         </IconButton>
       </Tooltip>

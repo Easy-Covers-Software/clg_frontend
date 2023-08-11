@@ -36,7 +36,7 @@ namespace LoginUtils {
       }
     } catch (error) {
       console.log("Error fetching user", error);
-      return error;
+      return error.response.data;
     }
   };
 
@@ -56,12 +56,14 @@ namespace LoginUtils {
           "X-CSRFToken": Cookie.get("csrftoken"),
         },
       });
+
       if (response.statusText === "OK") {
         return response.data;
       }
+      console.log("passing catch");
     } catch (error) {
       console.log("Error logging in", error);
-      return error;
+      return error.response.data;
     }
   };
 
@@ -85,7 +87,7 @@ namespace LoginUtils {
       }
     } catch (error) {
       console.log("Error logging out user", error);
-      return error;
+      return error.response.data;
     }
   };
 
@@ -115,7 +117,58 @@ namespace LoginUtils {
       }
     } catch (error) {
       console.log("Error creating account", error);
-      return error;
+      return error.response.data;
+    }
+  };
+
+  export const passwordReset = async (email) => {
+    const url = `${API_BASE}/users/auth/reset_password/`;
+
+    const data = {
+      email: email,
+    };
+
+    try {
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+      });
+
+      if (response.statusText === "OK") {
+        return response.data;
+      }
+    } catch (error) {
+      console.log("Error resetting password", error);
+      return error.response.data;
+    }
+  };
+
+  export const submitNewPasswords = async (pass1, pass2, uid, token) => {
+    const url = `${API_BASE}/dj-rest-auth/password/reset/confirm/${uid}/${token}/`;
+
+    const data = {
+      new_password1: pass1,
+      new_password2: pass2,
+      uid: uid,
+      token: token,
+    };
+
+    try {
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": Cookie.get("csrftoken"),
+        },
+      });
+
+      if (response.statusText === "OK") {
+        return response.data;
+      }
+    } catch (error) {
+      console.log("Error submitting new passwords", error);
+      return error.response.data;
     }
   };
 }
@@ -206,7 +259,7 @@ namespace GenerationUtils {
         return response.data;
       }
     } catch (error) {
-      return error;
+      return error.response.data;
     }
   };
 
@@ -242,7 +295,7 @@ namespace GenerationUtils {
       }
     } catch (error) {
       console.log(error);
-      return error;
+      return error.response.data;
     }
   };
 
@@ -280,7 +333,7 @@ namespace GenerationUtils {
       }
     } catch (error) {
       console.log(error);
-      return error;
+      return error.response.data;
     }
   };
 
@@ -307,7 +360,7 @@ namespace SavedCoverLettersUtils {
       return response.data;
     } catch (error) {
       console.log(error);
-      return error;
+      return error.response.data;
     }
   };
 
@@ -327,7 +380,7 @@ namespace SavedCoverLettersUtils {
       }
     } catch (error) {
       console.log(error);
-      return error;
+      return error.response.data;
     }
   };
 
@@ -361,7 +414,7 @@ namespace SavedCoverLettersUtils {
       }
     } catch (error) {
       console.log(error);
-      return error;
+      return error.response.data;
     }
   };
 }
@@ -393,7 +446,7 @@ namespace ReQueryUtils {
       }
     } catch (error) {
       console.log(error);
-      return error;
+      return error.response.data;
     }
   };
 
@@ -422,7 +475,7 @@ namespace ReQueryUtils {
       }
     } catch (error) {
       console.log("error occured during intermediate adjustment", error);
-      return error;
+      return error.response.data;
     }
   };
 
@@ -446,7 +499,7 @@ namespace ReQueryUtils {
       }
     } catch (error) {
       console.log("error occured during intermediate adjustment", error);
-      return error;
+      return error.response.data;
     }
   };
 
@@ -525,7 +578,7 @@ namespace DownloadUtils {
       }
     } catch (error) {
       console.log(error);
-      return error;
+      return error.response.data;
     }
   };
 }

@@ -14,6 +14,10 @@ const Container = styled(Grid)`
   border: none;
   resize: none;
   z-index: -10;
+
+  @media screen and (max-width: 900px) {
+    // width: 100%;
+  }
 `;
 
 namespace FreeTextInputStyledComponents {
@@ -43,19 +47,51 @@ namespace PersonalDetailsModeSwitchStyledComponents {
     border-right: 1px solid #006d4b;
     border-radius: 8px 8px 0 0;
     padding: 0.5%;
-    width: 50%;
+    width: 56%;
     white-space: nowrap;
     background-color: #f8f8ff;
     // background-color: white;
     z-index: 1;
     border-bottom: 0;
+
+    @media screen and (min-width: 650px) and (max-width: 800px) {
+      width: 76%;
+    }
+
+    @media screen and (min-width: 800px) and (max-width: 900px) {
+      width: 74%;
+    }
+
+    @media screen and (min-width: 900px) and (max-width: 1000px) {
+      width: 72%;
+    }
+
+    @media screen and (min-width: 1000px) and (max-width: 1100px) {
+      width: 68%;
+    }
+
+    @media screen and (min-width: 1100px) and (max-width: 1200px) {
+      width: 62%;
+    }
   `;
 
-  export const SwitchStyled = muiStyled(Switch)(() => ({
-    width: 70,
+  export const SwitchStyled = muiStyled(Switch)(({ theme }) => ({
+    width: 64,
     height: 26,
     padding: 0,
     margin: 8,
+    ["@media screen and (min-width: 650px) and (max-width: 800px)"]: {
+      width: 48,
+    },
+    ["@media screen and (min-width: 800px) and (max-width: 900px)"]: {
+      width: 52,
+    },
+    ["@media screen and (min-width: 900px) and (max-width: 1000px)"]: {
+      width: 56,
+    },
+    ["@media screen and (min-width: 1000px) and (max-width: 1100px)"]: {
+      width: 60,
+    },
     "& .MuiSwitch-switchBase": {
       padding: 0,
       margin: 2,
@@ -106,6 +142,10 @@ namespace ResumeUploadStyledComponents {
     justify-content: space-evenly;
     padding: 0 2%;
     gap: 5%;
+
+    @media (max-width: 900px) {
+      padding: 0 0.5%;
+    }
   `;
 
   export const DragDropContainer = styled(Grid)`

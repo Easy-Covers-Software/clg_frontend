@@ -15,22 +15,51 @@ const {
   PricingButtonContainer,
 } = UpgradeAccountOptionStyledComponents;
 
+import { useMediaQuery } from "@mui/material";
+
 export default function UpgradeAccountOption({
   packages,
   setSelectedPackagePrice,
 }) {
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const handlePackageSelection = (price) => {
     setSelectedPackagePrice(price);
   };
 
-  return (
-    <Container>
-      <PackageNameContainer>
-        <Typography>{packages.name}</Typography>
+  const getLeftShift = (name) => {
+    switch (name) {
+      case "Intro Drafter":
+        return "-13.6rem";
+      case "Dynamic Drafter":
+        return "-12.9rem";
+      case "Pro Drafter":
+        return "-14rem";
+      case "Letter Luminary":
+        return "-13rem";
+      case "Cover Connoisseur":
+        return "-12.5rem";
 
-        <PricingButtonContainer>
+      default:
+        return "-13rem";
+    }
+  };
+
+  return (
+    <>
+      <Typography
+        className="package-name"
+        style={{
+          left: isMobile ? 0 : getLeftShift(packages.name),
+        }}
+      >
+        {packages.name}
+      </Typography>
+      <Container>
+        <PackageNameContainer>
+          {/* <PricingButtonContainer> */}
           <ButtonWithLabel>
-            <Typography fontSize={"0.72rem"}>GPT-3.5 Turbo</Typography>
+            <Typography className="package-model">GPT-3.5</Typography>
+
             <PackageNameButtonDouble
               onClick={() => {
                 handlePackageSelection(packages.price);
@@ -41,7 +70,7 @@ export default function UpgradeAccountOption({
           </ButtonWithLabel>
 
           <ButtonWithLabel>
-            <Typography fontSize={"0.72rem"}>GPT-4</Typography>
+            <Typography className="package-model">GPT-4</Typography>
             <PackageNameButtonDouble
               onClick={() => {
                 handlePackageSelection(packages.price_gpt4);
@@ -50,18 +79,19 @@ export default function UpgradeAccountOption({
               {packages.price_gpt4}
             </PackageNameButtonDouble>
           </ButtonWithLabel>
-        </PricingButtonContainer>
-      </PackageNameContainer>
+          {/* </PricingButtonContainer> */}
+        </PackageNameContainer>
 
-      <PackageDetailsContainer>
-        <FeatureList>
-          {packages.features.map((feature) => (
-            <ListItem>
-              <Typography fontSize={"0.85rem"}>{feature}</Typography>
-            </ListItem>
-          ))}
-        </FeatureList>
-      </PackageDetailsContainer>
-    </Container>
+        <PackageDetailsContainer>
+          <FeatureList>
+            {packages.features.map((feature) => (
+              // <ListItem>
+              <Typography className="package-features">{feature}</Typography>
+              // </ListItem>
+            ))}
+          </FeatureList>
+        </PackageDetailsContainer>
+      </Container>
+    </>
   );
 }

@@ -10,11 +10,12 @@ import styled from "@emotion/styled";
 
 import SnackbarAlert from "../Global/components/SnackbarAlert";
 
-import Edit from "./components/Edit/Edit";
 import SavedDisplay from "./components/SavedDisplay/SavedDisplay";
+import Edit from "./components/Edit/Edit";
 
 import AlertDialogConfirm from "../Global/components/AlertDialogConfirm";
 import { useEffect } from "react";
+import { useMediaQuery } from "@mui/material";
 
 const Container = styled(Grid)`
   display: flex;
@@ -24,8 +25,15 @@ const Container = styled(Grid)`
 `;
 
 export default function SavedCoverLetters() {
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const { state, dispatch } = useAuth();
-  const { isLoginOpen, isSettingsOpen, snackbar, alertDialogConfirm } = state;
+  const {
+    isLoginOpen,
+    isSettingsOpen,
+    snackbar,
+    alertDialogConfirm,
+    mobileModeSaved,
+  } = state;
 
   useEffect(() => {
     dispatch({ type: "SET_PAGE", payload: "saved" });
@@ -36,8 +44,14 @@ export default function SavedCoverLetters() {
       {isLoginOpen ? <LoginDialog /> : null}
       {isSettingsOpen ? <SettingsDialog /> : null}
       <SavedCoverLettersContext>
-        <SavedDisplay />
-        <Edit />
+        {isMobile ? (
+          <>{mobileModeSaved === "choose" ? <SavedDisplay /> : <Edit />}</>
+        ) : (
+          <>
+            <SavedDisplay />
+            <Edit />
+          </>
+        )}
       </SavedCoverLettersContext>
 
       <SnackbarAlert

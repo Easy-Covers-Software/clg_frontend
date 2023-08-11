@@ -5,13 +5,12 @@ const Container = styled(Grid)`
   display: flex;
   width: 100%;
   gap: 0.5%;
-  // height: calc(100vh - 80vh);
-  height: 90px;
+  height: 12vh;
+
   overflow: hidden; // Add this line
-  border-bottom: none;
-  border-radius: 8px 8px 0 0;
+  border-radius: 4px 4px 0 0;
   padding: 0.2% 0.75% 0 0.75%;
-  // margin-top: -1%;
+  margin-bottom: 0.25%;
 `;
 
 const JobOverview = styled(Grid)`
@@ -24,7 +23,11 @@ const JobOverview = styled(Grid)`
   border-radius: 4px;
   background-color: #f8f8ff;
   margin: 0.3% 0;
-  height: 90%;
+  padding-bottom: 0.8% 0;
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+  }
 `;
 
 const JobMatchScore = styled(Grid)`
@@ -35,9 +38,48 @@ const JobMatchScore = styled(Grid)`
   border: 1px solid #006d4b;
   border-radius: 4px;
   background-color: #f8f8ff;
-  width: 8.8vw;
+  width: 10vw;
   margin: 0.3% 0;
-  height: 90%;
+
+  @media screen and (min-width: 0px) and (max-width: 500px) {
+    width: 32vw;
+  }
+
+  @media screen and (min-width: 500px) and (max-width: 600px) {
+    width: 32vw;
+  }
+
+  @media screen and (min-width: 600px) and (max-width: 700px) {
+    width: 28vw;
+  }
+
+  @media screen and (min-width: 700px) and (max-width: 800px) {
+    width: 24vw;
+  }
+
+  @media screen and (min-width: 800px) and (max-width: 900px) {
+    width: 19vw;
+  }
+
+  @media screen and (min-width: 900px) and (max-width: 950px) {
+    width: 18vw;
+  }
+
+  @media screen and (min-width: 950px) and (max-width: 1000px) {
+    width: 16vw;
+  }
+
+  @media screen and (min-width: 1000px) and (max-width: 1100px) {
+    width: 14vw;
+  }
+
+  @media screen and (min-width: 1100px) and (max-width: 1200px) {
+    width: 12vw;
+  }
+
+  @media screen and (min-width: 1200px) and (max-width: 1300px) {
+    width: 11vw;
+  }
 `;
 
 export { Container, JobOverview, JobMatchScore };

@@ -35,7 +35,6 @@ const Accordion = muiStyled(
       : "none",
 }));
 
-// AccordionSummary styles
 const AccordionSummary = muiStyled(
   (
     props: AccordionSummaryProps & {
@@ -62,7 +61,13 @@ const AccordionSummary = muiStyled(
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(90deg)",
   },
-  "& .MuiAccordionSummary-content": { display: "flex", gap: "1.5%" },
+  "& .MuiAccordionSummary-content": {
+    display: "flex",
+    alignItems: "center",
+    gap: "1.5%",
+    // maxHeight: "2%",
+  },
+  height: "40px", // Fixed height for the accordion summary
 }));
 
 // AccordionDetails styles
@@ -76,16 +81,26 @@ const AccordionDetails = muiStyled(MuiAccordionDetails)(() => ({
 
 // Container styles
 const Container = styled(Grid)`
-  width: 46%;
+  width: 40vw;
   padding: 0.3%;
-  background-color: white;
-  border-radius: 4px;
-  border: 1px solid #006d4b;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 98px);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+  overflow: auto; // Add overflow property to handle child elements
+  background-color: white;
+  border: 1px solid #006d4b;
+  border-radius: 4px;
+
+  @media screen and (min-width: 0px) and (max-width: 600px) {
+    width: 100vw;
+    height: calc(100vh - 80px);
+  }
+
+  @media screen and (min-width: 600px) and (max-width: 900px) {
+    width: 42%;
+  }
 `;
 
 // SubContainer styles
@@ -111,6 +126,11 @@ const GenerateButton = styled(UnSelectedButton)`
     background-color: #e9e9e9;
     color: lightgray;
     border: 1px solid lightgray;
+  }
+
+  @media screen and (max-width: 900px) {
+    width: 90%; // Increase width for smaller screens
+    font-size: 0.9rem; // Adjust font size for smaller screens
   }
 `;
 

@@ -6,19 +6,30 @@ import CustomReQuery from "./CustomReQuery";
 
 import { useAuth } from "@/context/AuthContext";
 import { useGenerationContext } from "@/context/GenerationContext";
-
+import { useMediaQuery } from "@mui/material";
 import { MoreOptionsReQuerysStyledComponents } from "../ReQueryOptions.styles";
 const { Container, MediumOptionsContainer, SubmitButton } =
   MoreOptionsReQuerysStyledComponents;
 
 export default function MoreOptionsReQueries() {
-  const { dispatch, updateSnackbar, toggleSettingsIsOpen } = useAuth();
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  const {
+    state: authState,
+    dispatch,
+    updateSnackbar,
+    toggleSettingsIsOpen,
+  } = useAuth();
 
-  const { state, makeIntermediateAdjustment } = useGenerationContext();
-  const { disableGenerateButton } = state;
+  const { state, makeIntermediateAdjustment, toggleIsReQuerySectionExpanded } =
+    useGenerationContext();
+  const { disableIntermediateAdjustment } = state;
 
   const handleIntermediateAdjustment = async () => {
-    if (state.accessLevel.num_adjustments_available === 0) {
+    if (isMobile) {
+      toggleIsReQuerySectionExpanded();
+    }
+
+    if (authState.accessLevel.num_adjustments_available === 0) {
       toggleSettingsIsOpen();
       updateSnackbar(
         true,
@@ -42,17 +53,15 @@ export default function MoreOptionsReQueries() {
     }
   };
 
-  console.log("MoreOptionsReQueries.tsx: state", disableGenerateButton);
-
   return (
     <Container>
       <MediumOptionsContainer>
         <MediumReQueryInput label={"Add Skill"} />
         <MediumReQueryInput label={"Insert Keyword"} />
-        <MediumReQueryInput label={"Remove Redundancy"} />
+        <MediumReQueryInput label={"Remove"} />
         <SubmitButton
           onClick={handleIntermediateAdjustment}
-          disabled={disableGenerateButton}
+          disabled={disableIntermediateAdjustment}
         >
           REGENERATE
         </SubmitButton>

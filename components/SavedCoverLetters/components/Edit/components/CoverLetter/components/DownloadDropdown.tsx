@@ -14,8 +14,11 @@ import { useSavedCoverLettersContext } from "@/context/SavedCoverLettersContext"
 import { useAuth } from "@/context/AuthContext";
 import { DownloadUtils } from "@/Utils/utils";
 const { generatePDF, generateDOCX } = DownloadUtils;
+import { useMediaQuery } from "@mui/material";
 
 export default function DownloadDropdown() {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   const { state, toggleIsDownloadDropdownOpen } = useSavedCoverLettersContext();
   const {
     isDownloadDropdownOpen,
@@ -81,7 +84,14 @@ export default function DownloadDropdown() {
   return (
     <>
       <Tooltip title="Download">
-        <IconButton onClick={handleDownload}>
+        <IconButton
+          onClick={handleDownload}
+          disableRipple
+          disableFocusRipple
+          style={{
+            margin: isMobile ? "auto" : "none",
+          }}
+        >
           <DownloadForOfflineOutlinedIcon />
         </IconButton>
       </Tooltip>

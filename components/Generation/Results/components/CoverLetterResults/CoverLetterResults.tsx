@@ -20,6 +20,7 @@ import { useGenerationContext } from "@/context/GenerationContext";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import ReQueryOptions from "../ReQueryOptions/ReQueryOptions";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import {
   Container,
@@ -28,6 +29,7 @@ import {
 } from "./CoverLetterResults.styles";
 
 export default function CoverLetterResults() {
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const { state, dispatch } = useGenerationContext();
   const {
     currentCoverLetter,
@@ -111,87 +113,98 @@ export default function CoverLetterResults() {
           `}
         />
 
-        <RichTextEditor
-          editor={editor}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            height: "100%",
-            borderRadius: "4px",
-            backgroundColor: "white",
-            width: "99.8%",
-          }}
-        >
-          <RichTextEditor.Toolbar
-            sticky
-            stickyOffset={60}
-            sx={{
+        {isMobile && isReQuerySectionExpanded ? (
+          <MoreOptionsReQueries />
+        ) : (
+          <RichTextEditor
+            editor={editor}
+            style={{
               display: "flex",
-              justifyContent: "center",
-              borderRadius: "4px 4px 0 0",
+              flexDirection: "column",
+              height: "100%",
+              borderRadius: "4px",
+              backgroundColor: "white",
+              width: "99.8%",
             }}
           >
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Bold />
-              <RichTextEditor.Italic />
-              <RichTextEditor.Underline />
-              {/* <RichTextEditor.Strikethrough /> */}
-              <RichTextEditor.ClearFormatting />
-              <RichTextEditor.Highlight />
-              <RichTextEditor.Code />
-            </RichTextEditor.ControlsGroup>
+            <RichTextEditor.Toolbar
+              sticky
+              stickyOffset={60}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                borderRadius: "4px 4px 0 0",
+                overflowX: "scroll",
+                maxHeight: "12vh",
+                minHeight: "6vh",
+                padding: "0 0.5%",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.Bold />
+                <RichTextEditor.Italic />
+                <RichTextEditor.Underline />
+                {/* <RichTextEditor.Strikethrough /> */}
+                <RichTextEditor.ClearFormatting />
+                <RichTextEditor.Highlight />
+                <RichTextEditor.Code />
+                {/* </RichTextEditor.ControlsGroup> */}
 
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.AlignLeft />
-              <RichTextEditor.AlignCenter />
-              <RichTextEditor.AlignRight />
-            </RichTextEditor.ControlsGroup>
+                {/* <RichTextEditor.ControlsGroup> */}
+                <RichTextEditor.AlignLeft />
+                <RichTextEditor.AlignCenter />
+                <RichTextEditor.AlignRight />
+                {/* </RichTextEditor.ControlsGroup> */}
 
-            {/* <RichTextEditor.ControlsGroup> */}
-            {/* <RichTextEditor.H1 /> */}
-            {/* <RichTextEditor.H2 />
+                {/* <RichTextEditor.ControlsGroup> */}
+                {/* <RichTextEditor.H1 /> */}
+                {/* <RichTextEditor.H2 />
             <RichTextEditor.H3 />
             <RichTextEditor.H4 /> */}
-            {/* </RichTextEditor.ControlsGroup> */}
+                {/* </RichTextEditor.ControlsGroup> */}
 
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Blockquote />
-              {/* <RichTextEditor.Hr /> */}
-              <RichTextEditor.BulletList />
-              <RichTextEditor.OrderedList />
-              {/* <RichTextEditor.Subscript />
+                {/* <RichTextEditor.ControlsGroup> */}
+                <RichTextEditor.Blockquote />
+                {/* <RichTextEditor.Hr /> */}
+                <RichTextEditor.BulletList />
+                <RichTextEditor.OrderedList />
+                {/* <RichTextEditor.Subscript />
             <RichTextEditor.Superscript /> */}
-            </RichTextEditor.ControlsGroup>
+                {/* </RichTextEditor.ControlsGroup> */}
 
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Link />
-              <RichTextEditor.Unlink />
-            </RichTextEditor.ControlsGroup>
+                {/* <RichTextEditor.ControlsGroup> */}
+                <RichTextEditor.Link />
+                <RichTextEditor.Unlink />
+              </RichTextEditor.ControlsGroup>
 
-            <RichTextEditor.ControlsGroup ml={"5%"}>
-              <DownloadOptionsMenu />
-            </RichTextEditor.ControlsGroup>
-          </RichTextEditor.Toolbar>
+              {!isMobile && (
+                <RichTextEditor.ControlsGroup ml={"1%"}>
+                  <DownloadOptionsMenu />
+                </RichTextEditor.ControlsGroup>
+              )}
+            </RichTextEditor.Toolbar>
 
-          <ContentWrapper>
-            {loadingCoverLetter ? (
-              <Grid
-                display={"flex"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                height={"100%"}
-              >
-                <CircularProgress color="success" />
-              </Grid>
-            ) : (
-              <Grid m={"0 5%"}>
-                <RichTextEditor.Content />
-              </Grid>
-            )}
-          </ContentWrapper>
-        </RichTextEditor>
+            <ContentWrapper>
+              {loadingCoverLetter ? (
+                <Grid
+                  display={"flex"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                  height={"100%"}
+                >
+                  <CircularProgress color="success" />
+                </Grid>
+              ) : (
+                <Grid m={"0 5%"}>
+                  <RichTextEditor.Content />
+                </Grid>
+              )}
+            </ContentWrapper>
+          </RichTextEditor>
+        )}
 
-        {isReQuerySectionExpanded && <MoreOptionsReQueries />}
+        {!isMobile && isReQuerySectionExpanded && <MoreOptionsReQueries />}
       </SubContainer>
 
       <ReQueryOptions />

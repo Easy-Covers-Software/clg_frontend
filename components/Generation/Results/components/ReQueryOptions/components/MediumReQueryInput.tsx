@@ -32,7 +32,7 @@ export default function MediumReQueryInput({ label }) {
       dispatch({ type: "SET_ADD_SKILL_INPUT", payload: "" });
     } else if (label === "Insert Keyword") {
       dispatch({ type: "SET_INSERT_KEYWORD_INPUT", payload: "" });
-    } else if (label === "Remove Redundancy") {
+    } else if (label === "Remove") {
       dispatch({ type: "SET_REMOVE_REDUNDANCY_INPUT", payload: "" });
     }
   };
@@ -45,7 +45,7 @@ export default function MediumReQueryInput({ label }) {
         type: "SET_INSERT_KEYWORD_INPUT",
         payload: event.target.value,
       });
-    } else if (label === "Remove Redundancy") {
+    } else if (label === "Remove") {
       dispatch({
         type: "SET_REMOVE_REDUNDANCY_INPUT",
         payload: event.target.value,
@@ -82,7 +82,6 @@ export default function MediumReQueryInput({ label }) {
               ? insertKeywordInput
               : removeRedundancyInput
           }
-          // sx={{ opacity: '30%' }}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             handleChange(event);
           }}
