@@ -35,7 +35,6 @@ const Accordion = muiStyled(
       : "none",
 }));
 
-// AccordionSummary styles
 const AccordionSummary = muiStyled(
   (
     props: AccordionSummaryProps & {
@@ -62,7 +61,13 @@ const AccordionSummary = muiStyled(
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(90deg)",
   },
-  "& .MuiAccordionSummary-content": { display: "flex", gap: "1.5%" },
+  "& .MuiAccordionSummary-content": {
+    display: "flex",
+    alignItems: "center",
+    gap: "1.5%",
+    // maxHeight: "2%",
+  },
+  height: "40px", // Fixed height for the accordion summary
 }));
 
 // AccordionDetails styles

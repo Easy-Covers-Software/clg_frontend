@@ -445,15 +445,15 @@ body {
   margin-left: 1%;
 
   @media screen and (min-width: 0px) and (max-width: 500px) {
-    font-size: 0.6rem;
+    font-size: 0.88rem;
   }
 
   @media screen and (min-width: 500px) and (max-width: 600px) {
-    font-size: 0.64rem;
+    font-size: 0.88rem;
   }
 
   @media screen and (min-width: 600px) and (max-width: 700px) {
-    font-size: 0.68rem;
+    font-size: 0.72rem;
   }
 
   @media screen and (min-width: 700px) and (max-width: 800px) {
@@ -779,7 +779,7 @@ body {
   }
 
   .header {
-    height: 60px;
+    height: 70px;
     grid-area: header;
     display: flex;
     align-items: center;
