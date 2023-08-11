@@ -55,29 +55,9 @@ export default function LoginDialog() {
             Create Account
           </SignInButton>
         ) : forgotPassword ? (
-          <>
-            <Typography
-              style={{
-                cursor: "pointer",
-                position: "relative",
-                top: "-10px",
-                right: "-100px",
-                fontSize: "0.9rem",
-                color: "#13d0b7",
-              }}
-              onClick={() => {
-                dispatch({
-                  type: "SET_FORGOT_PASSWORD",
-                  payload: false,
-                });
-              }}
-            >
-              Log In
-            </Typography>
-            <SignInButton onClick={() => resetPassword()}>
-              Send Reset Email
-            </SignInButton>
-          </>
+          <SignInButton onClick={() => resetPassword()}>
+            Send Reset Email
+          </SignInButton>
         ) : (
           <>
             <Typography
@@ -105,7 +85,13 @@ export default function LoginDialog() {
 
       <CreateAccountContainer>
         <DividerContainer>
-          <Divider>Or continue with Google / Easy Covers</Divider>
+          <Divider
+            style={{
+              color: "#006d4b",
+            }}
+          >
+            Or continue with Google / Create Account
+          </Divider>
         </DividerContainer>
 
         <CreateAccountOptions />

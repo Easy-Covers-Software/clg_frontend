@@ -10,7 +10,7 @@ const { signInGoogle } = LoginUtils;
 
 export default function CreateAccountOptions() {
   const { state, dispatch } = useAuth();
-  const { createAccountEasyCovers } = state;
+  const { createAccountEasyCovers, forgotPassword } = state;
 
   const handleCreateAccountEasyCovers = () => {
     dispatch({ type: "SET_CREATE_ACCOUNT_EASY_COVERS", payload: true });
@@ -27,14 +27,13 @@ export default function CreateAccountOptions() {
       </IconContainer>
 
       <IconContainer onClick={handleCreateAccountEasyCovers}>
-        {createAccountEasyCovers ? (
+        {createAccountEasyCovers || forgotPassword ? (
           <Typography
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               dispatch({
-                type: "SET_CREATE_ACCOUNT_EASY_COVERS",
-                payload: false,
+                type: "RESET_LOGIN",
               });
             }}
             style={{
