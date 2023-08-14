@@ -1,28 +1,28 @@
-// const { createServer } = require("https");
-// const { parse } = require("url");
-// const next = require("next");
-// const fs = require("fs");
-// const port = 3000;
-// const dev = process.env.NODE_ENV !== "production";
-// const app = next({ dev });
-// const handle = app.getRequestHandler();
+const { createServer } = require("https");
+const { parse } = require("url");
+const next = require("next");
+const fs = require("fs");
+const port = 3000;
+const dev = process.env.NODE_ENV !== "production";
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
-// const httpsOptions = {
-//   key: fs.readFileSync(
-//     "/Users/davidsilveira/dave/projects/clg/clg_frontend_react/key.pem"
-//   ),
-//   cert: fs.readFileSync(
-//     "/Users/davidsilveira/dave/projects/clg/clg_frontend_react/cert.pem"
-//   ),
-// };
+const httpsOptions = {
+  key: fs.readFileSync(
+    "/etc/ssl/certs/key.pem"
+  ),
+  cert: fs.readFileSync(
+    "/etc/ssl/certs/cert.pem"
+  ),
+};
 
-// app.prepare().then(() => {
-//   createServer(httpsOptions, async (req, res) => {
-//     const parsedUrl = parse(req.url, true);
-//     await handle(req, res, parsedUrl);
-//   }).listen(port, "localhost", (err) => {
-//     if (err) throw err;
-//     console.log("ready - started server on url: https://localhost:" + port);
-//   });
-// });
-// //
+app.prepare().then(() => {
+  createServer(httpsOptions, async (req, res) => {
+    const parsedUrl = parse(req.url, true);
+    await handle(req, res, parsedUrl);
+  }).listen(port, "localhost", (err) => {
+    if (err) throw err;
+    console.log("ready - started server on url: https://localhost:" + port);
+  });
+});
+//
