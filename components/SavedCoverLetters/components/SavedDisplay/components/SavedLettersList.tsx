@@ -87,6 +87,7 @@ export default function SavedLettersList() {
 
   useEffect(() => {
     if (didConfirmAlert !== null && didConfirmAlert) {
+      authDispatch({ type: "SET_DID_CONFIRM_ALERT", payload: false });
       confirmDelete();
     }
   }, [didConfirmAlert]);

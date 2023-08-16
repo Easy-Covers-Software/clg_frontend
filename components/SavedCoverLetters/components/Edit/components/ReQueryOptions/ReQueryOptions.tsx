@@ -41,6 +41,7 @@ export default function ReQueryOptions() {
 
   useEffect(() => {
     if (didConfirmAlert !== null && didConfirmAlert) {
+      authDispatch({ type: "SET_DID_CONFIRM_ALERT", payload: false });
       handleReset();
     }
   }, [didConfirmAlert]);
