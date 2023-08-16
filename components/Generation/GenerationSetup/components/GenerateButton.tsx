@@ -30,8 +30,7 @@ const getModelAvailable = (
   num_gpt3_generations_available,
   num_gpt4_generations_available
 ) => {
-  console.log("user", user);
-  if (user === null) {
+  if (user === undefined || user === null) {
     return "-1";
   } else if (num_gpt3_generations_available > 0) {
     return "3";
@@ -177,6 +176,8 @@ export default function GenerateButtons() {
     }
 
     if (model === "0") {
+      // if
+
       toggleSettingsIsOpen();
       updateSnackbar(
         true,
