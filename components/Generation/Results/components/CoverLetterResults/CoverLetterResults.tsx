@@ -74,11 +74,18 @@ export default function CoverLetterResults() {
     return sections;
   }
 
+  console.log('results state', state)
+  
   useEffect(() => {
     if (!loadingCoverLetter && coverLetter.includes("<div><p>Awaiting Generation...</p></div>")){
       authDispatch({
         type: "SET_MOBILE_MODE",
         payload: "setup",
+      })
+    } else {
+      authDispatch({
+        type: "SET_MOBILE_MODE",
+        payload: "results",
       })
     }
   }, [loadingCoverLetter, coverLetter]);
