@@ -351,6 +351,10 @@ export default function SavedCoverLettersContext(props) {
   useEffect(() => {
     getUsersSavedCoverLetters();
   }, []);
+  
+  useEffect(() => {
+    getUsersSavedCoverLetters();
+  }, [state.selectedCoverLetter]);
 
   // determine intermediate type
   useEffect(() => {
@@ -467,13 +471,18 @@ export default function SavedCoverLettersContext(props) {
       }
     };
 
-    dispatch({
-      type: "SET_SAVE_NAME",
-      payload: state.selectedCoverLetter?.save_name,
-    });
+    
 
-    getJobPosting();
-    getCoverLetterParts();
+    if (state.selectedCoverLetter !== null){
+      dispatch({
+        type: "SET_SAVE_NAME",
+        payload: state.selectedCoverLetter?.save_name,
+      });
+      
+      getJobPosting();
+      getCoverLetterParts();
+    }
+
   }, [state.selectedCoverLetter]);
 
   useEffect(() => {
