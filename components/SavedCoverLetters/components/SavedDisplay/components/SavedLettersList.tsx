@@ -104,7 +104,8 @@ export default function SavedLettersList() {
     openAlertDialogConfirm(
       true,
       "Delete Cover Letter",
-      "Are you sure you want to delete this cover letter?"
+      "Are you sure you want to delete this cover letter?",
+      "Delete"
     );
   };
 

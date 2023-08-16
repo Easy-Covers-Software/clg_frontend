@@ -73,6 +73,7 @@ export default function Generation() {
         open={alertDialogConfirm.open}
         header={alertDialogConfirm.header}
         message={alertDialogConfirm.message}
+        buttonText={alertDialogConfirm.buttonText}
       />
     </Container>
   );

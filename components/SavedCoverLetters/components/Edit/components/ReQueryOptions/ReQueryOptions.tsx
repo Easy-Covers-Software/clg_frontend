@@ -34,7 +34,8 @@ export default function ReQueryOptions() {
     openAlertDialogConfirm(
       true,
       "Reset Generation",
-      "Are you finished editing? Unsaved changes will be lost."
+      "Are you finished editing? Unsaved changes will be lost.",
+      "Reset"
     );
   };
 

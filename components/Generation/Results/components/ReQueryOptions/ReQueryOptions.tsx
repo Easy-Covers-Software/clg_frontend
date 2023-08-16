@@ -37,7 +37,8 @@ export default function ReQueryOptions() {
     openAlertDialogConfirm(
       true,
       "Reset Generation",
-      "Are you sure you want to reset your generation?"
+      "Are you sure you want to reset your generation?",
+      "Reset"
     );
   };
 

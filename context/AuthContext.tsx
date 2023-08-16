@@ -43,6 +43,7 @@ const initialState = {
     open: false,
     header: "",
     message: "",
+    buttonText: "",
   },
   didConfirmAlert: false,
   forgotPassword: false,
@@ -189,13 +190,14 @@ export const AuthProvider = ({
     });
   };
 
-  const openAlertDialogConfirm = (open, header, message) => {
+  const openAlertDialogConfirm = (open, header, message, buttonText) => {
     dispatch({
       type: "SET_ALERT_DIALOG_CONFIRM",
       payload: {
         open: open,
         header: header,
         message: message,
+        buttonText: buttonText,
       },
     });
   };
@@ -207,6 +209,7 @@ export const AuthProvider = ({
         open: false,
         header: "",
         message: "",
+        buttonText: ""
       },
     });
   };
