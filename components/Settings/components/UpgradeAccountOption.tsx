@@ -84,10 +84,8 @@ export default function UpgradeAccountOption({
 
         <PackageDetailsContainer>
           <FeatureList>
-            {packages.features.map((feature) => (
-              // <ListItem>
-              <Typography className="package-features">{feature}</Typography>
-              // </ListItem>
+            {packages.features.map((feature, i) => (
+              <Typography key={i} className="package-features">{feature}</Typography>
             ))}
           </FeatureList>
         </PackageDetailsContainer>
