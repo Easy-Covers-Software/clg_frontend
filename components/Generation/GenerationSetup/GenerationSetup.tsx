@@ -79,26 +79,6 @@ export default function GenerationSetup() {
     }
   };
 
-  // Cover Letter handler
-  const handleGenerateCoverLetter = async () => {
-    try {
-      await getJobDetails();
-      await generateCoverLetter(
-        jobPosting,
-        resume,
-        freeText,
-        additionalDetails
-      );
-
-      dispatch({
-        type: "SET_UPDATE_USER",
-        payload: authState.updateUser,
-      });
-    } catch (err) {
-      console.error(err);
-      // Handle error, for example by showing an error message in the UI
-    }
-  };
 
   // Panel change handler
   const handleChange =
