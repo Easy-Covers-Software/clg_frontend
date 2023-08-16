@@ -31,8 +31,7 @@ import { useGenerationContext } from "@/context/GenerationContext";
 
 export default function GenerationSetup() {
   // Contexts
-  const { state: authState, dispatch } = useAuth();
-  const { state, generateCoverLetter, getJobDetails } = useGenerationContext();
+  const { state } = useGenerationContext();
   const {
     isUsingLastUploadedResume,
     jobPosting,

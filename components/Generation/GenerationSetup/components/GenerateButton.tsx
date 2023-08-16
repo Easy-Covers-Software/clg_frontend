@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 import { Tooltip } from "@mui/material";
@@ -152,6 +153,7 @@ export default function GenerateButtons() {
     freeText,
     additionalDetails,
     disableGenerateButton,
+    loadingCoverLetter
   } = state;
 
   const {
@@ -161,7 +163,7 @@ export default function GenerateButtons() {
     toggleSettingsIsOpen,
     toggleLoginIsOpen,
   } = useAuth();
-  const { user, accessLevel } = authState;
+  const { user, accessLevel,  } = authState;
 
   // Cover Letter handler
   const handleGenerateCoverLetter = async (model: string) => {
@@ -176,8 +178,6 @@ export default function GenerateButtons() {
     }
 
     if (model === "0") {
-      // if
-
       toggleSettingsIsOpen();
       updateSnackbar(
         true,
@@ -214,6 +214,15 @@ export default function GenerateButtons() {
       );
     }
   };
+
+  useEffect(() => {
+    if (loadingCoverLetter) {
+      dispatch({
+        type: "SET_MOBILE_MODE",
+        payload: "results",
+      });
+    }
+  }, [loadingCoverLetter])
 
   return (
     <Container>

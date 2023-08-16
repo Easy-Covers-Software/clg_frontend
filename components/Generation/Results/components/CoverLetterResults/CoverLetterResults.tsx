@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Global, css } from "@emotion/react";
 
 import { RichTextEditor, Link } from "@mantine/tiptap";
@@ -12,6 +12,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import DownloadOptionsMenu from "./components/DownloadOptionsMenu";
+import { useAuth } from "@/context/AuthContext";
 
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
@@ -30,9 +31,12 @@ import {
 
 export default function CoverLetterResults() {
   const isMobile = useMediaQuery("(max-width: 600px)");
+  
+  const { dispatch: authDispatch } = useAuth();
+  
+  
   const { state, dispatch } = useGenerationContext();
   const {
-    currentCoverLetter,
     isReQuerySectionExpanded,
     loadingCoverLetter,
     coverLetter,
@@ -69,6 +73,15 @@ export default function CoverLetterResults() {
 
     return sections;
   }
+
+  useEffect(() => {
+    if (!loadingCoverLetter && coverLetter.includes("<div><p>Awaiting Generation...</p></div>")){
+      authDispatch({
+        type: "SET_MOBILE_MODE",
+        payload: "setup",
+      })
+    }
+  }, [loadingCoverLetter, coverLetter]);
 
   useEffect(() => {
     if (editor) {
