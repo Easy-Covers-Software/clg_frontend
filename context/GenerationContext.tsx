@@ -362,7 +362,6 @@ export function GenerationContext({ children }) {
     additionalDetails,
     model
   ) => {
-    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
     const response = await fetchCoverLetter(
       jobPosting,
       resume,
