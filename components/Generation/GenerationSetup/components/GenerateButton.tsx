@@ -214,16 +214,7 @@ export default function GenerateButtons() {
       );
     }
   };
-
-  useEffect(() => {
-    if (loadingCoverLetter) {
-      dispatch({
-        type: "SET_MOBILE_MODE",
-        payload: "results",
-      });
-    }
-  }, [loadingCoverLetter])
-
+  
   return (
     <Container>
       <ButtonSet
