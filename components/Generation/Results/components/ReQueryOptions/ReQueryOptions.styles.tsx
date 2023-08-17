@@ -32,8 +32,8 @@ const MoreOptions = styled(UnSelectedButton)`
   white-space: nowrap;
 
   @media screen and (min-width: 0px) and (max-width: 600px) {
-    font-size: 0.56rem;
-    width: 38%;
+    font-size: 0.82rem;
+    width: 50%;
     height: 7vh;
   }
 
@@ -94,6 +94,7 @@ namespace CustomReQueryStyledComponents {
     background-color: #fff;
     border-top: 1px solid #006d4b;
     border-radius: 4px;
+    font-size: 16px;
     ::placeholder {
       color: #e2e2e2; // Change this to the color you want
     }
