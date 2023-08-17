@@ -77,7 +77,15 @@ const ButtonSet = (props: ButtonSetProps) => {
             mt={1}
           >
             <GenerateButtonDouble
-              onClick={() => handleGenerateCoverLetter("3")}
+              onClick={() => {
+                dispatch({
+                  type: "SET_UPDATE_USER",
+                });
+
+                console.log("Refresh user right before??");
+
+                handleGenerateCoverLetter("3");
+              }}
               disabled={disabled}
             >
               Generate GPT-3
@@ -153,20 +161,26 @@ export default function GenerateButtons() {
     freeText,
     additionalDetails,
     disableGenerateButton,
-    loadingCoverLetter
+    loadingCoverLetter,
   } = state;
 
   const {
     state: authState,
     dispatch,
     updateSnackbar,
+    handleSnackbarClose,
     toggleSettingsIsOpen,
     toggleLoginIsOpen,
   } = useAuth();
-  const { user, accessLevel,  } = authState;
+  const { user, accessLevel, isSettingsOpen } = authState;
 
   // Cover Letter handler
   const handleGenerateCoverLetter = async (model: string) => {
+    dispatch({
+      type: "SET_UPDATE_USER",
+    });
+    console.log("Refresh user right before??", accessLevel);
+
     if (model === "-1") {
       toggleLoginIsOpen();
       updateSnackbar(
@@ -212,9 +226,27 @@ export default function GenerateButtons() {
         "error",
         "Error generating cover letter. Please try again. If the problem persists, please contact us."
       );
+      return;
     }
   };
-  
+
+  useEffect(() => {
+    if (
+      accessLevel?.num_gpt3_generations_available > 0 ||
+      accessLevel?.num_gpt4_generations_available > 0
+    ) {
+      if (isSettingsOpen) {
+        handleSnackbarClose();
+        toggleSettingsIsOpen();
+        updateSnackbar(
+          true,
+          "success",
+          "You have successfully upgraded your account."
+        );
+      }
+    }
+  }, [accessLevel]);
+
   return (
     <Container>
       <ButtonSet
