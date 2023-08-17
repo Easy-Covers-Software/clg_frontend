@@ -241,7 +241,7 @@ export default function GenerateButtons() {
         updateSnackbar(
           true,
           "success",
-          "You have successfully upgraded your account."
+          "Detected new credits to your account. You will now be able to generate your cover letter."
         );
       }
     }
