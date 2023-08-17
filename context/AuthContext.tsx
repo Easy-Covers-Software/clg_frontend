@@ -22,6 +22,8 @@ const initialState = {
   user: null,
   isLoginOpen: false,
   isSettingsOpen: false,
+  isHelpDialogOpen: false,
+  isPaymentSuccessDialogOpen: false,
   createAccountEasyCovers: false,
   page: "",
   mobileMode: "setup",
@@ -73,6 +75,8 @@ function reducer(state, action) {
       return { ...state, isLoginOpen: action.payload };
     case "SET_IS_SETTINGS_OPEN":
       return { ...state, isSettingsOpen: action.payload };
+    case "SET_IS_HELP_DIALOG_OPEN":
+      return { ...state, isHelpDialogOpen: action.payload };
     case "SET_CREATE_ACCOUNT_EASY_COVERS":
       return { ...state, createAccountEasyCovers: action.payload };
     case "SET_FORGOT_PASSWORD":
@@ -166,6 +170,14 @@ export const AuthProvider = ({
 
   const toggleSettingsIsOpen = () => {
     dispatch({ type: "SET_IS_SETTINGS_OPEN", payload: !state.isSettingsOpen });
+  };
+  
+  const toggleHelpDialog = () => {
+    dispatch({ type: "SET_IS_HELP_DIALOG_OPEN", payload: !state.isHelpDialogOpen });
+  };
+  
+  const togglePaymentSuccessDialog = () => {
+    dispatch({ type: "SET_CREATE_ACCOUNT_EASY_COVERS", payload: !state.isPaymentSuccessDialogOpen });
   };
 
   const handleSnackbarClose = () => {
@@ -353,6 +365,8 @@ export const AuthProvider = ({
         openAlertDialogConfirm,
         handleAlertDialogConfirmClose,
         resetPassword,
+        toggleHelpDialog,
+        togglePaymentSuccessDialog,
       }}
     >
       {/* <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}> */}
