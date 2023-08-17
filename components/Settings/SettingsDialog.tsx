@@ -24,27 +24,27 @@ let packages = [
   },
   {
     name: "Dynamic Drafter",
-    features: ["10 cover letters", "20 Adjustments"],
-    price: "$1.99",
-    price_gpt4: "$2.99",
+    features: ["15 cover letters", "30 Adjustments"],
+    price: "$2.99",
+    price_gpt4: "$3.99",
   },
   {
     name: "Pro Drafter",
-    features: ["20 cover letters", "40 Adjustments"],
-    price: "$2.99",
-    price_gpt4: "$5.99",
+    features: ["50 cover letters", "100 Adjustments"],
+    price: "$4.99",
+    price_gpt4: "$7.99",
   },
   {
     name: "Letter Luminary",
-    features: ["75 cover letters", "150 Adjustments"],
-    price: "$4.99",
-    price_gpt4: "$9.99",
+    features: ["100 cover letters", "200 Adjustments"],
+    price: "$8.99",
+    price_gpt4: "$13.99",
   },
   {
     name: "Cover Connoisseur",
     features: ["200 cover letters", "400 Adjustments"],
-    price: "$9.99",
-    price_gpt4: "$18.99",
+    price: "$12.99",
+    price_gpt4: "$19.99",
   },
 ];
 
