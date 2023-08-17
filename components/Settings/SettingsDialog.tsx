@@ -70,13 +70,6 @@ export default function SettingsDialog() {
 
   const dialogRef = useRef(null);
 
-  const scrollToBottom = () => {
-    const container = dialogRef.current;
-    if (container && container.scrollHeight) {
-      container.scrollTop = container.scrollHeight;
-    }
-  };
-
   useEffect(() => {
     if (selectedPackagePrice !== "") {
       setHasSelectedPricingOption(true);
@@ -90,19 +83,6 @@ export default function SettingsDialog() {
   const handleClose = () => {
     toggleSettingsIsOpen(false);
   };
-
-  const extractPrice = (frontendValue) => {
-    const pattern = /(\d+\.\d+)/g;
-    const match = frontendValue.match(pattern);
-
-    if (match && match.length > 0) {
-      return match[0];
-    }
-
-    return null;
-  };
-
-  const handleStripePayment = () => {};
 
   return (
     <Dialog
@@ -144,8 +124,9 @@ export default function SettingsDialog() {
         )}
 
         <DialogContentContainer>
-          {packages.map((packageItem) => (
+          {packages.map((packageItem, i) => (
             <UpgradeAccountOption
+              key={i}
               packages={packageItem}
               setSelectedPackagePrice={setSelectedPackagePrice}
             />

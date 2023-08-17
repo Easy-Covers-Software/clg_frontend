@@ -24,6 +24,7 @@ export default function Sidebar() {
     <>
       <Logo src="/easy-covers-full.svg" alt="Description of Image" />
       {user ? <MenuLoggedIn /> : <MenuLoggedOut />}
+      {/* {user ? <MenuLoggedOut /> : <MenuLoggedIn />} */}
     </>
   );
 }

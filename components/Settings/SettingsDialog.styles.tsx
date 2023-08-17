@@ -107,7 +107,7 @@ namespace UpgradeAccountOptionStyledComponents {
 
   export const FeatureList = styled.ul`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-around;
     height: 100%;
     // text-align: left;
@@ -116,6 +116,7 @@ namespace UpgradeAccountOptionStyledComponents {
 
     @media screen and (min-width: 0px) and (max-width: 600px) {
       margin-right: 35%;
+      flex-direction: column;
     }
   `;
 

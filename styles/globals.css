@@ -230,7 +230,7 @@ body {
   font-size: 1.2rem;
   color: #006d4b;
   letter-spacing: 0.22rem;
-  white-space: nowrap; 
+  white-space: nowrap;
   width: 100%;
   height: fit-content;
 
@@ -336,7 +336,7 @@ body {
 }
 
 .job-summary-company::-webkit-scrollbar {
-  width: 0px ;
+  width: 0px;
   height: 0px;
   background: transparent;
 }
@@ -798,7 +798,7 @@ body {
   }
 
   .main-content {
-    height: calc(100vh - 60px);
+    height: calc(100vh - 64px);
     /* width: 100%; */
     display: flex;
     gap: 20px;
@@ -841,8 +841,7 @@ body {
   }
 
   .main-content {
-    height: calc(100vh - 92px);
-    /* width: 94vw; */
+    height: calc(100vh - 70px);
     display: flex;
     gap: 20px;
     flex-shrink: 0;
@@ -902,12 +901,7 @@ body {
   }
 
   .layout-grid {
-    display: grid;
-    grid-template-areas:
-      "header header"
-      "sidebar main";
-    grid-template-rows: auto 1fr;
-    grid-template-columns: auto 1fr;
+    display: block;
   }
 
   .sidebar {
