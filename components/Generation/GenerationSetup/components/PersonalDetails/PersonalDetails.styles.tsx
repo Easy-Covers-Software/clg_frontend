@@ -31,6 +31,7 @@ namespace FreeTextInputStyledComponents {
     border-top: 1px solid #006d4b;
     border-radius: 4px;
     margin-bottom: 2%;
+    font-size: 16px;
     ::placeholder {
       color: #e2e2e2; // Change this to the color you want
     }
@@ -50,7 +51,6 @@ namespace PersonalDetailsModeSwitchStyledComponents {
     width: 56%;
     white-space: nowrap;
     background-color: #f8f8ff;
-    // background-color: white;
     z-index: 1;
     border-bottom: 0;
 
