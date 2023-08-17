@@ -24,6 +24,7 @@ const Container = styled(Grid)`
     padding: 0 1%;
     width: 100%;
     margin-top: 2%;
+    font-size: 16px;
   }
 
   // @media screen and (min-width: 600px) and (max-width: 700px) {
