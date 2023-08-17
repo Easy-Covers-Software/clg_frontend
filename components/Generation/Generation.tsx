@@ -5,6 +5,7 @@ import { GenerationContext } from "@/context/GenerationContext";
 
 import LoginDialog from "@/components/Login/LoginDialog";
 import SettingsDialog from "@/components/Settings/SettingsDialog";
+import HelpDialog from "@/components/HelpDialog/HelpDialog";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import styled from "@emotion/styled";
 
@@ -42,6 +43,7 @@ export default function Generation() {
     snackbar,
     alertDialogConfirm,
     mobileMode,
+    isHelpDialogOpen
   } = state;
 
   useEffect(() => {
@@ -52,6 +54,7 @@ export default function Generation() {
     <Container>
       {isLoginOpen ? <LoginDialog /> : null}
       {isSettingsOpen ? <SettingsDialog /> : null}
+      {isHelpDialogOpen ? <HelpDialog /> : null}
       <GenerationContext>
         {isMobile ? (
           <>{mobileMode === "setup" ? <GenerationSetup /> : <Results />}</>
