@@ -12,6 +12,25 @@ type Props = {
   children: ReactNode;
 };
 
+const inputs = document.querySelectorAll("input, select, textarea");
+
+inputs.forEach((input) => {
+  input.addEventListener("focus", () => {
+    document
+      .querySelector('meta[name="viewport"]')
+      .setAttribute(
+        "content",
+        "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      );
+  });
+
+  input.addEventListener("blur", () => {
+    document
+      .querySelector('meta[name="viewport"]')
+      .setAttribute("content", "width=device-width, initial-scale=1.0");
+  });
+});
+
 const Provider: FC<Props> = ({ children }) => {
   return (
     <AuthProvider>
