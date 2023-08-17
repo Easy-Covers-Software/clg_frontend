@@ -24,7 +24,7 @@ let packages = [
   },
   {
     name: "Dynamic Drafter",
-    features: ["15 cover letters", "30 Adjustments"],
+    features: ["25 cover letters", "50 Adjustments"],
     price: "$2.99",
     price_gpt4: "$3.99",
   },
