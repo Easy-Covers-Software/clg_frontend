@@ -12,6 +12,14 @@ import { CircularProgress } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Typography from "@mui/material/Typography";
 
+import styled from "@emotion/styled";
+
+const EmptyListGrid = styled(Grid)`
+  text-align: center;
+  padding: 1%;
+  margin-top: 5%;
+`;
+
 export default function SavedLettersList() {
   const {
     state,
@@ -34,6 +42,7 @@ export default function SavedLettersList() {
     dispatch: authDispatch,
     updateSnackbar,
     openAlertDialogConfirm,
+    user,
   } = useAuth();
   const { didConfirmAlert } = authState;
   const [selected, setSelected] = useState<any | null>(null);
@@ -116,41 +125,37 @@ export default function SavedLettersList() {
   if (getSavedLoading) return <CircularProgress />;
 
   return (
-    <List
-      sx={{
-        width: "94%",
-        height: "100%",
-        bgcolor: "#fff",
-        borderRadius: "4px",
-        border: "1px solid #006D4B",
-        paddingTop: "0px",
-        padding: "0 3%",
-      }}
-    >
-      {filteredCoverLetters.length === 0 && search === "" ? (
-        <Grid textAlign={"center"} p={"1%"} mt={"5%"}>
+    <List className="saved-letters-list">
+      {user !== undefined && user !== null ? (
+        <EmptyListGrid>
+          <Typography>
+            Not signed in. Sign in to save cover letters and view them here.
+          </Typography>
+        </EmptyListGrid>
+      ) : filteredCoverLetters.length === 0 && search === "" ? (
+        <EmptyListGrid>
           <Typography>
             None Saved! Generate a cover letter and save to view on this page.
           </Typography>
-        </Grid>
+        </EmptyListGrid>
       ) : filteredCoverLetters.length === 0 ? (
-        <Grid textAlign={"center"} p={"1%"} mt={"5%"}>
+        <EmptyListGrid>
           <Typography>
             No cover letters found with that name. Try another search.
           </Typography>
-        </Grid>
+        </EmptyListGrid>
       ) : (
         <>
           {filteredCoverLetters.length > 0 &&
-            filteredCoverLetters?.map((coverLetter) => {
+            filteredCoverLetters?.map((coverLetter, i) => {
               console.log("coverLetter ==*", coverLetter);
-              const labelId = `radio-list-label-${coverLetter.save_name}`;
+              const labelId = `radio-list-label-${coverLetter.save_name}-${i}`;
 
               return (
                 <ListItem
                   key={labelId}
                   style={{
-                    borderBottom: "1px solid #006D4B",
+                    borderBottom: "0.4px solid #006D4B",
                   }}
                   secondaryAction={
                     <>
