@@ -18,31 +18,31 @@ import { useMediaQuery } from "@mui/material";
 let packages = [
   {
     name: "Intro Drafter",
-    features: ["5 Unique Cover Letters", "10 Adjustments"],
+    features: ["5 Cover Letters", "10 Adjustments"],
     price: "$0.99",
     price_gpt4: "$1.99",
   },
   {
     name: "Dynamic Drafter",
-    features: ["10 unique cover letters", "20 Adjustments"],
+    features: ["10 cover letters", "20 Adjustments"],
     price: "$1.99",
     price_gpt4: "$2.99",
   },
   {
     name: "Pro Drafter",
-    features: ["20 unique cover letters", "40 Adjustments"],
+    features: ["20 cover letters", "40 Adjustments"],
     price: "$2.99",
     price_gpt4: "$5.99",
   },
   {
     name: "Letter Luminary",
-    features: ["75 unique cover letters", "150 Adjustments"],
+    features: ["75 cover letters", "150 Adjustments"],
     price: "$4.99",
     price_gpt4: "$9.99",
   },
   {
     name: "Cover Connoisseur",
-    features: ["200 unique cover letters", "400 Adjustments"],
+    features: ["200 cover letters", "400 Adjustments"],
     price: "$9.99",
     price_gpt4: "$18.99",
   },
