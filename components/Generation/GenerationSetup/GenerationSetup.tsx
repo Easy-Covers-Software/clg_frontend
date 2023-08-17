@@ -78,7 +78,6 @@ export default function GenerationSetup() {
     }
   };
 
-
   // Panel change handler
   const handleChange =
     (panel: string, nextPanel: string | false, tracker: string) =>

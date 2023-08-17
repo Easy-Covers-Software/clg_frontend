@@ -95,8 +95,9 @@ const Container = styled(Grid)`
 
   @media screen and (min-width: 0px) and (max-width: 600px) {
     width: 100vw;
-    height: calc(100vh - 80px);
-    justify-content: center;
+    height: calc(100vh - 88px);
+    justify-content: start;
+    gap: 3%;
   }
 
   @media screen and (min-width: 600px) and (max-width: 900px) {
