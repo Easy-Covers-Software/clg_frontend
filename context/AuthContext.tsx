@@ -171,13 +171,19 @@ export const AuthProvider = ({
   const toggleSettingsIsOpen = () => {
     dispatch({ type: "SET_IS_SETTINGS_OPEN", payload: !state.isSettingsOpen });
   };
-  
+
   const toggleHelpDialog = () => {
-    dispatch({ type: "SET_IS_HELP_DIALOG_OPEN", payload: !state.isHelpDialogOpen });
+    dispatch({
+      type: "SET_IS_HELP_DIALOG_OPEN",
+      payload: !state.isHelpDialogOpen,
+    });
   };
-  
+
   const togglePaymentSuccessDialog = () => {
-    dispatch({ type: "SET_CREATE_ACCOUNT_EASY_COVERS", payload: !state.isPaymentSuccessDialogOpen });
+    dispatch({
+      type: "SET_CREATE_ACCOUNT_EASY_COVERS",
+      payload: !state.isPaymentSuccessDialogOpen,
+    });
   };
 
   const handleSnackbarClose = () => {
@@ -221,7 +227,7 @@ export const AuthProvider = ({
         open: false,
         header: "",
         message: "",
-        buttonText: ""
+        buttonText: "",
       },
     });
   };
