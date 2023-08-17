@@ -83,12 +83,12 @@ const AccordionDetails = muiStyled(MuiAccordionDetails)(() => ({
 const Container = styled(Grid)`
   width: 40vw;
   padding: 0.3%;
-  height: calc(100vh - 98px);
+  height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  overflow: auto; // Add overflow property to handle child elements
+  overflow: auto;
   background-color: white;
   border: 1px solid #006d4b;
   border-radius: 4px;
@@ -96,6 +96,7 @@ const Container = styled(Grid)`
   @media screen and (min-width: 0px) and (max-width: 600px) {
     width: 100vw;
     height: calc(100vh - 80px);
+    justify-content: center;
   }
 
   @media screen and (min-width: 600px) and (max-width: 900px) {
@@ -115,7 +116,9 @@ const GenerateButton = styled(UnSelectedButton)`
   font-size: 0.95rem;
   letter-spacing: 1px;
   margin: auto;
-  width: 60%;
+  margin-bottom: 0.5%;
+
+  // width: 60%;
 
   &:hover {
     background-color: #a5b4a5;
@@ -129,8 +132,8 @@ const GenerateButton = styled(UnSelectedButton)`
   }
 
   @media screen and (max-width: 900px) {
-    width: 90%; // Increase width for smaller screens
     font-size: 0.9rem; // Adjust font size for smaller screens
+    height: 12%;
   }
 `;
 
