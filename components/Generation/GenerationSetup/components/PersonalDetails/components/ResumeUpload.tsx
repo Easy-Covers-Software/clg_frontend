@@ -51,10 +51,8 @@ export default function ResumeUploader() {
         />
       </DragDropContainer>
       {userResume && userResume !== "" && (
-        // {/* //{" "} */}
         <Tooltip title={`Date Uploaded: `}>
           <SelectLastUsedResume
-            // component={Paper}
             onClick={handleUseLastResume}
             // isUsingLastUploadedResume={state.isUsingLastUploadedResume}
             sx={{
@@ -66,14 +64,16 @@ export default function ResumeUploader() {
             }}
           >
             <Grid display={"flex"} alignItems={"center"} gap={"3%"}>
-              <PostAddIcon
-                fontSize="large"
-                // color="#006D4B"
-                sx={{
-                  paddingBottom: "2%",
-                  color: "#006D4B",
-                }}
-              />
+              {!isUsingLastUploadedResume && (
+                <PostAddIcon
+                  fontSize="large"
+                  // color="#006D4B"
+                  sx={{
+                    paddingBottom: "2%",
+                    color: "#006D4B",
+                  }}
+                />
+              )}
               <Typography
                 className="use-last-resume"
                 style={{
