@@ -22,12 +22,7 @@ const JobOverview = styled(Grid)`
   border: 1px solid #006d4b;
   border-radius: 4px;
   background-color: #f8f8ff;
-  margin: 0.3% 0;
-  padding-bottom: 0.8% 0;
-
-  @media screen and (max-width: 900px) {
-    width: 100%;
-  }
+  padding: 2.25% 3%;
 `;
 
 const JobMatchScore = styled(Grid)`
