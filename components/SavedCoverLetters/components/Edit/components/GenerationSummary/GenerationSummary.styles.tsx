@@ -22,7 +22,40 @@ const JobOverview = styled(Grid)`
   border: 1px solid #006d4b;
   border-radius: 4px;
   background-color: #f8f8ff;
-  padding: 2.25% 3%;
+  padding: 1% 3% 2.5% 3%;
+  margin: 0.3% 0;
+
+  @media screen and (min-width: 0px) and (max-width: 600px) {
+    padding: 2.25% 3%;
+  }
+
+  @media screen and (min-width: 600px) and (max-width: 700px) {
+    padding: 2.5% 5% 3% 5%;
+  }
+
+  @media screen and (min-width: 700px) and (max-width: 800px) {
+    padding: 2.5% 5% 3% 5%;
+  }
+
+  @media screen and (min-width: 800px) and (max-width: 900px) {
+    padding: 2.1% 3% 2.5% 3%;
+  }
+
+  @media screen and (min-width: 900px) and (max-width: 950px) {
+    padding: 1.95% 3% 2.5% 3%;
+  }
+
+  @media screen and (min-width: 950px) and (max-width: 1000px) {
+    padding: 1.8% 3% 2.5% 3%;
+  }
+
+  @media screen and (min-width: 1000px) and (max-width: 1100px) {
+    padding: 1.5% 3% 2.5% 3%;
+  }
+
+  @media screen and (min-width: 1100px) and (max-width: 1200px) {
+    padding: 1.2% 3% 2.5% 3%;
+  }
 `;
 
 const JobMatchScore = styled(Grid)`
