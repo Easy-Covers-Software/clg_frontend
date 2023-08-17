@@ -6,6 +6,7 @@ export const JobPostingTextInputField = styled.textarea`
   box-sizing: border-box;
   background-color: white;
   padding: 2%;
+  font-size: 18px;
   border: none;
   resize: none;
   ::placeholder {
