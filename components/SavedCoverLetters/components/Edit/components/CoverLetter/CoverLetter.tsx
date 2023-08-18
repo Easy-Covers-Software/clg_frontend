@@ -39,10 +39,6 @@ export default function CoverLetter() {
 
   console.log("edit mode parts", selectedCoverLetterParts);
 
-  const [coverLetter, setCoverLetter] = useState(
-    `Select a saved cover letter to edit`
-  );
-
   useEffect(() => {
     if (selectedCoverLetterParts !== null) {
       if (typeof selectedCoverLetterParts[0] !== "string") {
@@ -56,7 +52,6 @@ export default function CoverLetter() {
           type: "SET_SELECTED_COVER_LETTER_HTML",
           payload: addDiv,
         });
-        setCoverLetter(addDiv);
       } else {
         const sections = selectedCoverLetterParts
           .map((part) => {
@@ -64,7 +59,10 @@ export default function CoverLetter() {
           })
           .join("");
         const addDiv = `<div>${sections}</div>`;
-        setCoverLetter(addDiv);
+        dispatch({
+          type: "SET_SELECTED_COVER_LETTER_HTML",
+          payload: addDiv,
+        });
       }
     }
   }, [selectedCoverLetterParts]);
@@ -80,20 +78,16 @@ export default function CoverLetter() {
         Highlight,
         TextAlign.configure({ types: ["heading", "paragraph"] }),
       ],
-      content: coverLetter,
+      content: selectedCoverLetterHtml,
     },
-    [coverLetter]
+    [selectedCoverLetterHtml]
   );
 
   useEffect(() => {
     if (editor) {
-      dispatch({
-        type: "SET_SELECTED_COVER_LETTER_HTML",
-        payload: coverLetter,
-      });
-      editor.commands.setContent(coverLetter);
+      editor.commands.setContent(selectedCoverLetterHtml);
     }
-  }, [coverLetter, editor]);
+  }, [selectedCoverLetterHtml, editor]);
 
   function parseSectionsFromHTML(html) {
     const parser = new DOMParser();

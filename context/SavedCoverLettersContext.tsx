@@ -335,10 +335,11 @@ export default function SavedCoverLettersContext(props) {
   };
 
   const deleteSavedCoverLetter = async () => {
-    console.log("selectedCoverLetter ========fff", state.selectedCoverLetter);
-
     try {
       await postDeleteSavedCoverLetter(state.selectedCoverLetter?.id);
+      dispatch({
+        type: "RESET_SELECTED_COVER_LETTER_DATA",
+      });
       return true;
     } catch (error) {
       console.log("Error: Could not delete saved cover letter", error);
@@ -351,10 +352,10 @@ export default function SavedCoverLettersContext(props) {
   useEffect(() => {
     getUsersSavedCoverLetters();
   }, []);
-  
-  useEffect(() => {
-    getUsersSavedCoverLetters();
-  }, [state.selectedCoverLetter]);
+
+  // useEffect(() => {
+  //   getUsersSavedCoverLetters();
+  // }, [state.selectedCoverLetter]);
 
   // determine intermediate type
   useEffect(() => {
@@ -471,18 +472,15 @@ export default function SavedCoverLettersContext(props) {
       }
     };
 
-    
-
-    if (state.selectedCoverLetter !== null){
+    if (state.selectedCoverLetter !== null) {
       dispatch({
         type: "SET_SAVE_NAME",
         payload: state.selectedCoverLetter?.save_name,
       });
-      
+
       getJobPosting();
       getCoverLetterParts();
     }
-
   }, [state.selectedCoverLetter]);
 
   useEffect(() => {
@@ -498,6 +496,8 @@ export default function SavedCoverLettersContext(props) {
       });
     }
   }, [state.loadingCoverLetter]);
+
+  console.log("cover letter", state);
 
   return (
     <SavedContext.Provider
