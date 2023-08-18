@@ -28,6 +28,7 @@ const initialState = {
   search: "",
   filterValue: "",
   setLoadingSavedCoverLetters: false,
+  updateSavedList: false,
 
   // cover letter display
   selectedCoverLetter: null,
@@ -39,6 +40,8 @@ const initialState = {
   updateCoverLetterParts: null,
   disableRequery: false,
   saveName: "",
+  disableSavedButton: true,
+  disableDownloads: true,
 
   // intermediate adjustments
   addSkillInput: "",
@@ -70,6 +73,10 @@ function reducer(state, action) {
       return { ...state, search: action.payload };
     case "SET_SAVE_NAME":
       return { ...state, saveName: action.payload };
+    case "DISABLE_SAVED_BUTTON":
+      return { ...state, disableSavedButton: action.payload };
+    case "DISABLE_DOWNLOADS":
+      return { ...state, disableDownloads: action.payload };
     case "SET_SELECTED_COVER_LETTER":
       return { ...state, selectedCoverLetter: action.payload };
     case "SET_SELECTED_COVER_LETTER_PARTS":
@@ -112,6 +119,8 @@ function reducer(state, action) {
       return { ...state, isFilterDropdownOpen: action.payload };
     case "SET_DISABLE_REQUERY":
       return { ...state, disableRequery: action.payload };
+    case "UPDATE_SAVED_LIST":
+      return { ...state, updateSavedList: !state.updateSavedList };
     case "RESET_SELECTED_COVER_LETTER_DATA":
       return {
         ...state,
@@ -347,15 +356,26 @@ export default function SavedCoverLettersContext(props) {
     }
   };
 
+  const removeDivTags = (inputStr) => {
+    // Check if the string starts with "<div>" and ends with "</div>"
+    if (inputStr.startsWith("<div>") && inputStr.endsWith("</div>")) {
+      // Remove the starting "<div>" (5 characters) and ending "</div>" (6 characters)
+      return inputStr.substring(5, inputStr.length - 6);
+    }
+
+    // If the conditions aren't met, just return the original string
+    return inputStr;
+  };
+
   //-- Hooks --//
   // fetch users saved cover letters
   useEffect(() => {
     getUsersSavedCoverLetters();
   }, []);
 
-  // useEffect(() => {
-  //   getUsersSavedCoverLetters();
-  // }, [state.selectedCoverLetter]);
+  useEffect(() => {
+    getUsersSavedCoverLetters();
+  }, [state.updateSavedList]);
 
   // determine intermediate type
   useEffect(() => {
@@ -477,9 +497,22 @@ export default function SavedCoverLettersContext(props) {
         type: "SET_SAVE_NAME",
         payload: state.selectedCoverLetter?.save_name,
       });
+      dispatch({
+        type: "DISABLE_DOWNLOADS",
+        payload: false,
+      });
 
       getJobPosting();
       getCoverLetterParts();
+    } else {
+      dispatch({
+        type: "DISABLE_SAVED_BUTTON",
+        payload: true,
+      });
+      dispatch({
+        type: "DISABLE_DOWNLOADS",
+        payload: true,
+      });
     }
   }, [state.selectedCoverLetter]);
 
@@ -496,6 +529,28 @@ export default function SavedCoverLettersContext(props) {
       });
     }
   }, [state.loadingCoverLetter]);
+
+  useEffect(() => {
+    if (
+      state.selectedCoverLetter !== null &&
+      state.updateCoverLetter !== null &&
+      removeDivTags(state.selectedCoverLetterHtml) !== state.updateCoverLetter
+    ) {
+      dispatch({
+        type: "DISABLE_SAVED_BUTTON",
+        payload: false,
+      });
+    } else {
+      dispatch({
+        type: "DISABLE_SAVED_BUTTON",
+        payload: true,
+      });
+    }
+  }, [
+    state.selectedCoverLetter,
+    state.updateCoverLetter,
+    state.selectedCoverLetterHtml,
+  ]);
 
   console.log("cover letter", state);
 
