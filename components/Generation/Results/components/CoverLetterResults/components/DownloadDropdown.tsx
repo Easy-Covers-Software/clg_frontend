@@ -41,8 +41,8 @@ export default function DownloadDropdown() {
     coverLetterParts,
     updateCoverLetterParts,
     updateCoverLetter,
-    jobPostingId,
-    jobDetails,
+    disableDownloads,
+    savedId,
   } = state;
 
   const { updateSnackbar } = useAuth();
@@ -63,19 +63,9 @@ export default function DownloadDropdown() {
   const handlePDFDownload = async () => {
     let success = false;
     if (updateCoverLetterParts !== null) {
-      success = await generatePDF(
-        updateCoverLetterParts,
-        saveName,
-        jobPostingId,
-        jobDetails
-      );
+      success = await generatePDF(updateCoverLetterParts, saveName);
     } else {
-      success = await generatePDF(
-        coverLetterParts,
-        saveName,
-        jobPostingId,
-        jobDetails
-      );
+      success = await generatePDF(coverLetterParts, saveName);
     }
 
     console.log("success", success);
@@ -95,23 +85,9 @@ export default function DownloadDropdown() {
   const handleDOCXDownload = async () => {
     let success = false;
     if (updateCoverLetter !== null) {
-      success = await generateDOCX(
-        saveName,
-        updateCoverLetter,
-        jobPostingId,
-        jobDetails,
-        coverLetterParts,
-        updateCoverLetterParts
-      );
+      success = await generateDOCX(saveName, updateCoverLetter);
     } else {
-      success = await generateDOCX(
-        saveName,
-        coverLetter,
-        jobPostingId,
-        jobDetails,
-        coverLetterParts,
-        updateCoverLetterParts
-      );
+      success = await generateDOCX(saveName, coverLetter);
     }
 
     if (success) {
@@ -136,6 +112,7 @@ export default function DownloadDropdown() {
           style={{
             margin: isMobile ? "auto" : "none",
           }}
+          disabled={disableDownloads}
         >
           <DownloadForOfflineOutlinedIcon />
         </IconButton>

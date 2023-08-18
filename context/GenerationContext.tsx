@@ -56,6 +56,7 @@ const initialState = {
   saveName: "",
   savedId: "",
   disableSavedButton: true,
+  disableDownloads: true,
 
   // intermediate adjustments
   addSkillInput: "",
@@ -133,6 +134,8 @@ function reducer(state, action) {
       return { ...state, savedId: action.payload };
     case "DISABLE_SAVE_BUTTON":
       return { ...state, disableSavedButton: action.payload };
+    case "DISABLE_DOWNLOADS":
+      return { ...state, disableDownloads: action.payload };
 
     // Intermediate Adjustments
     case "SET_ADD_SKILL_INPUT":
@@ -581,6 +584,18 @@ export function GenerationContext({ children }) {
       }
     }
   }, [state.coverLetter, state.updateCoverLetter]);
+
+  useEffect(() => {
+    if (
+      state.coverLetter !== "<div><p>Awaiting Generation...</p></div>" &&
+      state.coverLetter !== ""
+    ) {
+      dispatch({
+        type: "DISABLE_DOWNLOADS",
+        payload: false,
+      });
+    }
+  }, [state.coverLetter]);
 
   return (
     <Context.Provider
