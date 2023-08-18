@@ -48,17 +48,18 @@ export default function SavedLettersList() {
   const [selected, setSelected] = useState<any | null>(null);
 
   const handleToggle = (selectedCoverLetter) => () => {
-    // if (selected !== null && selected.id === selectedCoverLetter.id) {
-    // setSelected(null);
-    // dispatch({ type: "SET_SELECTED_COVER_LETTER", payload: null });
-    // } else {
     setSelected(selectedCoverLetter);
     dispatch({
       type: "SET_SELECTED_COVER_LETTER",
       payload: selectedCoverLetter,
     });
-    // }
   };
+
+  useEffect(() => {
+    dispatch({
+      type: "UPDATE_SAVED_LIST",
+    });
+  }, [user]);
 
   const confirmDelete = async () => {
     const response = await deleteSavedCoverLetter();
