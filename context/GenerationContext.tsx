@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 import {
+  Helpers,
   GenerationUtils,
   ReQueryUtils,
   SavedCoverLettersUtils,
@@ -18,6 +19,8 @@ const {
   fetchCustomAdjustment,
   generateCoverLetterParts,
 } = ReQueryUtils;
+
+const { removeDivTags } = Helpers;
 
 const { postSaveCoverLetterResults } = SavedCoverLettersUtils;
 
@@ -576,10 +579,15 @@ export function GenerationContext({ children }) {
 
   useEffect(() => {
     if (state.updateCoverLetter !== null) {
-      if (state.coverLetter !== state.updateCoverLetter) {
+      if (removeDivTags(state.coverLetter) !== state.updateCoverLetter) {
         dispatch({
           type: "DISABLE_SAVE_BUTTON",
           payload: false,
+        });
+      } else {
+        dispatch({
+          type: "DISABLE_SAVE_BUTTON",
+          payload: true,
         });
       }
     }

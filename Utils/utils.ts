@@ -5,6 +5,19 @@ import Cookie from "js-cookie";
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+namespace Helpers {
+  export function removeDivTags(inputStr) {
+    // Check if the string starts with "<div>" and ends with "</div>"
+    if (inputStr.startsWith("<div>") && inputStr.endsWith("</div>")) {
+      // Remove the starting "<div>" (5 characters) and ending "</div>" (6 characters)
+      return inputStr.substring(5, inputStr.length - 6);
+    }
+
+    // If the conditions aren't met, just return the original string
+    return inputStr;
+  }
+}
+
 namespace LoginUtils {
   export const signInGoogle = async () => {
     const parameters = {
@@ -516,20 +529,7 @@ namespace ReQueryUtils {
 }
 
 namespace DownloadUtils {
-  export const generatePDF = async (
-    parts: string[],
-    saveName: string,
-    jobPostingId,
-    jobDetails
-  ) => {
-    GenerationUtils.saveCoverLetter(
-      saveName,
-      parts,
-      null,
-      jobPostingId,
-      jobDetails.match_score
-    );
-
+  export const generatePDF = async (parts: string[], saveName: string) => {
     const doc = new jsPDF("p", "px", "a4", true);
 
     doc.setFont("Times New Roman");
@@ -569,22 +569,7 @@ namespace DownloadUtils {
     return true;
   };
 
-  export const generateDOCX = async (
-    saveName: string,
-    html: string,
-    jobPostingId,
-    jobDetails,
-    parts,
-    updateCoverLetterParts
-  ) => {
-    GenerationUtils.saveCoverLetter(
-      saveName,
-      parts,
-      updateCoverLetterParts,
-      jobPostingId,
-      jobDetails.match_score
-    );
-
+  export const generateDOCX = async (saveName: string, html: string) => {
     const url = `${API_BASE_URL}/generate/download_as_docx/`;
 
     const form = new FormData();
@@ -617,6 +602,7 @@ namespace DownloadUtils {
 }
 
 export {
+  Helpers,
   LoginUtils,
   SettingsUtils,
   GenerationUtils,

@@ -4,7 +4,7 @@ import jsPDF from "jspdf";
 import axios from "axios";
 import Cookie from "js-cookie";
 
-import { SavedCoverLettersUtils, ReQueryUtils } from "@/Utils/utils";
+import { SavedCoverLettersUtils, ReQueryUtils, Helpers } from "@/Utils/utils";
 
 const {
   fetchSimpleAdjustment,
@@ -18,6 +18,8 @@ const {
   postDeleteSavedCoverLetter,
   postSaveCoverLetterResults,
 } = SavedCoverLettersUtils;
+
+const { removeDivTags } = Helpers;
 
 const SavedContext = createContext(null);
 
@@ -361,17 +363,6 @@ export default function SavedCoverLettersContext(props) {
       console.log("Error: Could not delete saved cover letter", error);
       return error;
     }
-  };
-
-  const removeDivTags = (inputStr) => {
-    // Check if the string starts with "<div>" and ends with "</div>"
-    if (inputStr.startsWith("<div>") && inputStr.endsWith("</div>")) {
-      // Remove the starting "<div>" (5 characters) and ending "</div>" (6 characters)
-      return inputStr.substring(5, inputStr.length - 6);
-    }
-
-    // If the conditions aren't met, just return the original string
-    return inputStr;
   };
 
   //-- Hooks --//
