@@ -437,10 +437,12 @@ export function GenerationContext({ children }) {
 
       toggleIsSavedDropdownOpen();
 
-      if (response.status === 201) {
+      console.log("response saved", response);
+
+      if (response.id && response.id !== "") {
         dispatch({
           type: "SET_SAVE_ID",
-          payload: response.data.id,
+          payload: response.id,
         });
         dispatch({
           type: "DISABLE_SAVE_BUTTON",
@@ -585,10 +587,12 @@ export function GenerationContext({ children }) {
           payload: false,
         });
       } else {
-        dispatch({
-          type: "DISABLE_SAVE_BUTTON",
-          payload: true,
-        });
+        if (state.savedId !== "") {
+          dispatch({
+            type: "DISABLE_SAVE_BUTTON",
+            payload: true,
+          });
+        }
       }
     }
   }, [state.coverLetter, state.updateCoverLetter]);
