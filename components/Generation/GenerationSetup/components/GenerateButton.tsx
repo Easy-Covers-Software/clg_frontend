@@ -79,11 +79,12 @@ const ButtonSet = (props: ButtonSetProps) => {
             <GenerateButtonDouble
               onClick={() => {
                 dispatch({
+                  type: "SET_MOBILE_MODE",
+                  payload: "results",
+                });
+                dispatch({
                   type: "SET_UPDATE_USER",
                 });
-
-                console.log("Refresh user right before??");
-
                 handleGenerateCoverLetter("3");
               }}
               disabled={disabled}
@@ -105,7 +106,13 @@ const ButtonSet = (props: ButtonSetProps) => {
         >
           <Grid p={0} m={0} display={"flex"} width={"100%"} mt={1}>
             <GenerateButtonDouble
-              onClick={() => handleGenerateCoverLetter("4")}
+              onClick={() => {
+                dispatch({
+                  type: "SET_MOBILE_MODE",
+                  payload: "results",
+                });
+                handleGenerateCoverLetter("4");
+              }}
               disabled={disabled}
             >
               Generate GPT-4
