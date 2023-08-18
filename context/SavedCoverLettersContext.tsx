@@ -133,6 +133,13 @@ function reducer(state, action) {
         updateCoverLetterParts: initialState.updateCoverLetterParts,
         saveName: initialState.saveName,
       };
+    case "RESET_UPDATE":
+      return {
+        ...state,
+        updateCoverLetter: initialState.updateCoverLetter,
+        updateCoverLetterParts: initialState.updateCoverLetterParts,
+      };
+
     default:
       return state;
   }
@@ -491,6 +498,10 @@ export default function SavedCoverLettersContext(props) {
         console.log(error);
       }
     };
+
+    dispatch({
+      type: "RESET_UPDATE",
+    });
 
     if (state.selectedCoverLetter !== null) {
       dispatch({
