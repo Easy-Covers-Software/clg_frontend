@@ -516,7 +516,20 @@ namespace ReQueryUtils {
 }
 
 namespace DownloadUtils {
-  export const generatePDF = async (parts: string[], saveName: string) => {
+  export const generatePDF = async (
+    parts: string[],
+    saveName: string,
+    jobPostingId,
+    jobDetails
+  ) => {
+    GenerationUtils.saveCoverLetter(
+      saveName,
+      parts,
+      null,
+      jobPostingId,
+      jobDetails.match_score
+    );
+
     const doc = new jsPDF("p", "px", "a4", true);
 
     doc.setFont("Times New Roman");
@@ -556,7 +569,22 @@ namespace DownloadUtils {
     return true;
   };
 
-  export const generateDOCX = async (saveName: string, html: string) => {
+  export const generateDOCX = async (
+    saveName: string,
+    html: string,
+    jobPostingId,
+    jobDetails,
+    parts,
+    updateCoverLetterParts
+  ) => {
+    GenerationUtils.saveCoverLetter(
+      saveName,
+      parts,
+      updateCoverLetterParts,
+      jobPostingId,
+      jobDetails.match_score
+    );
+
     const url = `${API_BASE_URL}/generate/download_as_docx/`;
 
     const form = new FormData();
