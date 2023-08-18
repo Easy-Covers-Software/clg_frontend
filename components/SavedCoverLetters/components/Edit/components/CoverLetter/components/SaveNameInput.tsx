@@ -51,7 +51,11 @@ export default function SaveNameInput() {
     const response = await saveCoverLetterResults();
 
     if (response) {
-      updateSnackbar(true, "success", "Cover Letter Successfully Saved");
+      updateSnackbar(
+        true,
+        "success",
+        `Cover letter successfully saved as: ${saveName}`
+      );
       await getUsersSavedCoverLetters();
     } else {
       updateSnackbar(
