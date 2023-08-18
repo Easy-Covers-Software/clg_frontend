@@ -1,5 +1,9 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
-import { GenerationUtils, ReQueryUtils } from "@/Utils/utils";
+import {
+  GenerationUtils,
+  ReQueryUtils,
+  SavedCoverLettersUtils,
+} from "@/Utils/utils";
 
 const {
   fetchJobDetails,
@@ -14,6 +18,8 @@ const {
   fetchCustomAdjustment,
   generateCoverLetterParts,
 } = ReQueryUtils;
+
+const { postSaveCoverLetterResults } = SavedCoverLettersUtils;
 
 const Context = createContext(null);
 
@@ -48,6 +54,8 @@ const initialState = {
   updateCoverLetter: null,
   updateCoverLetterParts: null,
   saveName: "",
+  savedId: "",
+  disableSavedButton: true,
 
   // intermediate adjustments
   addSkillInput: "",
@@ -121,6 +129,10 @@ function reducer(state, action) {
       return { ...state, updateCoverLetterParts: action.payload };
     case "SET_SAVE_NAME":
       return { ...state, saveName: action.payload };
+    case "SET_SAVE_ID":
+      return { ...state, savedId: action.payload };
+    case "DISABLE_SAVE_BUTTON":
+      return { ...state, disableSavedButton: action.payload };
 
     // Intermediate Adjustments
     case "SET_ADD_SKILL_INPUT":
@@ -394,6 +406,11 @@ export function GenerationContext({ children }) {
         payload: "results",
       });
 
+      dispatch({
+        type: "DISABLE_SAVE_BUTTON",
+        payload: false,
+      });
+
       return true;
     } catch (error) {
       console.log("Error: Could not parse response (not valid json)", error);
@@ -404,16 +421,50 @@ export function GenerationContext({ children }) {
   };
 
   const saveCoverLetterResults = async () => {
-    const response = await saveCoverLetter(
-      state.saveName,
-      state.coverLetterParts,
-      state.updateCoverLetterParts,
-      state.jobPostingId,
-      state.jobDetails.match_score
-    );
+    if (state.savedId !== "") {
+      const response = await postSaveCoverLetterResults(
+        state.savedId,
+        state.saveName,
+        state.coverLetterParts,
+        state.updateCoverLetterParts
+      );
 
-    toggleIsSavedDropdownOpen();
-    return response;
+      toggleIsSavedDropdownOpen();
+
+      if (response.status === 201) {
+        dispatch({
+          type: "SET_SAVE_ID",
+          payload: response.data.id,
+        });
+        dispatch({
+          type: "DISABLE_SAVE_BUTTON",
+          payload: true,
+        });
+      }
+      return response;
+    } else {
+      const response = await saveCoverLetter(
+        state.saveName,
+        state.coverLetterParts,
+        state.updateCoverLetterParts,
+        state.jobPostingId,
+        state.jobDetails.match_score
+      );
+
+      toggleIsSavedDropdownOpen();
+
+      if (response.status === 201) {
+        dispatch({
+          type: "SET_SAVE_ID",
+          payload: response.data.id,
+        });
+        dispatch({
+          type: "DISABLE_SAVE_BUTTON",
+          payload: true,
+        });
+      }
+      return response;
+    }
   };
 
   //-- HOOKS --//
@@ -520,7 +571,16 @@ export function GenerationContext({ children }) {
     }
   }, []);
 
-  console.log("state.coverLetterParts", state.coverLetterParts);
+  useEffect(() => {
+    if (state.updateCoverLetter !== null) {
+      if (state.coverLetter !== state.updateCoverLetter) {
+        dispatch({
+          type: "DISABLE_SAVE_BUTTON",
+          payload: false,
+        });
+      }
+    }
+  }, [state.coverLetter, state.updateCoverLetter]);
 
   return (
     <Context.Provider

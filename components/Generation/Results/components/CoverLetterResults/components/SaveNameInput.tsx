@@ -28,7 +28,7 @@ export default function SaveNameInput() {
   const { state, dispatch, saveCoverLetterResults, toggleIsSavedDropdownOpen } =
     useGenerationContext();
 
-  const { jobDetails, isSavedDropdownOpen } = state;
+  const { jobDetails, isSavedDropdownOpen, disableSavedButton } = state;
 
   const { updateSnackbar } = useAuth();
 
@@ -81,6 +81,7 @@ export default function SaveNameInput() {
           style={{
             margin: isMobile ? "auto" : "none",
           }}
+          disabled={disableSavedButton}
         >
           <SaveOutlinedIcon fontSize="medium" />
         </IconButton>

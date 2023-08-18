@@ -31,16 +31,11 @@ import {
 
 export default function CoverLetterResults() {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  
+
   const { dispatch: authDispatch } = useAuth();
-  
-  
+
   const { state, dispatch } = useGenerationContext();
-  const {
-    isReQuerySectionExpanded,
-    loadingCoverLetter,
-    coverLetter,
-  } = state;
+  const { isReQuerySectionExpanded, loadingCoverLetter, coverLetter } = state;
 
   const editor = useEditor(
     {
@@ -74,19 +69,22 @@ export default function CoverLetterResults() {
     return sections;
   }
 
-  console.log('results state', state)
-  
+  console.log("results state", state);
+
   useEffect(() => {
-    if (!loadingCoverLetter && coverLetter.includes("<div><p>Awaiting Generation...</p></div>")){
+    if (
+      !loadingCoverLetter &&
+      coverLetter.includes("<div><p>Awaiting Generation...</p></div>")
+    ) {
       authDispatch({
         type: "SET_MOBILE_MODE",
         payload: "setup",
-      })
+      });
     } else {
       authDispatch({
         type: "SET_MOBILE_MODE",
         payload: "results",
-      })
+      });
     }
   }, [loadingCoverLetter, coverLetter]);
 
