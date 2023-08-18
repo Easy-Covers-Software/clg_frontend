@@ -193,7 +193,8 @@ namespace GenerationUtils {
     resume,
     freeText,
     additionalDetails,
-    isUsingLastResume
+    isUsingLastResume,
+    model
   ) => {
     const formData = new FormData();
 
@@ -212,6 +213,9 @@ namespace GenerationUtils {
       console.log("adding additional details to form data");
       formData.append("additional_details", additionalDetails);
     }
+
+    formData.append("model", model);
+
     return formData;
   };
 
@@ -276,10 +280,11 @@ namespace GenerationUtils {
       resume,
       freeText,
       additionalDetails,
-      isUsingLastUploadedResume
+      isUsingLastUploadedResume,
+      model
     );
 
-    const url = `${API_BASE_URL}/generate/cover_letter_gpt${model}/`;
+    const url = `${API_BASE_URL}/generate/cover_letter_gpt/`;
 
     try {
       const response = await axios.post(url, data, {
