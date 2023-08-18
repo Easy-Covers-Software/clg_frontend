@@ -28,7 +28,8 @@ export default function SaveNameInput() {
   const { state, dispatch, saveCoverLetterResults, toggleIsSavedDropdownOpen } =
     useGenerationContext();
 
-  const { jobDetails, isSavedDropdownOpen, disableSavedButton } = state;
+  const { jobDetails, isSavedDropdownOpen, disableSavedButton, saveName } =
+    state;
 
   const { updateSnackbar } = useAuth();
 
@@ -50,11 +51,11 @@ export default function SaveNameInput() {
     console.log("response", response);
 
     console.log("response =====(*(**", response);
-    if (response.status === 201) {
+    if (response?.id !== "") {
       updateSnackbar(
         true,
         "success",
-        `Cover Letter Saved Successfully as: '${jobDetails.company_name}'`
+        `Cover Letter Saved Successfully as: '${saveName}'`
       );
     } else {
       updateSnackbar(
