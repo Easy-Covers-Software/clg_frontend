@@ -6,6 +6,7 @@ const Container = styled(Grid)`
   width: 100%;
   gap: 0.5%;
   height: 12vh;
+  min-height: 90px;
 
   overflow: hidden; // Add this line
   border-radius: 4px 4px 0 0;
