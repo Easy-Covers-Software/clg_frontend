@@ -8,7 +8,7 @@ const Logo = styled.img`
   margin-top: -55%;
   width: 100%;
 
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 1100px) {
     margin-top: -16%;
     // text-align: center;
     width: 100%;
