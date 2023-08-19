@@ -7,21 +7,15 @@ const Container = styled(Grid)`
   justify-content: space-between;
   height: calc(100vh - 196px);
   min-height: calc(100vh - 196px);
-  max-height: calc(100vh - 196px);
-
-  margin: 0% 1%;
-
-  // gap: 3%;
-
   background-color: #f8f8ff;
 
-  border-top: none;
+  width: 99%;
+
+  margin: 0 0.5%;
+  padding-bottom: 2%;
+  // border-top: none;
   border-radius: 4px;
   border: 1px solid #006d4b;
-  margin-bottom: 0.5%;
-  margin-top: -1%;
-
-  // overflow: auto;
 
   @media screen and (min-width: 0px) and (max-width: 600px) {
     height: calc(100vh - 100px);
@@ -30,14 +24,13 @@ const Container = styled(Grid)`
 `;
 
 const SubContainer = styled(Grid)`
-  height: calc(100vh - 264px);
-  min-height: calc(100vh - 264px);
-  max-height: calc(100vh - 264px);
+  width: 99% !important;
+  height: calc(100vh - 260px);
+  max-height: calc(100vh - 260px);
+  min-height: calc(100vh - 260px);
   display: flex;
-  // justify-content: center;
+  justify-content: space-between;
   margin: 0 auto;
-  width: 100%;
-  background-color: #f8f8ff;
 
   @media screen and (min-width: 0px) and (max-width: 600px) {
     height: calc(100vh - 250px);

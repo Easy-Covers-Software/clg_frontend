@@ -616,6 +616,11 @@ body {
   overflow: scroll;
 }
 
+.mantine-3eqw8l {
+  height: 99% !important;
+  margin: auto !important;
+}
+
 /* @media screen and (max-width: 1000px) and (min-width: 900px) {
   .sidebar {
     height: calc(100vh - 100px);

@@ -81,9 +81,10 @@ const AccordionDetails = muiStyled(MuiAccordionDetails)(() => ({
 
 // Container styles
 const Container = styled(Grid)`
-  width: 40vw;
+  width: 30vw;
+  min-width: 30vw;
   padding: 0.3%;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 98px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;

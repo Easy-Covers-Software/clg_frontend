@@ -4,7 +4,7 @@ import { UnSelectedButton } from "@/components/Global/Global";
 import { FormControl, TextField } from "@mui/material";
 
 const Container = styled(Grid)`
-  width: 100%;
+  // width: 100%;
   display: flex;
   padding-right: 1%;
   height: 80px;
@@ -57,6 +57,19 @@ const MoreOptions = styled(UnSelectedButton)`
 `;
 
 namespace CustomReQueryStyledComponents {
+  export const CustomReQueryField = styled.textarea`
+    width: 100%;
+    height: 100%;
+    min-height: 8vh
+    resize: none;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-top: 1px solid #006d4b;
+    border-radius: 4px;
+    ::placeholder {
+      color: #e2e2e2; // Change this to the color you want
+    }
+  `;
   export const SubmitButton = styled(UnSelectedButton)`
     width: 90%;
     height: 4.3vh;
@@ -82,21 +95,6 @@ namespace CustomReQueryStyledComponents {
 
     @media screen and (min-width: 0px) and (max-width: 600px) {
       width: 50%;
-    }
-  `;
-
-  export const CustomReQueryField = styled.textarea`
-    width: 100%;
-    height: 100%;
-    min-height: 8vh
-    resize: none;
-    box-sizing: border-box;
-    background-color: #fff;
-    border-top: 1px solid #006d4b;
-    border-radius: 4px;
-    font-size: 16px;
-    ::placeholder {
-      color: #e2e2e2; // Change this to the color you want
     }
   `;
 }
@@ -136,13 +134,11 @@ namespace MoreOptionsReQuerysStyledComponents {
   export const Container = styled(Grid)`
     display: flex;
     flex-direction: column;
-    // align-items: center;
     justify-content: space-between;
-    // margin-top: 2%;
-    width: 32%;
-    padding: 0 1%;
-    // margin-right: 3%;
+    width: 42%;
     overflow: scroll;
+    // height: 100%;
+    // margin-bottom: 1%;
 
     @media screen and (min-width: 0px) and (max-width: 600px) {
       width: 100%;
