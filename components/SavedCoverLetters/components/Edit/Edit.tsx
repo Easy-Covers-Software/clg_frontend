@@ -16,6 +16,7 @@ const Container = styled(Grid)`
   max-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   margin-left: 0.3%;
   gap: 1%;
 
