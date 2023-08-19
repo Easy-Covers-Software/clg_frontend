@@ -49,7 +49,7 @@ const HeaderContainer = styled(Grid)`
   display: none;
   width: 100%;
   margin-left: 1%;
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1100px) {
     width: 100%;
     align-items: center;
     display: flex;
@@ -61,13 +61,15 @@ const HeaderContainer = styled(Grid)`
 
 export default function Header() {
   const theme = useTheme();
-  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+  const isTablet = useMediaQuery("(max-width: 1100px)");
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
+
+  console.log("isTablet", isTablet);
 
   const list = (
     <Box
@@ -76,7 +78,6 @@ export default function Header() {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      {/* Add your list items here */}
       <Sidebar />
     </Box>
   );
