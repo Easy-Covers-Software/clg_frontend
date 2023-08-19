@@ -21,40 +21,40 @@ export default function GenerationSummary() {
     if (selectedCoverLetterJobPosting?.job_title) {
       if (selectedCoverLetterJobPosting?.job_title.includes("Not Included")) {
         return "";
-      } else if ( selectedCoverLetterJobPosting?.job_title !== "") {
+      } else if (selectedCoverLetterJobPosting?.job_title !== "") {
         return selectedCoverLetterJobPosting?.job_title;
       }
     } else {
       return "Job Title";
     }
-  }
+  };
 
   const getCompanyName = () => {
     if (selectedCoverLetterJobPosting?.company_name) {
-      if (selectedCoverLetterJobPosting?.company_name.includes("Not Included")) {
+      if (
+        selectedCoverLetterJobPosting?.company_name.includes("Not Included")
+      ) {
         return "";
-      } else if ( selectedCoverLetterJobPosting?.company_name !== "") {
+      } else if (selectedCoverLetterJobPosting?.company_name !== "") {
         return selectedCoverLetterJobPosting?.company_name;
       }
     } else {
       return "Company Name";
     }
-  }
+  };
 
   const getMatchScore = () => {
-    if (selectedCoverLetter?.match_score !== ""){
+    if (selectedCoverLetter?.match_score !== "") {
       return selectedCoverLetter?.match_score;
     } else {
       return "0";
     }
-  }
+  };
 
   return (
     <Container>
       <JobOverview>
-        <Typography className="job-summary-title">
-          {getJobTitle()}
-        </Typography>
+        <Typography className="job-summary-title">{getJobTitle()}</Typography>
         <Typography className="job-summary-company">
           {getCompanyName()}
         </Typography>
