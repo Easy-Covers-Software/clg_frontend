@@ -139,6 +139,8 @@ namespace MoreOptionsReQuerysStyledComponents {
     width: 32%;
     padding: 0 1%;
 
+    overflow: scroll;
+
     @media screen and (min-width: 0px) and (max-width: 600px) {
       width: 100%;
     }
