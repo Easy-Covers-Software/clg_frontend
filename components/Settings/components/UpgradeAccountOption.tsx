@@ -92,7 +92,7 @@ export default function UpgradeAccountOption({
                 </Typography>
                 {i === 0 && (
                   <Typography className="package-features">
-                    &nbsp;&&&nbsp;
+                    &nbsp;&&nbsp;
                   </Typography>
                 )}
               </>
