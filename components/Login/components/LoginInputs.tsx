@@ -4,6 +4,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import Typography from "@mui/material/Typography";
 
 import { useAuth } from "@/context/AuthContext";
 
@@ -43,6 +44,17 @@ export default function LoginInputs() {
 
   return (
     <Container component="form">
+      <Typography
+        align="center"
+        style={{
+          color: "#006b4d",
+          fontSize: "1.2rem",
+          marginBottom: "1rem",
+        }}
+      >
+        For a limited time new users get 2 free cover letters and 5 free
+        adjustments! Sign up now!
+      </Typography>
       <FormInput variant="outlined">
         <InputField
           id="email-input"

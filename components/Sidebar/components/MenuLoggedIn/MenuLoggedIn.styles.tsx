@@ -35,12 +35,12 @@ const GenerationModeTab = styled(UnSelectedButton)`
     width: 90%;
     margin: auto;
   }
-  // @media (max-width: 1000px) and (min-width: 900px) {
-  //   font-size: 0.68rem;
-  // }
-  // @media (max-width: 1100px) and (min-width: 1000px) {
-  //   font-size: 0.75rem;
-  // }
+  @media (max-width: 1000px) and (min-width: 900px) {
+    font-size: 0.68rem;
+  }
+  @media (max-width: 1100px) and (min-width: 1000px) {
+    font-size: 0.75rem;
+  }
 `;
 
 const Tabs = styled(Grid)`
@@ -63,7 +63,7 @@ namespace SignedInDisplayStyledComponents {
     // align-items: center;
     width: 100%;
     gap: 8px;
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 1100px) {
       // gap: 140%;
       // margin-top: -16%;
       padding: 0 2%;
@@ -73,7 +73,7 @@ namespace SignedInDisplayStyledComponents {
   export const HorizontalDivider = styled(Divider)`
     margin: 1% 3%;
     min-width: 94%;
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 1100px) {
       // gap: 140%;
       // margin-top: -16%;
       // padding: 0 2%;
@@ -85,7 +85,7 @@ namespace SignedInDisplayStyledComponents {
     display: flex;
     flex-direction: column;
     gap: 3%;
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 1100px) {
       // gap: 140%;
       // margin-top: -16%;
       padding: 0 4%;

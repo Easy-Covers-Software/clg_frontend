@@ -9,10 +9,11 @@ const DialogContentContainer = styled(DialogContent)`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  margin-top: -8%;
+  margin-top: -25%;
   gap: 4px;
+  // width: 100%;
 
-  @media screen and (min-width: 0px) and (max-width: 600px) {
+  @media screen and (min-width: 0px) and (max-width: 800px) {
     margin-top: -25%;
     gap: 1px;
     align-items: center;
@@ -24,6 +25,7 @@ const FullLogo = styled.img`
   width: 50%;
   margin: 0 auto;
   margin-top: -3%;
+  margin-bottom: 8%;
 `;
 
 namespace ModelChoiceSwitchStyledComponents {
@@ -107,7 +109,7 @@ namespace UpgradeAccountOptionStyledComponents {
 
   export const FeatureList = styled.ul`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
     height: 100%;
     // text-align: left;
@@ -116,7 +118,6 @@ namespace UpgradeAccountOptionStyledComponents {
 
     @media screen and (min-width: 0px) and (max-width: 600px) {
       margin-right: 35%;
-      flex-direction: column;
     }
   `;
 

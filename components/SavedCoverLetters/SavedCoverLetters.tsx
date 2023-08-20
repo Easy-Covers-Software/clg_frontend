@@ -64,6 +64,7 @@ export default function SavedCoverLetters() {
         open={alertDialogConfirm.open}
         header={alertDialogConfirm.header}
         message={alertDialogConfirm.message}
+        buttonText={alertDialogConfirm.buttonText}
       />
     </Container>
   );

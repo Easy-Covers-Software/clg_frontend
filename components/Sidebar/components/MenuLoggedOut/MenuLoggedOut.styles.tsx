@@ -13,7 +13,7 @@ const Container = styled(Grid)`
   // gap: 24px;
   margin-top: -24%;
 
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 1100px) {
     // gap: 140%;
     // margin-top: -16%;
     padding: 0 8%;

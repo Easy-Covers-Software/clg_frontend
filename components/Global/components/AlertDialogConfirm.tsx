@@ -14,12 +14,14 @@ interface AlertDialogConfirmProps {
   open: boolean;
   header: string;
   message: string;
+  buttonText: string;
 }
 
 export default function AlertDialogConfirm({
   open,
   header,
   message,
+  buttonText,
 }: AlertDialogConfirmProps) {
   const { handleAlertDialogConfirmClose, dispatch } = useAuth();
 
@@ -48,11 +50,21 @@ export default function AlertDialogConfirm({
       </DialogContent>
 
       <DialogActions>
-        <Button variant="outlined" onClick={handleCancel}>
+        <Button variant="outlined" onClick={handleCancel}
+          style={{
+            color: "#006d4b",
+            border: "1px solid #006d4b"
+          }}
+        >
           <Typography variant="body1">Cancel</Typography>
         </Button>
-        <Button variant="outlined" onClick={handleConfirm} autoFocus>
-          <Typography variant="body1">Delete</Typography>
+        <Button variant="outlined" onClick={handleConfirm} autoFocus
+          style={{
+            color: "#006d4b",
+            border: "1px solid #006d4b"
+          }}
+        >
+          <Typography variant="body1">{buttonText}</Typography>
         </Button>
       </DialogActions>
     </Dialog>

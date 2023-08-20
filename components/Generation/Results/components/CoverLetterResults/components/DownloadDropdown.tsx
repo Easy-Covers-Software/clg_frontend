@@ -41,6 +41,8 @@ export default function DownloadDropdown() {
     coverLetterParts,
     updateCoverLetterParts,
     updateCoverLetter,
+    disableDownloads,
+    savedId,
   } = state;
 
   const { updateSnackbar } = useAuth();
@@ -110,6 +112,7 @@ export default function DownloadDropdown() {
           style={{
             margin: isMobile ? "auto" : "none",
           }}
+          disabled={disableDownloads}
         >
           <DownloadForOfflineOutlinedIcon />
         </IconButton>

@@ -18,6 +18,7 @@ const {
 import { useMediaQuery } from "@mui/material";
 
 export default function UpgradeAccountOption({
+  key,
   packages,
   setSelectedPackagePrice,
 }) {
@@ -84,10 +85,17 @@ export default function UpgradeAccountOption({
 
         <PackageDetailsContainer>
           <FeatureList>
-            {packages.features.map((feature) => (
-              // <ListItem>
-              <Typography className="package-features">{feature}</Typography>
-              // </ListItem>
+            {packages.features.map((feature, i: number) => (
+              <>
+                <Typography key={i} className="package-features">
+                  {feature}
+                </Typography>
+                {i === 0 && (
+                  <Typography className="package-features">
+                    &nbsp;&&nbsp;
+                  </Typography>
+                )}
+              </>
             ))}
           </FeatureList>
         </PackageDetailsContainer>

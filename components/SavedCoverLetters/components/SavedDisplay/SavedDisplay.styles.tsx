@@ -6,6 +6,8 @@ const Container = styled(Grid)`
   width: 25vw;
   min-width: 25vw;
 
+  overflow: hidden;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,8 +24,10 @@ const Container = styled(Grid)`
 `;
 
 const SubContainer = styled(Grid)`
-  height: 100%;
+  height: calc(100vh - 104px);
   width: 100%;
+
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;

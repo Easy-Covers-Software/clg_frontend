@@ -18,33 +18,33 @@ import { useMediaQuery } from "@mui/material";
 let packages = [
   {
     name: "Intro Drafter",
-    features: ["5 Unique Cover Letters", "10 Adjustments"],
+    features: ["5 Cover Letters", "10 Adjustments"],
     price: "$0.99",
     price_gpt4: "$1.99",
   },
   {
     name: "Dynamic Drafter",
-    features: ["10 unique cover letters", "20 Adjustments"],
-    price: "$1.99",
-    price_gpt4: "$2.99",
+    features: ["25 cover letters", "50 Adjustments"],
+    price: "$2.99",
+    price_gpt4: "$3.99",
   },
   {
     name: "Pro Drafter",
-    features: ["20 unique cover letters", "40 Adjustments"],
-    price: "$2.99",
-    price_gpt4: "$5.99",
+    features: ["50 cover letters", "100 Adjustments"],
+    price: "$4.99",
+    price_gpt4: "$7.99",
   },
   {
     name: "Letter Luminary",
-    features: ["75 unique cover letters", "150 Adjustments"],
-    price: "$4.99",
-    price_gpt4: "$9.99",
+    features: ["100 cover letters", "200 Adjustments"],
+    price: "$8.99",
+    price_gpt4: "$13.99",
   },
   {
     name: "Cover Connoisseur",
-    features: ["200 unique cover letters", "400 Adjustments"],
-    price: "$9.99",
-    price_gpt4: "$18.99",
+    features: ["200 cover letters", "400 Adjustments"],
+    price: "$12.99",
+    price_gpt4: "$19.99",
   },
 ];
 
@@ -70,13 +70,6 @@ export default function SettingsDialog() {
 
   const dialogRef = useRef(null);
 
-  const scrollToBottom = () => {
-    const container = dialogRef.current;
-    if (container && container.scrollHeight) {
-      container.scrollTop = container.scrollHeight;
-    }
-  };
-
   useEffect(() => {
     if (selectedPackagePrice !== "") {
       setHasSelectedPricingOption(true);
@@ -90,19 +83,6 @@ export default function SettingsDialog() {
   const handleClose = () => {
     toggleSettingsIsOpen(false);
   };
-
-  const extractPrice = (frontendValue) => {
-    const pattern = /(\d+\.\d+)/g;
-    const match = frontendValue.match(pattern);
-
-    if (match && match.length > 0) {
-      return match[0];
-    }
-
-    return null;
-  };
-
-  const handleStripePayment = () => {};
 
   return (
     <Dialog
@@ -144,8 +124,9 @@ export default function SettingsDialog() {
         )}
 
         <DialogContentContainer>
-          {packages.map((packageItem) => (
+          {packages.map((packageItem, i) => (
             <UpgradeAccountOption
+              key={i}
               packages={packageItem}
               setSelectedPackagePrice={setSelectedPackagePrice}
             />

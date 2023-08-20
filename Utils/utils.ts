@@ -5,6 +5,15 @@ import Cookie from "js-cookie";
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+namespace Helpers {
+  export function removeDivTags(inputStr) {
+    if (inputStr.startsWith("<div>") && inputStr.endsWith("</div>")) {
+      return inputStr.substring(5, inputStr.length - 6);
+    }
+    return inputStr;
+  }
+}
+
 namespace LoginUtils {
   export const signInGoogle = async () => {
     const parameters = {
@@ -515,7 +524,66 @@ namespace ReQueryUtils {
 }
 
 namespace DownloadUtils {
+  export const replaceSpecialCharactersInArray = (strings) => {
+    const replacements = {
+      á: "a",
+      ä: "a",
+      â: "a",
+      à: "a",
+      ã: "a",
+      é: "e",
+      ë: "e",
+      ê: "e",
+      è: "e",
+      í: "i",
+      ï: "i",
+      î: "i",
+      ì: "i",
+      ó: "o",
+      ö: "o",
+      ô: "o",
+      ò: "o",
+      õ: "o",
+      ú: "u",
+      ü: "u",
+      û: "u",
+      ù: "u",
+      ñ: "n",
+      ç: "c",
+      ý: "y",
+      ÿ: "y",
+      š: "s",
+      ž: "z",
+      ł: "l",
+      đ: "d",
+      ß: "ss",
+      þ: "th",
+      ĥ: "h",
+      ĵ: "j",
+      œ: "oe",
+      æ: "ae",
+      ƒ: "f",
+      ĝ: "g",
+      ě: "e",
+      ř: "r",
+      ů: "u",
+      č: "c",
+      Vū: "Vu", // The specific example you gave
+    };
+
+    const replaceInString = (str) => {
+      for (let [key, value] of Object.entries(replacements)) {
+        str = str.replace(new RegExp(key, "g"), value);
+      }
+      return str;
+    };
+
+    return strings.map(replaceInString);
+  };
+
   export const generatePDF = async (parts: string[], saveName: string) => {
+    const cleanedParts = replaceSpecialCharactersInArray(parts);
+
     const doc = new jsPDF("p", "px", "a4", true);
 
     doc.setFont("Times New Roman");
@@ -526,7 +594,7 @@ namespace DownloadUtils {
     const paragraphSpacing = 15;
     let yAxis = 60;
 
-    parts.forEach((part, index) => {
+    cleanedParts.forEach((part, index) => {
       const numLinesInPart = Math.ceil(part.length / 80);
       const lines = doc.splitTextToSize(part, textWidth);
       doc.text(lines, 50, yAxis);
@@ -537,11 +605,11 @@ namespace DownloadUtils {
           : paragraphSpacing + numLinesInPart * 2.5;
 
       // Check if the part is the second to last in the array
-      if (index === parts.length - 2) {
+      if (index === cleanedParts.length - 2) {
         spacing = 7;
       }
 
-      if (index === parts.length - 3) {
+      if (index === cleanedParts.length - 3) {
         numLinesInPart === 1
           ? paragraphSpacing
           : paragraphSpacing + numLinesInPart * 2;
@@ -588,6 +656,7 @@ namespace DownloadUtils {
 }
 
 export {
+  Helpers,
   LoginUtils,
   SettingsUtils,
   GenerationUtils,

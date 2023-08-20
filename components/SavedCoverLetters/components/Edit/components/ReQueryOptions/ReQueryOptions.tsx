@@ -34,12 +34,14 @@ export default function ReQueryOptions() {
     openAlertDialogConfirm(
       true,
       "Reset Generation",
-      "Are you finished editing? Unsaved changes will be lost."
+      "Are you finished editing? Unsaved changes will be lost.",
+      "Reset"
     );
   };
 
   useEffect(() => {
     if (didConfirmAlert !== null && didConfirmAlert) {
+      authDispatch({ type: "SET_DID_CONFIRM_ALERT", payload: false });
       handleReset();
     }
   }, [didConfirmAlert]);

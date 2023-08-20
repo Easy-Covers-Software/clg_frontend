@@ -17,20 +17,46 @@ export default function GenerationSummary() {
 
   console.log("selectedCoverLetter", selectedCoverLetterJobPosting);
 
+  const getJobTitle = () => {
+    if (selectedCoverLetterJobPosting?.job_title) {
+      if (selectedCoverLetterJobPosting?.job_title.includes("Not Included")) {
+        return "";
+      } else if (selectedCoverLetterJobPosting?.job_title !== "") {
+        return selectedCoverLetterJobPosting?.job_title;
+      }
+    } else {
+      return "Job Title";
+    }
+  };
+
+  const getCompanyName = () => {
+    if (selectedCoverLetterJobPosting?.company_name) {
+      if (
+        selectedCoverLetterJobPosting?.company_name.includes("Not Included")
+      ) {
+        return "";
+      } else if (selectedCoverLetterJobPosting?.company_name !== "") {
+        return selectedCoverLetterJobPosting?.company_name;
+      }
+    } else {
+      return "Company Name";
+    }
+  };
+
+  const getMatchScore = () => {
+    if (selectedCoverLetter?.match_score !== "") {
+      return selectedCoverLetter?.match_score;
+    } else {
+      return "0";
+    }
+  };
+
   return (
     <Container>
       <JobOverview>
-        <Typography className="job-summary-title">
-          {selectedCoverLetterJobPosting?.job_title &&
-          selectedCoverLetterJobPosting?.job_title !== ""
-            ? selectedCoverLetterJobPosting?.job_title
-            : "Job Title"}
-        </Typography>
+        <Typography className="job-summary-title">{getJobTitle()}</Typography>
         <Typography className="job-summary-company">
-          {selectedCoverLetterJobPosting?.company_name &&
-          selectedCoverLetterJobPosting?.company_name !== ""
-            ? selectedCoverLetterJobPosting?.company_name
-            : "Company Name"}
+          {getCompanyName()}
         </Typography>
       </JobOverview>
 
@@ -39,9 +65,7 @@ export default function GenerationSummary() {
           Match Score
         </Typography>
         <Typography className="job-summary-match-score">
-          {selectedCoverLetter?.match_score !== ""
-            ? selectedCoverLetter?.match_score
-            : "0"}
+          {getMatchScore()}
         </Typography>
       </JobMatchScore>
     </Container>

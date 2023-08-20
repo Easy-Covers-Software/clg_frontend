@@ -23,7 +23,7 @@ const Stat = ({ statName, statValue }) => (
 );
 
 export default function SignedInDisplay() {
-  const { state, toggleSettingsIsOpen, logout } = useAuth();
+  const { state, toggleSettingsIsOpen, toggleHelpDialog, logout } = useAuth();
   const { user, accessLevel } = state;
 
   return (
@@ -45,9 +45,13 @@ export default function SignedInDisplay() {
       <Typography className="profile-email">{user}</Typography>
 
       <HorizontalDivider />
-
+      
       <UnSelectedButton onClick={() => toggleSettingsIsOpen()}>
-        UPGRADE
+        Upgrade
+      </UnSelectedButton>      
+      
+      <UnSelectedButton onClick={() => toggleHelpDialog()}>
+        Help
       </UnSelectedButton>
 
       <UnSelectedButton onClick={logout}>Logout</UnSelectedButton>

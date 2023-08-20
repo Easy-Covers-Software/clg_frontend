@@ -31,7 +31,7 @@ export default function SaveNameInput() {
   } = useSavedCoverLettersContext();
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const { isSavedDropdownOpen, saveName } = state;
+  const { isSavedDropdownOpen, saveName, disableSavedButton } = state;
 
   const { updateSnackbar } = useAuth();
 
@@ -51,7 +51,11 @@ export default function SaveNameInput() {
     const response = await saveCoverLetterResults();
 
     if (response) {
-      updateSnackbar(true, "success", "Cover Letter Successfully Saved");
+      updateSnackbar(
+        true,
+        "success",
+        `Cover letter successfully saved as: ${saveName}`
+      );
       await getUsersSavedCoverLetters();
     } else {
       updateSnackbar(
@@ -71,16 +75,19 @@ export default function SaveNameInput() {
   return (
     <>
       <Tooltip title="Save">
-        <IconButton
-          onClick={handleClick}
-          disableRipple
-          disableFocusRipple
-          style={{
-            margin: isMobile ? "auto" : "none",
-          }}
-        >
-          <SaveOutlinedIcon fontSize="medium" />
-        </IconButton>
+        <span>
+          <IconButton
+            onClick={handleClick}
+            disableRipple
+            disableFocusRipple
+            style={{
+              margin: isMobile ? "auto" : "none",
+            }}
+            disabled={disableSavedButton}
+          >
+            <SaveOutlinedIcon fontSize="medium" />
+          </IconButton>
+        </span>
       </Tooltip>
 
       <Menu

@@ -28,6 +28,8 @@ export default function ReQueryOptions() {
   const { state, dispatch: authDispatch, openAlertDialogConfirm } = useAuth();
   const { didConfirmAlert } = state;
 
+  console.log("auth state ====", state)
+
   const handleReset = () => {
     dispatch({ type: "RESET_STATE" });
     authDispatch({ type: "SET_MOBILE_MODE", payload: "setup" });
@@ -37,12 +39,14 @@ export default function ReQueryOptions() {
     openAlertDialogConfirm(
       true,
       "Reset Generation",
-      "Are you sure you want to reset your generation?"
+      "Are you sure you want to reset your generation?",
+      "Reset"
     );
   };
 
   useEffect(() => {
     if (didConfirmAlert !== null && didConfirmAlert) {
+      authDispatch({ type: "SET_DID_CONFIRM_ALERT", payload: false });
       handleReset();
     }
   }, [didConfirmAlert]);

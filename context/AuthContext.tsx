@@ -22,6 +22,8 @@ const initialState = {
   user: null,
   isLoginOpen: false,
   isSettingsOpen: false,
+  isHelpDialogOpen: false,
+  isPaymentSuccessDialogOpen: false,
   createAccountEasyCovers: false,
   page: "",
   mobileMode: "setup",
@@ -43,6 +45,7 @@ const initialState = {
     open: false,
     header: "",
     message: "",
+    buttonText: "",
   },
   didConfirmAlert: false,
   forgotPassword: false,
@@ -72,6 +75,8 @@ function reducer(state, action) {
       return { ...state, isLoginOpen: action.payload };
     case "SET_IS_SETTINGS_OPEN":
       return { ...state, isSettingsOpen: action.payload };
+    case "SET_IS_HELP_DIALOG_OPEN":
+      return { ...state, isHelpDialogOpen: action.payload };
     case "SET_CREATE_ACCOUNT_EASY_COVERS":
       return { ...state, createAccountEasyCovers: action.payload };
     case "SET_FORGOT_PASSWORD":
@@ -167,6 +172,20 @@ export const AuthProvider = ({
     dispatch({ type: "SET_IS_SETTINGS_OPEN", payload: !state.isSettingsOpen });
   };
 
+  const toggleHelpDialog = () => {
+    dispatch({
+      type: "SET_IS_HELP_DIALOG_OPEN",
+      payload: !state.isHelpDialogOpen,
+    });
+  };
+
+  const togglePaymentSuccessDialog = () => {
+    dispatch({
+      type: "SET_CREATE_ACCOUNT_EASY_COVERS",
+      payload: !state.isPaymentSuccessDialogOpen,
+    });
+  };
+
   const handleSnackbarClose = () => {
     dispatch({
       type: "SET_SNACKBAR",
@@ -189,13 +208,14 @@ export const AuthProvider = ({
     });
   };
 
-  const openAlertDialogConfirm = (open, header, message) => {
+  const openAlertDialogConfirm = (open, header, message, buttonText) => {
     dispatch({
       type: "SET_ALERT_DIALOG_CONFIRM",
       payload: {
         open: open,
         header: header,
         message: message,
+        buttonText: buttonText,
       },
     });
   };
@@ -207,6 +227,7 @@ export const AuthProvider = ({
         open: false,
         header: "",
         message: "",
+        buttonText: "",
       },
     });
   };
@@ -350,6 +371,8 @@ export const AuthProvider = ({
         openAlertDialogConfirm,
         handleAlertDialogConfirmClose,
         resetPassword,
+        toggleHelpDialog,
+        togglePaymentSuccessDialog,
       }}
     >
       {/* <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}> */}

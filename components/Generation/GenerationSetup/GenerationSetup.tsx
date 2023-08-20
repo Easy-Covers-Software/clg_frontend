@@ -31,8 +31,7 @@ import { useGenerationContext } from "@/context/GenerationContext";
 
 export default function GenerationSetup() {
   // Contexts
-  const { state: authState, dispatch } = useAuth();
-  const { state, generateCoverLetter, getJobDetails } = useGenerationContext();
+  const { state } = useGenerationContext();
   const {
     isUsingLastUploadedResume,
     jobPosting,
@@ -76,27 +75,6 @@ export default function GenerationSetup() {
         console.error(err);
         // Handle error, for example by showing an error message in the UI
       }
-    }
-  };
-
-  // Cover Letter handler
-  const handleGenerateCoverLetter = async () => {
-    try {
-      await getJobDetails();
-      await generateCoverLetter(
-        jobPosting,
-        resume,
-        freeText,
-        additionalDetails
-      );
-
-      dispatch({
-        type: "SET_UPDATE_USER",
-        payload: authState.updateUser,
-      });
-    } catch (err) {
-      console.error(err);
-      // Handle error, for example by showing an error message in the UI
     }
   };
 

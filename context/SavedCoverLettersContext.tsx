@@ -1,10 +1,10 @@
-import { createContext, useContext, useReducer, useEffect, use } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 import jsPDF from "jspdf";
 
 import axios from "axios";
 import Cookie from "js-cookie";
 
-import { SavedCoverLettersUtils, ReQueryUtils } from "@/Utils/utils";
+import { SavedCoverLettersUtils, ReQueryUtils, Helpers } from "@/Utils/utils";
 
 const {
   fetchSimpleAdjustment,
@@ -19,6 +19,8 @@ const {
   postSaveCoverLetterResults,
 } = SavedCoverLettersUtils;
 
+const { removeDivTags } = Helpers;
+
 const SavedContext = createContext(null);
 
 const initialState = {
@@ -28,6 +30,7 @@ const initialState = {
   search: "",
   filterValue: "",
   setLoadingSavedCoverLetters: false,
+  updateSavedList: false,
 
   // cover letter display
   selectedCoverLetter: null,
@@ -39,6 +42,8 @@ const initialState = {
   updateCoverLetterParts: null,
   disableRequery: false,
   saveName: "",
+  disableSavedButton: true,
+  disableDownloads: true,
 
   // intermediate adjustments
   addSkillInput: "",
@@ -70,6 +75,10 @@ function reducer(state, action) {
       return { ...state, search: action.payload };
     case "SET_SAVE_NAME":
       return { ...state, saveName: action.payload };
+    case "DISABLE_SAVED_BUTTON":
+      return { ...state, disableSavedButton: action.payload };
+    case "DISABLE_DOWNLOADS":
+      return { ...state, disableDownloads: action.payload };
     case "SET_SELECTED_COVER_LETTER":
       return { ...state, selectedCoverLetter: action.payload };
     case "SET_SELECTED_COVER_LETTER_PARTS":
@@ -112,6 +121,8 @@ function reducer(state, action) {
       return { ...state, isFilterDropdownOpen: action.payload };
     case "SET_DISABLE_REQUERY":
       return { ...state, disableRequery: action.payload };
+    case "UPDATE_SAVED_LIST":
+      return { ...state, updateSavedList: !state.updateSavedList };
     case "RESET_SELECTED_COVER_LETTER_DATA":
       return {
         ...state,
@@ -124,6 +135,13 @@ function reducer(state, action) {
         updateCoverLetterParts: initialState.updateCoverLetterParts,
         saveName: initialState.saveName,
       };
+    case "RESET_UPDATE":
+      return {
+        ...state,
+        updateCoverLetter: initialState.updateCoverLetter,
+        updateCoverLetterParts: initialState.updateCoverLetterParts,
+      };
+
     default:
       return state;
   }
@@ -327,7 +345,9 @@ export default function SavedCoverLettersContext(props) {
       state.updateCoverLetterParts
     );
 
-    if (response.data) {
+    console.log("save save response", response);
+
+    if (response.id && response.id !== "") {
       toggleIsSavedDropdownOpen();
       return true;
     }
@@ -335,10 +355,11 @@ export default function SavedCoverLettersContext(props) {
   };
 
   const deleteSavedCoverLetter = async () => {
-    console.log("selectedCoverLetter ========fff", state.selectedCoverLetter);
-
     try {
       await postDeleteSavedCoverLetter(state.selectedCoverLetter?.id);
+      dispatch({
+        type: "RESET_SELECTED_COVER_LETTER_DATA",
+      });
       return true;
     } catch (error) {
       console.log("Error: Could not delete saved cover letter", error);
@@ -351,6 +372,10 @@ export default function SavedCoverLettersContext(props) {
   useEffect(() => {
     getUsersSavedCoverLetters();
   }, []);
+
+  useEffect(() => {
+    getUsersSavedCoverLetters();
+  }, [state.updateSavedList]);
 
   // determine intermediate type
   useEffect(() => {
@@ -468,12 +493,31 @@ export default function SavedCoverLettersContext(props) {
     };
 
     dispatch({
-      type: "SET_SAVE_NAME",
-      payload: state.selectedCoverLetter?.save_name,
+      type: "RESET_UPDATE",
     });
 
-    getJobPosting();
-    getCoverLetterParts();
+    if (state.selectedCoverLetter !== null) {
+      dispatch({
+        type: "SET_SAVE_NAME",
+        payload: state.selectedCoverLetter?.save_name,
+      });
+      dispatch({
+        type: "DISABLE_DOWNLOADS",
+        payload: false,
+      });
+
+      getJobPosting();
+      getCoverLetterParts();
+    } else {
+      dispatch({
+        type: "DISABLE_SAVED_BUTTON",
+        payload: true,
+      });
+      dispatch({
+        type: "DISABLE_DOWNLOADS",
+        payload: true,
+      });
+    }
   }, [state.selectedCoverLetter]);
 
   useEffect(() => {
@@ -489,6 +533,30 @@ export default function SavedCoverLettersContext(props) {
       });
     }
   }, [state.loadingCoverLetter]);
+
+  useEffect(() => {
+    if (
+      state.selectedCoverLetter !== null &&
+      state.updateCoverLetter !== null &&
+      removeDivTags(state.selectedCoverLetterHtml) !== state.updateCoverLetter
+    ) {
+      dispatch({
+        type: "DISABLE_SAVED_BUTTON",
+        payload: false,
+      });
+    } else {
+      dispatch({
+        type: "DISABLE_SAVED_BUTTON",
+        payload: true,
+      });
+    }
+  }, [
+    state.selectedCoverLetter,
+    state.updateCoverLetter,
+    state.selectedCoverLetterHtml,
+  ]);
+
+  console.log("cover letter", state);
 
   return (
     <SavedContext.Provider

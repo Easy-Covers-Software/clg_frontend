@@ -8,7 +8,7 @@ const Logo = styled.img`
   margin-top: -55%;
   width: 100%;
 
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 1100px) {
     margin-top: -16%;
     // text-align: center;
     width: 100%;
@@ -24,6 +24,7 @@ export default function Sidebar() {
     <>
       <Logo src="/easy-covers-full.svg" alt="Description of Image" />
       {user ? <MenuLoggedIn /> : <MenuLoggedOut />}
+      {/* {user ? <MenuLoggedOut /> : <MenuLoggedIn />} */}
     </>
   );
 }

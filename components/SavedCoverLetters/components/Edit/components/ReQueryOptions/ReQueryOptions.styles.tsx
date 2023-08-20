@@ -32,8 +32,8 @@ const MoreOptions = styled(UnSelectedButton)`
   white-space: nowrap;
 
   @media screen and (min-width: 0px) and (max-width: 600px) {
-    font-size: 0.56rem;
-    width: 38%;
+    font-size: 0.82rem;
+    width: 50%;
     height: 7vh;
   }
 
@@ -58,14 +58,12 @@ const MoreOptions = styled(UnSelectedButton)`
 
 namespace CustomReQueryStyledComponents {
   export const SubmitButton = styled(UnSelectedButton)`
+    width: 90%;
     height: 4.3vh;
-    margin-bottom: 2%;
+    margin-bottom: 5%;
 
     font-size: 0.8rem;
     border: 1px solid #006d4b;
-
-    width: 90%;
-    margin: auto;
 
     background-color: #bacbba;
     color: white;
@@ -83,9 +81,7 @@ namespace CustomReQueryStyledComponents {
     }
 
     @media screen and (min-width: 0px) and (max-width: 600px) {
-      margin-top: 2%;
       width: 50%;
-      margin-bottom: 0.5%;
     }
   `;
 
@@ -96,9 +92,6 @@ namespace CustomReQueryStyledComponents {
     resize: none;
     box-sizing: border-box;
     background-color: #fff;
-    padding: 2%;
-    min-width: 100%;
-    max-width: 100%;
     border-top: 1px solid #006d4b;
     border-radius: 4px;
     ::placeholder {
@@ -119,7 +112,7 @@ namespace MediumReQueryInputStyledComponents {
 
   export const FormInput = styled(FormControl)`
     width: 100%;
-    // padding-right: 0;
+    // padding-right: 3%;
   `;
 
   export const InputField = styled(TextField)`
@@ -142,12 +135,11 @@ namespace MoreOptionsReQuerysStyledComponents {
   export const Container = styled(Grid)`
     display: flex;
     flex-direction: column;
-    // align-items: center;
     justify-content: space-between;
-    // margin-top: 2%;
     width: 32%;
     padding: 0 1%;
-    // margin-right: 3%;
+
+    overflow: scroll;
 
     @media screen and (min-width: 0px) and (max-width: 600px) {
       width: 100%;
@@ -180,9 +172,10 @@ namespace MoreOptionsReQuerysStyledComponents {
     font-size: 0.8rem;
     border: 1px solid #006d4b;
 
+    cursor: pointer;
+
     width: 90%;
     margin: auto;
-
     background-color: #bacbba;
     color: white;
 

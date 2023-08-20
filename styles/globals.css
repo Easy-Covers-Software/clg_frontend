@@ -92,7 +92,10 @@ body {
     font-size: 0.94rem;
   }
   @media screen and (min-width: 1100px) and (max-width: 1200px) {
-    font-size: 0.98rem;
+    font-size: 0.96rem;
+  }
+  @media screen and (min-width: 1100px) and (max-width: 1200px) {
+    font-size: 0.96rem;
   }
 }
 
@@ -227,121 +230,118 @@ body {
 }
 
 .job-summary-title {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: #006d4b;
   letter-spacing: 0.22rem;
-  padding: 1.6% 0 0 5%;
+  white-space: nowrap;
+  width: 100%;
+  height: fit-content;
 
   @media screen and (min-width: 0px) and (max-width: 500px) {
-    font-size: 1rem;
-    letter-spacing: 0.38rem;
-    padding: 2% 0 0 5%;
+    font-size: 1.04rem;
+    letter-spacing: 0.2rem;
+    overflow-y: scroll;
   }
   @media screen and (min-width: 500px) and (max-width: 600px) {
     font-size: 1.04rem;
-    letter-spacing: 0.36rem;
-    padding: 2.5% 0 0 5%;
+    letter-spacing: 0.22rem;
+    overflow-y: scroll;
   }
   @media screen and (min-width: 600px) and (max-width: 700px) {
     font-size: 1.08rem;
-    letter-spacing: 0.32rem;
-    padding: 3% 0 0 5%;
+    letter-spacing: 0.26rem;
   }
   @media screen and (min-width: 700px) and (max-width: 800px) {
     font-size: 1.12rem;
     letter-spacing: 0.3rem;
-    padding: 3% 0 0 5%;
   }
   @media screen and (min-width: 800px) and (max-width: 900px) {
     font-size: 1.14rem;
     letter-spacing: 0.28rem;
-    padding: 2% 0 0 5%;
   }
   @media screen and (min-width: 900px) and (max-width: 950px) {
     font-size: 1.16rem;
     letter-spacing: 0.26rem;
-    padding: 3% 0 0 5%;
   }
   @media screen and (min-width: 950px) and (max-width: 1000px) {
     font-size: 1.2rem;
     letter-spacing: 0.24rem;
-    padding: 4% 0 0 5%;
   }
   @media screen and (min-width: 1000px) and (max-width: 1100px) {
     font-size: 1.24rem;
     letter-spacing: 0.22rem;
-    padding: 3% 0 0 5%;
   }
   @media screen and (min-width: 1100px) and (max-width: 1200px) {
     font-size: 1.28rem;
     letter-spacing: 0.2rem;
-    padding: 3% 0 0 5%;
   }
   @media screen and (min-width: 1200px) and (max-width: 1300px) {
     font-size: 1.34rem;
     letter-spacing: 0.2rem;
-    padding: 1.6% 0 0 5%;
   }
+}
+
+.job-summary-title::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background: transparent;
 }
 
 .job-summary-company {
   font-size: 1.1rem !important;
   color: #006d4b;
   letter-spacing: 0.16rem;
-  padding: 0 0 5% 5%;
+  white-space: nowrap;
+  width: 100%;
 
   @media screen and (min-width: 0px) and (max-width: 500px) {
-    font-size: 0.88rem !important;
+    font-size: 1.1remportant;
     letter-spacing: 0.22rem;
-    padding: 0 0 8% 5%;
   }
 
   @media screen and (min-width: 500px) and (max-width: 600px) {
-    font-size: 0.9rem !important;
+    font-size: 1.1rem !important;
     letter-spacing: 0.21rem;
-    padding: 0 0 7% 5%;
   }
 
   @media screen and (min-width: 600px) and (max-width: 700px) {
-    font-size: 0.92rem !important;
+    font-size: 0.93rem !important;
     letter-spacing: 0.2rem;
-    padding: 0 0 6% 5%;
   }
   @media screen and (min-width: 700px) and (max-width: 800px) {
     font-size: 0.94rem !important;
     letter-spacing: 0.19rem;
-    padding: 0 0 5% 5%;
   }
   @media screen and (min-width: 800px) and (max-width: 900px) {
     font-size: 0.98rem !important;
     letter-spacing: 0.18rem;
-    padding: 0 0 4% 5%;
   }
   @media screen and (min-width: 900px) and (max-width: 950px) {
     font-size: 1rem !important;
     letter-spacing: 0.17rem;
-    padding: 0 0 3% 5%;
   }
   @media screen and (min-width: 950px) and (max-width: 1000px) {
     font-size: 1.02rem !important;
     letter-spacing: 0.16rem;
-    padding: 0 0 2.8% 5%;
   }
   @media screen and (min-width: 1000px) and (max-width: 1100px) {
     font-size: 1.04rem !important;
     letter-spacing: 0.16rem;
-    padding: 0 0 2.8% 5%;
   }
   @media screen and (min-width: 1100px) and (max-width: 1200px) {
     font-size: 1.06rem !important;
     letter-spacing: 0.16rem;
-    padding: 0 0 2.8% 5%;
   }
   @media screen and (min-width: 1200px) and (max-width: 1300px) {
     font-size: 1.06rem !important;
     letter-spacing: 0.16rem;
-    padding: 0 0 2.8% 5%;
   }
+}
+
+.job-summary-company::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background: transparent;
 }
 
 .job-summary-match-score-header {
@@ -352,15 +352,15 @@ body {
   white-space: nowrap;
 
   @media screen and (min-width: 0px) and (max-width: 500px) {
-    font-size: 0.96rem !important;
+    font-size: 0.92rem !important;
   }
 
   @media screen and (min-width: 500px) and (max-width: 600px) {
-    font-size: 0.97rem !important;
+    font-size: 0.94rem !important;
   }
 
   @media screen and (min-width: 600px) and (max-width: 700px) {
-    font-size: 0.98rem !important;
+    font-size: 0.96rem !important;
   }
 
   @media screen and (min-width: 700px) and (max-width: 800px) {
@@ -606,6 +606,21 @@ body {
   }
 }
 
+.saved-letters-list {
+  width: 95%;
+  height: 100%;
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid #006d4b;
+  padding: 0 3%;
+  overflow: scroll;
+}
+
+.mantine-3eqw8l {
+  height: 99% !important;
+  margin: auto !important;
+}
+
 /* @media screen and (max-width: 1000px) and (min-width: 900px) {
   .sidebar {
     height: calc(100vh - 100px);
@@ -792,7 +807,7 @@ body {
   }
 
   .main-content {
-    height: calc(100vh - 60px);
+    height: calc(100vh - 64px);
     /* width: 100%; */
     display: flex;
     gap: 20px;
@@ -835,8 +850,7 @@ body {
   }
 
   .main-content {
-    height: calc(100vh - 92px);
-    /* width: 94vw; */
+    height: calc(100vh - 70px);
     display: flex;
     gap: 20px;
     flex-shrink: 0;
@@ -896,12 +910,7 @@ body {
   }
 
   .layout-grid {
-    display: grid;
-    grid-template-areas:
-      "header header"
-      "sidebar main";
-    grid-template-rows: auto 1fr;
-    grid-template-columns: auto 1fr;
+    display: block;
   }
 
   .sidebar {
@@ -934,7 +943,7 @@ body {
   }
 }
 
-@media screen and (min-width: 800px) and (max-width: 900px) {
+@media screen and (min-width: 800px) and (max-width: 1100px) {
   body {
     height: 100vh;
     padding: 0;

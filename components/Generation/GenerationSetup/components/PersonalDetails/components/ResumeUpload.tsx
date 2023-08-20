@@ -51,12 +51,9 @@ export default function ResumeUploader() {
         />
       </DragDropContainer>
       {userResume && userResume !== "" && (
-        // {/* //{" "} */}
         <Tooltip title={`Date Uploaded: `}>
           <SelectLastUsedResume
-            // component={Paper}
             onClick={handleUseLastResume}
-            // isUsingLastUploadedResume={state.isUsingLastUploadedResume}
             sx={{
               opacity: 1,
               elevation: isUsingLastUploadedResume ? 0 : 5,
@@ -66,28 +63,47 @@ export default function ResumeUploader() {
             }}
           >
             <Grid display={"flex"} alignItems={"center"} gap={"3%"}>
-              <PostAddIcon
-                fontSize="large"
-                // color="#006D4B"
-                sx={{
-                  paddingBottom: "2%",
-                  color: "#006D4B",
-                }}
-              />
-              <Typography
-                className="use-last-resume"
-                style={{
-                  textDecoration: isUsingLastUploadedResume
-                    ? "underline"
-                    : "none",
-                }}
-              >
-                Use Previous: {userResume}
-              </Typography>
+              {!isUsingLastUploadedResume && (
+                <PostAddIcon
+                  fontSize="large"
+                  // color="#006D4B"
+                  sx={{
+                    paddingBottom: "2%",
+                    color: "#006D4B",
+                  }}
+                />
+              )}
+
+              {!isUsingLastUploadedResume ? (
+                <Typography
+                  className="use-last-resume"
+                  style={{
+                    textDecoration: isUsingLastUploadedResume
+                      ? "underline"
+                      : "none",
+                  }}
+                >
+                  Use Previous: {userResume}
+                </Typography>
+              ) : (
+                <>
+                  <Typography className="use-last-resume">Selected:</Typography>
+                  <Typography
+                    className="use-last-resume"
+                    style={{
+                      textDecoration: isUsingLastUploadedResume
+                        ? "underline"
+                        : "none",
+                    }}
+                  >
+                    {" "}
+                    {userResume}
+                  </Typography>
+                </>
+              )}
             </Grid>
 
             {isUsingLastUploadedResume && (
-              // <Grid flexGrow={1}>
               <IconButton
                 onClick={handleUnselectLastResume}
                 style={{
@@ -97,10 +113,8 @@ export default function ResumeUploader() {
               >
                 <HighlightOffOutlinedIcon />
               </IconButton>
-              // </Grid>
             )}
           </SelectLastUsedResume>
-          {/* //{" "} */}
         </Tooltip>
       )}
     </Container>

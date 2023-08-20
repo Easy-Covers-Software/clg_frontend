@@ -43,7 +43,11 @@ export default function Paypal({ selectedPackagePrice }) {
         onApprove={(data, actions) => {
           handleClose();
           dispatch({ type: "SET_UPDATE_USER", payload: true });
-          updateSnackbar(true, "success", "Success! Upgrade Complete!");
+          updateSnackbar(
+            true,
+            "success",
+            "Success! Payment Accepted, give up to 1 minute for credits to be added to your account!"
+          );
           return actions.order.capture().then(function (details) {
             console.log("details", details);
           });
