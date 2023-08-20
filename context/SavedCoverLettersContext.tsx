@@ -345,7 +345,9 @@ export default function SavedCoverLettersContext(props) {
       state.updateCoverLetterParts
     );
 
-    if (response.data) {
+    console.log("save save response", response);
+
+    if (response.id && response.id !== "") {
       toggleIsSavedDropdownOpen();
       return true;
     }
