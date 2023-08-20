@@ -1,20 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { PayPalButtons } from "@paypal/react-paypal-js";
+import React from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Typography } from "@mui/material";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import { UnSelectedButton } from "../Global/Global";
 
 import Dialog from "@mui/material/Dialog";
-import UpgradeAccountOption from "./components/UpgradeAccountOption";
 import { useAuth } from "@/context/AuthContext";
 
 import { DialogContentContainer, FullLogo } from "./HelpDialog.styles";
-
-import Paypal from "./components/Paypal";
 import styled from "@emotion/styled";
 import { useMediaQuery } from "@mui/material";
 
