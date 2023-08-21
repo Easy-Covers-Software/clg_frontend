@@ -1,6 +1,4 @@
-import * as React from "react";
 import Divider from "@mui/material/Divider";
-
 import SaveNameInput from "./SaveNameInput";
 import DownloadDropdown from "./DownloadDropdown";
 import { DownloadOptionsMenuStyledComponents } from "../CoverLetterResults.styles";
@@ -10,7 +8,6 @@ export default function DownloadOptionsMenu() {
   return (
     <Container>
       <SaveNameInput />
-
       <Divider orientation="vertical" flexItem />
       <DownloadDropdown />
     </Container>

@@ -36,18 +36,34 @@ export default function SimpleInput(props: SimpleInputProps) {
     }
   };
 
+  const getPlaceholderText = (id: string) => {
+    switch (id) {
+      case "simpleInput1":
+        return "Years of relevant experience...";
+      case "simpleInput2":
+        return "Relevant Awards / Skills / Certifications...";
+      default:
+        return "Relevant Projects / Publications...";
+    }
+  };
+
+  const getTooltipTitle = (id: string) => {
+    switch (id) {
+      case "simpleInput1":
+        return "The years you worked most recently worked in the field of the job you are applying for";
+      case "simpleInput2":
+        return "Any awards, skills, or certifications that you might have left out of your résumé but are applicable to the job you are applying for.";
+      default:
+        return "Any projects or publications that you might have left out of your résumé but are applicable to the job you are applying for.";
+    }
+  };
+
   return (
     <Container>
       <InputField
         id="email-input"
         variant="outlined"
-        placeholder={
-          id === "simpleInput1"
-            ? "Years of relevant experience..."
-            : id === "simpleInput2"
-            ? "Relevant Awards / Skills / Certifications..."
-            : "Relevant Projects / Publications..."
-        }
+        placeholder={getPlaceholderText(id)}
         size="small"
         value={inputValue}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,17 +84,7 @@ export default function SimpleInput(props: SimpleInputProps) {
           ),
         }}
       />
-      {/* </FormInput> */}
-      <Tooltip
-        title={
-          id === "simpleInput1"
-            ? "The years you worked most recently worked in the field of the job you are applying for"
-            : id === "simpleInput2"
-            ? "Any awards, skills, or certifications that you might have left out of your résumé but are applicable to the job you are applying for."
-            : "Any projects or publications that you might have left out of your résumé but are applicable to the job you are applying for."
-        }
-        placement="top"
-      >
+      <Tooltip title={getTooltipTitle(id)} placement="top">
         <InfoOutlinedIcon fontSize="medium" sx={{ opacity: "40%" }} />
       </Tooltip>
     </Container>

@@ -1,15 +1,9 @@
-import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Typography from "@mui/material/Typography";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Tooltip from "@mui/material/Tooltip";
-
-import styled from "@emotion/styled";
 
 import { useGenerationContext } from "@/context/GenerationContext";
 
@@ -20,12 +14,7 @@ const { Container, FormInput, QuestionContainer, InputField } =
 export default function MediumReQueryInput({ label }) {
   const { state, dispatch } = useGenerationContext();
 
-  const {
-    addSkillInput,
-    insertKeywordInput,
-    removeRedundancyInput,
-    disableGenerateButton,
-  } = state;
+  const { addSkillInput, insertKeywordInput, removeRedundancyInput } = state;
 
   const clearInput = () => {
     if (label === "Add Skill") {
@@ -53,6 +42,28 @@ export default function MediumReQueryInput({ label }) {
     }
   };
 
+  const getPlaceholderForLabel = (label: string) => {
+    switch (label) {
+      case "Add Skill":
+        return "'excel', 'python', etc.";
+      case "Insert Keyword":
+        return "'big data', 'clinical', etc.";
+      default:
+        return "'I feel', 'I believe', etc.";
+    }
+  };
+
+  const getValueForLabel = (label: string) => {
+    switch (label) {
+      case "Add Skill":
+        return addSkillInput;
+      case "Insert Keyword":
+        return insertKeywordInput;
+      default:
+        return removeRedundancyInput;
+    }
+  };
+
   return (
     <Container>
       <FormInput variant="outlined">
@@ -67,21 +78,9 @@ export default function MediumReQueryInput({ label }) {
         <InputField
           id="email-input"
           variant="outlined"
-          placeholder={
-            label === "Add Skill"
-              ? "'excel', 'python', etc."
-              : label === "Insert Keyword"
-              ? "'big data', 'clinical', etc."
-              : "'I feel', 'I believe', etc."
-          }
+          placeholder={getPlaceholderForLabel(label)}
           size="small"
-          value={
-            label === "Add Skill"
-              ? addSkillInput
-              : label === "Insert Keyword"
-              ? insertKeywordInput
-              : removeRedundancyInput
-          }
+          value={getValueForLabel(label)}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             handleChange(event);
           }}

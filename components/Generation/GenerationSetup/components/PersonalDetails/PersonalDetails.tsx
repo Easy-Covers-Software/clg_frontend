@@ -1,10 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-
-import styled from "@emotion/styled";
-
 import { Container } from "./PersonalDetails.styles";
 
 import PersonalDetailsModeSwitch from "./components/PersonalDetailsModeSwitch";

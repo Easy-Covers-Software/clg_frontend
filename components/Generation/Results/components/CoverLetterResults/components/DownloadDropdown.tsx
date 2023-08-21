@@ -1,10 +1,8 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
+import { useState, MouseEvent } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { IconButton } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import styled from "@emotion/styled";
 import { useAuth } from "@/context/AuthContext";
 import { useGenerationContext } from "@/context/GenerationContext";
@@ -22,18 +20,9 @@ import { UnSelectedButton } from "@/components/Global/Global";
 import { DownloadUtils } from "@/Utils/utils";
 const { generatePDF, generateDOCX } = DownloadUtils;
 
-const Container = styled(Grid)`
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  padding: "0 20%",
-`;
-
 export default function DownloadDropdown() {
   const isMobile = useMediaQuery("(max-width: 600px)");
-
   const { state, toggleIsDownloadDropdownOpen } = useGenerationContext();
-
   const {
     saveName,
     isDownloadDropdownOpen,
@@ -42,15 +31,14 @@ export default function DownloadDropdown() {
     updateCoverLetterParts,
     updateCoverLetter,
     disableDownloads,
-    savedId,
   } = state;
 
   const { updateSnackbar } = useAuth();
 
   const [downloadMenuAnchor, setDownloadMenuAnchor] =
-    React.useState<null | HTMLElement>(null);
+    useState<null | HTMLElement>(null);
 
-  const handleDownload = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDownload = (event: MouseEvent<HTMLButtonElement>) => {
     setDownloadMenuAnchor(event.currentTarget);
     toggleIsDownloadDropdownOpen();
   };

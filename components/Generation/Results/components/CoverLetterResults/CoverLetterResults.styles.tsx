@@ -16,7 +16,6 @@ const Container = styled(Grid)`
 
   background-color: #f8f8ff;
 
-  // border-top: none;
   border-radius: 4px;
   border: 1px solid #006d4b;
 
@@ -46,6 +45,13 @@ const ContentWrapper = styled(Grid)`
   flex: 1;
 `;
 
+const LoadingGrid = styled(Grid)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
+
 namespace DownloadOptionsMenuStyledComponents {
   export const Container = styled(Grid)`
     display: flex;
@@ -72,5 +78,6 @@ export {
   Container,
   SubContainer,
   ContentWrapper,
+  LoadingGrid,
   DownloadOptionsMenuStyledComponents,
 };

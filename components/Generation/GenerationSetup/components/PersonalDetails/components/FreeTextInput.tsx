@@ -9,8 +9,6 @@ const { TextArea } = FreeTextInputStyledComponents;
 export default function FreeTextInput() {
   const { state, dispatch } = useGenerationContext();
   const { freeText } = state;
-
-  const [value, setValue] = useState("");
   const [placeholder, setPlaceholder] = useState(
     "Provide a description about your education, work experience, skills, and any other information that you think is relevant to your application..."
   );
@@ -27,7 +25,7 @@ export default function FreeTextInput() {
   };
 
   const handleBlur = () => {
-    if (value === "") {
+    if (freeText === "") {
       setPlaceholder(
         "Provide a description about your education, work experience, skills, and any other information that you think is relevant to your application..."
       );

@@ -14,8 +14,17 @@ import MuiAccordionSummary, {
 import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
 import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import JobPostingInput from "./components/JobPostingInput/JobPostingInput";
-import PersonalDetails from "./components/PersonalDetails/PersonalDetails";
+
+const determineBorderRadius = (currPanel: string) => {
+  switch (currPanel) {
+    case "panel1":
+      return "4px 4px 0 0";
+    case "panel3":
+      return "0 0 4px 4px";
+    default:
+      return "none";
+  }
+};
 
 // Accordion styles
 const Accordion = muiStyled(
@@ -27,12 +36,7 @@ const Accordion = muiStyled(
   backgroundColor: "#f8f8ff",
   border: "1px solid #006D4B",
   borderBottom: currPanel === "panel3" ? "1px solid #006D4B" : "none",
-  borderRadius:
-    currPanel === "panel1"
-      ? "4px 4px 0 0"
-      : currPanel === "panel3"
-      ? "0 0 4px 4px"
-      : "none",
+  borderRadius: determineBorderRadius(currPanel),
 }));
 
 const AccordionSummary = muiStyled(
@@ -65,9 +69,8 @@ const AccordionSummary = muiStyled(
     display: "flex",
     alignItems: "center",
     gap: "1.5%",
-    // maxHeight: "2%",
   },
-  height: "40px", // Fixed height for the accordion summary
+  height: "40px",
 }));
 
 // AccordionDetails styles

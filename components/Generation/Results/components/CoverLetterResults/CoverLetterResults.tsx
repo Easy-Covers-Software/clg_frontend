@@ -2,7 +2,6 @@
 
 import React, { useEffect } from "react";
 import { Global, css } from "@emotion/react";
-
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import Highlight from "@tiptap/extension-highlight";
@@ -23,10 +22,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ReQueryOptions from "../ReQueryOptions/ReQueryOptions";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
+import { Helpers } from "@/Utils/utils";
+const { parseSectionsFromHTML } = Helpers;
+
 import {
   Container,
   SubContainer,
   ContentWrapper,
+  LoadingGrid,
 } from "./CoverLetterResults.styles";
 
 export default function CoverLetterResults() {
@@ -59,18 +62,6 @@ export default function CoverLetterResults() {
     }
   }, [coverLetter, editor]);
 
-  function parseSectionsFromHTML(html) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    const paragraphs = doc.querySelectorAll("p");
-    const sections = Array.from(paragraphs).map((p) => p.innerHTML);
-    console.log("sections", sections);
-
-    return sections;
-  }
-
-  console.log("results state", state);
-
   useEffect(() => {
     if (
       !loadingCoverLetter &&
@@ -91,13 +82,11 @@ export default function CoverLetterResults() {
   useEffect(() => {
     if (editor) {
       const updateHandler = () => {
-        // Parse the editor's HTML content into sections.
         const html = editor.getHTML();
         console.log("HTML", html);
 
         const parsedSections = parseSectionsFromHTML(html); // You need to implement this function.
 
-        // Dispatch the update action.
         dispatch({
           type: "SET_UPDATE_COVER_LETTER",
           payload: html,
@@ -134,64 +123,25 @@ export default function CoverLetterResults() {
         {isMobile && isReQuerySectionExpanded ? (
           <MoreOptionsReQueries />
         ) : (
-          <RichTextEditor
-            editor={editor}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              height: "100%",
-              borderRadius: "4px",
-              backgroundColor: "white",
-              width: "99.8%",
-            }}
-          >
+          <RichTextEditor editor={editor} className="rich-text-editor">
             <RichTextEditor.Toolbar
               sticky
               stickyOffset={60}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                borderRadius: "4px 4px 0 0",
-                overflowX: "scroll",
-                maxHeight: "12vh",
-                minHeight: "6vh",
-                padding: "0 0.5%",
-                whiteSpace: "nowrap",
-              }}
+              className="rich-text-editor-toolbar"
             >
               <RichTextEditor.ControlsGroup>
                 <RichTextEditor.Bold />
                 <RichTextEditor.Italic />
                 <RichTextEditor.Underline />
-                {/* <RichTextEditor.Strikethrough /> */}
                 <RichTextEditor.ClearFormatting />
                 <RichTextEditor.Highlight />
                 <RichTextEditor.Code />
-                {/* </RichTextEditor.ControlsGroup> */}
-
-                {/* <RichTextEditor.ControlsGroup> */}
                 <RichTextEditor.AlignLeft />
                 <RichTextEditor.AlignCenter />
                 <RichTextEditor.AlignRight />
-                {/* </RichTextEditor.ControlsGroup> */}
-
-                {/* <RichTextEditor.ControlsGroup> */}
-                {/* <RichTextEditor.H1 /> */}
-                {/* <RichTextEditor.H2 />
-            <RichTextEditor.H3 />
-            <RichTextEditor.H4 /> */}
-                {/* </RichTextEditor.ControlsGroup> */}
-
-                {/* <RichTextEditor.ControlsGroup> */}
                 <RichTextEditor.Blockquote />
-                {/* <RichTextEditor.Hr /> */}
                 <RichTextEditor.BulletList />
                 <RichTextEditor.OrderedList />
-                {/* <RichTextEditor.Subscript />
-            <RichTextEditor.Superscript /> */}
-                {/* </RichTextEditor.ControlsGroup> */}
-
-                {/* <RichTextEditor.ControlsGroup> */}
                 <RichTextEditor.Link />
                 <RichTextEditor.Unlink />
               </RichTextEditor.ControlsGroup>
@@ -205,14 +155,9 @@ export default function CoverLetterResults() {
 
             <ContentWrapper>
               {loadingCoverLetter ? (
-                <Grid
-                  display={"flex"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  height={"100%"}
-                >
+                <LoadingGrid>
                   <CircularProgress color="success" />
-                </Grid>
+                </LoadingGrid>
               ) : (
                 <Grid m={"0 5%"}>
                   <RichTextEditor.Content />

@@ -12,6 +12,16 @@ namespace Helpers {
     }
     return inputStr;
   }
+
+  export const parseSectionsFromHTML = (html) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const paragraphs = doc.querySelectorAll("p");
+    const sections = Array.from(paragraphs).map((p) => p.innerHTML);
+    console.log("sections", sections);
+
+    return sections;
+  };
 }
 
 namespace LoginUtils {

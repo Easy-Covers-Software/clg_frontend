@@ -36,6 +36,13 @@ export default function UploadOption({ label, accept }) {
     handleFileChange(e);
   };
 
+  const getDisplayText = (resume: { name?: string }) => {
+    if (resume && resume.name !== "") {
+      return resume.name;
+    }
+    return "Drag and drop your files here or click to select files";
+  };
+
   return (
     <Container>
       <FileUploadInput
@@ -52,9 +59,7 @@ export default function UploadOption({ label, accept }) {
           onDrop={fileDrop}
         >
           <Typography className="drag-drop">
-            {resume && resume.name !== ""
-              ? resume.name
-              : "Drag and drop your files here or click to select files"}
+            {getDisplayText(resume)}
           </Typography>
         </Dropzone>
       </Label>

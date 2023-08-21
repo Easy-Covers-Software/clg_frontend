@@ -186,6 +186,7 @@ export default function GenerateButtons() {
     dispatch({
       type: "SET_UPDATE_USER",
     });
+
     console.log("Refresh user right before??", accessLevel);
 
     if (model === "-1") {
@@ -226,8 +227,6 @@ export default function GenerateButtons() {
       }
     } catch (err) {
       console.error(err);
-      // Handle error, for example by showing an error message in the UI
-      // update a error variable in context
       updateSnackbar(
         true,
         "error",

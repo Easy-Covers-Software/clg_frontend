@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import styled from "@emotion/styled";
-
 import { useGenerationContext } from "@/context/GenerationContext";
-
 import { JobPostingTextInputField } from "./JobPostingInput.styles";
 
 export default function JobPostingInput() {

@@ -18,87 +18,23 @@ const Container = styled(Grid)`
   height: 100%;
   width: 100%;
   margin-top: 10%;
-  // padding: 0 10%;
 
   @media screen and (min-width: 0px) and (max-width: 600px) {
     padding: 0 1%;
     width: 100%;
     margin-top: 2%;
   }
-
-  // @media screen and (min-width: 600px) and (max-width: 700px) {
-  // }
-
-  // @media screen and (min-width: 700px) and (max-width: 800px) {
-  //   padding: 0 10%;
-  // }
-
-  // @media screen and (min-width: 800px) and (max-width: 900px) {
-  //   padding: 0 12%;
-  // }
-
-  // @media screen and (min-width: 900px) and (max-width: 950px) {
-  //   padding: 0 14%;
-  // }
-
-  // @media screen and (min-width: 950px) and (max-width: 1000px) {
-  //   padding: 0 15%;
-  // }
-
-  // @media screen and (min-width: 1000px) and (max-width: 1100px) {
-  //   padding: 0 16%;
-  // }
-
-  // @media screen and (min-width: 1100px) and (max-width: 1200px) {
-  //   padding: 0 16%;
-  // }
-
-  // @media screen and (min-width: 1200px) and (max-width: 1300px) {
-  //   padding: 0 16%;
-  // }
 `;
 
 const SubContainer = styled(Grid)`
   height: 100%;
   margin-bottom: 15%;
   width: 96%;
-  // // padding: 0 20%;
 
   @media screen and (min-width: 0px) and (max-width: 600px) {
     padding: 0 1%;
     width: 100%;
   }
-
-  // @media screen and (min-width: 600px) and (max-width: 700px) {
-  // }
-
-  // @media screen and (min-width: 700px) and (max-width: 800px) {
-  //   padding: 0 10%;
-  // }
-
-  // @media screen and (min-width: 800px) and (max-width: 900px) {
-  //   padding: 0 12%;
-  // }
-
-  // @media screen and (min-width: 900px) and (max-width: 950px) {
-  //   padding: 0 14%;
-  // }
-
-  // @media screen and (min-width: 950px) and (max-width: 1000px) {
-  //   padding: 0 15%;
-  // }
-
-  // @media screen and (min-width: 1000px) and (max-width: 1100px) {
-  //   padding: 0 16%;
-  // }
-
-  // @media screen and (min-width: 1100px) and (max-width: 1200px) {
-  //   padding: 0 16%;
-  // }
-
-  // @media screen and (min-width: 1200px) and (max-width: 1300px) {
-  //   padding: 0 16%;
-  // }
 `;
 
 export default function CustomReQuery() {
@@ -123,7 +59,6 @@ export default function CustomReQuery() {
   );
 
   const handleChange = (e) => {
-    // setValue(e.target.value);
     dispatch({ type: "SET_CUSTOM_ADJUSTMENT", payload: e.target.value });
   };
 

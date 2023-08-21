@@ -13,6 +13,7 @@ import {
   Container,
   MoreOptions,
   MobileMoreOptionsContainer,
+  RestartIconButton,
 } from "./ReQueryOptions.styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
@@ -20,15 +21,11 @@ import DownloadOptionsMenu from "../CoverLetterResults/components/DownloadOption
 
 export default function ReQueryOptions() {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  const {
-    dispatch,
-    toggleIsReQuerySectionExpanded,
-    toggleIsReQueryMobileSectionExpanded,
-  } = useGenerationContext();
+  const { dispatch, toggleIsReQuerySectionExpanded } = useGenerationContext();
   const { state, dispatch: authDispatch, openAlertDialogConfirm } = useAuth();
   const { didConfirmAlert } = state;
 
-  console.log("auth state ====", state)
+  console.log("auth state ====", state);
 
   const handleReset = () => {
     dispatch({ type: "RESET_STATE" });
@@ -56,22 +53,9 @@ export default function ReQueryOptions() {
       {isMobile ? (
         <MobileMoreOptionsContainer>
           <Tooltip title="Restart Generation">
-            <IconButton
-              onClick={openConfirmationDialog}
-              style={{
-                backgroundColor: "white",
-                borderRadius: "4px",
-                border: "1px solid red",
-                padding: 0,
-                margin: 0,
-                width: "7vh",
-                minWidth: "7vh",
-                height: "7vh",
-                minHeight: "7vh",
-              }}
-            >
+            <RestartIconButton onClick={openConfirmationDialog}>
               <RestartAltIcon />
-            </IconButton>
+            </RestartIconButton>
           </Tooltip>
 
           <MoreOptions onClick={toggleIsReQuerySectionExpanded}>

@@ -8,7 +8,6 @@ import { useGenerationContext } from "@/context/GenerationContext";
 import { ResumeUploadStyledComponents } from "../PersonalDetails.styles";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import { Grid, Tooltip, Typography } from "@mui/material";
-import { Paper } from "@mui/material";
 import { IconButton } from "@mui/material";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 const { Container, DragDropContainer, SelectLastUsedResume } =
@@ -66,7 +65,6 @@ export default function ResumeUploader() {
               {!isUsingLastUploadedResume && (
                 <PostAddIcon
                   fontSize="large"
-                  // color="#006D4B"
                   sx={{
                     paddingBottom: "2%",
                     color: "#006D4B",

@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { UnSelectedButton } from "@/components/Global/Global";
-import { FormControl, TextField } from "@mui/material";
+import { FormControl, IconButton, TextField } from "@mui/material";
 
 const Container = styled(Grid)`
-  // width: 100%;
   display: flex;
   padding-right: 1%;
   height: 80px;
@@ -15,10 +14,6 @@ const MobileMoreOptionsContainer = styled(Grid)`
   display: flex;
   justify-content: space-around;
   padding: 2% 3%;
-
-  // @media screen and (min-width: 0px) and (max-width: 600px) {
-  //   width: 80vw;
-  // }
 `;
 
 const MoreOptions = styled(UnSelectedButton)`
@@ -54,6 +49,18 @@ const MoreOptions = styled(UnSelectedButton)`
   @media screen and (min-width: 1000px) and (max-width: 1100px) {
     font-size: 0.72rem;
   }
+`;
+
+const RestartIconButton = styled(IconButton)`
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid red;
+  padding: 0;
+  margin: 0;
+  width: 7vh;
+  min-width: 7vh;
+  height: 7vh;
+  min-height: 7vh;
 `;
 
 namespace CustomReQueryStyledComponents {
@@ -111,7 +118,6 @@ namespace MediumReQueryInputStyledComponents {
 
   export const FormInput = styled(FormControl)`
     width: 100%;
-    // padding-right: 3%;
   `;
 
   export const InputField = styled(TextField)`
@@ -120,7 +126,6 @@ namespace MediumReQueryInputStyledComponents {
     width: 100%;
     border-radius: 4px;
     background-color: #fff;
-    // background-color: #f8f8ff;
   `;
 
   export const QuestionContainer = styled(Grid)`
@@ -137,15 +142,9 @@ namespace MoreOptionsReQuerysStyledComponents {
     justify-content: space-between;
     width: 42%;
     overflow: scroll;
-    // height: 100%;
-    // margin-bottom: 1%;
 
     @media screen and (min-width: 0px) and (max-width: 600px) {
       width: 100%;
-    }
-
-    @media screen and (min-width: 600px) and (max-width: 900px) {
-      // width: 100%;
     }
   `;
 
@@ -208,7 +207,6 @@ namespace SimpleReQueryButtonStyledComponents {
     width: 16%;
     height: 68%;
     margin: auto;
-    // margin-bottom: 1%;
   `;
   export const ButtonContainer = styled(Grid)`
     display: flex;
@@ -228,6 +226,7 @@ export {
   Container,
   MoreOptions,
   MobileMoreOptionsContainer,
+  RestartIconButton,
   CustomReQueryStyledComponents,
   MediumReQueryInputStyledComponents,
   MoreOptionsReQuerysStyledComponents,

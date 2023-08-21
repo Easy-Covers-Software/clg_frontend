@@ -1,26 +1,14 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
+import { useState, MouseEvent } from "react";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import { IconButton } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { useSavedCoverLettersContext } from "@/context/SavedCoverLettersContext";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import styled from "@emotion/styled";
 import { useAuth } from "@/context/AuthContext";
 import { useGenerationContext } from "@/context/GenerationContext";
 import { Tooltip } from "@mui/material";
-
 import { TextField } from "@mui/material";
 import { UnSelectedButton } from "@/components/Global/Global";
 import { useMediaQuery } from "@mui/material";
-
-const Container = styled(Grid)`
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  padding: "0 20%",
-`;
 
 export default function SaveNameInput() {
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -33,9 +21,9 @@ export default function SaveNameInput() {
 
   const { updateSnackbar } = useAuth();
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
     toggleIsSavedDropdownOpen();
   };
@@ -48,9 +36,6 @@ export default function SaveNameInput() {
   const handleSave = async () => {
     const response = await saveCoverLetterResults();
 
-    console.log("response", response);
-
-    console.log("response =====(*(**", response);
     if (response?.id !== "") {
       updateSnackbar(
         true,

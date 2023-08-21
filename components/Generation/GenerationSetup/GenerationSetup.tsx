@@ -42,41 +42,6 @@ export default function GenerationSetup() {
 
   // Component State
   const [expanded, setExpanded] = useState<string | false>("panel1");
-  const [previousPanel, setPreviousPanel] = useState<string | false>("panel1");
-  const [jobPostingLastSubmitted, setJobPostingLastSubmitted] =
-    useState<string>("");
-  const [resumeLastUploaded, setResumeLastUploaded] = useState<any>({});
-
-  // Helper functions
-  const isDifferentJobPostingSinceLastSubmission = () =>
-    jobPosting !== jobPostingLastSubmitted;
-  const isDifferentResumeSinceLastSubmission = () =>
-    jobPosting !== jobPostingLastSubmitted;
-
-  // Upload handlers
-  const handleJobPostingUpload = async () => {
-    if (isDifferentJobPostingSinceLastSubmission()) {
-      try {
-        // await uploadJobPosting(jobPosting);
-        setJobPostingLastSubmitted(jobPosting);
-      } catch (err) {
-        console.error(err);
-        // Handle error, for example by showing an error message in the UI
-      }
-    }
-  };
-
-  const handleResumeUpload = async () => {
-    if (isDifferentResumeSinceLastSubmission()) {
-      try {
-        // await uploadResume(uploadedResumeFile);
-        setResumeLastUploaded(resume);
-      } catch (err) {
-        console.error(err);
-        // Handle error, for example by showing an error message in the UI
-      }
-    }
-  };
 
   // Panel change handler
   const handleChange =
@@ -100,19 +65,6 @@ export default function GenerationSetup() {
         }
       }
     };
-
-  // Upload handlers
-  useEffect(() => {
-    if (previousPanel === "panel1" && expanded !== "panel1") {
-      handleJobPostingUpload();
-    } else if (previousPanel === "panel2" && expanded !== "panel2") {
-      handleResumeUpload();
-    } else {
-      console.log("saveCurrentAdditionalDetails()");
-      // saveCurrentAdditionalDetails()
-    }
-    setPreviousPanel(expanded);
-  }, [expanded]);
 
   console.log("isUsingLastUploadedResume", isUsingLastUploadedResume);
 

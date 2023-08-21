@@ -20,9 +20,7 @@ export default function SimpleReQueryButton({ buttonLabel }) {
     updateSnackbar,
     toggleSettingsIsOpen,
   } = useAuth();
-
-  const { accessLevel, updateUser } = authState;
-  let { num_adjustments_available } = accessLevel;
+  const { updateUser } = authState;
 
   const { state, makeSimpleAdjustment } = useGenerationContext();
   const { disableGenerateButton } = state;

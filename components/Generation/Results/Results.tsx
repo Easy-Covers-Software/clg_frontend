@@ -20,6 +20,7 @@ const Container = styled(Grid)`
   // justify-content: space-between;
   margin-left: 0.3%;
   padding-bottom: 2%;
+
   @media screen and (min-width: 0px) and (max-width: 600px) {
     width: 100vw;
     height: calc(100vh - 90px);
