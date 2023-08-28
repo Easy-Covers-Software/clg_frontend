@@ -616,6 +616,22 @@ body {
   overflow: scroll;
 }
 
+.forgot-password {
+  cursor: pointer;
+  position: relative;
+  top: -10px;
+  right: -100px;
+  font-size: 0.9rem;
+  color: #13d0b7;
+}
+
+.enter-new-password {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 3%;
+  color: #006d4b;
+}
+
 .mantine-3eqw8l {
   height: 99.5% !important;
   margin: auto !important;
