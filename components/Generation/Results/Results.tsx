@@ -1,12 +1,13 @@
-"use client";
+'use client';
 
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import styled from "@emotion/styled";
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import styled from '@emotion/styled';
 
-import ResultsSummary from "./components/ResultsSummary/ResultsSummary";
-import CoverLetterResults from "./components/CoverLetterResults/CoverLetterResults";
+import CoverLetterSummary from '@/components/CoverLetterSummay/CoverLetterSummary';
+import CoverLetter from '@/components/CoverLetter/CoverLetter';
 
-// Want to eventually change this depending on if a generation has already occured or not
+import { useGenerationContext } from '@/context/GenerationContext';
+
 const Container = styled(Grid)`
   width: 90%;
   background-color: white;
@@ -29,10 +30,30 @@ const Container = styled(Grid)`
 `;
 
 export default function Results() {
+  const { state } = useGenerationContext();
+  const {
+    coverLetterData,
+    jobDetailsProps,
+    simpleAdjustmentProps,
+    intermediateAdjustmentProps,
+    customAdjustmentProps,
+    saveProps,
+    downloadProps,
+    adjustmentSection,
+  } = state;
+
   return (
     <Container>
-      <ResultsSummary />
-      <CoverLetterResults />
+      <CoverLetterSummary jobDetailsProps={jobDetailsProps} />
+      <CoverLetter
+        coverLetterData={coverLetterData}
+        simpleAdjustmentProps={simpleAdjustmentProps}
+        intermediateAdjustmentProps={intermediateAdjustmentProps}
+        customAdjustmentProps={customAdjustmentProps}
+        saveProps={saveProps}
+        downloadProps={downloadProps}
+        adjustmentSection={adjustmentSection}
+      />
     </Container>
   );
 }

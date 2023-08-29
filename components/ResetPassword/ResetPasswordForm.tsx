@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Grid from "@mui/material/Grid";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { Paper, TextField, Button, Typography, Box } from "@mui/material";
-import { useAuth } from "@/context/AuthContext";
-import { LoginUtils } from "@/Utils/utils";
-import SnackbarAlert from "../Global/components/SnackbarAlert";
+import React, { useState } from 'react';
+import Grid from '@mui/material/Grid';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
+import { Paper, TextField, Button, Typography, Box } from '@mui/material';
+import { useAuth } from '@/context/AuthContext';
+import { LoginApiMethods } from '@/Utils/utils';
+import SnackbarAlert from '../Global/components/SnackbarAlert';
 
-const { submitNewPasswords } = LoginUtils;
+const { submitNewPasswords } = LoginApiMethods;
 
 const ResetPasswordForm = () => {
-  const { state, updateSnackbar } = useAuth();
+  const { state } = useAuth();
   const { snackbar } = state;
 
-  const [newPassword1, setNewPassword1] = useState("");
-  const [newPassword2, setNewPassword2] = useState("");
+  const [newPassword1, setNewPassword1] = useState('');
+  const [newPassword2, setNewPassword2] = useState('');
 
   const getTokensFromUrl = () => {
     const path = window.location.pathname;
-    const parts = path.split("/");
+    const parts = path.split('/');
 
     const uid = parts[2];
     const token = parts[3];
@@ -31,18 +31,18 @@ const ResetPasswordForm = () => {
     e.preventDefault();
     const currentURL = window.location.href;
 
-    console.log("Current URL:", currentURL);
+    console.log('Current URL:', currentURL);
     // Validate passwords match
     if (newPassword1 !== newPassword2) {
-      alert("Passwords do not match!");
+      alert('Passwords do not match!');
       return;
     }
 
     // Get uid and token from URL
     const { uid, token } = getTokensFromUrl();
 
-    console.log("UID:", uid);
-    console.log("token:", token);
+    console.log('UID:', uid);
+    console.log('token:', token);
 
     const response = await submitNewPasswords(
       newPassword1,
@@ -53,61 +53,52 @@ const ResetPasswordForm = () => {
 
     if (
       response.detail &&
-      response.detail === "Password has been reset with the new password."
+      response.detail === 'Password has been reset with the new password.'
     ) {
-      updateSnackbar(true, "success", "Password has been reset!");
-      setTimeout((window.location.href = "/"), 3000);
+      snackbar?.updateSnackbar(true, 'success', 'Password has been reset!');
+      setTimeout((window.location.href = '/'), 3000);
     }
 
-    console.log("New Passsses Response:", response);
+    console.log('New Passsses Response:', response);
 
     // TODO: Make an API call or other logic to reset the password
-    console.log("New Password: ", newPassword1);
+    console.log('New Password: ', newPassword1);
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center">
-      <Paper elevation={3} style={{ padding: "2rem", marginBottom: "10%" }}>
-        <Typography
-          style={{
-            fontSize: "1.4rem",
-            textAlign: "center",
-            marginBottom: "3%",
-            color: "#006d4b",
-          }}
-        >
+    <Grid container justifyContent='center' alignItems='center'>
+      <Paper elevation={3} style={{ padding: '2rem', marginBottom: '10%' }}>
+        <Typography className='enter-new-password'>
           Enter your new password
         </Typography>
 
         <form onSubmit={handleSubmit}>
-          {/* new_password1 input */}
           <TextField
             fullWidth
-            type="password"
-            label="New Password"
-            variant="outlined"
+            type='password'
+            label='New Password'
+            variant='outlined'
             value={newPassword1}
             onChange={(e) => setNewPassword1(e.target.value)}
-            style={{ marginBottom: "1rem" }}
+            style={{ marginBottom: '1rem' }}
           />
 
-          {/* new_password2 input */}
           <TextField
             fullWidth
-            type="password"
-            label="Confirm New Password"
-            variant="outlined"
+            type='password'
+            label='Confirm New Password'
+            variant='outlined'
             value={newPassword2}
             onChange={(e) => setNewPassword2(e.target.value)}
-            style={{ marginBottom: "1rem" }}
+            style={{ marginBottom: '1rem' }}
           />
 
-          <Grid2 display="flex" justifyContent="flex-end">
+          <Grid2 display='flex' justifyContent='flex-end'>
             <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              style={{ border: "1px solid #006d4b", color: "#006d4b" }}
+              variant='contained'
+              color='primary'
+              type='submit'
+              style={{ border: '1px solid #006d4b', color: '#006d4b' }}
             >
               Reset Password
             </Button>

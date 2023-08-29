@@ -1,8 +1,8 @@
-import styled from "@emotion/styled";
-import { PrimaryButton, UnSelectedButton } from "@/components/Global/Global";
-import { Divider } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import Typography from "@mui/material/Typography";
+import styled from '@emotion/styled';
+import { PrimaryButton, UnSelectedButton } from '@/components/Global/Global';
+import { Divider } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Typography from '@mui/material/Typography';
 
 const Container = styled(Grid)`
   display: flex;
@@ -22,9 +22,6 @@ const Container = styled(Grid)`
 
 const GenerationModeTab = styled(UnSelectedButton)`
   white-space: nowrap;
-  &:active {
-    border-bottom: 2px solid #87dbd0;
-  }
 
   &:hover {
     border-bottom: 2px solid #87dbd0;

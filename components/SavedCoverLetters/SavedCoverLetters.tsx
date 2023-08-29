@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { useAuth } from "@/context/AuthContext";
-import SavedCoverLettersContext from "@/context/SavedCoverLettersContext";
+import { useAuth } from '@/context/AuthContext';
+import SavedCoverLettersContext from '@/context/SavedCoverLettersContext';
 
-import LoginDialog from "@/components/Login/LoginDialog";
-import SettingsDialog from "@/components/Settings/SettingsDialog";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import styled from "@emotion/styled";
+import LoginDialog from '@/components/Login/LoginDialog';
+import SettingsDialog from '@/components/Settings/SettingsDialog';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import styled from '@emotion/styled';
 
-import SnackbarAlert from "../Global/components/SnackbarAlert";
+import SnackbarAlert from '../Global/components/SnackbarAlert';
 
-import SavedDisplay from "./components/SavedDisplay/SavedDisplay";
-import Edit from "./components/Edit/Edit";
+import SavedDisplay from './components/SavedDisplay/SavedDisplay';
+import Edit from './components/Edit/Edit';
 
-import AlertDialogConfirm from "../Global/components/AlertDialogConfirm";
-import { useEffect } from "react";
-import { useMediaQuery } from "@mui/material";
+import AlertDialogConfirm from '../Global/components/AlertDialogConfirm';
+import { useEffect } from 'react';
+import { useMediaQuery } from '@mui/material';
 
 const Container = styled(Grid)`
   display: flex;
@@ -25,27 +25,30 @@ const Container = styled(Grid)`
 `;
 
 export default function SavedCoverLetters() {
-  const isMobile = useMediaQuery("(max-width: 600px)");
+  const isMobile = useMediaQuery('(max-width: 600px)');
   const { state, dispatch } = useAuth();
-  const {
-    isLoginOpen,
-    isSettingsOpen,
-    snackbar,
-    alertDialogConfirm,
-    mobileModeSaved,
-  } = state;
+
+  const { trackers, dialogProps, snackbar, confirmDialog, mobileMode } = state;
 
   useEffect(() => {
-    dispatch({ type: "SET_PAGE", payload: "saved" });
-  }, []);
+    if (trackers.updatePage) {
+      trackers.updatePage('saved');
+    }
+  }, [trackers.updatePage]);
 
   return (
     <Container>
-      {isLoginOpen ? <LoginDialog /> : null}
-      {isSettingsOpen ? <SettingsDialog /> : null}
+      {dialogProps.isLoginOpen ? <LoginDialog /> : null}
+      {dialogProps.isSettingsOpen ? <SettingsDialog /> : null}
       <SavedCoverLettersContext>
         {isMobile ? (
-          <>{mobileModeSaved === "choose" ? <SavedDisplay /> : <Edit />}</>
+          <>
+            {trackers.mobileModeSaved === 'choose' ? (
+              <SavedDisplay />
+            ) : (
+              <Edit />
+            )}
+          </>
         ) : (
           <>
             <SavedDisplay />
@@ -61,10 +64,10 @@ export default function SavedCoverLetters() {
       />
 
       <AlertDialogConfirm
-        open={alertDialogConfirm.open}
-        header={alertDialogConfirm.header}
-        message={alertDialogConfirm.message}
-        buttonText={alertDialogConfirm.buttonText}
+        open={confirmDialog.open}
+        header={confirmDialog.header}
+        message={confirmDialog.message}
+        buttonText={confirmDialog.buttonText}
       />
     </Container>
   );

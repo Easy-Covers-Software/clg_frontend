@@ -1,50 +1,50 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef } from "react";
-import { PayPalButtons } from "@paypal/react-paypal-js";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { Typography } from "@mui/material";
+import React, { useState, useEffect, useRef } from 'react';
+import { PayPalButtons } from '@paypal/react-paypal-js';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { Typography } from '@mui/material';
 
-import Dialog from "@mui/material/Dialog";
-import UpgradeAccountOption from "./components/UpgradeAccountOption";
-import { useAuth } from "@/context/AuthContext";
+import Dialog from '@mui/material/Dialog';
+import UpgradeAccountOption from './components/UpgradeAccountOption';
+import { useAuth } from '@/context/AuthContext';
 
-import { DialogContentContainer, FullLogo } from "./SettingsDialog.styles";
+import { DialogContentContainer, FullLogo } from './SettingsDialog.styles';
 
-import Paypal from "./components/Paypal";
-import styled from "@emotion/styled";
-import { useMediaQuery } from "@mui/material";
+import Paypal from './components/Paypal';
+import styled from '@emotion/styled';
+import { useMediaQuery } from '@mui/material';
 
 let packages = [
   {
-    name: "Intro Drafter",
-    features: ["5 Cover Letters", "10 Adjustments"],
-    price: "$0.99",
-    price_gpt4: "$1.99",
+    name: 'Intro Drafter',
+    features: ['5 Cover Letters', '10 Adjustments'],
+    price: '$0.99',
+    price_gpt4: '$1.99',
   },
   {
-    name: "Dynamic Drafter",
-    features: ["25 cover letters", "50 Adjustments"],
-    price: "$2.99",
-    price_gpt4: "$3.99",
+    name: 'Dynamic Drafter',
+    features: ['25 cover letters', '50 Adjustments'],
+    price: '$2.99',
+    price_gpt4: '$3.99',
   },
   {
-    name: "Pro Drafter",
-    features: ["50 cover letters", "100 Adjustments"],
-    price: "$4.99",
-    price_gpt4: "$7.99",
+    name: 'Pro Drafter',
+    features: ['50 cover letters', '100 Adjustments'],
+    price: '$4.99',
+    price_gpt4: '$7.99',
   },
   {
-    name: "Letter Luminary",
-    features: ["100 cover letters", "200 Adjustments"],
-    price: "$8.99",
-    price_gpt4: "$13.99",
+    name: 'Letter Luminary',
+    features: ['100 cover letters', '200 Adjustments'],
+    price: '$8.99',
+    price_gpt4: '$13.99',
   },
   {
-    name: "Cover Connoisseur",
-    features: ["200 cover letters", "400 Adjustments"],
-    price: "$12.99",
-    price_gpt4: "$19.99",
+    name: 'Cover Connoisseur',
+    features: ['200 cover letters', '400 Adjustments'],
+    price: '$12.99',
+    price_gpt4: '$19.99',
   },
 ];
 
@@ -60,10 +60,10 @@ const PaypalContainer = styled(Grid)`
 `;
 
 export default function SettingsDialog() {
-  const isMobile = useMediaQuery("(max-width: 600px)");
-  const { state, toggleSettingsIsOpen } = useAuth();
-  const { isSettingsOpen } = state;
-  const [selectedPackagePrice, setSelectedPackagePrice] = useState("");
+  const isMobile = useMediaQuery('(max-width: 600px)');
+  const { state } = useAuth();
+  const { dialogProps, isSettingsOpen } = state;
+  const [selectedPackagePrice, setSelectedPackagePrice] = useState('');
 
   const [hasSelectedPricingOption, setHasSelectedPricingOption] =
     useState(false);
@@ -71,39 +71,38 @@ export default function SettingsDialog() {
   const dialogRef = useRef(null);
 
   useEffect(() => {
-    if (selectedPackagePrice !== "") {
+    if (selectedPackagePrice !== '') {
       setHasSelectedPricingOption(true);
       if (isMobile) {
-        // setTimeout(scrollToBottom, 1200);
         setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 3000);
       }
     }
   }, [selectedPackagePrice]);
 
   const handleClose = () => {
-    toggleSettingsIsOpen(false);
+    dialogProps?.toggleSettingsIsOpen();
   };
 
   return (
     <Dialog
-      open={isSettingsOpen}
+      open={dialogProps?.isSettingsOpen}
       onClose={handleClose}
       fullWidth
-      maxWidth="md"
+      maxWidth='md'
       PaperProps={{
         style: {
-          backgroundColor: "#F8F8FF",
+          backgroundColor: '#F8F8FF',
         },
       }}
       ref={dialogRef}
     >
-      <FullLogo src="/easy-covers-full.svg" alt="Description of Image" />
+      <FullLogo src='/easy-covers-full.svg' alt='Description of Image' />
 
       <Grid
-        display={"flex"}
-        mr={"3%"}
+        display={'flex'}
+        mr={'3%'}
         style={{
-          flexDirection: isMobile ? "column" : "row",
+          flexDirection: isMobile ? 'column' : 'row',
           // padding: isMobile ? "0 20%" : "0",
         }}
       >
@@ -111,10 +110,10 @@ export default function SettingsDialog() {
           <PaypalContainer>
             <Typography
               style={{
-                fontSize: "1.5rem",
-                color: "#006d4b",
-                padding: "1%",
-                borderBottom: "1px solid #006d4b",
+                fontSize: '1.5rem',
+                color: '#006d4b',
+                padding: '1%',
+                borderBottom: '1px solid #006d4b',
               }}
             >
               {selectedPackagePrice}
@@ -137,10 +136,10 @@ export default function SettingsDialog() {
           <PaypalContainer>
             <Typography
               style={{
-                fontSize: "1.5rem",
-                color: "#006d4b",
-                padding: "1%",
-                borderBottom: "1px solid #006d4b",
+                fontSize: '1.5rem',
+                color: '#006d4b',
+                padding: '1%',
+                borderBottom: '1px solid #006d4b',
               }}
             >
               {selectedPackagePrice}

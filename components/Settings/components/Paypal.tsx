@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { PayPalButtons } from "@paypal/react-paypal-js";
+import React, { useState, useEffect } from 'react';
+import { PayPalButtons } from '@paypal/react-paypal-js';
 
 // import SnackbarAlert from "@/components/Global/components/SnackbarAlert";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from '@/context/AuthContext';
 
-import { SettingsUtils } from "@/Utils/utils";
-import { AlertColor } from "@mui/material";
+import { Helpers } from '@/Utils/utils';
+import { AlertColor } from '@mui/material';
 
 export default function Paypal({ selectedPackagePrice }) {
-  const { state, dispatch, toggleSettingsIsOpen, updateSnackbar } = useAuth();
-  const { user } = state;
-  const { extractPrice } = SettingsUtils;
+  const { state, dispatch } = useAuth();
+  const { dialogProps, snackbar, user } = state;
+  const { extractPrice } = Helpers;
 
   const handleClose = () => {
-    toggleSettingsIsOpen(false);
+    dialogProps?.toggleSettingsIsOpen();
   };
 
   return (
     <>
       <PayPalButtons
-        style={{ layout: "vertical", height: 45 }}
+        style={{ layout: 'vertical', height: 45 }}
         createOrder={(data, actions) => {
           return actions.order.create({
             purchase_units: [
@@ -32,24 +32,26 @@ export default function Paypal({ selectedPackagePrice }) {
             ],
           });
         }}
-        onCancel={() => updateSnackbar(true, "warning", "Payment Cancelled")}
+        onCancel={() =>
+          snackbar?.updateSnackbar(true, 'warning', 'Payment Cancelled')
+        }
         onError={(err) => {
-          updateSnackbar(
+          snackbar?.updateSnackbar(
             true,
-            "error",
-            "Error during transaction, please try again."
+            'error',
+            'Error during transaction, please try again.'
           );
         }}
         onApprove={(data, actions) => {
           handleClose();
-          dispatch({ type: "SET_UPDATE_USER", payload: true });
-          updateSnackbar(
+          dispatch({ type: 'UPDATE_USER', payload: true });
+          snackbar?.updateSnackbar(
             true,
-            "success",
-            "Success! Payment Accepted, give up to 1 minute for credits to be added to your account!"
+            'success',
+            'Success! Payment Accepted, give up to 1 minute for credits to be added to your account!'
           );
           return actions.order.capture().then(function (details) {
-            console.log("details", details);
+            console.log('details', details);
           });
         }}
       />
