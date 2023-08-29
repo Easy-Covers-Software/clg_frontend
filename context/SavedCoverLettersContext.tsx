@@ -43,7 +43,7 @@ const initialState = {
   coverLetterData: {
     coverLetterId: '',
     saveName: '',
-    coverLetterHtml: 'sdfffd',
+    coverLetterHtml: '',
     coverLetterParts: null,
     editedCoverLetter: '',
     editedCoverLetterParts: null,
