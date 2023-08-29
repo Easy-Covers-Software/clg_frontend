@@ -1,101 +1,117 @@
-export type AdditionalDetailsState = {
+export type AdditionalDetails = {
   simpleInput1: string;
   simpleInput2: string;
   simpleInput3: string;
   openEndedInput: string;
+  updateSimpleInput: (id: string, value: string) => void;
+  updateOpenEndedInput: (openEndedInput: string) => void;
 };
 
 export type GenerationSetupProps = {
   jobPosting: string;
-  resume: null | File;
+  resume: File | null;
   freeText: string;
-  additionalDetails: AdditionalDetailsObj;
-  isUsingLastUploadedResume: boolean;
+  model: string;
+  isUsingPreviousResume: boolean;
+  disableGenerateButton: boolean;
   updateJobPosting: (jobPosting: string) => void;
   updateResume: (resume: File) => void;
   updateFreeText: (freeText: string) => void;
-  updateSimpleInput: (id: string, value: string) => void;
-  updateOpenEndedInput: (openEndedInput: string) => void;
-  updateDisableGenerateButton: (disableGenerateButton: boolean) => void;
+  updateModel: (model: string) => void;
+  toggleDisableGenerateButton: () => void;
+  updateIsUsingPreviousResume: () => void;
 };
 
 export type JobDetailsProps = {
-  jobPosting: string;
+  jobTitle: string;
   companyName: string;
   matchScore: number;
   loadingSummary: boolean;
   updateJobTitle: (jobTitle: string) => void;
   updateCompanyName: (companyName: string) => void;
   updateMatchScore: (matchScore: number) => void;
-  updateLoadingSummary: (loadingSummary: boolean) => void;
+  toggleLoadingSummary: (loadingSummary: boolean) => void;
 };
 
 export type CoverLetterData = {
+  coverLetterId: string;
+  saveName: string;
   coverLetterHtml: string;
-  coverLetterParts: null | string[];
-  editedCoverLetterHtml: string;
-  editedCoverLetterParts: null | string[];
-  updateCoverLetterHtml: (coverLetterHtml: string) => {};
-  updateEditedCoverLetterHtml: (editedCoverLetterHtml: string) => {};
-  updateEditedCoverLetterParts: (editedCoverLetterParts: string[]) => {};
-};
-
-export type CoverLetterProps = {
-  coverLetter: null | CoverLetterData;
-  isReQuerySectionExpanded: boolean;
+  coverLetterParts: string[] | null;
+  editedCoverLetter: string;
+  editedCoverLetterParts: string[] | null;
   loadingCoverLetter: boolean;
-  updateCoverLetterHtml: (coverLetter: string) => void;
-  updateEditedCoverLetterHtml: (editedCoverLetter: string) => void;
-  updateEditedCoverLetterParts: (editedCoverLetterParts: string[]) => void;
-  toggleIsReQuerySectionExpanded: () => void;
-  updateJobPostingId: (jobPostingId: string) => void;
+  curCoverLetterHtml: string;
+  curCoverLetterParts: string[] | null;
+  updateCoverLetterId: (coverLetterId: string) => void;
+  updateSaveName: (saveName: string) => void;
+  updateCoverLetterHtml: (html: string) => void;
+  updateCoverLetterParts: (parts: string[]) => void;
+  updateEditedCoverLetterHtml: (editedHtml: string) => void;
+  updateEditedCoverLetterParts: (editedParts: string[]) => void;
+  toggleLoadingCoverLetter: () => void;
+  reset: () => void;
 };
 
 export type SimpleAdjustmentProps = {
-  coverLetter: null | CoverLetterData;
   disableSimpleAdjustment: boolean;
-  toggleIsReQuerySectionExpanded: () => void;
+  toggleDisableSimpleAdjustment: (disableSimpleAdjustment: boolean) => void;
 };
 
 export type IntermediateAdjustmentProps = {
-  coverLetter: null | CoverLetterData;
   addSkillInput: string;
   insertKeywordInput: string;
   removeRedundancyInput: string;
+  intermediateType: string | null;
   disableAddSkill: boolean;
   disableInsertKeyword: boolean;
   disableRemoveRedundancy: boolean;
-  intermediateType: null;
-  disableIntermediateAdjustment: true;
-  toggleIsReQuerySectionExpanded: () => void;
+  disableIntermediateAdjustment: boolean;
+  updateAddSkillInput: (addSkillInput: string) => void;
+  updateInsertKeywordInput: (insertKeywordInput: string) => void;
+  updateRemoveRedundancyInput: (removeRedundancyInput: string) => void;
+  updateIntermediateType: (intermediateType: string) => void;
+  toggleDisableAddSkill: () => void;
+  toggleDisableInsertKeyword: () => void;
+  toggleDisableRemoveRedundancy: () => void;
+  toggleDisableIntermediateAdjustment: () => void;
 };
 
 export type CustomAdjustmentProps = {
-  coverLetter: null | CoverLetterData;
-  customAdjustmentInput: string;
+  customAdjustment: string;
   disableCustomAdjustment: boolean;
-  updateCustomAdjustmentInput: (customAdjustmentInput: string) => void;
-  toggleIsReQuerySectionExpanded: () => void;
+  updateCustomAdjustment: (customAdjustment: string) => void;
+  toggleDisableCustomAdjustment: (disableCustomAdjustment: boolean) => void;
 };
 
 export type SaveProps = {
-  coverLetterData: null | CoverLetterData;
-  saveName: string;
-  saveId: string;
-  jobPostingId: string;
+  isSavedDropdownOpen: boolean;
+  disableSavedButton: boolean;
+  toggleIsSavedDropdownOpen: () => void;
+  toggleDisableSavedButton: () => void;
 };
 
-export type DownloadProps = {};
+export type DownloadProps = {
+  isDownloadDropdownOpen: boolean;
+  disableDownloads: boolean;
+  toggleIsDownloadDropdownOpen: () => void;
+  toggleDisableDownloads: () => void;
+};
 
-export type GenerationContextInitialState = {
-  additionalDetails: AdditionalDetailsState;
+export type AdjustmentSection = {
+  isAdjustmentsSectionExpanded: boolean;
+  toggleIsAdjustmentsSectionExpanded: () => void;
+};
+
+export type GenerationState = {
+  additionalDetails: AdditionalDetails;
   generationSetupProps: GenerationSetupProps;
   jobDetailsProps: JobDetailsProps;
   coverLetterData: CoverLetterData;
-  coverLetterProps: CoverLetterProps;
   simpleAdjustmentProps: SimpleAdjustmentProps;
   intermediateAdjustmentProps: IntermediateAdjustmentProps;
   customAdjustmentProps: CustomAdjustmentProps;
   saveProps: SaveProps;
   downloadProps: DownloadProps;
+  adjustmentSection: AdjustmentSection;
 };

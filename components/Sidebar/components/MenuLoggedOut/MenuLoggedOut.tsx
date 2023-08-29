@@ -1,24 +1,25 @@
-import { useAuth } from "@/context/AuthContext";
-import Link from "next/link";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { UnSelectedButton } from "@/components/Global/Global";
+import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { UnSelectedButton } from '@/components/Global/Global';
 import {
   Container,
   HorizontalDivider,
   GenerationModeTab,
-} from "./MenuLoggedOut.styles";
+} from './MenuLoggedOut.styles';
 
 export default function MenuLoggedOut() {
-  const { state, toggleLoginIsOpen } = useAuth();
-  const { page } = state;
+  const { state } = useAuth();
+  const { accountAuthProps, trackers, dialogProps, page } = state;
   const { isLoginOpen } = state;
 
   return (
     <Container>
-      <Link href={"/"} className={"no_underline"} passHref>
+      <Link href={'/'} className={'no_underline'} passHref>
         <GenerationModeTab
           style={{
-            backgroundColor: page === "generation-mode" ? "#f5faf5" : "white",
+            backgroundColor:
+              trackers?.page === 'generation-mode' ? '#f5faf5' : 'white',
           }}
         >
           Generate Mode
@@ -28,9 +29,9 @@ export default function MenuLoggedOut() {
       <Grid>
         <HorizontalDivider />
         <UnSelectedButton
-          onClick={() => toggleLoginIsOpen()}
+          onClick={() => dialogProps?.toggleLoginIsOpen()}
           style={{
-            whiteSpace: "nowrap",
+            whiteSpace: 'nowrap',
           }}
         >
           Sign In

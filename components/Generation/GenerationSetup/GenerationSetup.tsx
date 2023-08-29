@@ -22,8 +22,8 @@ import JobPostingInput from './components/JobPostingInput/JobPostingInput';
 import PersonalDetails from './components/PersonalDetails/PersonalDetails';
 import AdditionalDetails from './components/AdditionalDetails/AdditionalDetails';
 
-import { GenerationUtils } from '@/Utils/utils';
-const { checkAdditionalDetails } = GenerationUtils;
+import { Helpers } from '@/Utils/utils';
+const { checkAdditionalDetails } = Helpers;
 
 // Context Imports
 import { useAuth } from '@/context/AuthContext';

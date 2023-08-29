@@ -1,14 +1,13 @@
 // AdjustmentButtons.tsx
 
-import { FC } from "react";
-import { IconButton, Divider } from "@mui/material";
-import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
+import { FC } from 'react';
+import { IconButton, Divider } from '@mui/material';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 
-import { useGenerationContext } from "@/context/GenerationContext";
+import { useGenerationContext } from '@/context/GenerationContext';
 
-import { AdjustmentsUtils } from "@/Utils/utils";
-const { makeSimpleAdjustment } = AdjustmentsUtils;
+import { CoverLetterApiMethods } from '@/Utils/utils';
 
 interface AdjustmentButtonsProps {
   adjustmentType: string;
@@ -34,7 +33,7 @@ const ButtonGroup: FC<AdjustmentButtonsProps> = ({
         <RemoveCircleOutlineOutlinedIcon />
       </IconButton>
 
-      <Divider orientation="vertical" />
+      <Divider orientation='vertical' />
 
       <IconButton
         disabled={disabled}

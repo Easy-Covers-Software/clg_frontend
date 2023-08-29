@@ -7,9 +7,8 @@ import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOut
 import { useGenerationContext } from '@/context/GenerationContext';
 import { useAuth } from '@/context/AuthContext';
 
-import { Helpers, AdjustmentsUtils } from '@/Utils/utils';
+import { Helpers, CoverLetterApiMethods } from '@/Utils/utils';
 const { isOriginalGenerationEdited } = Helpers;
-const { makeSimpleAdjustment } = AdjustmentsUtils;
 
 import { SimpleAdjustmentsButtonGroupStyledComponents } from '../SimpleAdjustments.styles';
 const { Container, ButtonContainer } =
