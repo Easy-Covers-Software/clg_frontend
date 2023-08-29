@@ -34,6 +34,7 @@ export default function ResumeUploader() {
     }
   }, [isUsingLastUploadedResume]);
 
+  console.log('loggedInProps', loggedInProps);
   return (
     <Container>
       <DragDropContainer
@@ -46,7 +47,7 @@ export default function ResumeUploader() {
           accept='.pdf,.doc,.docx,.txt'
         />
       </DragDropContainer>
-      {loggedInProps?.resume !== '' && (
+      {loggedInProps.resume && loggedInProps.resume !== '' && (
         <Tooltip title={`Date Uploaded: `}>
           <SelectLastUsedResume
             onClick={toggleUsePreviousResume}

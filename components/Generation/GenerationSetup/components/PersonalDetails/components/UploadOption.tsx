@@ -2,14 +2,21 @@ import React, { useState } from 'react';
 import { useGenerationContext } from '@/context/GenerationContext';
 import { Typography } from '@mui/material';
 
+import { CoverLetterApiMethods } from '@/Utils/utils';
+const { uploadResume } = CoverLetterApiMethods;
+
 import { UploadOptionStyledComponents } from '../PersonalDetails.styles';
+import {
+  APIResponse,
+  ResumeUploadApiResponse,
+} from '@/Types/ApiResponse.types';
 const { Container, FileUploadInput, Dropzone, Label } =
   UploadOptionStyledComponents;
 
 export default function UploadOption({ label, accept }) {
   const id = label.replace(/\s+/g, '-').toLowerCase();
   const { state } = useGenerationContext();
-  const { generationSetupProps } = state;
+  const { additionalDetails, generationSetupProps } = state;
 
   const [dragging, setDragging] = useState(false);
 
@@ -28,14 +35,27 @@ export default function UploadOption({ label, accept }) {
     setDragging(false);
   };
 
-  const fileDrop = (e) => {
+  const fileDrop = async (e) => {
     e.preventDefault();
     setDragging(false);
     generationSetupProps?.updateResume(e);
+    await handleUploadResume();
   };
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     generationSetupProps?.updateResume(e.target.files[0]);
+    await handleUploadResume(e.target.files[0]);
+  };
+
+  const handleUploadResume = async (file: File): Promise<void> => {
+    const response: APIResponse<ResumeUploadApiResponse> = await uploadResume(
+      file,
+      generationSetupProps?.freeText,
+      additionalDetails?.simpleInput1,
+      additionalDetails?.simpleInput2,
+      additionalDetails?.simpleInput3,
+      additionalDetails?.openEndedInput
+    );
   };
 
   const getDisplayText = (resume: { name?: string }) => {
