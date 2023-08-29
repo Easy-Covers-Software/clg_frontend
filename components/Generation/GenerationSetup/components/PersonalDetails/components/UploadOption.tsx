@@ -1,17 +1,15 @@
-import React, { useState } from "react";
-import styled from "@emotion/styled";
-import { useGenerationContext } from "@/context/GenerationContext";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { Typography } from "@mui/material";
+import React, { useState } from 'react';
+import { useGenerationContext } from '@/context/GenerationContext';
+import { Typography } from '@mui/material';
 
-import { UploadOptionStyledComponents } from "../PersonalDetails.styles";
+import { UploadOptionStyledComponents } from '../PersonalDetails.styles';
 const { Container, FileUploadInput, Dropzone, Label } =
   UploadOptionStyledComponents;
 
 export default function UploadOption({ label, accept }) {
-  const id = label.replace(/\s+/g, "-").toLowerCase();
-  const { state, handleFileChange } = useGenerationContext();
-  const { resume } = state;
+  const id = label.replace(/\s+/g, '-').toLowerCase();
+  const { state } = useGenerationContext();
+  const { generationSetupProps } = state;
 
   const [dragging, setDragging] = useState(false);
 
@@ -33,22 +31,26 @@ export default function UploadOption({ label, accept }) {
   const fileDrop = (e) => {
     e.preventDefault();
     setDragging(false);
-    handleFileChange(e);
+    generationSetupProps?.updateResume(e);
+  };
+
+  const handleChange = (e) => {
+    generationSetupProps?.updateResume(e.target.files[0]);
   };
 
   const getDisplayText = (resume: { name?: string }) => {
-    if (resume && resume.name !== "") {
+    if (resume && resume.name !== '') {
       return resume.name;
     }
-    return "Drag and drop your files here or click to select files";
+    return 'Drag and drop your files here or click to select files';
   };
 
   return (
     <Container>
       <FileUploadInput
         id={id}
-        type="file"
-        onChange={handleFileChange}
+        type='file'
+        onChange={handleChange}
         accept={accept}
       />
       <Label htmlFor={id}>
@@ -58,8 +60,8 @@ export default function UploadOption({ label, accept }) {
           onDragLeave={dragLeave}
           onDrop={fileDrop}
         >
-          <Typography className="drag-drop">
-            {getDisplayText(resume)}
+          <Typography className='drag-drop'>
+            {getDisplayText(generationSetupProps?.resume)}
           </Typography>
         </Dropzone>
       </Label>
