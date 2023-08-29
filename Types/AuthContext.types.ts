@@ -24,6 +24,7 @@ export type LoggedInProps = {
   gpt4_generations_available: string;
   adjustments_available: string;
   isAuthenticated: boolean;
+  updateUser: () => void;
   reset: () => void;
 };
 
@@ -34,6 +35,8 @@ export type Trackers = {
   updatePage: (page: string) => void;
   updateMobileMode: (mobileMode: string) => void;
   updateMobileModeSaved: (mobileModeSaved: string) => void;
+  reset: () => void;
+  resetMobile: () => void;
 };
 
 export type ConfirmDialog = {
@@ -58,11 +61,11 @@ export type DialogProps = {
   isHelpDialogOpen: boolean;
   isPaymentSuccessDialogOpen: boolean;
   isConfirmDialogOpen: boolean;
+  updateConfirmDialog: () => void;
   toggleLoginIsOpen: () => void;
   toggleSettingsIsOpen: () => void;
   toggleHelpDialog: () => void;
   togglePaymentSuccessDialog: () => void;
-  toggleConfirmDialog: () => void;
 };
 
 export type Snackbar = {
