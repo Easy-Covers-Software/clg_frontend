@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { useAuth } from "@/context/AuthContext";
-import { GenerationContext } from "@/context/GenerationContext";
+import { useAuth } from '@/context/AuthContext';
+import { GenerationContext } from '@/context/GenerationContext';
 
-import LoginDialog from "@/components/Login/LoginDialog";
-import SettingsDialog from "@/components/Settings/SettingsDialog";
-import HelpDialog from "@/components/HelpDialog/HelpDialog";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import styled from "@emotion/styled";
+import LoginDialog from '@/components/Login/LoginDialog';
+import SettingsDialog from '@/components/Settings/SettingsDialog';
+import HelpDialog from '@/components/HelpDialog/HelpDialog';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import styled from '@emotion/styled';
 
-import GenerationSetup from "@/components/Generation/GenerationSetup/GenerationSetup";
-import Results from "@/components/Generation/Results/Results";
+import GenerationSetup from '@/components/Generation/GenerationSetup/GenerationSetup';
+import Results from '@/components/Generation/Results/Results';
 
-import SnackbarAlert from "../Global/components/SnackbarAlert";
-import AlertDialogConfirm from "../Global/components/AlertDialogConfirm";
-import { useEffect } from "react";
+import SnackbarAlert from '../Global/components/SnackbarAlert';
+import AlertDialogConfirm from '../Global/components/AlertDialogConfirm';
+import { useEffect } from 'react';
 
-import { useMediaQuery } from "@mui/material";
+import { useMediaQuery } from '@mui/material';
 
 const Container = styled(Grid)`
   display: flex;
@@ -35,29 +35,24 @@ const Container = styled(Grid)`
 `;
 
 export default function Generation() {
-  const isMobile = useMediaQuery("(max-width: 600px)");
+  const isMobile = useMediaQuery('(max-width: 600px)');
   const { state, dispatch } = useAuth();
-  const {
-    isLoginOpen,
-    isSettingsOpen,
-    snackbar,
-    alertDialogConfirm,
-    mobileMode,
-    isHelpDialogOpen,
-  } = state;
+  const { trackers, dialogProps, snackbar, confirmDialog, mobileMode } = state;
 
   useEffect(() => {
-    dispatch({ type: "SET_PAGE", payload: "generation-mode" });
-  }, []);
+    if (trackers.updatePage) {
+      trackers.updatePage('generation-mode');
+    }
+  }, [trackers.updatePage]);
 
   return (
     <Container>
-      {isLoginOpen ? <LoginDialog /> : null}
-      {isSettingsOpen ? <SettingsDialog /> : null}
-      {isHelpDialogOpen ? <HelpDialog /> : null}
+      {dialogProps?.isLoginOpen ? <LoginDialog /> : null}
+      {dialogProps?.isSettingsOpen ? <SettingsDialog /> : null}
+      {dialogProps?.isHelpDialogOpen ? <HelpDialog /> : null}
       <GenerationContext>
         {isMobile ? (
-          <>{mobileMode === "setup" ? <GenerationSetup /> : <Results />}</>
+          <>{mobileMode === 'setup' ? <GenerationSetup /> : <Results />}</>
         ) : (
           <>
             <GenerationSetup />
@@ -73,10 +68,10 @@ export default function Generation() {
       />
 
       <AlertDialogConfirm
-        open={alertDialogConfirm.open}
-        header={alertDialogConfirm.header}
-        message={alertDialogConfirm.message}
-        buttonText={alertDialogConfirm.buttonText}
+        open={confirmDialog.open}
+        header={confirmDialog.header}
+        message={confirmDialog.message}
+        buttonText={confirmDialog.buttonText}
       />
     </Container>
   );
