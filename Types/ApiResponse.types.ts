@@ -19,26 +19,40 @@ export type FetchUserApiResponse = {
   adjustments_available: string;
 };
 
-// export type FetchUserError = {
-//   detail: string;
-// };
-
-// export type FetchUserApiResponse = {
-//   data: null | FetchUserSuccss;
-//   error: null | FetchUserError;
-// };
-
 export type GetJobDetailsApiResponse = {
   job_title: string;
   company_name: string;
   match_score: string;
 };
 
-export type CoverLetterGenerateResponse = {
+export type ResumeUploadApiResponse = {
+  uploaded_resume_filename: string;
+  years_relevant_experience: string;
+  awards_and_certifications: string;
+  projects_and_publications: string;
+  misc: string;
+};
+
+export type CoverLetterGenerateApiResponse = {
   cover_letter: string;
-  job_posting_id: string;
+  cover_letter_id: string;
 };
 
 export type AdjustmentApiResponse = {
-  cover_letter: string;
+  cover_letter: string[];
+};
+
+export type SaveCoverLetterApiResponse = {
+  id: string;
+  user: string;
+  job_posting: string;
+  resume: string;
+  save_name: string;
+  cover_letter: string[];
+  model: string;
+  created_at: string;
+};
+
+export type DeleteCoverLetterApiResponse = {
+  status: string;
 };
