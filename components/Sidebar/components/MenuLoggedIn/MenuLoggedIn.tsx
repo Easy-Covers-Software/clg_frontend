@@ -29,7 +29,7 @@ export default function MenuLoggedIn() {
               trackers?.updatePage('generation-mode');
             }}
           >
-            Generate Mode
+            Generate
           </GenerationModeTab>
         </Link>
 

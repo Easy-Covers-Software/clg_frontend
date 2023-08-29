@@ -22,7 +22,7 @@ export default function MenuLoggedOut() {
               trackers?.page === 'generation-mode' ? '#f5faf5' : 'white',
           }}
         >
-          Generate Mode
+          Generate
         </GenerationModeTab>
       </Link>
 
