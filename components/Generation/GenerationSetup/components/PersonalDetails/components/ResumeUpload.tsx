@@ -1,41 +1,38 @@
-"use client";
+'use client';
 
-import UploadOption from "./UploadOption";
-
-import { useAuth } from "@/context/AuthContext";
-import { useGenerationContext } from "@/context/GenerationContext";
-
-import { ResumeUploadStyledComponents } from "../PersonalDetails.styles";
-import PostAddIcon from "@mui/icons-material/PostAdd";
-import { Grid, Tooltip, Typography } from "@mui/material";
-import { IconButton } from "@mui/material";
-import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+import { useEffect, useState } from 'react';
+import UploadOption from './UploadOption';
+import { useAuth } from '@/context/AuthContext';
+import { useGenerationContext } from '@/context/GenerationContext';
+import { ResumeUploadStyledComponents } from '../PersonalDetails.styles';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import { Grid, Tooltip, Typography } from '@mui/material';
+import { IconButton } from '@mui/material';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 const { Container, DragDropContainer, SelectLastUsedResume } =
   ResumeUploadStyledComponents;
 
 export default function ResumeUploader() {
   const { state: authState } = useAuth();
-  const { userResume } = authState;
+  const { loggedInProps } = authState;
 
   const { state, dispatch } = useGenerationContext();
-  const { isUsingLastUploadedResume } = state;
+  const { generationSetupProps } = state;
 
-  console.log("isUsingLastUploadedResume", isUsingLastUploadedResume);
+  const [isUsingLastUploadedResume, setIsUsingLastUploadedResume] =
+    useState<boolean>(false);
 
-  const handleUseLastResume = () => {
-    dispatch({
-      type: "SET_IS_USING_LAST_UPLOADED_RESUME",
-      payload: true,
-    });
+  const toggleUsePreviousResume = () => {
+    setIsUsingLastUploadedResume((prevState) => !prevState);
   };
 
-  const handleUnselectLastResume = (event) => {
-    event.stopPropagation();
-    dispatch({
-      type: "SET_IS_USING_LAST_UPLOADED_RESUME",
-      payload: false,
-    });
-  };
+  useEffect(() => {
+    if (isUsingLastUploadedResume) {
+      generationSetupProps?.updateIsUsingPreviousResume(true);
+    } else {
+      // generationSetupProps?.updateIsUsingLastUploadedResume(false);
+    }
+  }, [isUsingLastUploadedResume]);
 
   return (
     <Container>
@@ -45,57 +42,57 @@ export default function ResumeUploader() {
         }}
       >
         <UploadOption
-          label="Upload From Computer"
-          accept=".pdf,.doc,.docx,.txt"
+          label='Upload From Computer'
+          accept='.pdf,.doc,.docx,.txt'
         />
       </DragDropContainer>
-      {userResume && userResume !== "" && (
+      {loggedInProps?.resume !== '' && (
         <Tooltip title={`Date Uploaded: `}>
           <SelectLastUsedResume
-            onClick={handleUseLastResume}
+            onClick={toggleUsePreviousResume}
             sx={{
               opacity: 1,
               elevation: isUsingLastUploadedResume ? 0 : 5,
               boxShadow: isUsingLastUploadedResume
-                ? "none"
-                : "7px 7px 0px 0px rgba(0, 0, 0, 0.1)",
+                ? 'none'
+                : '7px 7px 0px 0px rgba(0, 0, 0, 0.1)',
             }}
           >
-            <Grid display={"flex"} alignItems={"center"} gap={"3%"}>
+            <Grid display={'flex'} alignItems={'center'} gap={'3%'}>
               {!isUsingLastUploadedResume && (
                 <PostAddIcon
-                  fontSize="large"
+                  fontSize='large'
                   sx={{
-                    paddingBottom: "2%",
-                    color: "#006D4B",
+                    paddingBottom: '2%',
+                    color: '#006D4B',
                   }}
                 />
               )}
 
               {!isUsingLastUploadedResume ? (
                 <Typography
-                  className="use-last-resume"
+                  className='use-last-resume'
                   style={{
                     textDecoration: isUsingLastUploadedResume
-                      ? "underline"
-                      : "none",
+                      ? 'underline'
+                      : 'none',
                   }}
                 >
-                  Use Previous: {userResume}
+                  Use Previous: {loggedInProps?.resume}
                 </Typography>
               ) : (
                 <>
-                  <Typography className="use-last-resume">Selected:</Typography>
+                  <Typography className='use-last-resume'>Selected:</Typography>
                   <Typography
-                    className="use-last-resume"
+                    className='use-last-resume'
                     style={{
                       textDecoration: isUsingLastUploadedResume
-                        ? "underline"
-                        : "none",
+                        ? 'underline'
+                        : 'none',
                     }}
                   >
-                    {" "}
-                    {userResume}
+                    {' '}
+                    {loggedInProps?.resume}
                   </Typography>
                 </>
               )}
@@ -103,10 +100,13 @@ export default function ResumeUploader() {
 
             {isUsingLastUploadedResume && (
               <IconButton
-                onClick={handleUnselectLastResume}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleUsePreviousResume();
+                }}
                 style={{
-                  marginRight: "2%",
-                  color: "#006D4B",
+                  marginRight: '2%',
+                  color: '#006D4B',
                 }}
               >
                 <HighlightOffOutlinedIcon />
