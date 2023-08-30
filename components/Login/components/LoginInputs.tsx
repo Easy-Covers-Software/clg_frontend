@@ -48,7 +48,7 @@ export default function LoginInputs() {
           marginBottom: '1rem',
         }}
       >
-        For a limited time new users get 2 free cover letters and 5 free
+        For a limited time new users get 2 free cover letters and 6 free
         adjustments! Sign up now!
       </Typography>
       <FormInput variant='outlined'>
