@@ -1,17 +1,17 @@
-import AdditionalDetailsFreeText from "./components/AdditionalDetailsFreeText";
+import AdditionalDetailsFreeText from './components/AdditionalDetailsFreeText';
 
-import SimpleInput from "./components/SimpleInput";
+import SimpleInput from './components/SimpleInput';
 
-import { Container } from "./AdditionalDetails.styles";
+import { Container } from './AdditionalDetails.styles';
 
 export default function AdditionalDetails() {
   return (
     <Container>
-      <SimpleInput id={"simpleInput1"} />
+      <SimpleInput id={'1'} />
 
-      <SimpleInput id={"simpleInput2"} />
+      <SimpleInput id={'2'} />
 
-      <SimpleInput id={"simpleInput3"} />
+      <SimpleInput id={'3'} />
 
       <AdditionalDetailsFreeText />
     </Container>

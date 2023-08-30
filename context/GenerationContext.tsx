@@ -1,97 +1,139 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
-import {
-  Helpers,
-  GenerationUtils,
-  ReQueryUtils,
-  SavedCoverLettersUtils,
-} from "@/Utils/utils";
+import { createContext, useContext, useReducer, useEffect } from 'react';
 
-const {
-  fetchJobDetails,
-  fetchCoverLetter,
-  saveCoverLetter,
-  checkAdditionalDetails,
-} = GenerationUtils;
+import { Helpers } from '@/Utils/utils';
+const { removeDivTags, formatCoverLetterForAdjustment, addPTags, addDivTag } =
+  Helpers;
 
-const {
-  fetchSimpleAdjustment,
-  fetchIntermediateAdjustment,
-  fetchCustomAdjustment,
-  generateCoverLetterParts,
-} = ReQueryUtils;
+import { GenerationState } from '@/Types/GenerationContext.types';
 
-const { removeDivTags } = Helpers;
+const initialState: GenerationState = {
+  //== Addition Details ==//
+  additionalDetails: {
+    simpleInput1: '',
+    simpleInput2: '',
+    simpleInput3: '',
+    openEndedInput: '',
+    updateSimpleInput: (id: string, value: string): void => {},
+    updateOpenEndedInput: (openEndedInput: string): void => {},
+  },
 
-const { postSaveCoverLetterResults } = SavedCoverLettersUtils;
+  //== Generation Setup ==//
+  generationSetupProps: {
+    jobPosting: '',
+    resume: null,
+    freeText: '',
+    model: '',
+    isUsingPreviousResume: false,
+    disableGenerateButton: true,
+    updateJobPosting: (jobPosting: string): void => {},
+    updateResume: (resume: File): void => {},
+    updateFreeText: (freeText: string): void => {},
+    updateModel: (model: string): void => {},
+    updateIsUsingPreviousResume: (): void => {},
+    toggleDisableGenerateButton: (): void => {},
+  },
+
+  //== Job Details ==//
+  jobDetailsProps: {
+    jobPostingId: '',
+    jobTitle: 'Job Title',
+    companyName: 'Company',
+    matchScore: 0,
+    loadingSummary: false,
+
+    updateJobTitle: (jobTitle: string): void => {},
+    updateCompanyName: (companyName: string): void => {},
+    updateMatchScore: (matchScore: number): void => {},
+    toggleLoadingSummary: (): void => {},
+  },
+
+  //== Cover Letter Data ==//
+  coverLetterData: {
+    coverLetterId: '',
+    saveName: '',
+    coverLetterHtml: '',
+    coverLetterParts: null,
+    editedCoverLetter: '',
+    editedCoverLetterParts: null,
+    loadingCoverLetter: false,
+    updateCoverLetterId: (coverLetterId: string): void => {},
+    updateJobPostingId: (jobPostingId: string): void => {},
+    updateSaveName: (saveName: string): void => {},
+    updateCoverLetterHtml: (html: string): void => {},
+    updateCoverLetterParts: (parts: string[]): void => {},
+    updateEditedCoverLetterHtml: (editedHtml: string): void => {},
+    updateEditedCoverLetterParts: (editedParts: string[]): void => {},
+    toggleLoadingCoverLetter: (): void => {},
+    reset: (): void => {},
+  },
+
+  //== Simple Adjustments ==//
+  simpleAdjustmentProps: {
+    disableSimpleAdjustment: true,
+    toggleDisableSimpleAdjustment: (
+      disableSimpleAdjustment: boolean
+    ): void => {},
+  },
+
+  //== Intermediate Adjustments ==//
+  intermediateAdjustmentProps: {
+    addSkillInput: '',
+    insertKeywordInput: '',
+    removeRedundancyInput: '',
+    intermediateType: null,
+    disableAddSkill: false,
+    disableInsertKeyword: false,
+    disableRemoveRedundancy: false,
+    disableIntermediateAdjustment: true,
+    updateAddSkillInput: (addSkillInput: string): void => {},
+    updateInsertKeywordInput: (insertKeywordInput: string): void => {},
+    updateRemoveRedundancyInput: (removeRedundancyInput: string): void => {},
+    updateIntermediateType: (intermediateType: string): void => {},
+    toggleDisableAddSkill: (): void => {},
+    toggleDisableInsertKeyword: (): void => {},
+    toggleDisableRemoveRedundancy: (): void => {},
+    toggleDisableIntermediateAdjustment: (): void => {},
+  },
+
+  //== Custom Adjustments ==//
+  customAdjustmentProps: {
+    customAdjustment: '',
+    disableCustomAdjustment: true,
+    updateCustomAdjustment: (customAdjustment: string): void => {},
+    toggleDisableCustomAdjustment: (
+      disableCustomAdjustment: boolean
+    ): void => {},
+  },
+
+  //== Save ==//
+  saveProps: {
+    isSavedDropdownOpen: false,
+    disableSavedButton: true,
+    toggleIsSavedDropdownOpen: (): void => {},
+    toggleDisableSavedButton: (): void => {},
+  },
+
+  //== Download ==//
+  downloadProps: {
+    isDownloadDropdownOpen: false,
+    disableDownloads: true,
+    toggleIsDownloadDropdownOpen: (): void => {},
+    toggleDisableDownloads: (): void => {},
+  },
+
+  //== Adjustments Section ==//
+  adjustmentSection: {
+    isAdjustmentsSectionExpanded: false,
+    toggleIsAdjustmentsSectionExpanded: (): void => {},
+  },
+};
 
 const Context = createContext(null);
 
-const initialState = {
-  // user inputs
-  jobPosting: "",
-  resume: null,
-  freeText: "",
-  additionalDetails: {
-    simpleInput1: "",
-    simpleInput2: "",
-    simpleInput3: "",
-    openEndedInput: "",
-  },
-
-  // generation results summary
-  jobDetails: {
-    job_title: "Job Title",
-    company_name: "Company",
-    match_score: 0,
-  },
-  loadingSummary: false,
-  loadingMatchScore: false,
-
-  // generation results
-  coverLetter: "<div><p>Awaiting Generation...</p></div>",
-  coverLetterParts: null,
-  loadingCoverLetter: false,
-  jobPostingId: "",
-  isUsingLastUploadedResume: false,
-  disableGenerateButton: true,
-  updateCoverLetter: null,
-  updateCoverLetterParts: null,
-  saveName: "",
-  savedId: "",
-  disableSavedButton: true,
-  disableDownloads: true,
-
-  // intermediate adjustments
-  addSkillInput: "",
-  insertKeywordInput: "",
-  removeRedundancyInput: "",
-  intermediateType: null,
-  disableIntermediateAdjustment: true,
-  disableCustomAdjustment: true,
-
-  // custom adjustments
-  customAdjustment: "",
-
-  // toggles
-  isReQuerySectionExpanded: false,
-  isReQueryMobileSectionExpanded: false,
-  isSavedDropdownOpen: false,
-  isDownloadDropdownOpen: false,
-
-  // mobile
-  mobileGenerationMode: "setup",
-};
-
 function reducer(state, action) {
   switch (action.type) {
-    // User Inputs
-    case "SET_JOB_POSTING":
-      return { ...state, jobPosting: action.payload };
-    case "SET_UPLOADED_RESUME_FILE":
-      return { ...state, resume: action.payload };
-    case "SET_FREE_TEXT_PERSONAL_DETAILS":
-      return { ...state, freeText: action.payload };
-    case "SET_ADDITIONAL_DETAILS":
+    //== Addition Details ==//
+    case 'SET_ADDITIONAL_DETAILS':
       return {
         ...state,
         additionalDetails: {
@@ -100,89 +142,478 @@ function reducer(state, action) {
         },
       };
 
-    // Generation Results Summary
-    case "SET_LOADING_SUMMARY":
-      return { ...state, loadingSummary: action.payload };
-    case "SET_LOADING_MATCH_SCORE":
-      return { ...state, loadingMatchScore: action.payload };
-    case "SET_JOB_DETAILS":
+    case 'UPDATE_SIMPLE_INPUT1':
       return {
         ...state,
-        jobDetails: {
-          ...state.jobDetails,
+        additionalDetails: {
+          ...state.additionalDetails,
+          simpleInput1: action.payload,
+        },
+      };
+
+    case 'UPDATE_SIMPLE_INPUT2':
+      return {
+        ...state,
+        additionalDetails: {
+          ...state.additionalDetails,
+          simpleInput2: action.payload,
+        },
+      };
+
+    case 'UPDATE_SIMPLE_INPUT3':
+      return {
+        ...state,
+        additionalDetails: {
+          ...state.additionalDetails,
+          simpleInput3: action.payload,
+        },
+      };
+
+    case 'UPDATE_OPEN_ENDED_INPUT':
+      return {
+        ...state,
+        additionalDetails: {
+          ...state.additionalDetails,
+          openEndedInput: action.payload,
+        },
+      };
+
+    //== Generation Setup ==//
+    case 'SET_GENERATION_SETUP_PROPS':
+      return {
+        ...state,
+        generationSetupProps: {
+          ...state.generationSetupProps,
           ...action.payload,
         },
       };
 
-    // Generation Results
-    case "SET_LOADING_COVER_LETTER":
-      return { ...state, loadingCoverLetter: action.payload };
-    case "SET_COVER_LETTER":
-      return { ...state, coverLetter: action.payload };
-    case "SET_COVER_LETTER_PARTS":
-      return { ...state, coverLetterParts: action.payload };
-    case "SET_JOB_POSTING_ID":
-      return { ...state, jobPostingId: action.payload };
-    case "SET_IS_USING_LAST_UPLOADED_RESUME":
-      return { ...state, isUsingLastUploadedResume: action.payload };
-    case "SET_DISABLE_GENERATE_BUTTON":
-      return { ...state, disableGenerateButton: action.payload };
-    case "SET_UPDATE_COVER_LETTER":
-      return { ...state, updateCoverLetter: action.payload };
-    case "SET_UPDATE_COVER_LETTER_PARTS":
-      return { ...state, updateCoverLetterParts: action.payload };
-    case "SET_SAVE_NAME":
-      return { ...state, saveName: action.payload };
-    case "SET_SAVE_ID":
-      return { ...state, savedId: action.payload };
-    case "DISABLE_SAVE_BUTTON":
-      return { ...state, disableSavedButton: action.payload };
-    case "DISABLE_DOWNLOADS":
-      return { ...state, disableDownloads: action.payload };
-
-    // Intermediate Adjustments
-    case "SET_ADD_SKILL_INPUT":
-      return { ...state, addSkillInput: action.payload };
-    case "SET_INSERT_KEYWORD_INPUT":
-      return { ...state, insertKeywordInput: action.payload };
-    case "SET_REMOVE_REDUNDANCY_INPUT":
-      return { ...state, removeRedundancyInput: action.payload };
-    case "SET_INTERMEDIATE_TYPE":
-      return { ...state, intermediateType: action.payload };
-    case "SET_DISABLE_INTERMEDIATE_ADJUSTMENT":
-      return { ...state, disableIntermediateAdjustment: action.payload };
-    case "SET_DISABLE_CUSTOM_ADJUSTMENT":
-      return { ...state, disableCustomAdjustment: action.payload };
-
-    // Custom Adjustments
-    case "SET_CUSTOM_ADJUSTMENT":
-      return { ...state, customAdjustment: action.payload };
-
-    // Toggles
-    case "SET_IS_RE_QUERY_SECTION_EXPANDED":
-      return { ...state, isReQuerySectionExpanded: action.payload };
-    case "SET_IS_RE_QUERY_MOBILE_SECTION_EXPANDED":
-      return { ...state, isReQueryMobileSectionExpanded: action.payload };
-    case "SET_IS_SAVED_DROPDOWN_OPEN":
-      return { ...state, isSavedDropdownOpen: action.payload };
-    case "SET_IS_DOWNLOAD_DROPDOWN_OPEN":
-      return { ...state, isDownloadDropdownOpen: action.payload };
-
-    case "SET_MOBILE_GENERATION_MODE":
-      return { ...state, mobileGenerationMode: action.payload };
-
-    case "RESET_STATE":
+    case 'UPDATE_JOB_POSTING':
       return {
-        ...initialState,
-        resume: state.resume,
-        additionalDetails: state.additionalDetails,
-        jobPosting: "",
-        coverLetter: "<div><p>Awaiting Generation...</p></div>",
-        coverLetterParts: null,
-        jobPostingId: "",
-        isUsingLastUploadedResume: false,
-        updateCoverLetter: null,
-        updateCoverLetterParts: null,
+        ...state,
+        generationSetupProps: {
+          ...state.generationSetupProps,
+          jobPosting: action.payload,
+        },
+      };
+
+    case 'UPDATE_RESUME':
+      return {
+        ...state,
+        generationSetupProps: {
+          ...state.generationSetupProps,
+          resume: action.payload,
+        },
+      };
+
+    case 'UPDATE_FREE_TEXT':
+      return {
+        ...state,
+        generationSetupProps: {
+          ...state.generationSetupProps,
+          freeText: action.payload,
+        },
+      };
+
+    case 'UPDATE_MODEL':
+      return {
+        ...state,
+        generationSetupProps: {
+          ...state.generationSetupProps,
+          model: action.payload,
+        },
+      };
+
+    case 'UPDATE_IS_USING_PREVIOUS_RESUME':
+      return {
+        ...state,
+        generationSetupProps: {
+          ...state.generationSetupProps,
+          isUsingPreviousResume: action.payload,
+        },
+      };
+
+    case 'TOGGLE_DISABLE_GENERATE_BUTTON':
+      return {
+        ...state,
+        generationSetupProps: {
+          ...state.generationSetupProps,
+          disableGenerateButton:
+            !state.generationSetupProps.disableGenerateButton,
+        },
+      };
+
+    //== Job Details ==//
+    case 'SET_JOB_DETAILS_PROPS':
+      return {
+        ...state,
+        jobDetailsProps: {
+          ...state.jobDetailsProps,
+          ...action.payload,
+        },
+      };
+
+    case 'UPDATE_JOB_TITLE':
+      return {
+        ...state,
+        jobDetailsProps: {
+          ...state.jobDetailsProps,
+          jobTitle: action.payload,
+        },
+      };
+
+    case 'UPDATE_COMPANY_NAME':
+      return {
+        ...state,
+        jobDetailsProps: {
+          ...state.jobDetailsProps,
+          companyName: action.payload,
+        },
+      };
+
+    case 'UPDATE_MATCH_SCORE':
+      return {
+        ...state,
+        jobDetailsProps: {
+          ...state.jobDetailsProps,
+          matchScore: action.payload,
+        },
+      };
+
+    case 'TOGGLE_LOADING_SUMMARY':
+      return {
+        ...state,
+        jobDetailsProps: {
+          ...state.jobDetailsProps,
+          loadingSummary: !state.jobDetailsProps.loadingSummary,
+        },
+      };
+
+    //== Cover Letter Data ==//
+    case 'SET_COVER_LETTER_DATA':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          ...action.payload,
+        },
+      };
+
+    case 'UPDATE_COVER_LETTER_ID':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          coverLetterId: action.payload,
+        },
+      };
+
+    case 'UPDATE_JOB_POSTING_ID':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          jobPostingId: action.payload,
+        },
+      };
+
+    case 'UPDATE_SAVE_NAME':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          saveName: action.payload,
+        },
+      };
+
+    case 'UPDATE_COVER_LETTER_HTML':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          coverLetterHtml: action.payload,
+        },
+      };
+
+    case 'UPDATE_COVER_LETTER_PARTS':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          coverLetterParts: action.payload,
+        },
+      };
+
+    case 'UPDATE_EDITED_COVER_LETTER_HTML':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          editedCoverLetter: action.payload,
+        },
+      };
+
+    case 'UPDATE_EDITED_COVER_LETTER_PARTS':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          editedCoverLetterParts: action.payload,
+        },
+      };
+
+    case 'TOGGLE_LOADING_COVER_LETTER':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          loadingCoverLetter: !state.coverLetterData.loadingCoverLetter,
+        },
+      };
+
+    case 'DETERMINE_COVER_LETTER_HTML':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          curCoverLetterHtml: formatCoverLetterForAdjustment(
+            removeDivTags(action.payload)
+          ),
+        },
+      };
+
+    case 'DETERMINE_COVER_LETTER_PARTS':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          curCoverLetterParts: action.payload,
+        },
+      };
+
+    case 'RESET_COVER_LETTER_DATA':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          coverLetterHtml: '',
+          coverLetterParts: null,
+          editedCoverLetter: '',
+          editedCoverLetterParts: null,
+          loadingCoverLetter: false,
+          curCoverLetterHtml: '',
+          curCoverLetterParts: null,
+        },
+      };
+
+    //== Simple Adjustments ==//
+    case 'SET_SIMPLE_ADJUSTMENT_PROPS':
+      return {
+        ...state,
+        simpleAdjustmentProps: {
+          ...state.simpleAdjustmentProps,
+          ...action.payload,
+        },
+      };
+
+    case 'TOGGLE_DISABLE_SIMPLE_ADJUSTMENT':
+      return {
+        ...state,
+        simpleAdjustmentProps: {
+          ...state.simpleAdjustmentProps,
+          disableSimpleAdjustment:
+            !state.simpleAdjustmentProps.disableSimpleAdjustment,
+        },
+      };
+
+    //== Intermediate Adjustments ==//
+    case 'SET_INTERMEDIATE_ADJUSTMENT_PROPS':
+      return {
+        ...state,
+        intermediateAdjustmentProps: {
+          ...state.intermediateAdjustmentProps,
+          ...action.payload,
+        },
+      };
+
+    case 'UPDATE_ADD_SKILL_INPUT':
+      return {
+        ...state,
+        intermediateAdjustmentProps: {
+          ...state.intermediateAdjustmentProps,
+          addSkillInput: action.payload,
+        },
+      };
+
+    case 'UPDATE_INSERT_KEYWORD_INPUT':
+      return {
+        ...state,
+        intermediateAdjustmentProps: {
+          ...state.intermediateAdjustmentProps,
+          insertKeywordInput: action.payload,
+        },
+      };
+
+    case 'UPDATE_REMOVE_REDUNDANCY_INPUT':
+      return {
+        ...state,
+        intermediateAdjustmentProps: {
+          ...state.intermediateAdjustmentProps,
+          removeRedundancyInput: action.payload,
+        },
+      };
+
+    case 'UPDATE_INTERMEDIATE_TYPE':
+      return {
+        ...state,
+        intermediateAdjustmentProps: {
+          ...state.intermediateAdjustmentProps,
+          intermediateType: action.payload,
+        },
+      };
+
+    case 'TOGGLE_DISABLE_ADD_SKILL':
+      return {
+        ...state,
+        intermediateAdjustmentProps: {
+          ...state.intermediateAdjustmentProps,
+          disableAddSkill: !state.intermediateAdjustmentProps.disableAddSkill,
+        },
+      };
+
+    case 'TOGGLE_DISABLE_INSERT_KEYWORD':
+      return {
+        ...state,
+        intermediateAdjustmentProps: {
+          ...state.intermediateAdjustmentProps,
+          disableInsertKeyword:
+            !state.intermediateAdjustmentProps.disableInsertKeyword,
+        },
+      };
+
+    case 'TOGGLE_DISABLE_REMOVE_REDUNDANCY':
+      return {
+        ...state,
+        intermediateAdjustmentProps: {
+          ...state.intermediateAdjustmentProps,
+          disableRemoveRedundancy:
+            !state.intermediateAdjustmentProps.disableRemoveRedundancy,
+        },
+      };
+
+    case 'TOGGLE_DISABLE_INTERMEDIATE_ADJUSTMENT':
+      return {
+        ...state,
+        intermediateAdjustmentProps: {
+          ...state.intermediateAdjustmentProps,
+          disableIntermediateAdjustment:
+            !state.intermediateAdjustmentProps.disableIntermediateAdjustment,
+        },
+      };
+
+    //== Custom Adjustments ==//
+    case 'SET_CUSTOM_ADJUSTMENT_PROPS':
+      return {
+        ...state,
+        customAdjustmentProps: {
+          ...state.customAdjustmentProps,
+          ...action.payload,
+        },
+      };
+
+    case 'UPDATE_CUSTOM_ADJUSTMENT':
+      return {
+        ...state,
+        customAdjustmentProps: {
+          ...state.customAdjustmentProps,
+          customAdjustment: action.payload,
+        },
+      };
+
+    case 'TOGGLE_DISABLE_CUSTOM_ADJUSTMENT':
+      return {
+        ...state,
+        customAdjustmentProps: {
+          ...state.customAdjustmentProps,
+          disableCustomAdjustment:
+            !state.customAdjustmentProps.disableCustomAdjustment,
+        },
+      };
+
+    //== Save ==//
+    case 'SET_SAVE_PROPS':
+      return {
+        ...state,
+        saveProps: {
+          ...state.saveProps,
+          ...action.payload,
+        },
+      };
+
+    case 'TOGGLE_IS_SAVED_DROPDOWN_OPEN':
+      return {
+        ...state,
+        saveProps: {
+          ...state.saveProps,
+          isSavedDropdownOpen: !state.saveProps.isSavedDropdownOpen,
+        },
+      };
+
+    case 'TOGGLE_DISABLE_SAVED_BUTTON':
+      return {
+        ...state,
+        saveProps: {
+          ...state.saveProps,
+          disableSavedButton: !state.saveProps.disableSavedButton,
+        },
+      };
+
+    //== Download ==//
+    case 'SET_DOWNLOAD_PROPS':
+      return {
+        ...state,
+        downloadProps: {
+          ...state.downloadProps,
+          ...action.payload,
+        },
+      };
+
+    case 'TOGGLE_IS_DOWNLOAD_DROPDOWN_OPEN':
+      return {
+        ...state,
+        downloadProps: {
+          ...state.downloadProps,
+          isDownloadDropdownOpen: !state.downloadProps.isDownloadDropdownOpen,
+        },
+      };
+
+    case 'TOGGLE_DISABLE_DOWNLOADS':
+      return {
+        ...state,
+        downloadProps: {
+          ...state.downloadProps,
+          disableDownloads: !state.downloadProps.disableDownloads,
+        },
+      };
+
+    //== Adjustments Section Open ==//
+    case 'SET_ADJUSTMENTS_SECTION':
+      return {
+        ...state,
+        adjustmentSection: {
+          ...state.adjustmentSection,
+          ...action.payload,
+        },
+      };
+
+    case 'TOGGLE_IS_ADJUSTMENTS_SECTION_EXPANDED':
+      return {
+        ...state,
+        adjustmentSection: {
+          ...state.adjustmentSection,
+          isAdjustmentsSectionExpanded:
+            !state.adjustmentSection.isAdjustmentsSectionExpanded,
+        },
       };
 
     default:
@@ -193,438 +624,325 @@ function reducer(state, action) {
 export function GenerationContext({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  //-- HELPERS --//
-  const toggleIsReQuerySectionExpanded = () => {
+  //==* State Hooks *==//
+  //== Addition Details ==//
+  useEffect(() => {
     dispatch({
-      type: "SET_IS_RE_QUERY_SECTION_EXPANDED",
-      payload: !state.isReQuerySectionExpanded,
+      type: 'SET_ADDITIONAL_DETAILS',
+      payload: {
+        updateSimpleInput: (id: string, value: string): void => {
+          dispatch({
+            type: `UPDATE_SIMPLE_INPUT${id}`,
+            payload: value,
+          });
+        },
+        updateOpenEndedInput: (openEndedInput: string): void => {
+          dispatch({
+            type: 'UPDATE_OPEN_ENDED_INPUT',
+            payload: openEndedInput,
+          });
+        },
+      },
     });
-  };
-
-  const toggleIsReQueryMobileSectionExpanded = () => {
-    dispatch({
-      type: "SET_IS_RE_QUERY_MOBILE_SECTION_EXPANDED",
-      payload: !state.isReQueryMobileSectionExpanded,
-    });
-  };
-
-  const toggleIsSavedDropdownOpen = () => {
-    dispatch({
-      type: "SET_IS_SAVED_DROPDOWN_OPEN",
-      payload: !state.isSavedDropdownOpen,
-    });
-  };
-
-  const toggleIsDownloadDropdownOpen = () => {
-    dispatch({
-      type: "SET_IS_DOWNLOAD_DROPDOWN_OPEN",
-      payload: !state.isDownloadDropdownOpen,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-    dispatch({ type: "SET_UPLOADED_RESUME_FILE", payload: files[0] });
-  };
-
-  // makeIntermediateInputValueType helper
-  const determineIntermediateInputValueType = (intermediateTypeState) => {
-    if (intermediateTypeState === "add skill") {
-      return state.addSkillInput;
-    } else if (intermediateTypeState === "insert keyword") {
-      return state.insertKeywordInput;
-    } else {
-      return state.removeRedundancyInput;
-    }
-  };
-
-  // API Calls
-  const getJobDetails = async () => {
-    dispatch({ type: "SET_LOADING_SUMMARY", payload: true });
-    dispatch({ type: "SET_LOADING_MATCH_SCORE", payload: true });
-    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
-
-    const response = await fetchJobDetails(
-      state.jobPosting,
-      state.resume,
-      state.freeText,
-      state.isUsingLastUploadedResume
-    );
-
-    dispatch({ type: "SET_JOB_DETAILS", payload: response.job_details });
-    dispatch({ type: "SET_LOADING_SUMMARY", payload: false });
-    dispatch({ type: "SET_LOADING_MATCH_SCORE", payload: false });
-
-    return true;
-  };
-
-  const makeSimpleAdjustment = async (
-    increaseOrDecrease: string,
-    typeOfAdjustment: string
-  ) => {
-    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
-
-    let currCoverLetter = state.coverLetter;
-    if (state.updateCoverLetter !== null) {
-      currCoverLetter = state.updateCoverLetter;
-    }
-
-    const response = await fetchSimpleAdjustment(
-      currCoverLetter,
-      increaseOrDecrease,
-      typeOfAdjustment
-    );
-
-    try {
-      const data = JSON.parse(response.cover_letter);
-      const newCoverLetter = Object.values(data);
-
-      const newCoverLetterHtml = generateCoverLetterParts(newCoverLetter);
-
-      dispatch({
-        type: "SET_COVER_LETTER",
-        payload: newCoverLetterHtml,
-      });
-      dispatch({
-        type: "SET_COVER_LETTER_PARTS",
-        payload: newCoverLetter,
-      });
-
-      return true;
-    } catch (error) {
-      console.log("Error: Could not parse response (not valid json)", error);
-      return error;
-    } finally {
-      dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
-    }
-  };
-
-  const makeIntermediateAdjustment = async () => {
-    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
-
-    let currCoverLetter = state.coverLetter;
-    if (state.updateCoverLetter !== null) {
-      currCoverLetter = state.updateCoverLetter;
-    }
-
-    const response = await fetchIntermediateAdjustment(
-      currCoverLetter,
-      state.intermediateType,
-      determineIntermediateInputValueType(state.intermediateType)
-    );
-
-    try {
-      const data = JSON.parse(response.cover_letter);
-      const newCoverLetter = Object.values(data);
-      const newCoverLetterHtml = generateCoverLetterParts(newCoverLetter);
-
-      dispatch({
-        type: "SET_COVER_LETTER",
-        payload: newCoverLetterHtml,
-      });
-      dispatch({
-        type: "SET_COVER_LETTER_PARTS",
-        payload: newCoverLetter,
-      });
-      return true;
-    } catch (error) {
-      console.log("Error: Could not parse response (not valid json)", error);
-      return error;
-    } finally {
-      dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
-    }
-  };
-
-  const makeCustomAdjustment = async () => {
-    dispatch({ type: "SET_LOADING_COVER_LETTER", payload: true });
-
-    let currCoverLetter = state.coverLetter;
-    if (state.updateCoverLetter !== null) {
-      currCoverLetter = state.updateCoverLetter;
-    }
-
-    const response = await fetchCustomAdjustment(
-      currCoverLetter,
-      state.customAdjustment
-    );
-
-    try {
-      const data = JSON.parse(response.cover_letter);
-      const newCoverLetter = Object.values(data);
-      const newCoverLetterHtml = generateCoverLetterParts(newCoverLetter);
-      console.log("newCoverLetterHtml", newCoverLetterHtml);
-
-      dispatch({
-        type: "SET_COVER_LETTER",
-        payload: newCoverLetterHtml,
-      });
-      dispatch({
-        type: "SET_COVER_LETTER_PARTS",
-        payload: newCoverLetter,
-      });
-
-      return true;
-    } catch (error) {
-      console.log("Error: Could not parse response (not valid json)");
-      console.log(error);
-      return error;
-    } finally {
-      dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
-    }
-  };
-
-  const generateCoverLetter = async (
-    jobPosting: string,
-    resume: any,
-    freeText: string,
-    additionalDetails,
-    model
-  ) => {
-    const response = await fetchCoverLetter(
-      jobPosting,
-      resume,
-      freeText,
-      additionalDetails,
-      state.isUsingLastUploadedResume,
-      model
-    );
-
-    try {
-      const data = JSON.parse(response.cover_letter);
-      const newCoverLetter = Object.values(data);
-      const newCoverLetterHtml = generateCoverLetterParts(newCoverLetter);
-      console.log("newCoverLetterHtml", newCoverLetterHtml);
-
-      dispatch({
-        type: "SET_COVER_LETTER",
-        payload: newCoverLetterHtml,
-      });
-      dispatch({
-        type: "SET_COVER_LETTER_PARTS",
-        payload: newCoverLetter,
-      });
-      dispatch({
-        type: "SET_JOB_POSTING_ID",
-        payload: response.job_posting_id,
-      });
-      dispatch({
-        type: "SET_MOBILE_GENERATION_MODE",
-        payload: "results",
-      });
-
-      dispatch({
-        type: "DISABLE_SAVE_BUTTON",
-        payload: false,
-      });
-
-      return true;
-    } catch (error) {
-      console.log("Error: Could not parse response (not valid json)", error);
-      return error;
-    } finally {
-      dispatch({ type: "SET_LOADING_COVER_LETTER", payload: false });
-    }
-  };
-
-  const saveCoverLetterResults = async () => {
-    if (state.savedId !== "") {
-      const response = await postSaveCoverLetterResults(
-        state.savedId,
-        state.saveName,
-        state.coverLetterParts,
-        state.updateCoverLetterParts
-      );
-
-      toggleIsSavedDropdownOpen();
-
-      console.log("response saved", response);
-
-      if (response.id && response.id !== "") {
-        dispatch({
-          type: "SET_SAVE_ID",
-          payload: response.id,
-        });
-        dispatch({
-          type: "DISABLE_SAVE_BUTTON",
-          payload: true,
-        });
-      }
-      return response;
-    } else {
-      const response = await saveCoverLetter(
-        state.saveName,
-        state.coverLetterParts,
-        state.updateCoverLetterParts,
-        state.jobPostingId,
-        state.jobDetails.match_score
-      );
-
-      toggleIsSavedDropdownOpen();
-
-      if (response.status === 201) {
-        dispatch({
-          type: "SET_SAVE_ID",
-          payload: response.data.id,
-        });
-        dispatch({
-          type: "DISABLE_SAVE_BUTTON",
-          payload: true,
-        });
-      }
-      return response;
-    }
-  };
-
-  //-- HOOKS --//
-  // determine intermediate input type
-  useEffect(() => {
-    if (state.addSkillInput !== "") {
-      dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "add skill" });
-      if (!state.loadingCoverLetter && state.coverLetterParts !== null) {
-        dispatch({
-          type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT",
-          payload: false,
-        });
-      }
-    } else if (state.insertKeywordInput !== "") {
-      dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "insert keyword" });
-      if (!state.loadingCoverLetter && state.coverLetterParts !== null) {
-        dispatch({
-          type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT",
-          payload: false,
-        });
-      }
-    } else if (state.removeRedundancyInput !== "") {
-      dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: "remove" });
-      if (!state.loadingCoverLetter && state.coverLetterParts !== null) {
-        dispatch({
-          type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT",
-          payload: false,
-        });
-      }
-    } else {
-      dispatch({ type: "SET_INTERMEDIATE_TYPE", payload: null });
-      dispatch({ type: "SET_DISABLE_INTERMEDIATE_ADJUSTMENT", payload: true });
-    }
-  }, [
-    state.addSkillInput,
-    state.insertKeywordInput,
-    state.removeRedundancyInput,
-    state.loadingCoverLetter,
-    state.coverLetterParts,
-  ]);
-
-  useEffect(() => {
-    if (!state.loadingCoverLetter && state.coverLetterParts !== null) {
-      if (state.customAdjustment !== "") {
-        dispatch({ type: "SET_DISABLE_CUSTOM_ADJUSTMENT", payload: false });
-      } else {
-        dispatch({ type: "SET_DISABLE_CUSTOM_ADJUSTMENT", payload: true });
-      }
-    } else {
-      dispatch({ type: "SET_DISABLE_CUSTOM_ADJUSTMENT", payload: true });
-    }
-  }, [
-    state.customAdjustment,
-    state.loadingCoverLetter,
-    state.coverLetterParts,
-  ]);
-
-  // Disable Generation Button handling
-  useEffect(() => {
-    if (state.loadingCoverLetter) {
-      dispatch({ type: "SET_DISABLE_GENERATE_BUTTON", payload: true });
-    } else if (state.jobPosting === "") {
-      dispatch({ type: "SET_DISABLE_GENERATE_BUTTON", payload: true });
-    } else if (
-      state.resume === null &&
-      state.freeText === "" &&
-      !checkAdditionalDetails(state.additionalDetails)
-    ) {
-      if (state.isUsingLastUploadedResume) {
-        dispatch({ type: "SET_DISABLE_GENERATE_BUTTON", payload: false });
-      } else {
-        dispatch({ type: "SET_DISABLE_GENERATE_BUTTON", payload: true });
-      }
-    } else {
-      dispatch({ type: "SET_DISABLE_GENERATE_BUTTON", payload: false });
-    }
-  }, [
-    state.jobPosting,
-    state.resume,
-    state.freeText,
-    state.additionalDetails,
-    state.isUsingLastUploadedResume,
-    state.loadingCoverLetter,
-  ]);
-
-  // update save name when job details are retrieved
-  useEffect(() => {
-    if (state.jobDetails.company_name !== "Company") {
-      const { company_name } = state.jobDetails;
-      dispatch({
-        type: "SET_SAVE_NAME",
-        payload: company_name,
-      });
-    }
-  }, [state.jobDetails.company_name]);
-
-  useEffect(() => {
-    const savedJobPosting = localStorage.getItem("jobPostingText");
-    if (savedJobPosting !== null && savedJobPosting !== "") {
-      dispatch({
-        type: "SET_JOB_POSTING",
-        payload: savedJobPosting,
-      });
-    }
   }, []);
 
+  //== Generation Setup ==//
   useEffect(() => {
-    if (state.updateCoverLetter !== null) {
-      if (removeDivTags(state.coverLetter) !== state.updateCoverLetter) {
-        dispatch({
-          type: "DISABLE_SAVE_BUTTON",
-          payload: false,
-        });
-      } else {
-        if (state.savedId !== "") {
+    dispatch({
+      type: 'SET_GENERATION_SETUP_PROPS',
+      payload: {
+        updateJobPosting: (jobPosting: string): void => {
           dispatch({
-            type: "DISABLE_SAVE_BUTTON",
-            payload: true,
+            type: 'UPDATE_JOB_POSTING',
+            payload: jobPosting,
           });
-        }
-      }
-    }
-  }, [state.coverLetter, state.updateCoverLetter]);
+        },
+        updateResume: (resume: File): void => {
+          dispatch({
+            type: 'UPDATE_RESUME',
+            payload: resume,
+          });
+        },
+        updateFreeText: (freeText: string): void => {
+          dispatch({
+            type: 'UPDATE_FREE_TEXT',
+            payload: freeText,
+          });
+        },
+        updateModel: (model: string): void => {
+          dispatch({
+            type: 'UPDATE_MODEL',
+            payload: model,
+          });
+        },
+        toggleDisableGenerateButton: (): void => {
+          dispatch({
+            type: 'TOGGLE_DISABLE_GENERATE_BUTTON',
+          });
+        },
+        updateIsUsingPreviousResume: (tof: boolean): void => {
+          dispatch({
+            type: 'UPDATE_IS_USING_PREVIOUS_RESUME',
+            payload: tof,
+          });
+        },
+      },
+    });
+  }, []);
 
+  //== Job Details ==//
   useEffect(() => {
-    if (
-      state.coverLetter !== "<div><p>Awaiting Generation...</p></div>" &&
-      state.coverLetter !== ""
-    ) {
+    dispatch({
+      type: 'SET_JOB_DETAILS_PROPS',
+      payload: {
+        updateJobTitle: (jobTitle: string): void => {
+          dispatch({
+            type: 'UPDATE_JOB_TITLE',
+            payload: jobTitle,
+          });
+        },
+        updateCompanyName: (companyName: string): void => {
+          dispatch({
+            type: 'UPDATE_COMPANY_NAME',
+            payload: companyName,
+          });
+        },
+        updateMatchScore: (matchScore: number): void => {
+          dispatch({
+            type: 'UPDATE_MATCH_SCORE',
+            payload: matchScore,
+          });
+        },
+        toggleLoadingSummary: (): void => {
+          dispatch({
+            type: 'TOGGLE_LOADING_SUMMARY',
+          });
+        },
+      },
+    });
+  }, []);
+
+  //== Cover Letter Data ==//
+  useEffect(() => {
+    dispatch({
+      type: 'SET_COVER_LETTER_DATA',
+      payload: {
+        updateCoverLetterId: (coverLetterId: string): void => {
+          dispatch({
+            type: 'UPDATE_COVER_LETTER_ID',
+            payload: coverLetterId,
+          });
+        },
+        updateJobPostingId: (jobPostingId: string): void => {
+          dispatch({
+            type: 'UPDATE_JOB_POSTING_ID',
+            payload: jobPostingId,
+          });
+        },
+        updateSaveName: (saveName: string): void => {
+          dispatch({
+            type: 'UPDATE_SAVE_NAME',
+            payload: saveName,
+          });
+        },
+        updateCoverLetterHtml: (html: string): void => {
+          dispatch({
+            type: 'UPDATE_COVER_LETTER_HTML',
+            payload: html,
+          });
+        },
+        updateCoverLetterParts: (parts: string[]): void => {
+          dispatch({
+            type: 'UPDATE_COVER_LETTER_PARTS',
+            payload: parts,
+          });
+        },
+        updateEditedCoverLetterHtml: (editedHtml: string): void => {
+          dispatch({
+            type: 'UPDATE_EDITED_COVER_LETTER_HTML',
+            payload: editedHtml,
+          });
+        },
+        updateEditedCoverLetterParts: (editedParts: string[]): void => {
+          dispatch({
+            type: 'UPDATE_EDITED_COVER_LETTER_PARTS',
+            payload: editedParts,
+          });
+        },
+        toggleLoadingCoverLetter: (): void => {
+          dispatch({
+            type: 'TOGGLE_LOADING_COVER_LETTER',
+          });
+        },
+      },
+    });
+  }, []);
+
+  //== Simple Adjustments ==//
+  useEffect(() => {
+    dispatch({
+      type: 'SET_SIMPLE_ADJUSTMENT_PROPS',
+      payload: {
+        toggleDisableSimpleAdjustment: (): void => {
+          dispatch({
+            type: 'TOGGLE_DISABLE_SIMPLE_ADJUSTMENT',
+          });
+        },
+      },
+    });
+  }, []);
+
+  //== Intermediate Adjustments ==//
+  useEffect(() => {
+    dispatch({
+      type: 'SET_INTERMEDIATE_ADJUSTMENT_PROPS',
+      payload: {
+        updateAddSkillInput: (addSkillInput: string): void => {
+          dispatch({
+            type: 'UPDATE_ADD_SKILL_INPUT',
+            payload: addSkillInput,
+          });
+        },
+        updateInsertKeywordInput: (insertKeywordInput: string): void => {
+          dispatch({
+            type: 'UPDATE_INSERT_KEYWORD_INPUT',
+            payload: insertKeywordInput,
+          });
+        },
+        updateRemoveRedundancyInput: (removeRedundancyInput: string): void => {
+          dispatch({
+            type: 'UPDATE_REMOVE_REDUNDANCY_INPUT',
+            payload: removeRedundancyInput,
+          });
+        },
+        updateIntermediateType: (intermediateType: string): void => {
+          dispatch({
+            type: 'UPDATE_INTERMEDIATE_TYPE',
+            payload: intermediateType,
+          });
+        },
+        toggleDisableAddSkill: (): void => {
+          dispatch({
+            type: 'TOGGLE_DISABLE_ADD_SKILL',
+          });
+        },
+        toggleDisableInsertKeyword: (): void => {
+          dispatch({
+            type: 'TOGGLE_DISABLE_INSERT_KEYWORD',
+          });
+        },
+        toggleDisableRemoveRedundancy: (): void => {
+          dispatch({
+            type: 'TOGGLE_DISABLE_REMOVE_REDUNDANCY',
+          });
+        },
+        toggleDisableIntermediateAdjustment: (): void => {
+          dispatch({
+            type: 'TOGGLE_DISABLE_INTERMEDIATE_ADJUSTMENT',
+          });
+        },
+      },
+    });
+  }, []);
+
+  //== Custom Adjustments ==//
+  useEffect(() => {
+    dispatch({
+      type: 'SET_CUSTOM_ADJUSTMENT_PROPS',
+      payload: {
+        updateCustomAdjustment: (customAdjustment: string): void => {
+          dispatch({
+            type: 'UPDATE_CUSTOM_ADJUSTMENT',
+            payload: customAdjustment,
+          });
+        },
+        toggleDisableCustomAdjustment: (): void => {
+          dispatch({
+            type: 'TOGGLE_DISABLE_CUSTOM_ADJUSTMENT',
+          });
+        },
+      },
+    });
+  }, []);
+
+  //== Save ==//
+  useEffect(() => {
+    dispatch({
+      type: 'SET_SAVE_PROPS',
+      payload: {
+        toggleIsSavedDropdownOpen: (): void => {
+          dispatch({
+            type: 'TOGGLE_IS_SAVED_DROPDOWN_OPEN',
+          });
+        },
+        toggleDisableSavedButton: (): void => {
+          dispatch({
+            type: 'TOGGLE_DISABLE_SAVED_BUTTON',
+          });
+        },
+      },
+    });
+  }, []);
+
+  //== Download ==//
+  useEffect(() => {
+    dispatch({
+      type: 'SET_DOWNLOAD_PROPS',
+      payload: {
+        toggleIsDownloadDropdownOpen: (): void => {
+          dispatch({
+            type: 'TOGGLE_IS_DOWNLOAD_DROPDOWN_OPEN',
+          });
+        },
+        toggleDisableDownloads: (): void => {
+          dispatch({
+            type: 'TOGGLE_DISABLE_DOWNLOADS',
+          });
+        },
+      },
+    });
+  }, []);
+
+  //== Adjustments Section ==//
+  useEffect(() => {
+    dispatch({
+      type: 'SET_ADJUSTMENTS_SECTION',
+      payload: {
+        toggleIsAdjustmentsSectionExpanded: (): void => {
+          dispatch({
+            type: 'TOGGLE_IS_ADJUSTMENTS_SECTION_EXPANDED',
+          });
+        },
+      },
+    });
+  }, []);
+
+  //==* Helper Hooks *==//
+  //== Update Html ==//
+  useEffect(() => {
+    if (state.coverLetterData.coverLetterParts) {
       dispatch({
-        type: "DISABLE_DOWNLOADS",
-        payload: false,
+        type: 'UPDATE_COVER_LETTER_HTML',
+        payload: addDivTag(addPTags(state.coverLetterData.coverLetterParts)),
       });
     }
-  }, [state.coverLetter]);
+  }, [state.coverLetterData.coverLetterParts]);
+
+  //== Update Save Name ==//
+  useEffect(() => {
+    dispatch({
+      type: 'UPDATE_SAVE_NAME',
+      payload: `${state.jobDetailsProps.companyName} - ${state.jobDetailsProps.jobTitle}`,
+    });
+  }, [state.jobDetailsProps.companyName, state.jobDetailsProps.jobTitle]);
+
+  console.log('gen state', state);
 
   return (
     <Context.Provider
       value={{
         state,
         dispatch,
-        toggleIsReQuerySectionExpanded,
-        toggleIsReQueryMobileSectionExpanded,
-        generateCoverLetter,
-        makeSimpleAdjustment,
-        makeIntermediateAdjustment,
-        makeCustomAdjustment,
-        saveCoverLetterResults,
-        handleFileChange,
-        toggleIsSavedDropdownOpen,
-        toggleIsDownloadDropdownOpen,
-        getJobDetails,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Typography from "@mui/material/Typography";
 
 import { AdditionalDetailsFreeTextStyledComponents } from "../AdditionalDetails.styles";

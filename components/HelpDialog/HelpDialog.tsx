@@ -1,19 +1,16 @@
-"use client";
+'use client';
 
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { Typography } from "@mui/material";
-import List from "@mui/material/List";
-import { UnSelectedButton } from "../Global/Global";
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { Typography, List, Dialog, useMediaQuery } from '@mui/material';
 
-import Dialog from "@mui/material/Dialog";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from '@/context/AuthContext';
 
-import { DialogContentContainer, FullLogo } from "./HelpDialog.styles";
-import styled from "@emotion/styled";
-import { useMediaQuery } from "@mui/material";
+import { UnSelectedButton } from '../Global/Global';
+import { DialogContentContainer, FullLogo } from './HelpDialog.styles';
 
-import "styles/help-dialog.css";
+import styled from '@emotion/styled';
+
+import 'styles/help-dialog.css';
 
 const InstructionsContainer = styled(Grid)`
   display: flex;
@@ -37,40 +34,40 @@ const FullListItem = styled(Grid)`
 `;
 
 export default function HelpDialog() {
-  const isMobile = useMediaQuery("(max-width: 600px)");
-  const { state, toggleHelpDialog } = useAuth();
-  const { isHelpDialogOpen } = state;
+  const isMobile = useMediaQuery('(max-width: 600px)');
+  const { state } = useAuth();
+  const { dialogProps } = state;
 
   const handleClose = () => {
-    toggleHelpDialog(false);
+    dialogProps?.toggleHelpDialog();
   };
 
   return (
     <Dialog
-      open={isHelpDialogOpen}
+      open={dialogProps?.isHelpDialogOpen}
       onClose={handleClose}
       fullWidth
-      maxWidth="sm"
+      maxWidth='sm'
       PaperProps={{
         style: {
-          backgroundColor: "#F8F8FF",
-          height: isMobile ? "90%" : "80%",
+          backgroundColor: '#F8F8FF',
+          height: isMobile ? '90%' : '80%',
         },
       }}
     >
-      <FullLogo src="/easy-covers-full.svg" alt="Description of Image" />
+      <FullLogo src='/easy-covers-full.svg' alt='Description of Image' />
       <DialogContentContainer>
-        <Typography className="welcome" align="center">
+        <Typography className='welcome' align='center'>
           Welcome!
         </Typography>
 
         <InstructionsContainer>
           <List>
             <FullListItem>
-              <Typography className="list-item" align="right" pr={0}>
+              <Typography className='list-item' align='right' pr={0}>
                 1.
               </Typography>
-              <Typography className="list-item instructions">
+              <Typography className='list-item instructions'>
                 Directly copy and paste the posting / description of the job you
                 are applying for or type in the information manually. The more
                 descriptive the better the results.
@@ -78,10 +75,10 @@ export default function HelpDialog() {
             </FullListItem>
 
             <FullListItem>
-              <Typography className="list-item" align="right" pr={0}>
+              <Typography className='list-item' align='right' pr={0}>
                 2.
               </Typography>
-              <Typography className="list-item instructions">
+              <Typography className='list-item instructions'>
                 Simply upload your current resume file. If you don't have one
                 readily accessible, switch the toggle to free-text mode and
                 enter your information manually (worse results unless very
@@ -90,10 +87,10 @@ export default function HelpDialog() {
             </FullListItem>
 
             <FullListItem>
-              <Typography className="list-item" align="right" pr={0}>
+              <Typography className='list-item' align='right' pr={0}>
                 3.
               </Typography>
-              <Typography className="list-item instructions">
+              <Typography className='list-item instructions'>
                 (optional) Enter the inputs that will help the AI generate the
                 best results for you.
               </Typography>
@@ -101,14 +98,14 @@ export default function HelpDialog() {
           </List>
         </InstructionsContainer>
 
-        <Typography className="post-instruction" align="center">
+        <Typography className='post-instruction' align='center'>
           (The more descriptive the better the results)
         </Typography>
 
         <UnSelectedButton
           onClick={handleClose}
           style={{
-            width: isMobile ? "100%" : "80%",
+            width: isMobile ? '100%' : '80%',
           }}
         >
           Got it!

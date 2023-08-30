@@ -1,21 +1,8 @@
-import * as React from "react";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import { useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { IconButton, useMediaQuery, SwipeableDrawer, Box } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import styled from "@emotion/styled";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-
 import Sidebar from "../Sidebar/Sidebar";
 
 const Logo = styled.img`
@@ -60,10 +47,8 @@ const HeaderContainer = styled(Grid)`
 `;
 
 export default function Header() {
-  const theme = useTheme();
   const isTablet = useMediaQuery("(max-width: 1100px)");
-
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);

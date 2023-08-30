@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Button,
   Dialog,
@@ -7,8 +7,8 @@ import {
   DialogContentText,
   DialogTitle,
   Typography,
-} from "@mui/material";
-import { useAuth } from "@/context/AuthContext";
+} from '@mui/material';
+import { useAuth } from '@/context/AuthContext';
 
 interface AlertDialogConfirmProps {
   open: boolean;
@@ -23,48 +23,53 @@ export default function AlertDialogConfirm({
   message,
   buttonText,
 }: AlertDialogConfirmProps) {
-  const { handleAlertDialogConfirmClose, dispatch } = useAuth();
+  const { state, dispatch } = useAuth();
+  const { dialogProps, confirmDialog } = state;
 
   const handleCancel = () => {
-    dispatch({ type: "SET_DID_CONFIRM_ALERT", payload: false });
-    handleAlertDialogConfirmClose();
+    confirmDialog?.updateDidConfirmAlert(false);
+    confirmDialog?.reset();
   };
 
   const handleConfirm = () => {
-    dispatch({ type: "SET_DID_CONFIRM_ALERT", payload: true });
-    handleAlertDialogConfirmClose();
+    confirmDialog?.updateDidConfirmAlert(true);
   };
 
   return (
     <Dialog
       open={open}
       onClose={handleCancel}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
+      aria-labelledby='alert-dialog-title'
+      aria-describedby='alert-dialog-description'
     >
-      <DialogTitle id="alert-dialog-title">{header}</DialogTitle>
+      <DialogTitle id='alert-dialog-title'>{header}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
+        <DialogContentText id='alert-dialog-description'>
           {message}
         </DialogContentText>
       </DialogContent>
 
       <DialogActions>
-        <Button variant="outlined" onClick={handleCancel}
+        <Button
+          variant='outlined'
+          onClick={handleCancel}
           style={{
-            color: "#006d4b",
-            border: "1px solid #006d4b"
+            color: '#006d4b',
+            border: '1px solid #006d4b',
           }}
         >
-          <Typography variant="body1">Cancel</Typography>
+          <Typography variant='body1'>Cancel</Typography>
         </Button>
-        <Button variant="outlined" onClick={handleConfirm} autoFocus
+        <Button
+          variant='outlined'
+          onClick={handleConfirm}
+          autoFocus
           style={{
-            color: "#006d4b",
-            border: "1px solid #006d4b"
+            color: '#006d4b',
+            border: '1px solid #006d4b',
           }}
         >
-          <Typography variant="body1">{buttonText}</Typography>
+          <Typography variant='body1'>{buttonText}</Typography>
         </Button>
       </DialogActions>
     </Dialog>

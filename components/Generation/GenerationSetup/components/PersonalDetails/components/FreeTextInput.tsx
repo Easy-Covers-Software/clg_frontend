@@ -1,35 +1,29 @@
-import React, { useState } from "react";
-import styled from "@emotion/styled";
+import React, { useState } from 'react';
 
-import { useGenerationContext } from "@/context/GenerationContext";
+import { useGenerationContext } from '@/context/GenerationContext';
 
-import { FreeTextInputStyledComponents } from "../PersonalDetails.styles";
+import { FreeTextInputStyledComponents } from '../PersonalDetails.styles';
 const { TextArea } = FreeTextInputStyledComponents;
 
 export default function FreeTextInput() {
-  const { state, dispatch } = useGenerationContext();
-  const { freeText } = state;
-
-  const [value, setValue] = useState("");
+  const { state } = useGenerationContext();
+  const { generationSetupProps } = state;
   const [placeholder, setPlaceholder] = useState(
-    "Provide a description about your education, work experience, skills, and any other information that you think is relevant to your application..."
+    'Provide a description about your education, work experience, skills, and any other information that you think is relevant to your application...'
   );
 
   const handleChange = (e) => {
-    dispatch({
-      type: "SET_FREE_TEXT_PERSONAL_DETAILS",
-      payload: e.target.value,
-    });
+    generationSetupProps?.updateFreeText(e.target.value);
   };
 
   const handleFocus = () => {
-    setPlaceholder("");
+    setPlaceholder('');
   };
 
   const handleBlur = () => {
-    if (value === "") {
+    if (generationSetupProps?.freeText === '') {
       setPlaceholder(
-        "Provide a description about your education, work experience, skills, and any other information that you think is relevant to your application..."
+        'Provide a description about your education, work experience, skills, and any other information that you think is relevant to your application...'
       );
     }
   };
@@ -37,7 +31,7 @@ export default function FreeTextInput() {
   return (
     <TextArea
       placeholder={placeholder}
-      value={freeText}
+      value={generationSetupProps?.freeText}
       onChange={handleChange}
       onFocus={handleFocus}
       onBlur={handleBlur}

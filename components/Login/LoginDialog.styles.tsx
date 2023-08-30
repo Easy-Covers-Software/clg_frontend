@@ -1,12 +1,7 @@
 import styled from "@emotion/styled";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import DialogContent from "@mui/material/DialogContent";
-import { PrimaryButton, UnSelectedButton } from "../Global/Global";
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-
-import LoginInputs from "./components/LoginInputs";
+import { PrimaryButton } from "../Global/Global";
+import { Box, FormControl, TextField, DialogContent } from "@mui/material";
 
 const DialogContentContainer = styled(DialogContent)`
   display: flex;
@@ -57,7 +52,6 @@ namespace LoginInputsStyledComponents {
   export const InputField = styled(TextField)`
     border-radius: 4px;
     border: 1px solid #006d4b;
-    // background-color: var(--theme-main, #f5f5f5);
     background-color: #fff;
   `;
 }

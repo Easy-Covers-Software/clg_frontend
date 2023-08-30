@@ -1,10 +1,12 @@
-"use client";
+'use client';
 
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import styled from "@emotion/styled";
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import styled from '@emotion/styled';
 
-import GenerationSummary from "./components/GenerationSummary/GenerationSummary";
-import CoverLetter from "./components/CoverLetter/CoverLetter";
+import { useSavedCoverLettersContext } from '@/context/SavedCoverLettersContext';
+
+import CoverLetterSummary from '@/components/CoverLetterSummay/CoverLetterSummary';
+import CoverLetter from '@/components/CoverLetter/CoverLetter';
 
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`
@@ -29,10 +31,30 @@ const Container = styled(Grid)`
 `;
 
 export default function Edit() {
+  const { state } = useSavedCoverLettersContext();
+  const {
+    coverLetterData,
+    jobDetailsProps,
+    simpleAdjustmentProps,
+    intermediateAdjustmentProps,
+    customAdjustmentProps,
+    saveProps,
+    downloadProps,
+    adjustmentSection,
+  } = state;
+
   return (
     <Container>
-      <GenerationSummary />
-      <CoverLetter />
+      <CoverLetterSummary jobDetailsProps={jobDetailsProps} />
+      <CoverLetter
+        coverLetterData={coverLetterData}
+        simpleAdjustmentProps={simpleAdjustmentProps}
+        intermediateAdjustmentProps={intermediateAdjustmentProps}
+        customAdjustmentProps={customAdjustmentProps}
+        saveProps={saveProps}
+        downloadProps={downloadProps}
+        adjustmentSection={adjustmentSection}
+      />
     </Container>
   );
 }

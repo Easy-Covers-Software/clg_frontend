@@ -1,8 +1,8 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
-import MenuLoggedOut from "./components/MenuLoggedOut/MenuLoggedOut";
-import MenuLoggedIn from "./components/MenuLoggedIn/MenuLoggedIn";
-import { useAuth } from "@/context/AuthContext";
+import MenuLoggedOut from './components/MenuLoggedOut/MenuLoggedOut';
+import MenuLoggedIn from './components/MenuLoggedIn/MenuLoggedIn';
+import { useAuth } from '@/context/AuthContext';
 
 const Logo = styled.img`
   margin-top: -55%;
@@ -17,13 +17,13 @@ const Logo = styled.img`
 
 export default function Sidebar() {
   const {
-    state: { user },
+    state: { loggedInProps },
   } = useAuth();
 
   return (
     <>
-      <Logo src="/easy-covers-full.svg" alt="Description of Image" />
-      {user ? <MenuLoggedIn /> : <MenuLoggedOut />}
+      <Logo src='/easy-covers-full.svg' alt='Description of Image' />
+      {loggedInProps?.isAuthenticated ? <MenuLoggedIn /> : <MenuLoggedOut />}
       {/* {user ? <MenuLoggedOut /> : <MenuLoggedIn />} */}
     </>
   );

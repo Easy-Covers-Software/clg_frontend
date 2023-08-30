@@ -1,17 +1,22 @@
-import React, { useState } from "react";
-import styled from "@emotion/styled";
-import { useGenerationContext } from "@/context/GenerationContext";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { Typography } from "@mui/material";
+import React, { useState } from 'react';
+import { useGenerationContext } from '@/context/GenerationContext';
+import { Typography } from '@mui/material';
 
-import { UploadOptionStyledComponents } from "../PersonalDetails.styles";
+import { CoverLetterApiMethods } from '@/Utils/utils';
+const { uploadResume } = CoverLetterApiMethods;
+
+import { UploadOptionStyledComponents } from '../PersonalDetails.styles';
+import {
+  APIResponse,
+  ResumeUploadApiResponse,
+} from '@/Types/ApiResponse.types';
 const { Container, FileUploadInput, Dropzone, Label } =
   UploadOptionStyledComponents;
 
 export default function UploadOption({ label, accept }) {
-  const id = label.replace(/\s+/g, "-").toLowerCase();
-  const { state, handleFileChange } = useGenerationContext();
-  const { resume } = state;
+  const id = label.replace(/\s+/g, '-').toLowerCase();
+  const { state } = useGenerationContext();
+  const { additionalDetails, generationSetupProps } = state;
 
   const [dragging, setDragging] = useState(false);
 
@@ -30,18 +35,42 @@ export default function UploadOption({ label, accept }) {
     setDragging(false);
   };
 
-  const fileDrop = (e) => {
+  const fileDrop = async (e) => {
     e.preventDefault();
     setDragging(false);
-    handleFileChange(e);
+    generationSetupProps?.updateResume(e);
+    await handleUploadResume();
+  };
+
+  const handleChange = async (e) => {
+    generationSetupProps?.updateResume(e.target.files[0]);
+    await handleUploadResume(e.target.files[0]);
+  };
+
+  const handleUploadResume = async (file: File): Promise<void> => {
+    const response: APIResponse<ResumeUploadApiResponse> = await uploadResume(
+      file,
+      generationSetupProps?.freeText,
+      additionalDetails?.simpleInput1,
+      additionalDetails?.simpleInput2,
+      additionalDetails?.simpleInput3,
+      additionalDetails?.openEndedInput
+    );
+  };
+
+  const getDisplayText = (resume: { name?: string }) => {
+    if (resume && resume.name !== '') {
+      return resume.name;
+    }
+    return 'Drag and drop your files here or click to select files';
   };
 
   return (
     <Container>
       <FileUploadInput
         id={id}
-        type="file"
-        onChange={handleFileChange}
+        type='file'
+        onChange={handleChange}
         accept={accept}
       />
       <Label htmlFor={id}>
@@ -51,10 +80,8 @@ export default function UploadOption({ label, accept }) {
           onDragLeave={dragLeave}
           onDrop={fileDrop}
         >
-          <Typography className="drag-drop">
-            {resume && resume.name !== ""
-              ? resume.name
-              : "Drag and drop your files here or click to select files"}
+          <Typography className='drag-drop'>
+            {getDisplayText(generationSetupProps?.resume)}
           </Typography>
         </Dropzone>
       </Label>

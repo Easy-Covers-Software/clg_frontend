@@ -1,14 +1,13 @@
-"use client";
+'use client';
 
-import Dialog from "@mui/material/Dialog";
-import Divider from "@mui/material/Divider";
+import Dialog from '@mui/material/Dialog';
+import Divider from '@mui/material/Divider';
 
-import LoginInputs from "./components/LoginInputs";
-import CreateAccountOptions from "./components/CreateAccountOptions";
+import LoginInputs from './components/LoginInputs';
+import CreateAccountOptions from './components/CreateAccountOptions';
 
-import { useAuth } from "@/context/AuthContext";
-import { Typography } from "@mui/material";
-// import { SuccessSnackbar } from "@/components/Global/components/Snackbars";
+import { useAuth } from '@/context/AuthContext';
+import { Typography } from '@mui/material';
 
 import {
   DialogContentContainer,
@@ -16,69 +15,135 @@ import {
   DividerContainer,
   SignInButton,
   FullLogo,
-} from "./LoginDialog.styles";
+} from './LoginDialog.styles';
+
+import { APIResponse, AuthResponse } from '@/Types/ApiResponse.types';
+
+import { LoginApiMethods } from '@/Utils/utils';
+const { createAccount, login, resetPassword } = LoginApiMethods;
 
 export default function LoginDialog() {
-  const {
-    state,
-    dispatch,
-    toggleLoginIsOpen,
-    login,
-    createAccount,
-    resetPassword,
-  } = useAuth();
-  const { isLoginOpen, createAccountEasyCovers, forgotPassword } = state;
+  const { state, dispatch } = useAuth();
+  const { accountAuthProps, dialogProps, snackbar } = state;
 
-  const handleClose = () => {
-    toggleLoginIsOpen(false);
+  const handleClose = (): void => {
+    dialogProps?.toggleLoginIsOpen();
+  };
+
+  const handleLoginAfterSuccessfulRegister = async (): Promise<void> => {
+    const response: APIResponse<AuthResponse> = await login(
+      accountAuthProps?.username,
+      accountAuthProps?.email,
+      accountAuthProps?.password
+    );
+
+    if (response.data) {
+      dispatch({ type: 'UPDATE_USER' });
+      accountAuthProps.reset();
+      dialogProps.toggleLoginIsOpen();
+    } else {
+      snackbar.updateSnackbar(true, 'error', `Error! ${response.error}`);
+    }
+  };
+
+  const handleCreateAccount = async (): Promise<void> => {
+    const response: APIResponse<AuthResponse> = await createAccount(
+      accountAuthProps?.email,
+      accountAuthProps?.password,
+      accountAuthProps?.newPasswordRepeat,
+      accountAuthProps?.username
+    );
+
+    console.log('create account new response', response);
+
+    if (response.data) {
+      await handleLoginAfterSuccessfulRegister();
+      snackbar.updateSnackbar(
+        true,
+        'success',
+        `Success! ${response.data.message}`
+      );
+    } else {
+      snackbar.updateSnackbar(true, 'error', `Error! ${response.error}`);
+    }
+  };
+
+  const handleLogin = async (): Promise<void> => {
+    const response: APIResponse<AuthResponse> = await login(
+      accountAuthProps?.username,
+      accountAuthProps?.email,
+      accountAuthProps?.password
+    );
+
+    console.log('login response', response);
+
+    if (response.data) {
+      dispatch({ type: 'UPDATE_USER' });
+      accountAuthProps.reset();
+      snackbar.updateSnackbar(
+        true,
+        'success',
+        `Succes! ${response.data.message}`
+      );
+      dialogProps.toggleLoginIsOpen();
+    } else {
+      snackbar.updateSnackbar(true, 'error', 'Error! Invalid credentials.');
+    }
+  };
+
+  const handleResetPassword = async (): Promise<void> => {
+    const response: APIResponse<AuthResponse> = await resetPassword(
+      accountAuthProps?.email
+    );
+
+    if (response.data) {
+      snackbar.updateSnackbar(
+        true,
+        'success',
+        `Success! ${response.data.message}`
+      );
+      dialogProps.toggleLoginIsOpen();
+    } else {
+      snackbar.updateSnackbar(true, 'error', `Error! ${response.error}`);
+    }
   };
 
   return (
     <Dialog
-      open={isLoginOpen}
+      open={dialogProps?.isLoginOpen}
       onClose={handleClose}
       fullWidth
-      maxWidth="xs"
+      maxWidth='xs'
       PaperProps={{
         style: {
-          backgroundColor: "#F8F8FF",
+          backgroundColor: '#F8F8FF',
         },
       }}
     >
-      <FullLogo src="/easy-covers-full.svg" alt="Description of Image" />
+      <FullLogo src='/easy-covers-full.svg' alt='Description of Image' />
 
       <DialogContentContainer>
         <LoginInputs />
 
-        {createAccountEasyCovers ? (
-          <SignInButton onClick={() => createAccount()}>
+        {accountAuthProps?.action === 'create' ? (
+          <SignInButton onClick={handleCreateAccount}>
             Create Account
           </SignInButton>
-        ) : forgotPassword ? (
-          <SignInButton onClick={() => resetPassword()}>
+        ) : accountAuthProps?.action === 'forgot' ? (
+          <SignInButton onClick={handleResetPassword}>
             Send Reset Email
           </SignInButton>
         ) : (
           <>
             <Typography
-              style={{
-                cursor: "pointer",
-                position: "relative",
-                top: "-10px",
-                right: "-100px",
-                fontSize: "0.9rem",
-                color: "#13d0b7",
-              }}
+              className='forgot-password'
               onClick={() => {
-                dispatch({
-                  type: "SET_FORGOT_PASSWORD",
-                  payload: true,
-                });
+                accountAuthProps?.updateAction('forgot');
               }}
             >
               Forgot password?
             </Typography>
-            <SignInButton onClick={() => login()}>Sign In</SignInButton>
+            <SignInButton onClick={handleLogin}>Sign In</SignInButton>
           </>
         )}
       </DialogContentContainer>
@@ -87,7 +152,7 @@ export default function LoginDialog() {
         <DividerContainer>
           <Divider
             style={{
-              color: "#006d4b",
+              color: '#006d4b',
             }}
           >
             Or continue with Google / Create Account

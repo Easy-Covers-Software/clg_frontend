@@ -1,30 +1,27 @@
-import React, { useState } from "react";
-import styled from "@emotion/styled";
-
-import { useGenerationContext } from "@/context/GenerationContext";
-
-import { JobPostingTextInputField } from "./JobPostingInput.styles";
+import React, { useState } from 'react';
+import { useGenerationContext } from '@/context/GenerationContext';
+import { JobPostingTextInputField } from './JobPostingInput.styles';
 
 export default function JobPostingInput() {
-  const { state, dispatch } = useGenerationContext();
-  const { jobPosting } = state;
+  const { state } = useGenerationContext();
+  const { generationSetupProps } = state;
 
   const [placeholder, setPlaceholder] = useState(
-    "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
+    'Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for...'
   );
 
   const handleChange = (e) => {
-    dispatch({ type: "SET_JOB_POSTING", payload: e.target.value });
+    generationSetupProps?.updateJobPosting(e.target.value);
   };
 
   const handleFocus = () => {
-    setPlaceholder("");
+    setPlaceholder('');
   };
 
   const handleBlur = () => {
-    if (jobPosting === "") {
+    if (generationSetupProps?.jobPosting === '') {
       setPlaceholder(
-        "Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for..."
+        'Either directly copy and paste the job posting you are applying for or provide your own description of the postion you are applying for...'
       );
     }
   };
@@ -32,7 +29,7 @@ export default function JobPostingInput() {
   return (
     <JobPostingTextInputField
       placeholder={placeholder}
-      value={jobPosting}
+      value={generationSetupProps?.jobPosting}
       onChange={handleChange}
       onFocus={handleFocus}
       onBlur={handleBlur}

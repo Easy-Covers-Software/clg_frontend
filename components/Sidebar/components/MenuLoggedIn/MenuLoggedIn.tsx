@@ -1,49 +1,46 @@
-import { PrimaryButton, UnSelectedButton } from "@/components/Global/Global";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import styled from "@emotion/styled";
-import SignedInDisplay from "./components/SignedInDisplay";
+import { PrimaryButton, UnSelectedButton } from '@/components/Global/Global';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import styled from '@emotion/styled';
+import SignedInDisplay from './components/SignedInDisplay';
 
-import { useAuth } from "@/context/AuthContext";
-import Link from "next/link";
+import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
 
-import { Container, GenerationModeTab, Tabs } from "./MenuLoggedIn.styles";
+import { Container, GenerationModeTab, Tabs } from './MenuLoggedIn.styles';
 
 export default function MenuLoggedIn() {
   const {
-    state: { page },
+    state: { trackers },
     dispatch,
   } = useAuth();
+
+  const { page } = trackers;
+  console.log('page', page);
 
   return (
     <Container>
       <Tabs>
-        <Link href={"/"} className={"no_underline"} passHref>
+        <Link href={'/'} className={'no_underline'} passHref>
           <GenerationModeTab
             style={{
-              backgroundColor: page === "generation-mode" ? "#f5faf5" : "white",
+              backgroundColor: page === 'generation-mode' ? '#f5faf5' : 'white',
             }}
-            onClick={() =>
-              dispatch({
-                type: "SET_PAGE",
-                payload: "generation-mode",
-              })
-            }
+            onClick={() => {
+              trackers?.updatePage('generation-mode');
+            }}
           >
-            Generate Mode
+            Generate
           </GenerationModeTab>
         </Link>
 
-        <Link href={"/saved"} className={"no_underline"} passHref>
+        <Link href={'/saved'} className={'no_underline'} passHref>
           <GenerationModeTab
             style={{
-              backgroundColor: page === "saved" ? "#f5faf5" : "white",
+              backgroundColor: page === 'saved' ? '#f5faf5' : 'white',
             }}
-            onClick={() =>
-              dispatch({
-                type: "SET_PAGE",
-                payload: "saved",
-              })
-            }
+            onClick={() => {
+              trackers?.updatePage('saved');
+            }}
           >
             Saved
           </GenerationModeTab>
