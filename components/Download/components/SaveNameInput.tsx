@@ -128,7 +128,7 @@ const SaveNameInput: FC<Props> = ({ coverLetterData, saveProps, snackbar }) => {
           <TextField
             variant='outlined'
             margin='dense'
-            defaultValue={saveProps?.saveName}
+            defaultValue={coverLetterData.saveName}
             onChange={handleInputChange}
           />
           <UnSelectedButton onClick={handleSave}>Save</UnSelectedButton>
