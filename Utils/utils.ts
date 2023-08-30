@@ -233,7 +233,7 @@ namespace LoginApiMethods {
     password: string,
     newPasswordRepeat: string,
     username: string
-  ): Promise<APIResponse<CreateAccountApiResponse>> => {
+  ): Promise<APIResponse<AuthResponse>> => {
     const url = `${API_BASE}/users/auth/register/`;
 
     const data = {
@@ -246,16 +246,12 @@ namespace LoginApiMethods {
     const payload: FormData = Helpers.createPayload(data);
 
     try {
-      const response = await axios.post<CreateAccountApiResponse>(
-        url,
-        payload,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'X-CSRFToken': Cookie.get('csrftoken'),
-          },
-        }
-      );
+      const response = await axios.post<AuthResponse>(url, payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'X-CSRFToken': Cookie.get('csrftoken'),
+        },
+      });
 
       return { data: response.data, error: null };
     } catch (error) {
