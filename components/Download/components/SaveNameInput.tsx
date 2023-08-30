@@ -77,10 +77,7 @@ const SaveNameInput: FC<Props> = ({ coverLetterData, saveProps, snackbar }) => {
   };
 
   const shouldDisable = (coverLetterData: CoverLetterData) => {
-    if (
-      coverLetterData?.editedCoverLetter !== '' &&
-      coverLetterData?.editedCoverLetter !== coverLetterData?.coverLetterHtml
-    ) {
+    if (coverLetterData?.coverLetterHtml !== '') {
       return false;
     } else {
       return true;
