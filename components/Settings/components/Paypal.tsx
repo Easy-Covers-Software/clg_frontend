@@ -9,7 +9,7 @@ import { AlertColor } from '@mui/material';
 
 export default function Paypal({ selectedPackagePrice }) {
   const { state, dispatch } = useAuth();
-  const { dialogProps, snackbar, user } = state;
+  const { dialogProps, loggedInProps, snackbar } = state;
   const { extractPrice } = Helpers;
 
   const handleClose = () => {
@@ -27,7 +27,7 @@ export default function Paypal({ selectedPackagePrice }) {
                 amount: {
                   value: extractPrice(selectedPackagePrice),
                 },
-                custom_id: user,
+                custom_id: loggedInProps.email,
               },
             ],
           });
