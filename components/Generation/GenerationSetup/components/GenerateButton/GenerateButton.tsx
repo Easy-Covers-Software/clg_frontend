@@ -167,6 +167,7 @@ export default function GenerateButtons() {
       coverLetterData.updateCoverLetterParts(response.data.cover_letter);
       coverLetterData.updateCoverLetterId(response.data.cover_letter_id);
       coverLetterData.toggleLoadingCoverLetter();
+      loggedInProps.updateUser();
       snackbar.updateSnackbar(
         true,
         'success',

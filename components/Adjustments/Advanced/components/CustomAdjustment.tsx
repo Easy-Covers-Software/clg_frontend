@@ -17,7 +17,6 @@ import { useMediaQuery } from '@mui/material';
 import {
   CoverLetterData,
   CustomAdjustmentProps,
-  AdjustmentSection,
 } from '@/Types/GenerationContext.types';
 
 interface Props {
@@ -30,7 +29,7 @@ const CustomAdjustment: FC<Props> = ({
   customAdjustmentProps,
 }) => {
   const { state } = useAuth();
-  const { snackbar } = state;
+  const { loggedInProps, snackbar } = state;
 
   const [placeholder, setPlaceholder] = useState(
     'Anything you want to change about the cover letter...'
@@ -63,6 +62,7 @@ const CustomAdjustment: FC<Props> = ({
     if (response.data) {
       coverLetterData?.updateCoverLetterParts(response.data.cover_letter);
       coverLetterData?.toggleLoadingCoverLetter();
+      loggedIn;
       snackbar.updateSnackbar(true, 'success', 'Adjustment made successfully.');
     } else {
       coverLetterData?.toggleLoadingCoverLetter();

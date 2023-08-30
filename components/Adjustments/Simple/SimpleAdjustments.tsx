@@ -54,7 +54,7 @@ const SimpleAdjustments: FC<Props> = ({
   const isMobile = useMediaQuery('(max-width: 600px)');
 
   const { state } = useAuth();
-  const { snackbar } = state;
+  const { loggedInProps, snackbar } = state;
 
   const handleDecreaseSimpleAdjustment = async (
     buttonLabel: string
@@ -93,8 +93,9 @@ const SimpleAdjustments: FC<Props> = ({
 
     if (response.data) {
       coverLetterData?.updateCoverLetterParts(response.data.cover_letter);
-      snackbar.updateSnackbar(true, 'success', 'Adjustment made successfully.');
+      loggedInProps.updateUser();
       coverLetterData?.toggleLoadingCoverLetter();
+      snackbar.updateSnackbar(true, 'success', 'Adjustment made successfully.');
     } else {
       coverLetterData?.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(

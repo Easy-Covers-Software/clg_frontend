@@ -28,7 +28,7 @@ const IntermediateAdjustments: FC<Props> = ({
 }) => {
   const isMobile = useMediaQuery('(max-width:600px)');
   const { state } = useAuth();
-  const { snackbar } = state;
+  const { loggedInProps, snackbar } = state;
 
   const getIntermediateAdjustmentTypeValue = (label: string): string | null => {
     switch (label) {
@@ -58,6 +58,7 @@ const IntermediateAdjustments: FC<Props> = ({
     if (response.data) {
       coverLetterData?.updateCoverLetterParts(response.data.cover_letter);
       coverLetterData?.toggleLoadingCoverLetter();
+      loggedInProps.updateUser();
       snackbar.updateSnackbar(true, 'success', 'Adjustment made successfully.');
     } else {
       coverLetterData?.toggleLoadingCoverLetter();
