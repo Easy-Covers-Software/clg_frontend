@@ -81,11 +81,11 @@ const initialState: AuthState = {
     isHelpDialogOpen: false,
     isPaymentSuccessDialogOpen: false,
     isConfirmDialogOpen: false,
+    updateConfirmDialog: (): void => {},
     toggleLoginIsOpen: (): void => {},
     toggleSettingsIsOpen: (): void => {},
     toggleHelpDialog: (): void => {},
     togglePaymentSuccessDialog: (): void => {},
-    updateConfirmDialog: (): void => {},
   },
 
   //== Snackbar ==//
