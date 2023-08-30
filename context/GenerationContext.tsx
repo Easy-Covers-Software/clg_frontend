@@ -911,6 +911,14 @@ export function GenerationContext({ children }) {
     }
   }, [state.coverLetterData.coverLetterParts]);
 
+  //== Update Save Name ==//
+  useEffect(() => {
+    dispatch({
+      type: 'UPDATE_SAVE_NAME',
+      payload: `${state.jobDetailsProps.companyName} - ${state.jobDetailsProps.jobTitle}`,
+    });
+  }, [state.jobDetailsProps.companyName]);
+
   console.log('gen state', state);
 
   return (

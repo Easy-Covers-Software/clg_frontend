@@ -6,7 +6,7 @@ import Cookie from 'js-cookie';
 
 import { Helpers } from '@/Utils/utils';
 
-const { removeDivTags, addPTags } = Helpers;
+const { removeDivTags, addPTags, formatCoverLetterForAdjustment } = Helpers;
 
 const SavedContext = createContext(null);
 
@@ -28,6 +28,7 @@ const initialState = {
 
   //== Job Details ==//
   jobDetailsProps: {
+    jobPostingId: '',
     jobTitle: 'Job Title',
     companyName: 'Company',
     matchScore: 0,
@@ -49,6 +50,7 @@ const initialState = {
     editedCoverLetterParts: null,
     loadingCoverLetter: false,
     updateCoverLetterId: (coverLetterId: string): void => {},
+    updateJobPostingId: (jobPostingId: string): void => {},
     updateSaveName: (saveName: string): void => {},
     updateCoverLetterHtml: (html: string): void => {},
     updateCoverLetterParts: (parts: string[]): void => {},
@@ -183,6 +185,15 @@ function reducer(state, action) {
         jobDetailsProps: {
           ...state.jobDetailsProps,
           ...action.payload,
+        },
+      };
+
+    case 'UPDATE_JOB_POSTING_ID':
+      return {
+        ...state,
+        jobDetailsProps: {
+          ...state.jobDetailsProps,
+          jobPostingId: action.payload,
         },
       };
 
@@ -820,6 +831,11 @@ export default function SavedCoverLettersContext(props) {
         payload:
           state.savedCoverLetterListProps.selectedCoverLetter.cover_letter,
       });
+      dispatch({
+        type: 'UPDATE_JOB_POSTING_ID',
+        payload:
+          state.savedCoverLetterListProps.selectedCoverLetter.job_posting,
+      });
     }
   }, [state.savedCoverLetterListProps.selectedCoverLetter]);
 
@@ -831,6 +847,41 @@ export default function SavedCoverLettersContext(props) {
       });
     }
   }, [state.coverLetterData.coverLetterParts]);
+
+  useEffect(() => {
+    dispatch({
+      type: 'UPDATE_SAVE_NAME',
+      payload: `${state.jobDetailsProps.companyName} - ${state.jobDetailsProps.jobTitle}`,
+    });
+  }, [state.jobDetailsProps.companyName, state.jobDetailsProps.jobTitle]);
+
+  //== Get Job Details ==//
+  // get selected cover letter stored details
+  useEffect(() => {
+    const getJobPosting = async () => {
+      const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/job-posting/new/${state.jobDetailsProps.jobPostingId}/`;
+
+      try {
+        const response = await axios.get(url, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'X-CSRFToken': Cookie.get('csrftoken'),
+          },
+        });
+        if (response.statusText === 'OK') {
+          dispatch({
+            type: 'SET_SELECTED_COVER_LETTER_JOB_POSTING',
+            payload: response.data,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getJobPosting();
+  }, [state.selectedCoverLetter]);
 
   console.log('saved context state', state);
 
