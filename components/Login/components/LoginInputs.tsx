@@ -12,7 +12,7 @@ import { LoginInputsStyledComponents } from '../LoginDialog.styles';
 const { Container, FormInput, InputField } = LoginInputsStyledComponents;
 
 export default function LoginInputs() {
-  const { state, dispatch } = useAuth();
+  const { state } = useAuth();
   const { accountAuthProps } = state;
 
   const handleMouseDownPassword = (

@@ -59,7 +59,7 @@ const SimpleAdjustments: FC<Props> = ({
   const handleDecreaseSimpleAdjustment = async (
     buttonLabel: string
   ): Promise<void> => {
-    const adjustmentLevel = 'simple';
+    coverLetterData?.toggleLoadingCoverLetter();
 
     const response: APIResponse<AdjustmentApiResponse> = await makeAdjustment(
       'simple',
@@ -69,8 +69,12 @@ const SimpleAdjustments: FC<Props> = ({
     );
 
     if (response.data) {
+      coverLetterData?.updateCoverLetterParts(response.data.cover_letter);
+      loggedInProps.updateUser();
+      coverLetterData?.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(true, 'success', 'Adjustment made successfully.');
     } else {
+      coverLetterData?.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(
         true,
         'error',
