@@ -917,7 +917,7 @@ export function GenerationContext({ children }) {
       type: 'UPDATE_SAVE_NAME',
       payload: `${state.jobDetailsProps.companyName} - ${state.jobDetailsProps.jobTitle}`,
     });
-  }, [state.jobDetailsProps.companyName]);
+  }, [state.jobDetailsProps.companyName, state.jobDetailsProps.jobTitle]);
 
   console.log('gen state', state);
 
