@@ -8,6 +8,11 @@ import { useAuth } from '@/context/AuthContext';
 import { LoginApiMethods } from '@/Utils/utils';
 import SnackbarAlert from '../Global/components/SnackbarAlert';
 
+import {
+  APIResponse,
+  ForgotPasswordSuccessApiResponse,
+} from '@/Types/ApiResponse.types';
+
 const { submitNewPasswords } = LoginApiMethods;
 
 const ResetPasswordForm = () => {
@@ -44,16 +49,12 @@ const ResetPasswordForm = () => {
     console.log('UID:', uid);
     console.log('token:', token);
 
-    const response = await submitNewPasswords(
-      newPassword1,
-      newPassword2,
-      uid,
-      token
-    );
+    const response: APIResponse<ForgotPasswordSuccessApiResponse> =
+      await submitNewPasswords(newPassword1, newPassword2, uid, token);
 
     if (
-      response.detail &&
-      response.detail === 'Password has been reset with the new password.'
+      response.data &&
+      response.data.detail === 'Password has been reset with the new password.'
     ) {
       snackbar?.updateSnackbar(true, 'success', 'Password has been reset!');
       setTimeout((window.location.href = '/'), 3000);
