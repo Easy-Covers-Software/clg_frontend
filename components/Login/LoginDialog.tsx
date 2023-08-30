@@ -56,7 +56,7 @@ export default function LoginDialog() {
 
     console.log('create account new response', response);
 
-    if (response.data.message) {
+    if (response.data) {
       await handleLoginAfterSuccessfulRegister();
       snackbar.updateSnackbar(
         true,
@@ -77,7 +77,7 @@ export default function LoginDialog() {
 
     console.log('login response', response);
 
-    if (response.data.message) {
+    if (response.data) {
       dispatch({ type: 'UPDATE_USER' });
       accountAuthProps.reset();
       snackbar.updateSnackbar(
@@ -87,7 +87,7 @@ export default function LoginDialog() {
       );
       dialogProps.toggleLoginIsOpen();
     } else {
-      snackbar.updateSnackbar(true, 'error', `Error! ${response.error}`);
+      snackbar.updateSnackbar(true, 'error', 'Error! Invalid credentials.');
     }
   };
 
