@@ -28,12 +28,11 @@ export default function AlertDialogConfirm({
 
   const handleCancel = () => {
     confirmDialog?.updateDidConfirmAlert(false);
-    // confirmDialog?.reset();
+    confirmDialog?.reset();
   };
 
   const handleConfirm = () => {
     confirmDialog?.updateDidConfirmAlert(true);
-    // confirmDialog?.reset();
   };
 
   return (
