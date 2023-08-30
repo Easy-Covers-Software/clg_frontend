@@ -214,7 +214,7 @@ export default function SavedLettersList() {
                   </IconButton>
                   <ListItemText
                     id={coverLetter.id}
-                    primary={coverLetter.save_name}
+                    primary={coverLetter.save_name.substring(0, 24) + '...'}
                   />
                 </ListItem>
               );
