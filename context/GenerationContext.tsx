@@ -4,9 +4,9 @@ import { Helpers } from '@/Utils/utils';
 const { removeDivTags, formatCoverLetterForAdjustment, addPTags, addDivTag } =
   Helpers;
 
-import { GenerationSetupProps } from '@/Types/GenerationContext.types';
+import { GenerationState } from '@/Types/GenerationContext.types';
 
-const initialState = {
+const initialState: GenerationState = {
   //== Addition Details ==//
   additionalDetails: {
     simpleInput1: '',
@@ -35,6 +35,7 @@ const initialState = {
 
   //== Job Details ==//
   jobDetailsProps: {
+    jobPostingId: '',
     jobTitle: 'Job Title',
     companyName: 'Company',
     matchScore: 0,
@@ -56,12 +57,13 @@ const initialState = {
     editedCoverLetterParts: null,
     loadingCoverLetter: false,
     updateCoverLetterId: (coverLetterId: string): void => {},
+    updateJobPostingId: (jobPostingId: string): void => {},
     updateSaveName: (saveName: string): void => {},
     updateCoverLetterHtml: (html: string): void => {},
     updateCoverLetterParts: (parts: string[]): void => {},
     updateEditedCoverLetterHtml: (editedHtml: string): void => {},
     updateEditedCoverLetterParts: (editedParts: string[]): void => {},
-    toggleLoadingCoverLetter: (loadingCoverLetter: boolean): void => {},
+    toggleLoadingCoverLetter: (): void => {},
     reset: (): void => {},
   },
 
@@ -303,6 +305,15 @@ function reducer(state, action) {
         coverLetterData: {
           ...state.coverLetterData,
           coverLetterId: action.payload,
+        },
+      };
+
+    case 'UPDATE_JOB_POSTING_ID':
+      return {
+        ...state,
+        coverLetterData: {
+          ...state.coverLetterData,
+          jobPostingId: action.payload,
         },
       };
 
@@ -720,6 +731,12 @@ export function GenerationContext({ children }) {
           dispatch({
             type: 'UPDATE_COVER_LETTER_ID',
             payload: coverLetterId,
+          });
+        },
+        updateJobPostingId: (jobPostingId: string): void => {
+          dispatch({
+            type: 'UPDATE_JOB_POSTING_ID',
+            payload: jobPostingId,
           });
         },
         updateSaveName: (saveName: string): void => {

@@ -1,28 +1,34 @@
-export type AdditionalDetails = {
+import { File } from 'global'; // Assuming File comes from the global scope
+import { GenerationSetupProps } from '@/Types/GenerationContext.types'; // Assuming this import remains the same
+
+//== Additional Details ==//
+interface AdditionalDetails {
   simpleInput1: string;
   simpleInput2: string;
   simpleInput3: string;
   openEndedInput: string;
-  updateSimpleInput: (id: string, value: string) => void;
-  updateOpenEndedInput: (openEndedInput: string) => void;
-};
+  updateSimpleInput(id: string, value: string): void;
+  updateOpenEndedInput(openEndedInput: string): void;
+}
 
-export type GenerationSetupProps = {
+//== Generation Setup ==//
+interface GenerationSetupProps {
   jobPosting: string;
   resume: File | null;
   freeText: string;
   model: string;
   isUsingPreviousResume: boolean;
   disableGenerateButton: boolean;
-  updateJobPosting: (jobPosting: string) => void;
-  updateResume: (resume: File) => void;
-  updateFreeText: (freeText: string) => void;
-  updateModel: (model: string) => void;
-  toggleDisableGenerateButton: () => void;
-  updateIsUsingPreviousResume: () => void;
-};
-
-export type JobDetailsProps = {
+  updateJobPosting(jobPosting: string): void;
+  updateResume(resume: File): void;
+  updateFreeText(freeText: string): void;
+  updateModel(model: string): void;
+  updateIsUsingPreviousResume(): void;
+  toggleDisableGenerateButton(): void;
+}
+//== Job Details ==//
+type JobDetailsProps = {
+  jobPostingId: string;
   jobTitle: string;
   companyName: string;
   matchScore: number;
@@ -30,10 +36,11 @@ export type JobDetailsProps = {
   updateJobTitle: (jobTitle: string) => void;
   updateCompanyName: (companyName: string) => void;
   updateMatchScore: (matchScore: number) => void;
-  toggleLoadingSummary: (loadingSummary: boolean) => void;
+  toggleLoadingSummary: () => void;
 };
 
-export type CoverLetterData = {
+//== Cover Letter Data ==//
+type CoverLetterData = {
   coverLetterId: string;
   saveName: string;
   coverLetterHtml: string;
@@ -41,9 +48,8 @@ export type CoverLetterData = {
   editedCoverLetter: string;
   editedCoverLetterParts: string[] | null;
   loadingCoverLetter: boolean;
-  curCoverLetterHtml: string;
-  curCoverLetterParts: string[] | null;
   updateCoverLetterId: (coverLetterId: string) => void;
+  updateJobPostingId: (jobPostingId: string) => void;
   updateSaveName: (saveName: string) => void;
   updateCoverLetterHtml: (html: string) => void;
   updateCoverLetterParts: (parts: string[]) => void;
@@ -53,12 +59,14 @@ export type CoverLetterData = {
   reset: () => void;
 };
 
-export type SimpleAdjustmentProps = {
+//== Simple Adjustments ==//
+type SimpleAdjustmentProps = {
   disableSimpleAdjustment: boolean;
   toggleDisableSimpleAdjustment: (disableSimpleAdjustment: boolean) => void;
 };
 
-export type IntermediateAdjustmentProps = {
+//== Intermediate Adjustments ==//
+type IntermediateAdjustmentProps = {
   addSkillInput: string;
   insertKeywordInput: string;
   removeRedundancyInput: string;
@@ -77,33 +85,38 @@ export type IntermediateAdjustmentProps = {
   toggleDisableIntermediateAdjustment: () => void;
 };
 
-export type CustomAdjustmentProps = {
+//== Custom Adjustments ==//
+type CustomAdjustmentProps = {
   customAdjustment: string;
   disableCustomAdjustment: boolean;
   updateCustomAdjustment: (customAdjustment: string) => void;
   toggleDisableCustomAdjustment: (disableCustomAdjustment: boolean) => void;
 };
 
-export type SaveProps = {
+//== Save ==//
+type SaveProps = {
   isSavedDropdownOpen: boolean;
   disableSavedButton: boolean;
   toggleIsSavedDropdownOpen: () => void;
   toggleDisableSavedButton: () => void;
 };
 
-export type DownloadProps = {
+//== Download ==//
+type DownloadProps = {
   isDownloadDropdownOpen: boolean;
   disableDownloads: boolean;
   toggleIsDownloadDropdownOpen: () => void;
   toggleDisableDownloads: () => void;
 };
 
-export type AdjustmentSection = {
+//== Adjustments Section ==//
+type AdjustmentSectionProps = {
   isAdjustmentsSectionExpanded: boolean;
   toggleIsAdjustmentsSectionExpanded: () => void;
 };
 
-export type GenerationState = {
+//== Master State Type ==//
+type GenerationState = {
   additionalDetails: AdditionalDetails;
   generationSetupProps: GenerationSetupProps;
   jobDetailsProps: JobDetailsProps;
@@ -113,5 +126,19 @@ export type GenerationState = {
   customAdjustmentProps: CustomAdjustmentProps;
   saveProps: SaveProps;
   downloadProps: DownloadProps;
-  adjustmentSection: AdjustmentSection;
+  adjustmentSection: AdjustmentSectionProps;
+};
+
+export type {
+  AdditionalDetails,
+  GenerationSetupProps,
+  JobDetailsProps,
+  CoverLetterData,
+  SimpleAdjustmentProps,
+  IntermediateAdjustmentProps,
+  CustomAdjustmentProps,
+  SaveProps,
+  DownloadProps,
+  AdjustmentSectionProps,
+  GenerationState,
 };

@@ -8,9 +8,11 @@ import { Helpers } from '@/Utils/utils';
 
 const { removeDivTags, addPTags, formatCoverLetterForAdjustment } = Helpers;
 
+import { SavedCoverLettersState } from '@/Types/SavedContext.types';
+
 const SavedContext = createContext(null);
 
-const initialState = {
+const initialState: SavedCoverLettersState = {
   //== Saved Cover Letters List ==//
   savedCoverLetterListProps: {
     savedCoverLetters: [],
@@ -839,6 +841,7 @@ export default function SavedCoverLettersContext(props) {
     }
   }, [state.savedCoverLetterListProps.selectedCoverLetter]);
 
+  //== Cover Letter HTML ==//
   useEffect(() => {
     if (state.savedCoverLetterListProps.selectedCoverLetter !== null) {
       dispatch({
@@ -848,6 +851,7 @@ export default function SavedCoverLettersContext(props) {
     }
   }, [state.coverLetterData.coverLetterParts]);
 
+  //== Save Name ==//
   useEffect(() => {
     dispatch({
       type: 'UPDATE_SAVE_NAME',
