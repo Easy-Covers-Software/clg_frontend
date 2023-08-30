@@ -62,7 +62,7 @@ const CustomAdjustment: FC<Props> = ({
     if (response.data) {
       coverLetterData?.updateCoverLetterParts(response.data.cover_letter);
       coverLetterData?.toggleLoadingCoverLetter();
-      loggedIn;
+      loggedInProps.updateUser();
       snackbar.updateSnackbar(true, 'success', 'Adjustment made successfully.');
     } else {
       coverLetterData?.toggleLoadingCoverLetter();
