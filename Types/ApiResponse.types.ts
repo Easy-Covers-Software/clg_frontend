@@ -19,6 +19,12 @@ export type FetchUserApiResponse = {
   adjustments_available: string;
 };
 
+export type GetJobPostingApiResponse = {
+  job_title: string;
+  company_name: string;
+  match_score: string;
+};
+
 export type GetJobDetailsApiResponse = {
   job_title: string;
   company_name: string;

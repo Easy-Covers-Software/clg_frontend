@@ -8,6 +8,7 @@ import {
   ForgotPasswordSuccessApiResponse,
   FetchUserApiResponse,
   GetJobDetailsApiResponse,
+  GetJobPostingApiResponse,
   ResumeUploadApiResponse,
   CoverLetterGenerateApiResponse,
   AdjustmentApiResponse,
@@ -324,6 +325,23 @@ namespace LoginApiMethods {
 
 namespace CoverLetterApiMethods {
   //== Job Posting ==//
+  export const getJobPosting = async (
+    jobPostingId: string
+  ): Promise<APIResponse<GetJobPostingApiResponse>> => {
+    const url = `${API_BASE_URL}/job-posting/new/${jobPostingId}/`;
+
+    try {
+      const response = await axios.get<GetJobPostingApiResponse>(url, {
+        withCredentials: true,
+      });
+
+      return { data: response.data, error: null };
+    } catch (error) {
+      console.log('Error fetching job posting', error);
+      return { data: null, error: error };
+    }
+  };
+
   export const getJobDetails = async (
     jobPosting: string
   ): Promise<APIResponse<GetJobDetailsApiResponse>> => {

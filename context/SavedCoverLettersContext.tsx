@@ -4,11 +4,16 @@ import jsPDF from 'jspdf';
 import axios from 'axios';
 import Cookie from 'js-cookie';
 
-import { Helpers } from '@/Utils/utils';
+import { Helpers, CoverLetterApiMethods } from '@/Utils/utils';
 
 const { removeDivTags, addPTags, formatCoverLetterForAdjustment } = Helpers;
+const { getJobPosting } = CoverLetterApiMethods;
 
 import { SavedCoverLettersState } from '@/Types/SavedContext.types';
+import {
+  APIResponse,
+  GetJobPostingApiResponse,
+} from '@/Types/ApiResponse.types';
 
 const SavedContext = createContext(null);
 
@@ -862,30 +867,29 @@ export default function SavedCoverLettersContext(props) {
   //== Get Job Details ==//
   // get selected cover letter stored details
   useEffect(() => {
-    const getJobPosting = async () => {
-      const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/job-posting/new/${state.jobDetailsProps.jobPostingId}/`;
+    const updateJobPosting = async () => {
+      if (state.jobDetailsProps.jobPostingId !== '') {
+        const response: APIResponse<GetJobPostingApiResponse> =
+          await getJobPosting(state.jobDetailsProps.jobPostingId);
 
-      try {
-        const response = await axios.get(url, {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'X-CSRFToken': Cookie.get('csrftoken'),
-          },
-        });
-        if (response.statusText === 'OK') {
+        if (response.data) {
           dispatch({
-            type: 'SET_SELECTED_COVER_LETTER_JOB_POSTING',
-            payload: response.data,
+            type: 'UPDATE_JOB_TITLE',
+            payload: response.data.job_title,
+          });
+          dispatch({
+            type: 'UPDATE_COMPANY_NAME',
+            payload: response.data.company_name,
+          });
+          dispatch({
+            type: 'UPDATE_MATCH_SCORE',
+            payload: response.data.match_score,
           });
         }
-      } catch (error) {
-        console.log(error);
       }
     };
-
-    getJobPosting();
-  }, [state.selectedCoverLetter]);
+    updateJobPosting();
+  }, [state.jobDetailsProps.jobPostingId]);
 
   console.log('saved context state', state);
 
