@@ -10,8 +10,8 @@ body {
 .layout-grid {
   display: grid;
   grid-template-areas:
-    "header header"
-    "sidebar main";
+    'header header'
+    'sidebar main';
   grid-template-rows: auto 1fr;
   grid-template-columns: auto 1fr;
 }
@@ -638,8 +638,8 @@ body {
 }
 
 .rich-text-editor {
-  width: 99.8%;
   height: 100%;
+  width: 99.8%;
   display: flex;
   flex-direction: column;
   border-radius: 4px;
@@ -990,8 +990,8 @@ body {
   .layout-grid {
     display: block;
     grid-template-areas:
-      "header header"
-      "sidebar main";
+      'header header'
+      'sidebar main';
     grid-template-rows: auto 1fr;
     grid-template-columns: auto 1fr;
   }
