@@ -83,8 +83,6 @@ export default function GenerateButtons() {
   };
 
   const handleGetJobDetails = async (): Promise<boolean> => {
-    jobDetailsProps.toggleLoadingSummary();
-
     const response: APIResponse<GetJobDetailsApiResponse> = await getJobDetails(
       generationSetupProps?.jobPosting
     );
@@ -99,6 +97,7 @@ export default function GenerateButtons() {
     } else {
       console.error(response.error);
       jobDetailsProps?.toggleLoadingSummary();
+      coverLetterData.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(
         true,
         'error',
@@ -111,6 +110,9 @@ export default function GenerateButtons() {
   const handleGenerateCoverLetter = async (
     model: string
   ): Promise<void | boolean> => {
+    coverLetterData.toggleLoadingCoverLetter();
+    jobDetailsProps.toggleLoadingSummary();
+
     if (generationSetupProps?.resume === null) {
       const success = await handleResumeUpload();
       if (!success) {
@@ -155,8 +157,6 @@ export default function GenerateButtons() {
       );
       return false;
     }
-
-    coverLetterData.toggleLoadingCoverLetter();
 
     const addDetails = determineAdditionalDetails();
 
@@ -228,7 +228,7 @@ export default function GenerateButtons() {
 
   return (
     <Container>
-      {loggedInProps?.gpt3_generations_available > 0 ||
+      {loggedInProps?.gpt3_generations_available > 0 &&
       loggedInProps?.gpt4_generations_available > 0 ? (
         <TwoModelsAvailableButton
           generationSetupProps={generationSetupProps}
