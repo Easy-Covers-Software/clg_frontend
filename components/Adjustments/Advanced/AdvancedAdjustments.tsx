@@ -24,7 +24,6 @@ const { Container, MediumOptionsContainer, SubmitButton } =
 import {
   IntermediateAdjustmentProps,
   CustomAdjustmentProps,
-  AdjustmentSection,
   CoverLetterData,
 } from '@/Types/GenerationContext.types';
 
