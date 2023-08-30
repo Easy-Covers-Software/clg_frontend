@@ -33,7 +33,7 @@ export default function SignedInDisplay() {
   const handleLogout = async (): Promise<void> => {
     const response: APIResponse<AuthResponse> = await logout();
 
-    if (response.data.message) {
+    if (response.data) {
       loggedInProps.reset();
       snackbar?.updateSnackbar(
         true,
@@ -41,7 +41,7 @@ export default function SignedInDisplay() {
         `Success! ${response.data.message}`
       );
     } else {
-      snackbar?.updateSnackbar(true, 'error', `Error: ${response.error}`);
+      snackbar?.updateSnackbar(true, 'error', 'Error logging out.');
     }
   };
 
