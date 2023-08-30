@@ -1,34 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# CLG Frontend - Cover Letter Generator Frontend
 
-## Getting Started
+## Table of Contents
 
-First, run the development server:
+- [Overview](#overview)
+- [Technologies](#technologies)
+  - [Next.js](#nextjs)
+  - [Material UI](#material-ui)
+  - [State Management](#state-management)
+    - [React `useContext` Hook](#react-usecontext-hook)
+    - [React `useReducer` Hook](#react-usereducer-hook)
+  - [TypeScript](#typescript)
+  - [Mantime UI](#mantime-ui)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Overview
+
+The `clg frontend` repository is dedicated to the frontend part of the Cover Letter Generator application. This README will walk you through the core technologies, architecture, and how to get started with development.
+
+## Technologies
+
+### Next.js
+
+[Next.js](https://nextjs.org/) is an open-source React framework that enables features like server-side rendering and generating static websites for React-based web applications. It provides a robust set of features to build enterprise-level applications with optimized performance.
+
+### TypeScript
+
+The codebase is fully typed using [TypeScript](https://www.typescriptlang.org/). TypeScript is a superset of JavaScript that allows us to use static types. This ensures better maintainability, easier debugging, and a more expressive codebase.
+
+### Material UI
+
+The project utilizes [Material UI](https://mui.com/) as its component library. It is integrated with Emotion and Styled components for styling. Material UI offers a wide array of customizable and accessible UI components following Google's Material Design guidelines.
+
+### State Management
+
+The application adopts a simple yet efficient state management strategy using native React hooks: `useContext` and `useReducer`.
+
+#### React `useContext` Hook
+
+The `useContext` hook is used for passing data that can be considered “global” for a tree of React components. It's perfect for sharing functionalities and data components without the need to pass props through multiple layers.
+
+#### React `useReducer` Hook
+
+`useReducer` complements `useContext` by providing a more predictable state management flow. It's an alternative to `useState` and is beneficial when handling complex state logic in a component. 
+
+### Mantime UI
+
+For in-app text editing capabilities, the project employs Mantime UI, a subset of [Tiptap](https://tiptap.dev/). This offers a flexible and extensible text editor perfectly suited for modern web applications.
+
+## Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/yourusername/clg-frontend.git
+
+# Navigate to the directory
+cd clg-frontend
+
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
