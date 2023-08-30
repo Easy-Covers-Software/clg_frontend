@@ -13,17 +13,7 @@ const { Container, FormInput, InputField } = LoginInputsStyledComponents;
 
 export default function LoginInputs() {
   const { state, dispatch } = useAuth();
-  const {
-    accountAuthProps,
-    dialogProps,
-    email,
-    password,
-    showPassword,
-    newPasswordRepeat,
-    createAccountEasyCovers,
-    showPasswordRepeat,
-    forgotPassword,
-  } = state;
+  const { accountAuthProps } = state;
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -35,8 +25,6 @@ export default function LoginInputs() {
   ) => {
     event.preventDefault();
   };
-
-  console.log('email', email);
 
   return (
     <Container component='form'>
@@ -120,9 +108,7 @@ export default function LoginInputs() {
             variant='outlined'
             placeholder='Re-enter Password'
             value={accountAuthProps?.newPasswordRepeat}
-            type={
-              createAccountEasyCovers?.showPasswordRepeat ? 'text' : 'password'
-            }
+            type={accountAuthProps?.showPasswordRepeat ? 'text' : 'password'}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               accountAuthProps?.updateNewPasswordRepeat(event.target.value);
             }}
