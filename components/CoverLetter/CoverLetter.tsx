@@ -27,7 +27,7 @@ const { parseSectionsFromHTML, addDivTag } = Helpers;
 
 import {
   CoverLetterData,
-  AdjustmentSection,
+  AdjustmentSectionProps,
   SimpleAdjustmentProps,
   IntermediateAdjustmentProps,
   CustomAdjustmentProps,
@@ -37,7 +37,7 @@ import {
 
 interface Props {
   coverLetterData: CoverLetterData;
-  adjustmentSection: AdjustmentSection;
+  adjustmentSection: AdjustmentSectionProps;
   simpleAdjustmentProps: SimpleAdjustmentProps;
   intermediateAdjustmentProps: IntermediateAdjustmentProps;
   customAdjustmentProps: CustomAdjustmentProps;

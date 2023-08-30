@@ -34,14 +34,14 @@ import { useAuth } from '@/context/AuthContext';
 
 import {
   SimpleAdjustmentProps,
-  AdjustmentSection,
+  AdjustmentSectionProps,
   CoverLetterData,
 } from '@/Types/GenerationContext.types';
 
 interface Props {
   coverLetterData: CoverLetterData;
   simpleAdjustmentProps: SimpleAdjustmentProps;
-  adjustmentSection: AdjustmentSection;
+  adjustmentSection: AdjustmentSectionProps;
   reset: () => void;
 }
 
