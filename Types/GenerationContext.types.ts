@@ -1,6 +1,3 @@
-import { File } from 'global'; // Assuming File comes from the global scope
-import { GenerationSetupProps } from '@/Types/GenerationContext.types'; // Assuming this import remains the same
-
 //== Additional Details ==//
 interface AdditionalDetails {
   simpleInput1: string;
