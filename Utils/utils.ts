@@ -410,7 +410,7 @@ namespace CoverLetterApiMethods {
 
     const data = {
       model: model,
-      additional_details: additionalDetails,
+      additional_details: JSON.stringify(additionalDetails),
     };
 
     const payload: FormData = Helpers.createPayload(data);
