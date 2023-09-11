@@ -39,7 +39,7 @@ export default function SavedCoverLetters() {
   return (
     <Container>
       {dialogProps.isLoginOpen ? <LoginDialog /> : null}
-      {dialogProps.isSettingsOpen ? <SettingsDialog /> : null}
+      {/* {dialogProps.isSettingsOpen ? <SettingsDialog /> : null} */}
       <SavedCoverLettersContext>
         {isMobile ? (
           <>

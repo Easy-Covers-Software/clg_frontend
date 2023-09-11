@@ -48,7 +48,7 @@ export default function Generation() {
   return (
     <Container>
       {dialogProps?.isLoginOpen ? <LoginDialog /> : null}
-      {dialogProps?.isSettingsOpen ? <SettingsDialog /> : null}
+      {/* {dialogProps?.isSettingsOpen ? <SettingsDialog /> : null} */}
       {dialogProps?.isHelpDialogOpen ? <HelpDialog /> : null}
       <GenerationContext>
         {isMobile ? (
