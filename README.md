@@ -1,5 +1,9 @@
 # CLG Frontend - Cover Letter Generator Frontend
 
+## Dev startup instructions
+
+- https://docs.google.com/document/d/1DKJp9YnqMN8kIrHKu6e2V9BtXmp0lYcCENi-3v5bQws/edit?usp=sharing
+
 ## Table of Contents
 
 - [Overview](#overview)
