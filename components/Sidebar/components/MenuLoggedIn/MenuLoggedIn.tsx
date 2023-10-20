@@ -33,6 +33,19 @@ export default function MenuLoggedIn() {
           </GenerationModeTab>
         </Link>
 
+        <Link href={'/transcription'} className={'no_underline'} passHref>
+          <GenerationModeTab
+            style={{
+              backgroundColor: page === 'transcription' ? '#f5faf5' : 'white',
+            }}
+            onClick={() => {
+              trackers?.updatePage('transcription');
+            }}
+          >
+            Transcription
+          </GenerationModeTab>
+        </Link>
+
         <Link href={'/saved'} className={'no_underline'} passHref>
           <GenerationModeTab
             style={{
