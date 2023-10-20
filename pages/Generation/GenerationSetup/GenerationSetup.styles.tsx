@@ -1,28 +1,28 @@
 // Global component import
-import { UnSelectedButton } from "../../Global/Global";
+import { UnSelectedButton } from '../../../components/Global/Global';
 
 // Material UI related imports
-import { styled as muiStyled } from "@mui/material/styles";
-import styled from "@emotion/styled";
+import { styled as muiStyled } from '@mui/material/styles';
+import styled from '@emotion/styled';
 
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
-import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
-} from "@mui/material/AccordionSummary";
-import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
-import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+} from '@mui/material/AccordionSummary';
+import KeyboardDoubleArrowRightOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowRightOutlined';
+import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const determineBorderRadius = (currPanel: string) => {
   switch (currPanel) {
-    case "panel1":
-      return "4px 4px 0 0";
-    case "panel3":
-      return "0 0 4px 4px";
+    case 'panel1':
+      return '4px 4px 0 0';
+    case 'panel3':
+      return '0 0 4px 4px';
     default:
-      return "none";
+      return 'none';
   }
 };
 
@@ -33,9 +33,9 @@ const Accordion = muiStyled(
     return <MuiAccordion disableGutters elevation={0} square {...otherProps} />;
   }
 )(({ currPanel }) => ({
-  backgroundColor: "#f8f8ff",
-  border: "1px solid #006D4B",
-  borderBottom: currPanel === "panel3" ? "1px solid #006D4B" : "none",
+  backgroundColor: '#f8f8ff',
+  border: '1px solid #006D4B',
+  borderBottom: currPanel === 'panel3' ? '1px solid #006D4B' : 'none',
   borderRadius: determineBorderRadius(currPanel),
 }));
 
@@ -51,10 +51,10 @@ const AccordionSummary = muiStyled(
     return (
       <MuiAccordionSummary
         expandIcon={
-          isExpanded && expanded !== "panel3" ? (
-            <KeyboardDoubleArrowRightOutlinedIcon sx={{ fontSize: "0.9rem" }} />
+          isExpanded && expanded !== 'panel3' ? (
+            <KeyboardDoubleArrowRightOutlinedIcon sx={{ fontSize: '0.9rem' }} />
           ) : (
-            <KeyboardDoubleArrowLeftOutlinedIcon sx={{ fontSize: "0.9rem" }} />
+            <KeyboardDoubleArrowLeftOutlinedIcon sx={{ fontSize: '0.9rem' }} />
           )
         }
         {...otherProps}
@@ -62,24 +62,24 @@ const AccordionSummary = muiStyled(
     );
   }
 )(() => ({
-  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-    transform: "rotate(90deg)",
+  '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+    transform: 'rotate(90deg)',
   },
-  "& .MuiAccordionSummary-content": {
-    display: "flex",
-    alignItems: "center",
-    gap: "1.5%",
+  '& .MuiAccordionSummary-content': {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1.5%',
   },
-  height: "40px",
+  height: '40px',
 }));
 
 // AccordionDetails styles
 const AccordionDetails = muiStyled(MuiAccordionDetails)(() => ({
-  padding: "0.2%",
-  borderTop: "1px solid rgba(0, 0, 0, .125)",
-  height: "calc(100vh - 320px)",
-  backgroundColor: "white",
-  overflow: "auto",
+  padding: '0.2%',
+  borderTop: '1px solid rgba(0, 0, 0, .125)',
+  height: 'calc(100vh - 320px)',
+  backgroundColor: 'white',
+  overflow: 'auto',
 }));
 
 // Container styles

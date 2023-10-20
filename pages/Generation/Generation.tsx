@@ -9,11 +9,11 @@ import HelpDialog from '@/components/HelpDialog/HelpDialog';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
 
-import GenerationSetup from '@/components/Generation/GenerationSetup/GenerationSetup';
-import Results from '@/components/Generation/Results/Results';
+import GenerationSetup from '@/pages/Generation/GenerationSetup/GenerationSetup';
+import Results from '@/pages/Generation/Results/Results';
 
-import SnackbarAlert from '../Global/components/SnackbarAlert';
-import AlertDialogConfirm from '../Global/components/AlertDialogConfirm';
+import SnackbarAlert from '../../components/Global/components/SnackbarAlert';
+import AlertDialogConfirm from '../../components/Global/components/AlertDialogConfirm';
 import { useEffect } from 'react';
 
 import { useMediaQuery } from '@mui/material';
