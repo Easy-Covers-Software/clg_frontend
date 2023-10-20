@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 
 import SnackbarAlert from '../Global/components/SnackbarAlert';
 
-import SavedDisplay from './components/SavedDisplay/SavedDisplay';
+import SavedProfilesList from './components/SavedProfilesList/SavedProfilesList';
 import Edit from './components/Edit/Edit';
 
 import AlertDialogConfirm from '../Global/components/AlertDialogConfirm';
@@ -24,7 +24,7 @@ const Container = styled(Grid)`
   width: 100%;
 `;
 
-export default function SavedCoverLetters() {
+export default function SavedProfilesSection() {
   const isMobile = useMediaQuery('(max-width: 600px)');
   const { state, dispatch } = useAuth();
 
@@ -44,14 +44,14 @@ export default function SavedCoverLetters() {
         {isMobile ? (
           <>
             {trackers.mobileModeSaved === 'choose' ? (
-              <SavedDisplay />
+              <SavedProfilesList />
             ) : (
               <Edit />
             )}
           </>
         ) : (
           <>
-            <SavedDisplay />
+            <SavedProfilesList />
             <Edit />
           </>
         )}
