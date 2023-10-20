@@ -20,16 +20,17 @@ const SavedContext = createContext(null);
 const initialState: SavedCoverLettersState = {
   //== Saved Cover Letters List ==//
   savedCoverLetterListProps: {
-    savedCoverLetters: [],
-    selectedCoverLetter: null,
+    savedItems: [],
+    filteredItems: [],
+    selected: null,
     search: '',
     filterValue: '',
     update: false,
     loading: false,
-    updateSavedCoverLetters: (savedCoverLetters: any[]): void => {},
-    updateSelectedCoverLetter: (selectedCoverLetter: any): void => {},
+    updateSavedItems: (savedItems: any[]): void => {},
+    updateSelected: (selected: any): void => {},
     updateSearch: (search: string): void => {},
-    updateFilterValue: (filterValue: string): void => {},
+    updateFilteredItems: (filteredItems: any[]): void => {},
     resetSelected: (): void => {},
   },
 
@@ -145,7 +146,7 @@ function reducer(state, action) {
         ...state,
         savedCoverLetterListProps: {
           ...state.savedCoverLetterListProps,
-          selectedCoverLetter: action.payload,
+          selected: action.payload,
         },
       };
 
@@ -154,7 +155,7 @@ function reducer(state, action) {
         ...state,
         savedCoverLetterListProps: {
           ...state.savedCoverLetterListProps,
-          savedCoverLetters: action.payload,
+          savedItems: action.payload,
         },
       };
 
@@ -167,12 +168,12 @@ function reducer(state, action) {
         },
       };
 
-    case 'UPDATE_FILTER_VALUE':
+    case 'UPDATE_FILTERED_ITEMS':
       return {
         ...state,
         savedCoverLetterListProps: {
           ...state.savedCoverLetterListProps,
-          filterValue: action.payload,
+          filteredItems: action.payload,
         },
       };
 
@@ -571,16 +572,16 @@ export default function SavedCoverLettersContext(props) {
     dispatch({
       type: 'SET_SAVED_COVER_LETTERS_LIST_PROPS',
       payload: {
-        updateSavedCoverLetters: (savedCoverLetters: any): void => {
+        updateSavedItems: (savedItems: any): void => {
           dispatch({
             type: 'UPDATE_SAVED_COVER_LETTERS',
-            payload: savedCoverLetters,
+            payload: savedItems,
           });
         },
-        updateSelectedCoverLetter: (selectedCoverLetter: any): void => {
+        updateSelected: (selected: any): void => {
           dispatch({
             type: 'UPDATE_SELECTED_COVER_LETTER',
-            payload: selectedCoverLetter,
+            payload: selected,
           });
         },
         updateSearch: (search: string): void => {
@@ -589,10 +590,10 @@ export default function SavedCoverLettersContext(props) {
             payload: search,
           });
         },
-        updateFilterValue: (filterValue: string): void => {
+        updateFilteredItems: (filteredItems: any[]): void => {
           dispatch({
-            type: 'UPDATE_FILTER_VALUE',
-            payload: filterValue,
+            type: 'UPDATE_FILTERED_ITEMS',
+            payload: filteredItems,
           });
         },
         toggleLoadingSavedCoverLetters: (): void => {
@@ -828,27 +829,25 @@ export default function SavedCoverLettersContext(props) {
   //==* Helper Hooks *==//
   //== Selected Cover Letter ==//
   useEffect(() => {
-    if (state.savedCoverLetterListProps.selectedCoverLetter !== null) {
+    if (state.savedCoverLetterListProps.selected !== null) {
       dispatch({
         type: 'UPDATE_COVER_LETTER_ID',
-        payload: state.savedCoverLetterListProps.selectedCoverLetter.id,
+        payload: state.savedCoverLetterListProps.selected.id,
       });
       dispatch({
         type: 'UPDATE_COVER_LETTER_PARTS',
-        payload:
-          state.savedCoverLetterListProps.selectedCoverLetter.cover_letter,
+        payload: state.savedCoverLetterListProps.selected.cover_letter,
       });
       dispatch({
         type: 'UPDATE_JOB_POSTING_ID',
-        payload:
-          state.savedCoverLetterListProps.selectedCoverLetter.job_posting,
+        payload: state.savedCoverLetterListProps.selected.job_posting,
       });
     }
-  }, [state.savedCoverLetterListProps.selectedCoverLetter]);
+  }, [state.savedCoverLetterListProps.selected]);
 
   //== Cover Letter HTML ==//
   useEffect(() => {
-    if (state.savedCoverLetterListProps.selectedCoverLetter !== null) {
+    if (state.savedCoverLetterListProps.selected !== null) {
       dispatch({
         type: 'UPDATE_COVER_LETTER_HTML',
         payload: addPTags(state.coverLetterData.coverLetterParts),
