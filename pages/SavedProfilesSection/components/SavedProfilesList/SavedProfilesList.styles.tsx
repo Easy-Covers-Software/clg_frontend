@@ -44,8 +44,8 @@ const SubContainer = styled(Grid)`
   border-radius: 4px;
 `;
 
-namespace SavedLettersListStyledComponents {}
+// namespace SavedLettersListStyledComponents {}
 
-namespace SearchAndFilterStyledComponents {}
+// namespace SearchAndFilterStyledComponents {}
 
 export { Container, SubContainer };

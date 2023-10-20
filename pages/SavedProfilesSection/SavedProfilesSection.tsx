@@ -1,21 +1,24 @@
 'use client';
 
+// External Libraries
+import { useEffect } from 'react';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import styled from '@emotion/styled';
+import { useMediaQuery } from '@mui/material';
+
+// Context
 import { useAuth } from '@/context/AuthContext';
 import SavedCoverLettersContext from '@/context/SavedCoverLettersContext';
 
+// Components (global)
+import SnackbarAlert from '../../components/Global/components/SnackbarAlert';
+import AlertDialogConfirm from '../../components/Global/components/AlertDialogConfirm';
+
+// Components (local)
 import LoginDialog from '@/components/Login/LoginDialog';
 import SettingsDialog from '@/components/Settings/SettingsDialog';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import styled from '@emotion/styled';
-
-import SnackbarAlert from '../Global/components/SnackbarAlert';
-
 import SavedProfilesList from './components/SavedProfilesList/SavedProfilesList';
-import Edit from './components/Edit/Edit';
-
-import AlertDialogConfirm from '../Global/components/AlertDialogConfirm';
-import { useEffect } from 'react';
-import { useMediaQuery } from '@mui/material';
+import CoverLetterEdit from './components/CoverLetterEdit/CoverLetterEdit';
 
 const Container = styled(Grid)`
   display: flex;
@@ -46,13 +49,13 @@ export default function SavedProfilesSection() {
             {trackers.mobileModeSaved === 'choose' ? (
               <SavedProfilesList />
             ) : (
-              <Edit />
+              <CoverLetterEdit />
             )}
           </>
         ) : (
           <>
             <SavedProfilesList />
-            <Edit />
+            <CoverLetterEdit />
           </>
         )}
       </SavedCoverLettersContext>
