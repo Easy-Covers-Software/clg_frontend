@@ -14,7 +14,7 @@ const { deleteSavedCoverLetter, fetchSavedCoverLetters } =
 
 export default function SavedProfilesList() {
   const { state: authState } = useAuth();
-  const { loggedInProps, trackers, snackbar, confirmDialog } = authState;
+  const { snackbar } = authState;
 
   const { state, dispatch } = useSavedCoverLettersContext();
   const { savedCoverLetterListProps } = state;
@@ -39,18 +39,16 @@ export default function SavedProfilesList() {
     }
   };
 
-  const handleToggle = (selectedCoverLetter) => () => {
+  const handleToggle = (selectedCoverLetter: any) => () => {
     dispatch({
       type: 'UPDATE_SELECTED_COVER_LETTER',
       payload: selectedCoverLetter,
     });
-    // updateSelected(selectedCoverLetter);
-    // setSelected(selectedCoverLetter);
   };
 
-  useEffect(() => {
-    getSavedCoverLetters();
-  }, []);
+  const handleSearchChange = (event) => {
+    dispatch({ type: 'UPDATE_SEARCH', payload: event.target.value });
+  };
 
   useEffect(() => {
     if (savedCoverLetterListProps?.search !== '') {
@@ -65,19 +63,17 @@ export default function SavedProfilesList() {
         type: 'UPDATE_FILTERED_ITEMS',
         payload: newFilteredCoverLetters,
       });
-      // updateFilteredItems(newFilteredCoverLetters);
     } else {
       dispatch({
         type: 'UPDATE_FILTERED_ITEMS',
         payload: savedCoverLetterListProps?.savedItems,
       });
-      // updateFilteredItems(savedItems);
     }
   }, [savedCoverLetterListProps?.search]);
 
-  const handleSearchChange = (event) => {
-    dispatch({ type: 'UPDATE_SEARCH', payload: event.target.value });
-  };
+  useEffect(() => {
+    getSavedCoverLetters();
+  }, []);
 
   return (
     <Container>
