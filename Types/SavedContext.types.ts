@@ -1,15 +1,16 @@
 //== Saved Cover Letters List ==//
 type SavedCoverLetterListProps = {
-  savedCoverLetters: any[];
-  selectedCoverLetter: any;
+  savedItems: any[];
+  filteredItems: any[];
+  selected: any;
   search: string;
   filterValue: string;
   update: boolean;
   loading: boolean;
-  updateSavedCoverLetters: (savedCoverLetters: any[]) => void;
-  updateSelectedCoverLetter: (selectedCoverLetter: any) => void;
+  updateSavedItems: (savedCoverLetters: any[]) => void;
+  updateSelected: (selectedCoverLetter: any) => void;
   updateSearch: (search: string) => void;
-  updateFilterValue: (filterValue: string) => void;
+  updateFilteredItems: (filteredItems: any[]) => void;
   resetSelected: () => void;
 };
 
