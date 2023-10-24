@@ -67,9 +67,9 @@ export default function SignedInDisplay() {
 
       <HorizontalDivider />
 
-      <UnSelectedButton onClick={() => dialogProps?.toggleSettingsIsOpen()}>
+      {/* <UnSelectedButton onClick={() => dialogProps?.toggleSettingsIsOpen()}>
         Upgrade
-      </UnSelectedButton>
+      </UnSelectedButton> */}
 
       <UnSelectedButton onClick={() => dialogProps?.toggleHelpDialog()}>
         Help
