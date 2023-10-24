@@ -1,9 +1,9 @@
-import SavedCoverLetters from "@/components/SavedCoverLetters/SavedCoverLetters";
+import SavedProfilesSection from '@/pages/SavedProfilesSection/SavedProfilesSection';
 
 export default function GenerationMode() {
   return (
     <>
-      <SavedCoverLetters />
+      <SavedProfilesSection />
     </>
   );
 }
