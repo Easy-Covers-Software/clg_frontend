@@ -1,4 +1,4 @@
-import Generation from "@/components/Generation/Generation";
+import Generation from '@/pages/Generation/Generation';
 
 export default function GenerationMode() {
   return (
