@@ -35,16 +35,15 @@ const initialState: GenerationState = {
 
   //== Job Details ==//
   jobDetailsProps: {
-    jobPostingId: '',
-    jobTitle: 'Job Title',
-    companyName: 'Company',
-    matchScore: 0,
-    loadingSummary: false,
-
-    updateJobTitle: (jobTitle: string): void => {},
-    updateCompanyName: (companyName: string): void => {},
-    updateMatchScore: (matchScore: number): void => {},
-    toggleLoadingSummary: (): void => {},
+    id: '',
+    mainTitle: 'Job Title',
+    secondaryTitle: 'Company',
+    supplementalInfo: 0,
+    loading: false,
+    updateMainTitle: (title: string): void => {},
+    updateSecondaryTitle: (title: string): void => {},
+    updateSupplementalInfo: (info: number): void => {},
+    toggleLoading: (): void => {},
   },
 
   //== Cover Letter Data ==//
