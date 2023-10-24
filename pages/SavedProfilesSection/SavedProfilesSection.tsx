@@ -29,9 +29,9 @@ const Container = styled(Grid)`
 
 export default function SavedProfilesSection() {
   const isMobile = useMediaQuery('(max-width: 600px)');
-  const { state, dispatch } = useAuth();
+  const { state } = useAuth();
 
-  const { trackers, dialogProps, snackbar, confirmDialog, mobileMode } = state;
+  const { trackers, dialogProps, snackbar, confirmDialog } = state;
 
   useEffect(() => {
     if (trackers.updatePage) {
@@ -42,7 +42,7 @@ export default function SavedProfilesSection() {
   return (
     <Container>
       {dialogProps.isLoginOpen ? <LoginDialog /> : null}
-      {dialogProps.isSettingsOpen ? <SettingsDialog /> : null}
+      {/* {dialogProps.isSettingsOpen ? <SettingsDialog /> : null} */}
       <SavedCoverLettersContext>
         {isMobile ? (
           <>
