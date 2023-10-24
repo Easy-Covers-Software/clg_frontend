@@ -32,6 +32,7 @@ interface SavedListProps {
   search: string;
   loading: boolean;
   selected: any;
+  listType: string;
   handleToggle: (selectedItem: any) => () => void;
   handleSearchChange: (e: any) => void;
 }
@@ -41,6 +42,7 @@ const SavedList: FC<SavedListProps> = ({
   search,
   loading,
   selected,
+  listType,
   handleToggle,
   handleSearchChange,
 }) => {
@@ -153,12 +155,22 @@ const SavedList: FC<SavedListProps> = ({
     return false;
   };
 
+  const determineListHeader = () => {
+    if (listType === 'coverLetters') {
+      return 'Saved Cover Letters';
+    } else if (listType === 'profiles') {
+      return 'Saved Profiles';
+    } else if (listType === 'phoneCalls') {
+      return 'Saved Phone Calls';
+    }
+  };
+
   const emptyDisplay = renderEmptyListDisplay();
   if (emptyDisplay) return emptyDisplay;
 
   return (
     <SubContainer>
-      <Typography className='saved-header'>Saved Cover Letters</Typography>
+      <Typography className='saved-header'>{determineListHeader()}</Typography>
       <SearchAndFilter
         search={search}
         handleSearchChange={handleSearchChange}
