@@ -44,7 +44,11 @@ export default function Results() {
 
   return (
     <Container>
-      <CoverLetterSummary jobDetailsProps={jobDetailsProps} />
+      <CoverLetterSummary
+        summaryDetails={jobDetailsProps}
+        checked={null}
+        handleChange={null}
+      />
       <CoverLetter
         coverLetterData={coverLetterData}
         simpleAdjustmentProps={simpleAdjustmentProps}
