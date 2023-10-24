@@ -1,3 +1,5 @@
+import { SummaryHeaderProps } from './Common.types';
+
 //== Saved Cover Letters List ==//
 type SavedCoverLetterListProps = {
   savedItems: any[];
@@ -15,17 +17,17 @@ type SavedCoverLetterListProps = {
 };
 
 //== Job Details ==//
-type JobDetailsProps = {
-  jobPostingId: string;
-  jobTitle: string;
-  companyName: string;
-  matchScore: number;
-  loadingSummary: boolean;
-  updateJobTitle: (jobTitle: string) => void;
-  updateCompanyName: (companyName: string) => void;
-  updateMatchScore: (matchScore: number) => void;
-  toggleLoadingSummary: () => void;
-};
+// type JobDetailsProps = {
+//   jobPostingId: string;
+//   jobTitle: string;
+//   companyName: string;
+//   matchScore: number;
+//   loadingSummary: boolean;
+//   updateJobTitle: (jobTitle: string) => void;
+//   updateCompanyName: (companyName: string) => void;
+//   updateMatchScore: (matchScore: number) => void;
+//   toggleLoadingSummary: () => void;
+// };
 
 //== Cover Letter Data ==//
 type CoverLetterDataProps = {
@@ -106,7 +108,7 @@ type AdjustmentSectionProps = {
 //== Master State Type ==//
 type SavedCoverLettersState = {
   savedCoverLetterListProps: SavedCoverLetterListProps;
-  jobDetailsProps: JobDetailsProps;
+  jobDetailsProps: SummaryHeaderProps;
   coverLetterData: CoverLetterDataProps;
   simpleAdjustmentProps: SimpleAdjustmentProps;
   intermediateAdjustmentProps: IntermediateAdjustmentProps;
