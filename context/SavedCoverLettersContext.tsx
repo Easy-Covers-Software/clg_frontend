@@ -1,9 +1,4 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
-import jsPDF from 'jspdf';
-
-import axios from 'axios';
-import Cookie from 'js-cookie';
-
 import { Helpers, CoverLetterApiMethods } from '@/Utils/utils';
 
 const { removeDivTags, addPTags, formatCoverLetterForAdjustment } = Helpers;
@@ -14,8 +9,6 @@ import {
   APIResponse,
   GetJobPostingApiResponse,
 } from '@/Types/ApiResponse.types';
-
-const SavedContext = createContext(null);
 
 const initialState: SavedCoverLettersState = {
   //== Saved Cover Letters List ==//
@@ -36,16 +29,15 @@ const initialState: SavedCoverLettersState = {
 
   //== Job Details ==//
   jobDetailsProps: {
-    jobPostingId: '',
-    jobTitle: 'Job Title',
-    companyName: 'Company',
-    matchScore: 0,
-    loadingSummary: false,
-
-    updateJobTitle: (jobTitle: string): void => {},
-    updateCompanyName: (companyName: string): void => {},
-    updateMatchScore: (matchScore: number): void => {},
-    toggleLoadingSummary: (): void => {},
+    id: '',
+    mainTitle: 'Job Title',
+    secondaryTitle: 'Company',
+    supplementalInfo: 0,
+    loading: false,
+    updateMainTitle: (title: string): void => {},
+    updateSecondaryTitle: (title: string): void => {},
+    updateSupplementalInfo: (info: number): void => {},
+    toggleLoading: (): void => {},
   },
 
   //== Cover Letter Data ==//
@@ -564,7 +556,7 @@ function reducer(state, action) {
   }
 }
 
-export default function SavedCoverLettersContext(props) {
+export default function SavedCoverLettersContext({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   //== Saved Cover Letters List ==//
@@ -832,7 +824,7 @@ export default function SavedCoverLettersContext(props) {
     if (state.savedCoverLetterListProps.selected !== null) {
       dispatch({
         type: 'UPDATE_COVER_LETTER_ID',
-        payload: state.savedCoverLetterListProps.selected.id,
+        payload: state.savedCoverLetterListProps.selected,
       });
       dispatch({
         type: 'UPDATE_COVER_LETTER_PARTS',
@@ -899,9 +891,13 @@ export default function SavedCoverLettersContext(props) {
         dispatch,
       }}
     >
-      {props.children}
+      {children}
     </SavedContext.Provider>
   );
 }
+const SavedContext = createContext({
+  state: initialState,
+  dispatch: reducer,
+});
 
 export const useSavedCoverLettersContext = () => useContext(SavedContext);
