@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
-import { Container, SubContainer } from './SavedProfilesList.styles';
+import { Container } from './SavedProfilesList.styles';
 
-import { Typography } from '@mui/material';
 import { useSavedCoverLettersContext } from '@/context/SavedCoverLettersContext';
 
 import { useAuth } from '@/context/AuthContext';
 import SavedList from '@/components/SavedList/SavedList';
 
 import { CoverLetterApiMethods } from '@/Utils/utils';
-
 const { deleteSavedCoverLetter, fetchSavedCoverLetters } =
   CoverLetterApiMethods;
 
@@ -40,14 +38,17 @@ export default function SavedProfilesList() {
   };
 
   const handleToggle = (selectedCoverLetter: any) => () => {
-    dispatch({
-      type: 'UPDATE_SELECTED_COVER_LETTER',
-      payload: selectedCoverLetter,
-    });
+    dispatch(
+      {
+        type: 'UPDATE_SELECTED_COVER_LETTER',
+        payload: selectedCoverLetter,
+      },
+      ''
+    );
   };
 
   const handleSearchChange = (event) => {
-    dispatch({ type: 'UPDATE_SEARCH', payload: event.target.value });
+    dispatch({ type: 'UPDATE_SEARCH', payload: event.target.value }, '');
   };
 
   useEffect(() => {
@@ -59,15 +60,21 @@ export default function SavedProfilesList() {
         savedCoverLetterListProps?.savedItems.filter((item) =>
           item.save_name.toLowerCase().includes(lowerCaseSearchString)
         );
-      dispatch({
-        type: 'UPDATE_FILTERED_ITEMS',
-        payload: newFilteredCoverLetters,
-      });
+      dispatch(
+        {
+          type: 'UPDATE_FILTERED_ITEMS',
+          payload: newFilteredCoverLetters,
+        },
+        ''
+      );
     } else {
-      dispatch({
-        type: 'UPDATE_FILTERED_ITEMS',
-        payload: savedCoverLetterListProps?.savedItems,
-      });
+      dispatch(
+        {
+          type: 'UPDATE_FILTERED_ITEMS',
+          payload: savedCoverLetterListProps?.savedItems,
+        },
+        ''
+      );
     }
   }, [savedCoverLetterListProps?.search]);
 
@@ -82,6 +89,7 @@ export default function SavedProfilesList() {
         search={savedCoverLetterListProps?.search}
         loading={savedCoverLetterListProps?.loading}
         selected={savedCoverLetterListProps?.selected}
+        listType='coverLetters'
         handleToggle={handleToggle}
         handleSearchChange={handleSearchChange}
       />
