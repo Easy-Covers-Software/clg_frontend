@@ -19,8 +19,9 @@ interface Props {
   snackbar: Snackbar;
 }
 
-const DownloadMenu: FC<Props> = ({
+const DownloadMenu: FC<any> = ({
   coverLetterData,
+  contentData,
   saveProps,
   downloadProps,
   snackbar,
@@ -28,13 +29,13 @@ const DownloadMenu: FC<Props> = ({
   return (
     <Container>
       <SaveNameInput
-        coverLetterData={coverLetterData}
+        contentData={contentData && contentData}
         saveProps={saveProps}
         snackbar={snackbar}
       />
       <Divider orientation='vertical' flexItem />
       <DownloadDropdown
-        coverLetterData={coverLetterData}
+        contentData={contentData}
         downloadProps={downloadProps}
         snackbar={snackbar}
       />

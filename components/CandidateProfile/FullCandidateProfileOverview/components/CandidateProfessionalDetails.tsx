@@ -1,0 +1,112 @@
+import React from 'react';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FolderSharedIcon from '@mui/icons-material/FolderShared';
+import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
+
+const CandidateProfessionalDetails = ({
+  yearsOfExperience,
+  skills,
+  linkedinUrl,
+  portfolioUrl,
+  currentTitle,
+  currentEmployer,
+  educationLevel,
+  educationField,
+  educationInstitution,
+}) => {
+  console.log('skills', skills);
+  // console.log('linkedInUrl', linkedInUrl);
+
+  const skillChips = skills
+    .split(',')
+    .map((skill, index) => (
+      <Chip key={index} label={skill.trim()} style={{ margin: '2px' }} />
+    ));
+
+  const openInNewTab = (url) => {
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } else {
+      console.log('URL is undefined or empty');
+    }
+  };
+
+  return (
+    <Grid2
+      p={2}
+      display='flex'
+      flexDirection='column'
+      justifyContent='space-between'
+      height={'100%'}
+      width={'100%'}
+      position='relative'
+      pb={0}
+      mb={0}
+      pl={1}
+      pr={1}
+      pt={1}
+    >
+      <Box position='absolute' top={0} right={2} pb={0}>
+        <IconButton
+          aria-label='linkedin'
+          // href={linkedinUrl}
+          // target='_blank'
+          disabled={linkedinUrl === ''}
+          style={{
+            color: linkedinUrl === '' ? 'grey' : 'blue',
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            openInNewTab(linkedinUrl);
+          }}
+        >
+          <LinkedInIcon fontSize='large' />
+        </IconButton>
+        <IconButton
+          aria-label='website'
+          href={portfolioUrl}
+          target='_blank'
+          disabled={portfolioUrl === ''}
+          style={{
+            color: portfolioUrl === '' ? 'grey' : '#FFD966',
+          }}
+          onClick={() => {
+            openInNewTab(portfolioUrl);
+          }}
+        >
+          <FolderSharedIcon fontSize='large' />
+        </IconButton>
+      </Box>
+      <Box flexGrow={1} width={'100%'}>
+        <Grid container spacing={2} width={'78%'}>
+          <Grid item xs={12}>
+            <Typography fontSize={'1.3rem'}>
+              {currentTitle} at {currentEmployer}
+            </Typography>
+            <Typography fontSize={'1rem'}>
+              {educationLevel} in {educationField}
+            </Typography>
+            <Typography fontSize={'1rem'}>{educationInstitution}</Typography>
+            <Typography fontSize={'1rem'}>
+              Years of Experience: {yearsOfExperience || 'N/A'}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Box>
+      <Box overflow={'scroll'} pb={1}>
+        <Typography variant='body2'>Skills:</Typography>
+        <Box display='flex' flexWrap='nowrap' mt={0}>
+          {skillChips.length > 0 ? skillChips : 'N/A'}
+        </Box>
+      </Box>
+    </Grid2>
+  );
+};
+
+export default CandidateProfessionalDetails;

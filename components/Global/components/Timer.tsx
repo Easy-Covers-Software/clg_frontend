@@ -4,14 +4,17 @@ import styled from '@emotion/styled';
 
 const Container = styled(Paper)`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background-color: #3f51b5;
-  color: white;
+  background-color: white;
+  border: 3px solid #13d0b7;
+  color: #13d0b7;
   border-radius: 50%;
   width: 150px;
   height: 150px;
+  margin: 0 auto;
 `;
 
 const Timer = () => {

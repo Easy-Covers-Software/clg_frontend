@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { Grid } from '@mui/material';
 import Select from '@mui/material/Select';
@@ -10,31 +10,69 @@ import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 
 import { useAuth } from '@/context/AuthContext';
+import { useTranscriptionContext } from '@/context/TranscriptionContext';
 import { PrimaryButton } from '../../Global/Global';
 
-import { Container, Header, InputField } from '../PhoneCallComponents.styles';
+import {
+  FormContainer,
+  StatusContainer,
+  Header,
+  InputField,
+} from '../PhoneCallComponents.styles';
 
 import { TranscriptionMethods } from '@/Utils/utils';
 const { initiatePhoneCall } = TranscriptionMethods;
 
 interface Props {
   handleInitiatePhoneCall: any;
+  updateNewCallForm: any;
+  jobPostings: any;
 }
 
-const NewCall: FC<Props> = ({ handleInitiatePhoneCall }) => {
+const initialFormData = {
+  candidate_name: '',
+  candidate_number: '',
+  job_posting: '',
+};
+
+const NewCall: FC<Props> = ({
+  handleInitiatePhoneCall,
+  updateNewCallForm,
+  jobPostings,
+}) => {
+  const [formData, setFormData] = useState(initialFormData);
+  // console.log('formData', formData);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   const [candidateName, setCandidateName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [linkedin, setLinkedin] = useState('');
-  const [portfolio, setPortfolio] = useState('');
-  const [location, setLocation] = useState('');
+  const [phone, setPhone] = useState('+15555555555');
   const [jobPosting, setJobPosting] = useState('');
 
-  const { state } = useAuth();
-  const { snackbar } = state;
+  const { state: authState } = useAuth();
+  const { snackbar } = authState;
+
+  const { state, dispatch } = useTranscriptionContext();
+  const { callModeState } = state;
+  const { newCallForm } = callModeState;
+
+  useEffect(() => {
+    updateNewCallForm(formData);
+  }, [formData]);
 
   return (
-    <Container>
+    <StatusContainer
+      style={{
+        width: '60%',
+        height: '60%',
+        marginBottom: '10%',
+        padding: '0 3%',
+        backgroundColor: 'white',
+      }}
+    >
       <Header>New Call</Header>
 
       <Box component='form' noValidate autoComplete='off'>
@@ -42,9 +80,10 @@ const NewCall: FC<Props> = ({ handleInitiatePhoneCall }) => {
           <Grid item xs={12}>
             <FormControl fullWidth>
               <InputField
+                name='candidate_name'
                 label='Candidate Name'
-                value={candidateName}
-                onChange={(e) => setCandidateName(e.target.value)}
+                value={formData.candidate_name}
+                onChange={handleChange}
                 required
               />
             </FormControl>
@@ -53,9 +92,10 @@ const NewCall: FC<Props> = ({ handleInitiatePhoneCall }) => {
           <Grid item xs={12}>
             <FormControl fullWidth>
               <InputField
+                name='candidate_number'
                 label='Phone Number'
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                value={formData.candidate_number}
+                onChange={handleChange}
                 required
               />
             </FormControl>
@@ -65,58 +105,18 @@ const NewCall: FC<Props> = ({ handleInitiatePhoneCall }) => {
             <FormControl fullWidth>
               <InputLabel>Job Posting</InputLabel>
               <Select
-                value={jobPosting}
-                onChange={(e) => setJobPosting(e.target.value as string)}
+                name='job_posting'
+                value={formData.job_posting}
+                onChange={handleChange}
                 required
-                sx={{
-                  backgroundColor: 'white',
-                }}
               >
-                {/* Replace with your job postings */}
-                <MenuItem value='job1'>Job 1</MenuItem>
-                <MenuItem value='job2'>Job 2</MenuItem>
-                {/* ... */}
+                {/* map job postings into menu items */}
+                {jobPostings?.map((jobPosting) => (
+                  <MenuItem value={jobPosting.id} key={jobPosting.id}>
+                    {jobPosting.job_title}
+                  </MenuItem>
+                ))}
               </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={6}>
-            <FormControl fullWidth>
-              <InputField
-                label='Email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={6}>
-            <FormControl fullWidth>
-              <InputField
-                label='LinkedIn'
-                value={linkedin}
-                onChange={(e) => setLinkedin(e.target.value)}
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={6}>
-            <FormControl fullWidth>
-              <InputField
-                label='Portfolio Site'
-                value={portfolio}
-                onChange={(e) => setPortfolio(e.target.value)}
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={6}>
-            <FormControl fullWidth>
-              <InputField
-                label='Location'
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-              />
             </FormControl>
           </Grid>
         </Grid>
@@ -132,13 +132,9 @@ const NewCall: FC<Props> = ({ handleInitiatePhoneCall }) => {
             onClick={(e) =>
               handleInitiatePhoneCall(
                 e,
-                candidateName,
-                phone,
-                jobPosting,
-                email,
-                linkedin,
-                portfolio,
-                location
+                formData.candidate_name,
+                formData.candidate_number,
+                formData.job_posting
               )
             }
           >
@@ -146,7 +142,7 @@ const NewCall: FC<Props> = ({ handleInitiatePhoneCall }) => {
           </PrimaryButton>
         </Box>
       </Box>
-    </Container>
+    </StatusContainer>
   );
 };
 

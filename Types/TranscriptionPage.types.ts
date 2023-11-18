@@ -13,7 +13,7 @@ type PhoneCall = {
   candidate_zip_code: string;
 };
 
-type PhoneCallState = {
+type PhoneCallListState = {
   savedItems: PhoneCall[];
   filteredItems: PhoneCall[];
   selected: PhoneCall | null;
@@ -62,9 +62,60 @@ type InitateCallResponse = {
   candidate_profile: CandidateProfile;
 };
 
+type NewCallForm = {
+  candidateName: string;
+  phone: string;
+  jobPosting: string;
+};
+
+type CallCompleteForm = {
+  candidateName: string;
+  phone: string;
+  jobPosting: string;
+  email: string;
+  linkedin: string;
+  portfolio: string;
+  location: string;
+  resume: File | null;
+  feedback: string;
+};
+
+type CallModeState = {
+  newCallForm: NewCallForm;
+  callCompleteForm: CallCompleteForm;
+  status: 'new' | 'complete';
+};
+
+type NotesHeaderSummaryState = {
+  id: string;
+  mainTitle: string;
+  secondaryTitle: string;
+  supplementalInfo: string;
+  loading: boolean;
+  updateMainTitle: (title: string) => void;
+  updateSecondaryTitle: (title: string) => void;
+  updateSupplementalInfo: (info: string) => void;
+  toggleLoading: () => void;
+};
+
+type TranscriptionModeState = {
+  selectedTranscription: any | null;
+  transcriptionNotes: any | null;
+  status: string;
+  loading: boolean;
+};
+
+export type TranscriptionContextType = {
+  phoneCallListState: PhoneCallListState;
+  notesHeaderSummaryState: NotesHeaderSummaryState;
+  transcriptionModeState: TranscriptionModeState;
+  transcriptionsInProcess: any[]; // Define a type for transcriptions in process if known
+  currentMode: string;
+};
+
 export type {
   PhoneCall,
-  PhoneCallState,
+  PhoneCallListState,
   TranscriptionState,
   TranscriptionInstance,
   CandidateProfile,

@@ -12,7 +12,11 @@ import Box from '@mui/material/Box';
 import { useAuth } from '@/context/AuthContext';
 import { PrimaryButton } from '../../Global/Global';
 
-import { Container, Header, InputField } from '../PhoneCallComponents.styles';
+import {
+  StatusContainer,
+  Header,
+  InputField,
+} from '../PhoneCallComponents.styles';
 
 import { TranscriptionMethods } from '@/Utils/utils';
 const { initiatePhoneCall } = TranscriptionMethods;
@@ -22,9 +26,13 @@ interface Props {}
 const CallStarted: FC<Props> = () => {
   const { state } = useAuth();
   return (
-    <Container>
+    <StatusContainer
+      style={{
+        backgroundColor: 'white',
+      }}
+    >
       <Header>Call Initiated...</Header>
-    </Container>
+    </StatusContainer>
   );
 };
 

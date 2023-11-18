@@ -51,6 +51,7 @@ export default function LoginDialog() {
       accountAuthProps?.email,
       accountAuthProps?.password,
       accountAuthProps?.newPasswordRepeat,
+      accountAuthProps?.phoneNumber,
       accountAuthProps?.username
     );
 
@@ -63,6 +64,7 @@ export default function LoginDialog() {
         'success',
         `Success! ${response.data.message}`
       );
+      window.location.reload();
     } else {
       snackbar.updateSnackbar(true, 'error', `Error! ${response.error}`);
     }

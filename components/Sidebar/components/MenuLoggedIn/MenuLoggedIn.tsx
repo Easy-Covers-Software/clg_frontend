@@ -23,39 +23,52 @@ export default function MenuLoggedIn() {
         <Link href={'/'} className={'no_underline'} passHref>
           <GenerationModeTab
             style={{
-              backgroundColor: page === 'generation-mode' ? '#f5faf5' : 'white',
+              backgroundColor: page === 'jobPostings' ? '#f5faf5' : 'white',
             }}
             onClick={() => {
-              trackers?.updatePage('generation-mode');
+              trackers?.updatePage('jobPostings');
+            }}
+          >
+            Job Postings
+          </GenerationModeTab>
+        </Link>
+
+        <Link href={'/candidates'} className={'no_underline'} passHref>
+          <GenerationModeTab
+            style={{
+              backgroundColor: page === 'candidates' ? '#f5faf5' : 'white',
+            }}
+            onClick={() => {
+              trackers?.updatePage('candidates');
+            }}
+          >
+            Candidates
+          </GenerationModeTab>
+        </Link>
+
+        <Link href={'/generate'} className={'no_underline'} passHref>
+          <GenerationModeTab
+            style={{
+              backgroundColor: page === 'generate' ? '#f5faf5' : 'white',
+            }}
+            onClick={() => {
+              trackers?.updatePage('generate');
             }}
           >
             Generate
           </GenerationModeTab>
         </Link>
 
-        <Link href={'/transcription'} className={'no_underline'} passHref>
+        <Link href={'/calls'} className={'no_underline'} passHref>
           <GenerationModeTab
             style={{
-              backgroundColor: page === 'transcription' ? '#f5faf5' : 'white',
+              backgroundColor: page === 'calls' ? '#f5faf5' : 'white',
             }}
             onClick={() => {
-              trackers?.updatePage('transcription');
+              trackers?.updatePage('calls');
             }}
           >
-            Transcription
-          </GenerationModeTab>
-        </Link>
-
-        <Link href={'/saved'} className={'no_underline'} passHref>
-          <GenerationModeTab
-            style={{
-              backgroundColor: page === 'saved' ? '#f5faf5' : 'white',
-            }}
-            onClick={() => {
-              trackers?.updatePage('saved');
-            }}
-          >
-            Saved
+            Calls
           </GenerationModeTab>
         </Link>
       </Tabs>

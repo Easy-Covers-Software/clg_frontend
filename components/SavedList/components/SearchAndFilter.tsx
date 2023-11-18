@@ -47,7 +47,7 @@ const StyledInputBase = muiStyled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAndFilter({ search, handleSearchChange }) {
+export default function SearchAndFilter({ search, handleSearchChange, type }) {
   // const { state, dispatch } = useSavedCoverLettersContext();
   // const { search } = state;
 
@@ -56,7 +56,12 @@ export default function SearchAndFilter({ search, handleSearchChange }) {
   // };
 
   return (
-    <Search>
+    <Search
+      sx={{
+        width: type === 'full' ? '100%' : '99%',
+        marginBottom: type === 'full' ? '0' : '1%',
+      }}
+    >
       <SearchIconWrapper>
         {' '}
         <SearchIcon />{' '}

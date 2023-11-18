@@ -393,7 +393,52 @@ body {
 }
 
 .job-summary-match-score {
-  font-size: 2.1rem !important;
+  font-size: 1.8rem !important;
+  color: #006d4b;
+
+  @media screen and (min-width: 0px) and (max-width: 500px) {
+    font-size: 1.9rem !important;
+  }
+
+  @media screen and (min-width: 500px) and (max-width: 600px) {
+    font-size: 1.92rem !important;
+  }
+
+  @media screen and (min-width: 600px) and (max-width: 700px) {
+    font-size: 1.94rem !important;
+  }
+
+  @media screen and (min-width: 700px) and (max-width: 800px) {
+    font-size: 1.96rem !important;
+  }
+
+  @media screen and (min-width: 800px) and (max-width: 900px) {
+    font-size: 1.98rem !important;
+  }
+
+  @media screen and (min-width: 900px) and (max-width: 950px) {
+    font-size: 2rem !important;
+  }
+
+  @media screen and (min-width: 950px) and (max-width: 1000px) {
+    font-size: 2.02rem !important;
+  }
+
+  @media screen and (min-width: 1000px) and (max-width: 1100px) {
+    font-size: 2.04rem !important;
+  }
+
+  @media screen and (min-width: 1100px) and (max-width: 1200px) {
+    font-size: 2.06rem !important;
+  }
+
+  @media screen and (min-width: 1200px) and (max-width: 1300px) {
+    font-size: 2.08rem !important;
+  }
+}
+
+.candidate-date-updated {
+  font-size: 1.4rem !important;
   color: #006d4b;
 
   @media screen and (min-width: 0px) and (max-width: 500px) {
@@ -634,6 +679,10 @@ body {
 
 .mantine-3eqw8l {
   height: 99.5% !important;
+  margin: auto !important;
+}
+.mantine-1drwy5n {
+  height: 100% !important;
   margin: auto !important;
 }
 

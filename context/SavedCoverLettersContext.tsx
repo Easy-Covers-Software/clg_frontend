@@ -10,6 +10,8 @@ import {
   GetJobPostingApiResponse,
 } from '@/Types/ApiResponse.types';
 
+const SavedContext = createContext(null);
+
 const initialState: SavedCoverLettersState = {
   //== Saved Cover Letters List ==//
   savedCoverLetterListProps: {
@@ -895,9 +897,9 @@ export default function SavedCoverLettersContext({ children }) {
     </SavedContext.Provider>
   );
 }
-const SavedContext = createContext({
-  state: initialState,
-  dispatch: reducer,
-});
+// const SavedContext = createContext({
+//   state: initialState,
+//   dispatch: reducer,
+// });
 
 export const useSavedCoverLettersContext = () => useContext(SavedContext);

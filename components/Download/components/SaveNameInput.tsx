@@ -32,7 +32,7 @@ interface Props {
   snackbar: Snackbar;
 }
 
-const SaveNameInput: FC<Props> = ({ coverLetterData, saveProps, snackbar }) => {
+const SaveNameInput: FC<any> = ({ contentData, saveProps, snackbar }) => {
   const isMobile = useMediaQuery('(max-width: 600px)');
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -48,20 +48,20 @@ const SaveNameInput: FC<Props> = ({ coverLetterData, saveProps, snackbar }) => {
   };
 
   const handleSave = async () => {
-    console.log('PRE SAVE PARTS', coverLetterData?.editedCoverLetterParts);
+    console.log('PRE SAVE PARTS', contentData?.editedContent);
 
     const response: APIResponse<SaveCoverLetterApiResponse> =
       await saveCoverLetter(
-        coverLetterData?.coverLetterId,
-        coverLetterData?.editedCoverLetterParts,
-        coverLetterData?.saveName
+        contentData?.id,
+        contentData?.editedCoverLetterParts,
+        contentData?.saveName
       );
 
     if (response.data) {
       snackbar.updateSnackbar(
         true,
         'success',
-        `Success! Cover letter saved as: ${coverLetterData?.saveName}`
+        `Success! Cover letter saved as: ${contentData?.saveName}`
       );
     } else {
       snackbar.updateSnackbar(
@@ -73,18 +73,18 @@ const SaveNameInput: FC<Props> = ({ coverLetterData, saveProps, snackbar }) => {
   };
 
   const handleInputChange = (event) => {
-    coverLetterData?.updateSaveName(event.target.value);
+    contentData?.updateSaveName(event.target.value);
   };
 
-  const shouldDisable = (coverLetterData: CoverLetterData) => {
-    if (coverLetterData?.coverLetterHtml !== '') {
+  const shouldDisable = (content: any) => {
+    if (content?.contentHtml !== '') {
       return false;
     } else {
       return true;
     }
   };
 
-  const disabled = shouldDisable(coverLetterData);
+  const disabled = shouldDisable(contentData);
 
   return (
     <>
@@ -125,7 +125,7 @@ const SaveNameInput: FC<Props> = ({ coverLetterData, saveProps, snackbar }) => {
           <TextField
             variant='outlined'
             margin='dense'
-            defaultValue={coverLetterData.saveName}
+            defaultValue={contentData?.saveName}
             onChange={handleInputChange}
           />
           <UnSelectedButton onClick={handleSave}>Save</UnSelectedButton>

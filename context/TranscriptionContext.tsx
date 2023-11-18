@@ -1,18 +1,35 @@
-import { init } from 'next/dist/compiled/@vercel/og/satori';
-import { createContext, useContext, useReducer, useEffect, use } from 'react';
+import { createContext, useContext, useReducer, useEffect } from 'react';
 
 import { TranscriptionMethods } from '@/Utils/utils';
 const { fetchTranscription } = TranscriptionMethods;
 
+type PhoneCallTranscriptionTracker = {
+  phoneCallId: string;
+  status: string;
+};
+const TranscriptionContext = createContext<any>({
+  phoneCallListState: {},
+  notesHeaderSummaryState: {},
+  transcriptionModeState: {},
+  transcriptionsInProcess: [],
+  currentMode: '',
+});
+
 const initialState = {
-  phoneCallState: {
+  //== Phone Call List State ==//
+  phoneCallListState: {
     savedItems: [],
     filteredItems: [],
     selected: null,
     search: '',
-    callStatus: 'new', // ['new',  'initiated', 'ringing', 'in-progress', 'complete', 'failed', 'no-answer', 'busy', 'canceled']
     loading: false,
+    refresh: false,
   },
+
+  //== Selected Phone Call ==//
+  selectedPhoneCall: null,
+
+  //== Summary Header State ==//
   notesHeaderSummaryState: {
     id: '',
     mainTitle: 'Candidate Name',
@@ -24,70 +41,120 @@ const initialState = {
     updateSupplementalInfo: (info: number): void => {},
     toggleLoading: (): void => {},
   },
-  transcriptionState: {
-    phoneCall: null,
-    transcription: '',
+
+  //== Transcription Mode State ==//
+  transcriptionModeState: {
+    selectedTranscription: null,
     transcriptionNotes: null,
+    status: '',
     loading: false,
   },
-  currentMode: 'Call', // notes or call
+
+  //== Call Mode State ==//
+  callModeState: {
+    newCallForm: {
+      candidateName: '',
+      phone: '+15555555555',
+      jobPosting: '',
+    },
+    callCompleteForm: {
+      candidateName: '',
+      phone: '',
+      jobPosting: '',
+      email: '',
+      linkedin: '',
+      portfolio: '',
+      location: '',
+      resume: null,
+      feedback: '',
+    },
+    status: 'new',
+  },
+  currentMode: 'Call',
+  newCallForm: {
+    candidate_name: '',
+    candidate_number: '',
+    job_posting: '',
+  },
+  candidateSaveForm: null,
+  jobPostings: null,
+  selectedJobPosting: null,
+  newCandidateId: '',
+  newCallId: '',
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'SET_PHONE_CALL_STATE':
+    //== Phone Call List State ==//
+    case 'SET_PHONE_CALL_LIST_STATE':
       return {
         ...state,
-        phoneCallState: action.payload,
+        phoneCallListState: action.payload,
       };
     case 'UPDATE_SAVED_PHONE_CALLS':
       return {
         ...state,
-        phoneCallState: {
-          ...state.phoneCallState,
+        phoneCallListState: {
+          ...state.phoneCallListState,
           savedItems: action.payload,
         },
       };
-    case 'UPDATE_FILTERED_PHONE_CALLS':
+    case 'UPDATE_SEARCHED_PHONE_CALLS':
       return {
         ...state,
-        phoneCallState: {
-          ...state.phoneCallState,
+        phoneCallListState: {
+          ...state.phoneCallListState,
           filteredItems: action.payload,
         },
       };
     case 'UPDATE_SELECTED_PHONE_CALL':
       return {
         ...state,
-        phoneCallState: {
-          ...state.phoneCallState,
+        phoneCallListState: {
+          ...state.phoneCallListState,
           selected: action.payload,
         },
       };
-    case 'UPDATE_SEARCH':
+    case 'UPDATE_LIST_SEARCH':
       return {
         ...state,
-        phoneCallState: {
-          ...state.phoneCallState,
+        phoneCallListState: {
+          ...state.phoneCallListState,
           search: action.payload,
         },
       };
-    case 'UPDATE_CALL_STATUS':
+    case 'UPDATE_LIST_LOADING':
       return {
         ...state,
-        phoneCallState: {
-          ...state.phoneCallState,
-          callStatus: action.payload,
-        },
-      };
-    case 'UPDATE_LOADING':
-      return {
-        ...state,
-        phoneCallState: {
-          ...state.phoneCallState,
+        phoneCallListState: {
+          ...state.phoneCallListState,
           loading: action.payload,
         },
       };
+    case 'REFRESH_PHONE_CALLS_LIST':
+      return {
+        ...state,
+        phoneCallListState: {
+          ...state.phoneCallListState,
+          refresh: !state.phoneCallListState.refresh,
+        },
+      };
+
+    //== Selected Phone Call ==//
+    case 'SET_SELECTED_PHONE_CALL':
+      return {
+        ...state,
+        selectedPhoneCall: action.payload,
+      };
+
+    //== Selected Transcription ==//
+    case 'SET_SELECTED_TRANSCRIPTION':
+      return {
+        ...state,
+        selectedTranscription: action.payload,
+      };
+
+    //== Summary Header State ==//
     case 'SET_NOTES_HEADER_SUMMARY_STATE':
       return {
         ...state,
@@ -133,48 +200,273 @@ function reducer(state, action) {
           loading: action.payload,
         },
       };
-    case 'SET_TRANSCRIPTION_STATE':
+
+    //== Transcription Mode State ==//
+    case 'SET_TRANSCRIPTION_MODE_STATE':
       return {
         ...state,
-        transcriptionState: action.payload,
+        transcriptionModeState: action.payload,
       };
-    case 'UPDATE_TRANSCRIPTION_STATE_PHONE_CALL':
+    case 'UPDATE_SELECTED_TRANSCRIPTION':
       return {
         ...state,
-        transcriptionState: {
-          ...state.transcriptionState,
-          phoneCall: action.payload,
+        transcriptionModeState: {
+          ...state.transcriptionModeState,
+          selectedTranscription: action.payload,
         },
       };
-    case 'UPDATE_TRANSCRIPTION':
+    case 'UPDATE_SELECTED_TRANSCRIPTION_NOTES':
       return {
         ...state,
-        transcriptionState: {
-          ...state.transcriptionState,
-          transcription: action.payload,
-        },
-      };
-    case 'UPDATE_TRANSCRIPTION_NOTES':
-      return {
-        ...state,
-        transcriptionState: {
-          ...state.transcriptionState,
+        transcriptionModeState: {
+          ...state.transcriptionModeState,
           transcriptionNotes: action.payload,
+        },
+      };
+    case 'UPDATE_TRANSCRIPTION_STATUS':
+      return {
+        ...state,
+        transcriptionModeState: {
+          ...state.transcriptionModeState,
+          status: action.payload,
         },
       };
     case 'UPDATE_TRANSCRIPTION_LOADING':
       return {
         ...state,
-        transcriptionState: {
-          ...state.transcriptionState,
+        transcriptionModeState: {
+          ...state.transcriptionModeState,
           loading: action.payload,
         },
       };
+
+    //== Call Mode State ==//
+    case 'SET_CALL_MODE_STATE':
+      return {
+        ...state,
+        callModeState: action.payload,
+      };
+    case 'UPDATE_NEW_CALL_FORM_2':
+      return {
+        ...state,
+        callModeState: {
+          ...state.callModeState,
+          newCallForm: action.payload,
+        },
+      };
+    case 'UPDATE_NEW_FORM_CANDIDATE_NAME':
+      return {
+        ...state,
+        callModeState: {
+          ...state.callModeState,
+          newCallForm: {
+            ...state.callModeState.newCallForm,
+            candidateName: action.payload,
+          },
+        },
+      };
+    case 'UPDATE_NEW_FORM_PHONE':
+      return {
+        ...state,
+        callModeState: {
+          ...state.callModeState,
+          newCallForm: {
+            ...state.callModeState.newCallForm,
+            phone: action.payload,
+          },
+        },
+      };
+    case 'UPDATE_NEW_FORM_JOB_POSTING':
+      return {
+        ...state,
+        callModeState: {
+          ...state.callModeState,
+          newCallForm: {
+            ...state.callModeState.newCallForm,
+            jobPosting: action.payload,
+          },
+        },
+      };
+
+    // case 'UPDATE_CALL_COMPLETE_FORM':
+    //   return {
+    //     ...state,
+    //     callModeState: {
+    //       ...state.callModeState,
+    //       callCompleteForm: action.payload,
+    //     },
+    //   };
+    case 'UPDATE_NEW_CALL_FORM':
+      return {
+        ...state,
+        newCallForm: action.payload,
+      };
+
+    case 'UPDATE_CALL_COMPLETE_FORM':
+      return {
+        ...state,
+        candidateSaveForm: action.payload,
+      };
+
+    case 'UPDATE_CALL_COMPLETE_FORM_CANDIDATE_NAME':
+      return {
+        ...state,
+        candidateSaveForm: {
+          ...state.callModeState,
+          name: action.payload,
+        },
+      };
+    case 'UPDATE_CALL_COMPLETE_FORM_PHONE':
+      return {
+        ...state,
+        candidateSaveForm: {
+          ...state.callModeState,
+          phone_number: action.payload,
+        },
+      };
+    case 'UPDATE_CALL_COMPLETE_FORM_EMAIL':
+      return {
+        ...state,
+        callModeState: {
+          ...state.callModeState,
+          callCompleteForm: {
+            ...state.callModeState.callCompleteForm,
+            email: action.payload,
+          },
+        },
+      };
+    case 'UPDATE_CALL_COMPLETE_FORM_LINKEDIN':
+      return {
+        ...state,
+        callModeState: {
+          ...state.callModeState,
+          callCompleteForm: {
+            ...state.callModeState.callCompleteForm,
+            linkedin: action.payload,
+          },
+        },
+      };
+    case 'UPDATE_CALL_COMPLETE_FORM_PORTFOLIO':
+      return {
+        ...state,
+        callModeState: {
+          ...state.callModeState,
+          callCompleteForm: {
+            ...state.callModeState.callCompleteForm,
+            portfolio: action.payload,
+          },
+        },
+      };
+    case 'UPDATE_CALL_COMPLETE_FORM_LOCATION':
+      return {
+        ...state,
+        callModeState: {
+          ...state.callModeState,
+          callCompleteForm: {
+            ...state.callModeState.callCompleteForm,
+            location: action.payload,
+          },
+        },
+      };
+    case 'UPDATE_CALL_COMPLETE_FORM_RESUME':
+      return {
+        ...state,
+        callModeState: {
+          ...state.callModeState,
+          callCompleteForm: {
+            ...state.callModeState.callCompleteForm,
+            resume: action.payload,
+          },
+        },
+      };
+    case 'UPDATE_CALL_COMPLETE_FORM_FEEDBACK':
+      return {
+        ...state,
+        callModeState: {
+          ...state.callModeState,
+          callCompleteForm: {
+            ...state.callModeState.callCompleteForm,
+            feedback: action.payload,
+          },
+        },
+      };
+    case 'UPDATE_CALL_COMPLETE_FORM_JOB_POSTING':
+      return {
+        ...state,
+        callModeState: {
+          ...state.callModeState,
+          callCompleteForm: {
+            ...state.callModeState.callCompleteForm,
+            jobPosting: action.payload,
+          },
+        },
+      };
+
+    case 'UPDATE_CALL_MODE_STATUS':
+      return {
+        ...state,
+        callModeState: {
+          ...state.callModeState,
+          status: action.payload,
+        },
+      };
+    //== Transcriptions In Process ==//
+    case 'ADD_TRANSCRIPTIONS_IN_PROCESS':
+      return {
+        ...state,
+        transcriptionsInProcess: [
+          ...state.transcriptionsInProcess,
+          action.payload,
+        ],
+      };
+    case 'UPDATE_TRANSCRIPTIONS_IN_PROCESS':
+      return {
+        ...state,
+        transcriptionsInProcess: state.transcriptionsInProcess.map(
+          (transcription) =>
+            transcription.phoneCallId === action.payload.phoneCallId
+              ? action.payload
+              : transcription
+        ),
+      };
+
+    //== Current Mode ==//
     case 'SET_CURRENT_MODE':
       return {
         ...state,
         currentMode: action.payload,
       };
+
+    //== Candidate Save Form ==//
+    // case 'SET_CANDIDATE_SAVE_FORM':
+    //   return {
+    //     ...state,
+    //     candidateSaveForm: action.payload,
+    //   };
+    case 'SET_JOB_POSTINGS':
+      return {
+        ...state,
+        jobPostings: action.payload,
+      };
+
+    case 'SET_SELECTED_JOB_POSTING':
+      return {
+        ...state,
+        selectedJobPosting: action.payload,
+      };
+
+    case 'SET_NEW_CANDIDATE_ID':
+      return {
+        ...state,
+        newCandidateId: action.payload,
+      };
+
+    case 'SET_NEW_CALL_ID':
+      return {
+        ...state,
+        newCallId: action.payload,
+      };
+
     default:
       return state;
   }
@@ -183,65 +475,86 @@ function reducer(state, action) {
 export default function TranscriptionPageContext({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // useEffect(() => {
+
+  // }, [state.phoneCallListState.selected]);
+
+  // useEffect(() => {
+  //   const getTranscriptionInstance = async () => {
+  //     const response = await fetchTranscription(
+  //       state.transcriptionModeState.phoneCall.transcription
+  //     );
+
+  //     if (response) {
+  //       console.log('transcription 1');
+  //       console.log(response.data);
+  //       dispatch({
+  //         type: 'UPDATE_TRANSCRIPTION_ID',
+  //         payload: response.data.id,
+  //       });
+  //     }
+  //   };
+
+  //   if (state.phoneCallListState.selected) {
+  //     getTranscriptionInstance();
+  //   }
+
+  //   dispatch({
+  //     type: 'UPDATE_TRANSCRIPTION_PHONE_CALL_ID',
+  //     payload: state.phoneCallListState.selected?.id,
+  //   });
+  //   dispatch({
+  //     type: 'UPDATE_TRANSCRIPTION_STATUS',
+  //     payload: state.phoneCallListState.selected?.transcription_status,
+  //   });
+  //   dispatch({
+  //     type: 'UPDATE_TRANSCRIPTION_STEP',
+  //     payload: state.phoneCallListState.selected?.transcription_status_step,
+  //   });
+  // }, [state.phoneCallListState.selected]);
+
+  // useEffect(() => {
+  //   const getTranscriptionNotes = () => {
+  //     const notes = state.transcriptionModeState.transcription?.notes;
+
+  //     let temp: any = [];
+  //     Object.entries(notes).forEach(([key, value]) => {
+  //       const currNote = { noteHeader: key, noteContent: value };
+  //       temp.push(currNote);
+  //     });
+
+  //     dispatch({
+  //       type: 'UPDATE_SELECTED_TRANSCRIPTION_NOTES',
+  //       payload: temp,
+  //     });
+  //   };
+
+  //   if (state.transcriptionModeState.transcription?.notes) {
+  //     getTranscriptionNotes();
+  //   }
+  // }, [state.transcriptionModeState.transcription]);
+
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'UPDATE_CALL_COMPLETE_FORM_CANDIDATE_NAME',
+  //     payload: state.newCallForm?.candidate_name,
+  //   });
+
+  //   dispatch({
+  //     type: 'UPDATE_CALL_COMPLETE_FORM_PHONE',
+  //     payload: state.newCallForm?.candidate_phone,
+  //   });
+  // }, [state.newCallForm?.candidate_name, state.newCallForm?.candidate_]);
+
   useEffect(() => {
     dispatch({
-      type: 'SET_PHONE_CALL_STATE',
+      type: 'UPDATE_CALL_COMPLETE_FORM',
       payload: {
-        savedItems: [],
-        filteredItems: [],
-        selected: null,
-        search: '',
-        callStatus: 'new',
-        loading: false,
-        updateSavedPhoneCalls: (calls) => {
-          dispatch({
-            type: 'UPDATE_SAVED_PHONE_CALLS',
-            payload: calls,
-          });
-        },
+        name: state.newCallForm.candidate_name,
+        phone_number: state.newCallForm.candidate_number,
       },
     });
-  }, []);
-
-  useEffect(() => {
-    const getTranscriptionInstance = async () => {
-      const response = await fetchTranscription(
-        state.transcriptionState.phoneCall.transcription
-      );
-
-      if (response) {
-        dispatch({
-          type: 'UPDATE_TRANSCRIPTION',
-          payload: response.data,
-        });
-      }
-    };
-
-    if (state.transcriptionState?.phoneCall?.transcription) {
-      getTranscriptionInstance();
-    }
-  }, [state.transcriptionState.phoneCall]);
-
-  useEffect(() => {
-    const getTranscriptionNotes = () => {
-      const notes = state.transcriptionState.transcription?.notes;
-
-      let temp = [];
-      Object.entries(notes).forEach(([key, value]) => {
-        const currNote = { noteHeader: key, noteContent: value };
-        temp.push(currNote);
-      });
-
-      dispatch({
-        type: 'UPDATE_TRANSCRIPTION_NOTES',
-        payload: temp,
-      });
-    };
-
-    if (state.transcriptionState.transcription?.notes) {
-      getTranscriptionNotes();
-    }
-  }, [state.transcriptionState.transcription]);
+  }, [state.newCallForm?.candidate_name, state.newCallForm?.candidate_number]);
 
   return (
     <TranscriptionContext.Provider value={{ state, dispatch }}>
@@ -250,9 +563,11 @@ export default function TranscriptionPageContext({ children }) {
   );
 }
 
-const TranscriptionContext = createContext({
-  state: initialState,
-  dispatch: reducer,
-});
+// TODO: Each time selected changes, use the ID to make a request to get the remaining object data
+
+// const TranscriptionContext = createContext({
+//   state: initialState,
+//   dispatch: reducer,
+// });
 
 export const useTranscriptionContext = () => useContext(TranscriptionContext);

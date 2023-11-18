@@ -13,7 +13,11 @@ import { useAuth } from '@/context/AuthContext';
 import { PrimaryButton } from '../../Global/Global';
 import Timer from '@/components/Global/components/Timer';
 
-import { Container, Header, InputField } from '../PhoneCallComponents.styles';
+import {
+  StatusContainer,
+  Header,
+  InputField,
+} from '../PhoneCallComponents.styles';
 
 import { TranscriptionMethods } from '@/Utils/utils';
 const { initiatePhoneCall } = TranscriptionMethods;
@@ -23,10 +27,10 @@ interface Props {}
 const CallInProgress: FC<Props> = () => {
   const { state } = useAuth();
   return (
-    <Container>
+    <StatusContainer>
       <Header>Call In Progress...</Header>
       <Timer />
-    </Container>
+    </StatusContainer>
   );
 };
 

@@ -19,16 +19,13 @@ import AlertDialogConfirm from '../../components/Global/components/AlertDialogCo
 import LoginDialog from '@/components/Login/LoginDialog';
 import SettingsDialog from '@/components/Settings/SettingsDialog';
 
-import SavedPhoneCalls from './components/SavedPhoneCalls/SavedPhoneCalls';
-import CoverLetterEdit from '../SavedProfilesSection/components/CoverLetterEdit/CoverLetterEdit';
-
-import TranscriptionBody from './components/TranscriptionBody/TranscriptionBody';
+import SavedPhoneCallsList from './components/SavedPhoneCallsList';
+import TranscriptionSectionBody from './components/TranscriptionSectionBody';
 
 // import SavedProfilesList from './components/SavedProfilesList/SavedProfilesList';
 
 const Container = styled(Grid)`
   display: flex;
-  // justify-content: space-between;
   justify-content: end;
   width: 100%;
 `;
@@ -41,7 +38,7 @@ export default function TranscriptionPage() {
 
   useEffect(() => {
     if (trackers.updatePage) {
-      trackers.updatePage('transcription');
+      trackers.updatePage('calls');
     }
   }, [trackers.updatePage]);
 
@@ -53,15 +50,15 @@ export default function TranscriptionPage() {
         {isMobile ? (
           <>
             {trackers.mobileModeSaved === 'choose' ? (
-              <SavedPhoneCalls />
+              <SavedPhoneCallsList />
             ) : (
-              <TranscriptionBody />
+              <TranscriptionSectionBody />
             )}
           </>
         ) : (
           <>
-            <SavedPhoneCalls />
-            <TranscriptionBody />
+            <SavedPhoneCallsList />
+            <TranscriptionSectionBody />
           </>
         )}
       </TranscriptionContext>

@@ -64,14 +64,15 @@ const SavedList: FC<SavedListProps> = ({
     }
   }, [confirmDialog.didConfirmAlert]);
 
-  const renderCoverLetterItem = (coverLetter, i) => {
-    const labelId = `radio-list-label-${coverLetter.save_name}-${i}`;
+  const renderCoverLetterItem = (item, i) => {
+    const labelId = `radio-list-label-${item.save_name}-${i}`;
+
     return (
       <ListItem
         key={labelId}
         style={{ borderBottom: '0.4px solid #006D4B' }}
         secondaryAction={
-          selected?.id === coverLetter.id && (
+          selected?.id === item.id && (
             <IconButton
               edge='end'
               aria-label='comments'
@@ -85,12 +86,12 @@ const SavedList: FC<SavedListProps> = ({
           )
         }
         disablePadding
-        onClick={handleToggle(coverLetter)}
+        onClick={handleToggle(item)}
       >
         <IconButton disableRipple>
           <Radio
             edge='start'
-            checked={selected?.id === coverLetter.id}
+            checked={selected?.id === item.id}
             tabIndex={-1}
             disableRipple
             inputProps={{ 'aria-labelledby': labelId }}
@@ -98,8 +99,11 @@ const SavedList: FC<SavedListProps> = ({
           />
         </IconButton>
         <ListItemText
-          id={coverLetter.id}
-          primary={coverLetter.save_name.substring(0, 24) + '...'}
+          id={item.id}
+          primary={item.save_name}
+          secondary={item.company_name}
+          // primary={item.save_name?.substring(0, 84) + '...'}
+          // secondary={item.company_name && item.company_name?.substring(0, 24)}
         />
       </ListItem>
     );
@@ -162,6 +166,8 @@ const SavedList: FC<SavedListProps> = ({
       return 'Saved Profiles';
     } else if (listType === 'phoneCalls') {
       return 'Saved Phone Calls';
+    } else if (listType === 'candidates') {
+      return 'Saved Candidates';
     }
   };
 
@@ -174,9 +180,10 @@ const SavedList: FC<SavedListProps> = ({
       <SearchAndFilter
         search={search}
         handleSearchChange={handleSearchChange}
+        type={'full'}
       />
       <List className='saved-letters-list'>
-        {savedItems.map(renderCoverLetterItem)}
+        {savedItems?.map(renderCoverLetterItem)}
       </List>
     </SubContainer>
   );

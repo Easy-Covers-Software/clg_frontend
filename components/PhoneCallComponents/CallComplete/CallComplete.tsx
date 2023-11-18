@@ -10,9 +10,14 @@ import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 
 import { useAuth } from '@/context/AuthContext';
-import { PrimaryButton } from '../../Global/Global';
+import { useTranscriptionContext } from '@/context/TranscriptionContext';
+import { PrimaryButton, UnSelectedButton } from '../../Global/Global';
 
-import { Container, Header, InputField } from '../PhoneCallComponents.styles';
+import {
+  FormContainer,
+  Header,
+  InputField,
+} from '../PhoneCallComponents.styles';
 
 import { TranscriptionMethods } from '@/Utils/utils';
 const { initiatePhoneCall } = TranscriptionMethods;
@@ -27,30 +32,46 @@ const CallComplete: FC<Props> = () => {
   const [portfolio, setPortfolio] = useState(null);
   const [location, setLocation] = useState(null);
   const [jobPosting, setJobPosting] = useState(null);
+  const [feedback, setFeedback] = useState(null);
+  const [resume, setResume] = useState(null);
+
+  const { state, dispatch } = useTranscriptionContext();
+  const { callModeState } = state;
+  const { callCompleteForm } = callModeState;
 
   return (
-    <Container>
-      <Header>Call Complete</Header>
+    <FormContainer>
+      {/* <Header>Call Complete</Header> */}
 
       <Box component='form' noValidate autoComplete='off'>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <FormControl fullWidth>
               <InputField
                 label='Candidate Name'
-                value={candidateName}
-                onChange={(e) => setCandidateName(e.target.value)}
+                value={callCompleteForm.candidateName}
+                onChange={(e) =>
+                  dispatch({
+                    type: 'UPDATE_CALL_COMPLETE_FORM_CANDIDATE_NAME',
+                    payload: e.target.value,
+                  })
+                }
                 required
               />
             </FormControl>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <FormControl fullWidth>
               <InputField
                 label='Phone Number'
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                value={callCompleteForm.phone}
+                onChange={(e) =>
+                  dispatch({
+                    type: 'UPDATE_CALL_COMPLETE_FORM_PHONE',
+                    payload: e.target.value,
+                  })
+                }
                 required
               />
             </FormControl>
@@ -60,8 +81,13 @@ const CallComplete: FC<Props> = () => {
             <FormControl fullWidth>
               <InputLabel>Job Posting</InputLabel>
               <Select
-                value={jobPosting}
-                onChange={(e) => setJobPosting(e.target.value as string)}
+                value={callCompleteForm.jobPosting}
+                onChange={(e) =>
+                  dispatch({
+                    type: 'UPDATE_CALL_COMPLETE_FORM_JOB_POSTING',
+                    payload: e.target.value,
+                  })
+                }
                 required
                 sx={{
                   backgroundColor: 'white',
@@ -79,8 +105,13 @@ const CallComplete: FC<Props> = () => {
             <FormControl fullWidth>
               <InputField
                 label='Email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={callCompleteForm.email}
+                onChange={(e) =>
+                  dispatch({
+                    type: 'UPDATE_CALL_COMPLETE_FORM_EMAIL',
+                    payload: e.target.value,
+                  })
+                }
               />
             </FormControl>
           </Grid>
@@ -89,8 +120,13 @@ const CallComplete: FC<Props> = () => {
             <FormControl fullWidth>
               <InputField
                 label='LinkedIn'
-                value={linkedin}
-                onChange={(e) => setLinkedin(e.target.value)}
+                value={callCompleteForm.linkedin}
+                onChange={(e) =>
+                  dispatch({
+                    type: 'UPDATE_CALL_COMPLETE_FORM_LINKEDIN',
+                    payload: e.target.value,
+                  })
+                }
               />
             </FormControl>
           </Grid>
@@ -99,8 +135,13 @@ const CallComplete: FC<Props> = () => {
             <FormControl fullWidth>
               <InputField
                 label='Portfolio Site'
-                value={portfolio}
-                onChange={(e) => setPortfolio(e.target.value)}
+                value={callCompleteForm.portfolio}
+                onChange={(e) =>
+                  dispatch({
+                    type: 'UPDATE_CALL_COMPLETE_FORM_PORTFOLIO',
+                    payload: e.target.value,
+                  })
+                }
               />
             </FormControl>
           </Grid>
@@ -109,14 +150,68 @@ const CallComplete: FC<Props> = () => {
             <FormControl fullWidth>
               <InputField
                 label='Location'
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
+                value={callCompleteForm.location}
+                onChange={(e) =>
+                  dispatch({
+                    type: 'UPDATE_CALL_COMPLETE_FORM_LOCATION',
+                    payload: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              {/* <InputLabel htmlFor='resume-upload'>Upload Resume</InputLabel> */}
+              <InputField
+                type='file'
+                id='resume-upload'
+                onChange={(e) =>
+                  dispatch({
+                    type: 'UPDATE_CALL_COMPLETE_FORM_RESUME',
+                    payload: e.target.files[0],
+                  })
+                }
+                style={{
+                  minHeight: '16px',
+                }}
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputField
+                label='Feedback'
+                value={feedback}
+                onChange={(e) =>
+                  dispatch({
+                    type: 'UPDATE_CALL_COMPLETE_FORM_FEEDBACK',
+                    payload: e.target.value,
+                  })
+                }
+                multiline
+                rows={4}
               />
             </FormControl>
           </Grid>
         </Grid>
 
         <Box display='flex' justifyContent='flex-end' mt={2}>
+          <UnSelectedButton
+            variant='outlined'
+            style={{
+              marginTop: '16px',
+              marginRight: '16px',
+              width: '16vw',
+            }}
+            onClick={() => {
+              // Handle logic for not saving the candidate here
+            }}
+          >
+            Don't Save
+          </UnSelectedButton>
           <PrimaryButton
             type='submit'
             style={{
@@ -125,11 +220,11 @@ const CallComplete: FC<Props> = () => {
               width: '16vw',
             }}
           >
-            Start Call
+            Save Candidate
           </PrimaryButton>
         </Box>
       </Box>
-    </Container>
+    </FormContainer>
   );
 };
 
