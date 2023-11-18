@@ -1,3 +1,5 @@
+import { SummaryHeaderProps } from './Common.types';
+
 //== Additional Details ==//
 interface AdditionalDetails {
   simpleInput1: string;
@@ -24,17 +26,17 @@ interface GenerationSetupProps {
   toggleDisableGenerateButton(): void;
 }
 //== Job Details ==//
-type JobDetailsProps = {
-  jobPostingId: string;
-  jobTitle: string;
-  companyName: string;
-  matchScore: number;
-  loadingSummary: boolean;
-  updateJobTitle: (jobTitle: string) => void;
-  updateCompanyName: (companyName: string) => void;
-  updateMatchScore: (matchScore: number) => void;
-  toggleLoadingSummary: () => void;
-};
+// type JobDetailsProps = {
+//   id: string;
+//   mainTitle: string;
+//   secondaryTitle: string;
+//   supplementalInfo: number;
+//   loading: boolean;
+//   updateJobTitle: (jobTitle: string) => void;
+//   updateCompanyName: (companyName: string) => void;
+//   updateMatchScore: (matchScore: number) => void;
+//   toggleLoadingSummary: () => void;
+// };
 
 //== Cover Letter Data ==//
 type CoverLetterData = {
@@ -116,7 +118,7 @@ type AdjustmentSectionProps = {
 type GenerationState = {
   additionalDetails: AdditionalDetails;
   generationSetupProps: GenerationSetupProps;
-  jobDetailsProps: JobDetailsProps;
+  jobDetailsProps: SummaryHeaderProps;
   coverLetterData: CoverLetterData;
   simpleAdjustmentProps: SimpleAdjustmentProps;
   intermediateAdjustmentProps: IntermediateAdjustmentProps;
@@ -129,7 +131,6 @@ type GenerationState = {
 export type {
   AdditionalDetails,
   GenerationSetupProps,
-  JobDetailsProps,
   CoverLetterData,
   SimpleAdjustmentProps,
   IntermediateAdjustmentProps,

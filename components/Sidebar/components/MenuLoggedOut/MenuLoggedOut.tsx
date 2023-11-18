@@ -8,6 +8,7 @@ import {
   GenerationModeTab,
 } from './MenuLoggedOut.styles';
 
+//== TODO: Dont want to display any nav options besides login ==//
 export default function MenuLoggedOut() {
   const { state } = useAuth();
   const { accountAuthProps, trackers, dialogProps, page } = state;
@@ -15,17 +16,6 @@ export default function MenuLoggedOut() {
 
   return (
     <Container>
-      <Link href={'/'} className={'no_underline'} passHref>
-        <GenerationModeTab
-          style={{
-            backgroundColor:
-              trackers?.page === 'generation-mode' ? '#f5faf5' : 'white',
-          }}
-        >
-          Generate
-        </GenerationModeTab>
-      </Link>
-
       <Grid>
         <HorizontalDivider />
         <UnSelectedButton

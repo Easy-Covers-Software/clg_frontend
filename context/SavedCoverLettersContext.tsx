@@ -1,9 +1,4 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
-import jsPDF from 'jspdf';
-
-import axios from 'axios';
-import Cookie from 'js-cookie';
-
 import { Helpers, CoverLetterApiMethods } from '@/Utils/utils';
 
 const { removeDivTags, addPTags, formatCoverLetterForAdjustment } = Helpers;
@@ -20,31 +15,31 @@ const SavedContext = createContext(null);
 const initialState: SavedCoverLettersState = {
   //== Saved Cover Letters List ==//
   savedCoverLetterListProps: {
-    savedCoverLetters: [],
-    selectedCoverLetter: null,
+    savedItems: [],
+    filteredItems: [],
+    selected: null,
     search: '',
     filterValue: '',
     update: false,
     loading: false,
-    updateSavedCoverLetters: (savedCoverLetters: any[]): void => {},
-    updateSelectedCoverLetter: (selectedCoverLetter: any): void => {},
+    updateSavedItems: (savedItems: any[]): void => {},
+    updateSelected: (selected: any): void => {},
     updateSearch: (search: string): void => {},
-    updateFilterValue: (filterValue: string): void => {},
+    updateFilteredItems: (filteredItems: any[]): void => {},
     resetSelected: (): void => {},
   },
 
   //== Job Details ==//
   jobDetailsProps: {
-    jobPostingId: '',
-    jobTitle: 'Job Title',
-    companyName: 'Company',
-    matchScore: 0,
-    loadingSummary: false,
-
-    updateJobTitle: (jobTitle: string): void => {},
-    updateCompanyName: (companyName: string): void => {},
-    updateMatchScore: (matchScore: number): void => {},
-    toggleLoadingSummary: (): void => {},
+    id: '',
+    mainTitle: 'Job Title',
+    secondaryTitle: 'Company',
+    supplementalInfo: 0,
+    loading: false,
+    updateMainTitle: (title: string): void => {},
+    updateSecondaryTitle: (title: string): void => {},
+    updateSupplementalInfo: (info: number): void => {},
+    toggleLoading: (): void => {},
   },
 
   //== Cover Letter Data ==//
@@ -145,7 +140,7 @@ function reducer(state, action) {
         ...state,
         savedCoverLetterListProps: {
           ...state.savedCoverLetterListProps,
-          selectedCoverLetter: action.payload,
+          selected: action.payload,
         },
       };
 
@@ -154,7 +149,7 @@ function reducer(state, action) {
         ...state,
         savedCoverLetterListProps: {
           ...state.savedCoverLetterListProps,
-          savedCoverLetters: action.payload,
+          savedItems: action.payload,
         },
       };
 
@@ -167,12 +162,12 @@ function reducer(state, action) {
         },
       };
 
-    case 'UPDATE_FILTER_VALUE':
+    case 'UPDATE_FILTERED_ITEMS':
       return {
         ...state,
         savedCoverLetterListProps: {
           ...state.savedCoverLetterListProps,
-          filterValue: action.payload,
+          filteredItems: action.payload,
         },
       };
 
@@ -563,7 +558,7 @@ function reducer(state, action) {
   }
 }
 
-export default function SavedCoverLettersContext(props) {
+export default function SavedCoverLettersContext({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   //== Saved Cover Letters List ==//
@@ -571,16 +566,16 @@ export default function SavedCoverLettersContext(props) {
     dispatch({
       type: 'SET_SAVED_COVER_LETTERS_LIST_PROPS',
       payload: {
-        updateSavedCoverLetters: (savedCoverLetters: any): void => {
+        updateSavedItems: (savedItems: any): void => {
           dispatch({
             type: 'UPDATE_SAVED_COVER_LETTERS',
-            payload: savedCoverLetters,
+            payload: savedItems,
           });
         },
-        updateSelectedCoverLetter: (selectedCoverLetter: any): void => {
+        updateSelected: (selected: any): void => {
           dispatch({
             type: 'UPDATE_SELECTED_COVER_LETTER',
-            payload: selectedCoverLetter,
+            payload: selected,
           });
         },
         updateSearch: (search: string): void => {
@@ -589,10 +584,10 @@ export default function SavedCoverLettersContext(props) {
             payload: search,
           });
         },
-        updateFilterValue: (filterValue: string): void => {
+        updateFilteredItems: (filteredItems: any[]): void => {
           dispatch({
-            type: 'UPDATE_FILTER_VALUE',
-            payload: filterValue,
+            type: 'UPDATE_FILTERED_ITEMS',
+            payload: filteredItems,
           });
         },
         toggleLoadingSavedCoverLetters: (): void => {
@@ -828,27 +823,25 @@ export default function SavedCoverLettersContext(props) {
   //==* Helper Hooks *==//
   //== Selected Cover Letter ==//
   useEffect(() => {
-    if (state.savedCoverLetterListProps.selectedCoverLetter !== null) {
+    if (state.savedCoverLetterListProps.selected !== null) {
       dispatch({
         type: 'UPDATE_COVER_LETTER_ID',
-        payload: state.savedCoverLetterListProps.selectedCoverLetter.id,
+        payload: state.savedCoverLetterListProps.selected,
       });
       dispatch({
         type: 'UPDATE_COVER_LETTER_PARTS',
-        payload:
-          state.savedCoverLetterListProps.selectedCoverLetter.cover_letter,
+        payload: state.savedCoverLetterListProps.selected.cover_letter,
       });
       dispatch({
         type: 'UPDATE_JOB_POSTING_ID',
-        payload:
-          state.savedCoverLetterListProps.selectedCoverLetter.job_posting,
+        payload: state.savedCoverLetterListProps.selected.job_posting,
       });
     }
-  }, [state.savedCoverLetterListProps.selectedCoverLetter]);
+  }, [state.savedCoverLetterListProps.selected]);
 
   //== Cover Letter HTML ==//
   useEffect(() => {
-    if (state.savedCoverLetterListProps.selectedCoverLetter !== null) {
+    if (state.savedCoverLetterListProps.selected !== null) {
       dispatch({
         type: 'UPDATE_COVER_LETTER_HTML',
         payload: addPTags(state.coverLetterData.coverLetterParts),
@@ -900,9 +893,13 @@ export default function SavedCoverLettersContext(props) {
         dispatch,
       }}
     >
-      {props.children}
+      {children}
     </SavedContext.Provider>
   );
 }
+// const SavedContext = createContext({
+//   state: initialState,
+//   dispatch: reducer,
+// });
 
 export const useSavedCoverLettersContext = () => useContext(SavedContext);

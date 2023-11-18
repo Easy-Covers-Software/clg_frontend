@@ -1,5 +1,5 @@
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import styled from "@emotion/styled";
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import styled from '@emotion/styled';
 
 const Container = styled(Grid)`
   display: flex;
@@ -39,10 +39,9 @@ const JobMatchScore = styled(Grid)`
   border: 1px solid #006d4b;
   border-radius: 4px;
   background-color: #f8f8ff;
-  width: 10vw;
+  min-width: 12vw;
   margin: 0.3% 0;
-
-  @media screen and (min-width: 0px) and (max-width: 500px) {
+  padding: 1% @media screen and (min-width: 0px) and (max-width: 500px) {
     width: 32vw;
   }
 

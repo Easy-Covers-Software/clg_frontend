@@ -34,14 +34,14 @@ export default function SignedInDisplay() {
     const response: APIResponse<AuthResponse> = await logout();
 
     if (response.data) {
-      loggedInProps.reset();
-      snackbar?.updateSnackbar(
+      // loggedInProps.reset();
+      snackbar.updateSnackbar(
         true,
         'success',
         `Success! ${response.data.message}`
       );
     } else {
-      snackbar?.updateSnackbar(true, 'error', 'Error logging out.');
+      snackbar.updateSnackbar(true, 'error', 'Error logging out.');
     }
   };
 
@@ -49,7 +49,7 @@ export default function SignedInDisplay() {
 
   return (
     <Container>
-      <CoverLetterStatsContainer>
+      {/* <CoverLetterStatsContainer>
         <Stat
           statName='Gpt-3 Generations'
           statValue={loggedInProps?.gpt3_generations_available}
@@ -62,14 +62,14 @@ export default function SignedInDisplay() {
           statName='Adjustments Available'
           statValue={loggedInProps?.adjustments_available}
         />
-      </CoverLetterStatsContainer>
+      </CoverLetterStatsContainer> */}
       <Typography className='profile-email'>{loggedInProps?.email}</Typography>
 
       <HorizontalDivider />
 
-      <UnSelectedButton onClick={() => dialogProps?.toggleSettingsIsOpen()}>
+      {/* <UnSelectedButton onClick={() => dialogProps?.toggleSettingsIsOpen()}>
         Upgrade
-      </UnSelectedButton>
+      </UnSelectedButton> */}
 
       <UnSelectedButton onClick={() => dialogProps?.toggleHelpDialog()}>
         Help

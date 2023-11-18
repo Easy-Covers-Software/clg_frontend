@@ -1,13 +1,13 @@
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import styled from "@emotion/styled";
-import Divider from "@mui/material/Divider";
-import { UnSelectedButton } from "@/components/Global/Global";
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import styled from '@emotion/styled';
+import Divider from '@mui/material/Divider';
+import { UnSelectedButton } from '@/components/Global/Global';
 
 const Container = styled(Grid)`
   display: flex;
   flex-direction: column;
   align-items: space-between;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
   height: 100%;
   // gap: 24px;

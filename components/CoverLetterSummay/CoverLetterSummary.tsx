@@ -3,8 +3,9 @@ import { FC } from 'react';
 import { Typography } from '@mui/material';
 
 import { CircularProgress } from '@mui/material';
+import Switch from '@mui/material/Switch';
 
-import { useGenerationContext } from '@/context/GenerationContext';
+import { useAuth } from '@/context/AuthContext';
 
 import {
   Container,
@@ -13,27 +14,53 @@ import {
 } from './CoverLetterSummary.styles';
 
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { JobDetailsProps } from '@/Types/GenerationContext.types';
+import { SummaryHeaderProps } from '@/Types/Common.types';
+import { alpha, styled } from '@mui/material/styles';
+import { green } from '@mui/material/colors';
 
 interface Props {
-  jobDetailsProps: JobDetailsProps;
+  summaryDetails: SummaryHeaderProps;
+  checked: boolean | null;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void | null;
 }
 
-const CoverLetterSummary: FC<Props> = ({ jobDetailsProps }) => {
+const GreenSwitch = styled(Switch)(({ theme }) => ({
+  '& .MuiSwitch-switchBase': {
+    color: `${green[600]} !important`,
+    '&:hover': {
+      backgroundColor: `${alpha(
+        green[600],
+        theme.palette.action.hoverOpacity
+      )} !important`,
+    },
+  },
+  '& .MuiSwitch-track': {
+    backgroundColor: `${green[600]} !important`,
+  },
+}));
+
+const CoverLetterSummary: FC<Props> = ({
+  summaryDetails,
+  checked,
+  handleChange,
+}) => {
+  const { state } = useAuth();
+  const { trackers } = state;
+
   return (
     <Container>
       <JobOverview>
-        {jobDetailsProps?.loadingSummary ? (
+        {summaryDetails?.loading ? (
           <Grid m={'auto'}>
             <CircularProgress color='success' />
           </Grid>
         ) : (
           <>
             <Typography className='job-summary-title'>
-              {jobDetailsProps?.jobTitle}
+              {summaryDetails?.mainTitle}
             </Typography>
             <Typography className='job-summary-company'>
-              {jobDetailsProps?.companyName}
+              {summaryDetails?.secondaryTitle}
             </Typography>
           </>
         )}
@@ -41,16 +68,38 @@ const CoverLetterSummary: FC<Props> = ({ jobDetailsProps }) => {
 
       <JobMatchScore>
         <Typography className='job-summary-match-score-header'>
-          Match Score
+          {trackers?.page === 'transcription' ? 'Mode' : 'Match Score'}
         </Typography>
-        {jobDetailsProps?.loadingSummary ? (
+
+        {summaryDetails?.loading ? (
           <Grid>
             <CircularProgress color='success' />
           </Grid>
         ) : (
-          <Typography className='job-summary-match-score'>
-            {jobDetailsProps?.matchScore}
-          </Typography>
+          <>
+            {trackers?.page === 'transcription' ? (
+              <Grid display={'flex'}>
+                <Typography mt={'6%'} pl={'1%'}>
+                  Notes
+                </Typography>
+                <GreenSwitch
+                  checked={checked}
+                  onChange={handleChange}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+                <Typography mt={'6%'} pr={'1%'}>
+                  Call
+                </Typography>
+              </Grid>
+            ) : (
+              <Typography className='job-summary-match-score'>
+                {summaryDetails?.supplementalInfo}
+              </Typography>
+            )}
+            {/* <Typography className='job-summary-match-score'>
+              {summaryDetails?.supplementalInfo}
+            </Typography> */}
+          </>
         )}
       </JobMatchScore>
     </Container>

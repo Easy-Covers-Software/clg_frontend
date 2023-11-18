@@ -30,8 +30,8 @@ interface Props {
   snackbar: Snackbar;
 }
 
-const DownloadDropdown: FC<Props> = ({
-  coverLetterData,
+const DownloadDropdown: FC<any> = ({
+  contentData,
   downloadProps,
   snackbar,
 }) => {
@@ -52,8 +52,8 @@ const DownloadDropdown: FC<Props> = ({
 
   const handlePDFDownload = () => {
     const pdf = generatePDF(
-      determineCoverLetterParts(coverLetterData),
-      coverLetterData.saveName
+      determineCoverLetterParts(contentData),
+      contentData.saveName
     );
 
     if (pdf) {
@@ -74,35 +74,35 @@ const DownloadDropdown: FC<Props> = ({
 
   const handleDOCXDownload = async () => {
     const response = await generateDOCX(
-      determineCoverLetterHtml(coverLetterData),
-      coverLetterData.saveName
+      determineCoverLetterHtml(contentData),
+      contentData.saveName
     );
 
     if (response) {
       snackbar.updateSnackbar(
         true,
         'success',
-        `Success! Exported ${coverLetterData.saveName} as Docx.`
+        `Success! Exported ${contentData.saveName} as Docx.`
       );
     } else {
       snackbar.updateSnackbar(
         true,
         'error',
-        `Error exporting ${coverLetterData.saveName} as Docx.`
+        `Error exporting ${contentData.saveName} as Docx.`
       );
     }
     handleCloseDownload();
   };
 
-  const shouldDisable = (coverLetterData: CoverLetterData) => {
-    if (coverLetterData?.coverLetterHtml) {
+  const shouldDisable = (content: CoverLetterData) => {
+    if (contentData?.contentHtml) {
       return false;
     } else {
       return true;
     }
   };
 
-  const disabled = shouldDisable(coverLetterData);
+  const disabled = shouldDisable(contentData);
 
   return (
     <>

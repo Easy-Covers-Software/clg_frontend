@@ -6,7 +6,61 @@ const { removeDivTags, formatCoverLetterForAdjustment, addPTags, addDivTag } =
 
 import { GenerationState } from '@/Types/GenerationContext.types';
 
-const initialState: GenerationState = {
+const Context = createContext<any>({
+  state: {},
+  dispatch: () => null,
+});
+
+// const initialState: GenerationState = {
+const initialState = {
+  //== Generation Setup State ==//
+  generationSetupState: {
+    jobPostings: [],
+    filteredJobPostings: [],
+    jobPostingSearch: '',
+    selectedJobPosting: null,
+    candidates: [],
+    filteredCandidates: [],
+    candidateSearch: '',
+    selectedCandidate: null,
+  },
+
+  //== Generation Settings ==//
+  emailGenerationSettings: {
+    introductionStyle: '',
+    interviewAvailability: '',
+    referal: '',
+    networkingPurpose: '',
+    communicationStyle: '',
+  },
+  coverLetterGenerationSettings: {
+    tone: '',
+    experienceLevel: '',
+    achievementEmphasis: '',
+    teamCollabStyle: '',
+  },
+
+  //== Generation Mode ==//
+  generationMode: true, // true=email false=cover letter
+
+  //=== Generation Results State ==//
+  generationResultsState: {
+    id: '',
+    content: null,
+    contentHtml: '',
+    editedContent: null,
+    editedContentHtml: '',
+    saveName: '',
+    loading: false,
+    updateId: (id: string): void => {},
+    updateContent: (content: string): void => {},
+    updateContentHtml: (contentHtml: string): void => {},
+    updateEditedContent: (editedContent: string): void => {},
+    updateEditedContentHtml: (editedContentHtml: string): void => {},
+    toggleLoading: (): void => {},
+  },
+
+  //**** OLD ****//
   //== Addition Details ==//
   additionalDetails: {
     simpleInput1: '',
@@ -16,7 +70,6 @@ const initialState: GenerationState = {
     updateSimpleInput: (id: string, value: string): void => {},
     updateOpenEndedInput: (openEndedInput: string): void => {},
   },
-
   //== Generation Setup ==//
   generationSetupProps: {
     jobPosting: '',
@@ -35,18 +88,16 @@ const initialState: GenerationState = {
 
   //== Job Details ==//
   jobDetailsProps: {
-    jobPostingId: '',
-    jobTitle: 'Job Title',
-    companyName: 'Company',
-    matchScore: 0,
-    loadingSummary: false,
-
-    updateJobTitle: (jobTitle: string): void => {},
-    updateCompanyName: (companyName: string): void => {},
-    updateMatchScore: (matchScore: number): void => {},
-    toggleLoadingSummary: (): void => {},
+    id: '',
+    mainTitle: 'Job Title',
+    secondaryTitle: 'Company',
+    supplementalInfo: '0',
+    loading: false,
+    updateMainTitle: (title: string): void => {},
+    updateSecondaryTitle: (title: string): void => {},
+    updateSupplementalInfo: (info: number): void => {},
+    toggleLoading: (): void => {},
   },
-
   //== Cover Letter Data ==//
   coverLetterData: {
     coverLetterId: '',
@@ -66,7 +117,6 @@ const initialState: GenerationState = {
     toggleLoadingCoverLetter: (): void => {},
     reset: (): void => {},
   },
-
   //== Simple Adjustments ==//
   simpleAdjustmentProps: {
     disableSimpleAdjustment: true,
@@ -74,7 +124,6 @@ const initialState: GenerationState = {
       disableSimpleAdjustment: boolean
     ): void => {},
   },
-
   //== Intermediate Adjustments ==//
   intermediateAdjustmentProps: {
     addSkillInput: '',
@@ -94,7 +143,6 @@ const initialState: GenerationState = {
     toggleDisableRemoveRedundancy: (): void => {},
     toggleDisableIntermediateAdjustment: (): void => {},
   },
-
   //== Custom Adjustments ==//
   customAdjustmentProps: {
     customAdjustment: '',
@@ -104,7 +152,6 @@ const initialState: GenerationState = {
       disableCustomAdjustment: boolean
     ): void => {},
   },
-
   //== Save ==//
   saveProps: {
     isSavedDropdownOpen: false,
@@ -112,7 +159,6 @@ const initialState: GenerationState = {
     toggleIsSavedDropdownOpen: (): void => {},
     toggleDisableSavedButton: (): void => {},
   },
-
   //== Download ==//
   downloadProps: {
     isDownloadDropdownOpen: false,
@@ -120,7 +166,6 @@ const initialState: GenerationState = {
     toggleIsDownloadDropdownOpen: (): void => {},
     toggleDisableDownloads: (): void => {},
   },
-
   //== Adjustments Section ==//
   adjustmentSection: {
     isAdjustmentsSectionExpanded: false,
@@ -128,10 +173,252 @@ const initialState: GenerationState = {
   },
 };
 
-const Context = createContext(null);
-
 function reducer(state, action) {
   switch (action.type) {
+    //== GenerationSetupState ==//
+    case 'SET_GENERATION_SETUP_STATE':
+      return {
+        ...state,
+        generationSetupState: {
+          ...state.generationSetupState,
+          ...action.payload,
+        },
+      };
+    case 'UPDATE_JOB_POSTINGS':
+      return {
+        ...state,
+        generationSetupState: {
+          ...state.generationSetupState,
+          jobPostings: action.payload,
+        },
+      };
+    case 'UPDATE_FILTERED_JOB_POSTINGS':
+      return {
+        ...state,
+        generationSetupState: {
+          ...state.generationSetupState,
+          filteredJobPostings: action.payload,
+        },
+      };
+    case 'UPDATE_JOB_POSTING_SEARCH':
+      return {
+        ...state,
+        generationSetupState: {
+          ...state.generationSetupState,
+          jobPostingSearch: action.payload,
+        },
+      };
+    case 'UPDATE_SELECTED_JOB_POSTING':
+      return {
+        ...state,
+        generationSetupState: {
+          ...state.generationSetupState,
+          selectedJobPosting: action.payload,
+        },
+      };
+    case 'UPDATE_CANDIDATES':
+      return {
+        ...state,
+        generationSetupState: {
+          ...state.generationSetupState,
+          candidates: action.payload,
+        },
+      };
+    case 'UPDATE_FILTERED_CANDIDATES':
+      return {
+        ...state,
+        generationSetupState: {
+          ...state.generationSetupState,
+          filteredCandidates: action.payload,
+        },
+      };
+    case 'UPDATE_CANDIDATE_SEARCH':
+      return {
+        ...state,
+        generationSetupState: {
+          ...state.generationSetupState,
+          candidateSearch: action.payload,
+        },
+      };
+    case 'UPDATE_SELECTED_CANDIDATE':
+      return {
+        ...state,
+        generationSetupState: {
+          ...state.generationSetupState,
+          selectedCandidate: action.payload,
+        },
+      };
+
+    //== Generation Settings ==//
+    case 'SET_EMAIL_GENERATION_SETTINGS':
+      return {
+        ...state,
+        emailGenerationSettings: {
+          ...state.emailGenerationSettings,
+          ...action.payload,
+        },
+      };
+    case 'UPDATE_INTRODUCTION_STYLE':
+      return {
+        ...state,
+        emailGenerationSettings: {
+          ...state.emailGenerationSettings,
+          introductionStyle: action.payload,
+        },
+      };
+    case 'UPDATE_INTERVIEW_AVAILABILITY':
+      return {
+        ...state,
+        emailGenerationSettings: {
+          ...state.emailGenerationSettings,
+          interviewAvailability: action.payload,
+        },
+      };
+    case 'UPDATE_REFERAL':
+      return {
+        ...state,
+        emailGenerationSettings: {
+          ...state.emailGenerationSettings,
+          referal: action.payload,
+        },
+      };
+    case 'UPDATE_NETWORKING_PURPOSE':
+      return {
+        ...state,
+        emailGenerationSettings: {
+          ...state.emailGenerationSettings,
+          networkingPurpose: action.payload,
+        },
+      };
+    case 'UPDATE_COMMUNICATION_STYLE':
+      return {
+        ...state,
+        emailGenerationSettings: {
+          ...state.emailGenerationSettings,
+          communicationStyle: action.payload,
+        },
+      };
+
+    case 'SET_COVER_LETTER_GENERATION_SETTINGS':
+      return {
+        ...state,
+        coverLetterGenerationSettings: {
+          ...state.coverLetterGenerationSettings,
+          ...action.payload,
+        },
+      };
+    case 'UPDATE_TONE':
+      return {
+        ...state,
+        coverLetterGenerationSettings: {
+          ...state.coverLetterGenerationSettings,
+          tone: action.payload,
+        },
+      };
+    case 'UPDATE_EXPERIENCE_LEVEL':
+      return {
+        ...state,
+        coverLetterGenerationSettings: {
+          ...state.coverLetterGenerationSettings,
+          experienceLevel: action.payload,
+        },
+      };
+    case 'UPDATE_ACHIEVEMENT_EMPHASIS':
+      return {
+        ...state,
+        coverLetterGenerationSettings: {
+          ...state.coverLetterGenerationSettings,
+          achievementEmphasis: action.payload,
+        },
+      };
+    case 'UPDATE_TEAM_COLLAB_STYLE':
+      return {
+        ...state,
+        coverLetterGenerationSettings: {
+          ...state.coverLetterGenerationSettings,
+          teamCollabStyle: action.payload,
+        },
+      };
+
+    //== Generation Mode ==//
+    case 'SET_GENERATION_MODE':
+      return {
+        ...state,
+        generationMode: action.payload,
+      };
+    case 'TOGGLE_GENERATION_MODE':
+      return {
+        ...state,
+        generationMode: !state.generationMode,
+      };
+
+    //=== Generation Results State ==//
+    case 'SET_GENERATION_RESULTS_STATE':
+      return {
+        ...state,
+        generationResultsState: {
+          ...state.generationResultsState,
+          ...action.payload,
+        },
+      };
+    case 'UPDATE_GENERATION_RESULTS_ID':
+      return {
+        ...state,
+        generationResultsState: {
+          ...state.generationResultsState,
+          id: action.payload,
+        },
+      };
+    case 'UPDATE_GENERATION_RESULTS_CONTENT':
+      return {
+        ...state,
+        generationResultsState: {
+          ...state.generationResultsState,
+          content: action.payload,
+        },
+      };
+    case 'UPDATE_GENERATION_RESULTS_CONTENT_HTML':
+      return {
+        ...state,
+        generationResultsState: {
+          ...state.generationResultsState,
+          contentHtml: action.payload,
+        },
+      };
+    case 'UPDATE_GENERATION_RESULTS_EDITED_CONTENT':
+      return {
+        ...state,
+        generationResultsState: {
+          ...state.generationResultsState,
+          editedContent: action.payload,
+        },
+      };
+    case 'UPDATE_GENERATION_RESULTS_EDITED_CONTENT_HTML':
+      return {
+        ...state,
+        generationResultsState: {
+          ...state.generationResultsState,
+          editedContentHtml: action.payload,
+        },
+      };
+    case 'UPDATE_GENERATION_RESULTS_SAVE_NAME':
+      return {
+        ...state,
+        generationResultsState: {
+          ...state.generationResultsState,
+          saveName: action.payload,
+        },
+      };
+    case 'TOGGLE_GENERATION_RESULTS_LOADING':
+      return {
+        ...state,
+        generationResultsState: {
+          ...state.generationResultsState,
+          loading: !state.generationResultsState.loading,
+        },
+      };
+
+    //**** OLD ****//
     //== Addition Details ==//
     case 'SET_ADDITIONAL_DETAILS':
       return {
@@ -625,6 +912,51 @@ export function GenerationContext({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   //==* State Hooks *==//
+  //** NEW **//
+  useEffect(() => {
+    dispatch({
+      type: 'SET_GENERATION_RESULTS_STATE',
+      payload: {
+        updateId: (id: string): void => {
+          dispatch({
+            type: 'UPDATE_GENERATION_RESULTS_ID',
+            payload: id,
+          });
+        },
+        updateContent: (content: string): void => {
+          dispatch({
+            type: 'UPDATE_GENERATION_RESULTS_CONTENT',
+            payload: content,
+          });
+        },
+        updateContentHtml: (contentHtml: string): void => {
+          dispatch({
+            type: 'UPDATE_GENERATION_RESULTS_CONTENT_HTML',
+            payload: contentHtml,
+          });
+        },
+        updateEditedContent: (editedContent: string): void => {
+          dispatch({
+            type: 'UPDATE_GENERATION_RESULTS_EDITED_CONTENT',
+            payload: editedContent,
+          });
+        },
+        updateEditedContentHtml: (editedContentHtml: string): void => {
+          dispatch({
+            type: 'UPDATE_GENERATION_RESULTS_EDITED_CONTENT_HTML',
+            payload: editedContentHtml,
+          });
+        },
+        toggleLoading: (): void => {
+          dispatch({
+            type: 'TOGGLE_GENERATION_RESULTS_LOADING',
+          });
+        },
+      },
+    });
+  }, []);
+
+  //** OLD **//
   //== Addition Details ==//
   useEffect(() => {
     dispatch({
@@ -927,6 +1259,15 @@ export function GenerationContext({ children }) {
       });
     }
   }, [state.coverLetterData.coverLetterParts]);
+
+  useEffect(() => {
+    if (state.generationResultsState.content) {
+      dispatch({
+        type: 'UPDATE_GENERATION_RESULTS_CONTENT_HTML',
+        payload: addDivTag(addPTags(state.generationResultsState.content)),
+      });
+    }
+  }, [state.generationResultsState.content]);
 
   //== Update Save Name ==//
   useEffect(() => {

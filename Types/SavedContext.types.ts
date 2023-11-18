@@ -1,30 +1,33 @@
+import { SummaryHeaderProps } from './Common.types';
+
 //== Saved Cover Letters List ==//
 type SavedCoverLetterListProps = {
-  savedCoverLetters: any[];
-  selectedCoverLetter: any;
+  savedItems: any[];
+  filteredItems: any[];
+  selected: any;
   search: string;
   filterValue: string;
   update: boolean;
   loading: boolean;
-  updateSavedCoverLetters: (savedCoverLetters: any[]) => void;
-  updateSelectedCoverLetter: (selectedCoverLetter: any) => void;
+  updateSavedItems: (savedCoverLetters: any[]) => void;
+  updateSelected: (selectedCoverLetter: any) => void;
   updateSearch: (search: string) => void;
-  updateFilterValue: (filterValue: string) => void;
+  updateFilteredItems: (filteredItems: any[]) => void;
   resetSelected: () => void;
 };
 
 //== Job Details ==//
-type JobDetailsProps = {
-  jobPostingId: string;
-  jobTitle: string;
-  companyName: string;
-  matchScore: number;
-  loadingSummary: boolean;
-  updateJobTitle: (jobTitle: string) => void;
-  updateCompanyName: (companyName: string) => void;
-  updateMatchScore: (matchScore: number) => void;
-  toggleLoadingSummary: () => void;
-};
+// type JobDetailsProps = {
+//   jobPostingId: string;
+//   jobTitle: string;
+//   companyName: string;
+//   matchScore: number;
+//   loadingSummary: boolean;
+//   updateJobTitle: (jobTitle: string) => void;
+//   updateCompanyName: (companyName: string) => void;
+//   updateMatchScore: (matchScore: number) => void;
+//   toggleLoadingSummary: () => void;
+// };
 
 //== Cover Letter Data ==//
 type CoverLetterDataProps = {
@@ -105,7 +108,7 @@ type AdjustmentSectionProps = {
 //== Master State Type ==//
 type SavedCoverLettersState = {
   savedCoverLetterListProps: SavedCoverLetterListProps;
-  jobDetailsProps: JobDetailsProps;
+  jobDetailsProps: SummaryHeaderProps;
   coverLetterData: CoverLetterDataProps;
   simpleAdjustmentProps: SimpleAdjustmentProps;
   intermediateAdjustmentProps: IntermediateAdjustmentProps;

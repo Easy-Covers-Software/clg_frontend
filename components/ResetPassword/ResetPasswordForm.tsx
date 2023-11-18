@@ -7,6 +7,10 @@ import { Paper, TextField, Button, Typography, Box } from '@mui/material';
 import { useAuth } from '@/context/AuthContext';
 import { LoginApiMethods } from '@/Utils/utils';
 import SnackbarAlert from '../Global/components/SnackbarAlert';
+import {
+  APIResponse,
+  ForgotPasswordSuccessApiResponse,
+} from '@/Types/ApiResponse.types';
 
 import {
   APIResponse,

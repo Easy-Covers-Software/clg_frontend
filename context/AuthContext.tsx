@@ -18,6 +18,7 @@ const initialState: AuthState = {
     email: '',
     password: '',
     newPasswordRepeat: '',
+    phoneNumber: '',
     username: '',
     showPassword: false,
     showPasswordRepeat: false,
@@ -26,6 +27,7 @@ const initialState: AuthState = {
     clearEmail: (): void => {},
     updatePassword: (password: string): void => {},
     updateNewPasswordRepeat: (newPasswordRepeat: string): void => {},
+    updatePhoneNumber: (phoneNumber: string): void => {},
     updateUsername: (username: string): void => {},
     toggleShowPassword: (): void => {},
     toggleShowPasswordRepeat: (): void => {},
@@ -47,7 +49,7 @@ const initialState: AuthState = {
 
   //== Trackers ==//
   trackers: {
-    page: '',
+    page: 'jobPostings', // "jobPostings", "candidates", "generate", "calls"
     mobileMode: 'setup',
     mobileModeSaved: 'choose',
     updatePage: (page: string): void => {},
@@ -151,6 +153,15 @@ function reducer(state, action) {
         accountAuthProps: {
           ...state.accountAuthProps,
           newPasswordRepeat: action.payload,
+        },
+      };
+
+    case 'UPDATE_PHONE_NUMBER':
+      return {
+        ...state,
+        accountAuthProps: {
+          ...state.accountAuthProps,
+          phoneNumber: action.payload,
         },
       };
 
@@ -487,6 +498,9 @@ export const AuthProvider = ({
             type: 'UPDATE_NEW_PASSWORD_REPEAT',
             payload: newPasswordRepeat,
           });
+        },
+        updatePhoneNumber: (phoneNumber: string): void => {
+          dispatch({ type: 'UPDATE_PHONE_NUMBER', payload: phoneNumber });
         },
         updateUsername: (username: string): void => {
           dispatch({ type: 'UPDATE_USERNAME', payload: username });
