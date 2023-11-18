@@ -1,9 +1,9 @@
-import Generation from '@/pages/Generation/Generation';
+import JobPostingSection from '@/pages/JobPostingsSection/JobPostingSection';
 
 export default function GenerationMode() {
   return (
     <>
-      <Generation />
+      <JobPostingSection />
     </>
   );
 }
