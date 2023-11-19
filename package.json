@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "postinstall": "if [[ \"$OSTYPE\" == \"darwin\"* ]]; then npm install @next/swc-darwin-x64; fi"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
