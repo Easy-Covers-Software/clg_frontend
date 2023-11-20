@@ -7,8 +7,6 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 import FilterDropdown from './FilterDropdown';
 
-import { useSavedCoverLettersContext } from '@/context/SavedCoverLettersContext';
-
 const Search = muiStyled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -48,9 +46,6 @@ const StyledInputBase = muiStyled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAndFilter({ search, handleSearchChange, type }) {
-  // const { state, dispatch } = useSavedCoverLettersContext();
-  // const { search } = state;
-
   // const handleSearchChange = (event) => {
   //   dispatch({ type: 'SET_SEARCH', payload: event.target.value });
   // };

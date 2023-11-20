@@ -9,7 +9,6 @@ import {
   useMediaQuery,
 } from '@mui/material';
 
-import { useSavedCoverLettersContext } from '@/context/SavedCoverLettersContext';
 import { useAuth } from '@/context/AuthContext';
 
 import { CoverLetterApiMethods } from '@/Utils/utils';
