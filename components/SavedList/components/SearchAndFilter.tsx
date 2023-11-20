@@ -3,7 +3,6 @@ import { styled as muiStyled, alpha } from '@mui/material/styles';
 import styled from '@emotion/styled';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 import FilterDropdown from './FilterDropdown';
 
