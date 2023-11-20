@@ -9,7 +9,6 @@ import FilterDropdown from './FilterDropdown';
 const Search = muiStyled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  // backgroundColor: theme.palette.primary.main,
   backgroundColor: 'white',
   color: '#006D4B',
   border: '1px solid #13D0B7',
