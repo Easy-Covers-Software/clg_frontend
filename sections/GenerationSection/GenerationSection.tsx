@@ -9,7 +9,7 @@ import HelpDialog from '@/components/HelpDialog/HelpDialog';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
 
-import GenerationSetup from '@/pages/GenerationSection/GenerationSetup/GenerationSetup';
+import GenerationSetup from '@/section/GenerationSection/GenerationSetup/GenerationSetup';
 
 // import GenerationSetup from './components/GenerationSetup'
 import GenerationSetupLists from './components/GenerationSetupLists';

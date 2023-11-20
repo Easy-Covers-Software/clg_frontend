@@ -1,4 +1,4 @@
-import GenerationSection from '@/pages/GenerationSection/GenerationSection';
+import GenerationSection from '@/sections/GenerationSection/GenerationSection';
 
 export default function GenerationMode() {
   return (
