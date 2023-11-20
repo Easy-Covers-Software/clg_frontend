@@ -47,7 +47,6 @@ const EmailSettings = () => {
           name='introductionStyle'
           value={settings.introductionStyle}
           onChange={handleChange}
-          d
         >
           <MenuItem value='formal'>Formal</MenuItem>
           <MenuItem value='casual'>Casual</MenuItem>
