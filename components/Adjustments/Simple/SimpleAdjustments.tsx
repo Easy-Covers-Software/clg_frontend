@@ -8,8 +8,8 @@ import SimpleAdjustmentButtonGroup from './components/SimpleAdjustmentButtonGrou
 import { IconButton } from '@mui/material';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
-import { Helpers, CoverLetterApiMethods } from '@/Utils/utils';
-const { makeAdjustment } = CoverLetterApiMethods;
+import { Helpers, GenerationMethods } from '@/Utils/utils';
+const { makeAdjustment } = GenerationMethods;
 const { determineCoverLetterHtml } = Helpers;
 
 import { APIResponse, AdjustmentApiResponse } from '@/Types/ApiResponse.types';

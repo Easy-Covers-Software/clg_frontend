@@ -7,8 +7,8 @@ import IntermediateAdjustmentInput from './IntermediateAdjustmentInput';
 import { useAuth } from '@/context/AuthContext';
 import { useMediaQuery } from '@mui/material';
 
-import { Helpers, CoverLetterApiMethods } from '@/Utils/utils';
-const { makeAdjustment } = CoverLetterApiMethods;
+import { Helpers, GenerationMethods } from '@/Utils/utils';
+const { makeAdjustment } = GenerationMethods;
 const { determineCoverLetterHtml } = Helpers;
 
 import { APIResponse, AdjustmentApiResponse } from '@/Types/ApiResponse.types';
