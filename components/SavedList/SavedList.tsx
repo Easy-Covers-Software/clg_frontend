@@ -8,7 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { useAuth } from '@/context/AuthContext';
 import { CircularProgress } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+// import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import SearchAndFilter from './components/SearchAndFilter';
 
