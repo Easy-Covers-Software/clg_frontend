@@ -337,10 +337,10 @@ const CandidateSelectionBody: FC = () => {
         checked={null}
         handleChange={null}
       />
-      <SubContainer>
-        {selectedCandidateProfile !== null &&
-          renderCurrentCandidateProfileModeSection()}
-      </SubContainer>
+      {/* <SubContainer> */}
+      {selectedCandidateProfile !== null &&
+        renderCurrentCandidateProfileModeSection()}
+      {/* </SubContainer> */}
     </Container>
   );
 };
