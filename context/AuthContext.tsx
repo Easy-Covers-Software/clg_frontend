@@ -12,7 +12,8 @@ interface AuthProviderProps {
 }
 const AuthContext = createContext({});
 
-const initialState: AuthState = {
+// const initialState: AuthState = {
+const initialState: any = {
   //== Account Auth Props ==//
   accountAuthProps: {
     email: '',
