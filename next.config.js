@@ -3,7 +3,7 @@ const nextConfig = {
   webpack(config) {
     config.experiments = {
       ...config.experiments,
-      topLevelAwait: false,
+      topLevelAwait: true,
     };
     return config;
   },
