@@ -120,7 +120,6 @@ type SavedCoverLettersState = {
 
 export type {
   SavedCoverLetterListProps,
-  JobDetailsProps,
   CoverLetterDataProps,
   SimpleAdjustmentProps,
   IntermediateAdjustmentProps,
