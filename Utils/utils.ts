@@ -42,7 +42,7 @@ namespace Helpers {
     return html.replace(/<p>/g, '').replace(/<\/p>/g, '');
   };
 
-  export const addPTags = (parts: string) => {
+  export const addPTags = (parts: any) => {
     const coverLetterParts = parts.map((part) => `<p>${part}</p>`).join('');
     const coverLetter = `<div>${coverLetterParts}</div>`;
     return coverLetter;
