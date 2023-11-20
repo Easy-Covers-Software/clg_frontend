@@ -1,8 +1,7 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 
 //-- import MUI components --//
 import styled from '@emotion/styled';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 //-- import context --//
 import { useAuth } from '@/context/AuthContext';
@@ -16,6 +15,7 @@ import SubSectionFrame from '@/components/Global/components/SubSectionFrame';
 import FullCandidateJobProfile from '@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile';
 import GenerationEditor from '@/components/GenerationEditor/GenerationEditor';
 import TranscriptionNotes from '@/components/Transcription/TranscriptionNotes';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 //-- import api methods --//
 import { GenerationMethods, CandidateProfileMethods } from '@/Utils/utils';

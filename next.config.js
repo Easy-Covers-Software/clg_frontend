@@ -6,7 +6,7 @@ const nextConfig = {
   webpack(config) {
     config.experiments = {
       ...config.experiments,
-      topLevelAwait: true,
+      topLevelAwait: false,
     };
     return config;
   },
