@@ -22,7 +22,8 @@ import { GenerationMethods, CandidateProfileMethods } from '@/Utils/utils';
 const { calculateMatchScore } = GenerationMethods;
 const { fetchJobPostingsAssociatedWithCandidate } = CandidateProfileMethods;
 
-const Container = styled(Grid)`
+// const Container = styled(Grid)`
+const Container = styled.div`
   width: 100%;
   background-color: white;
   border-radius: 4px;
@@ -45,7 +46,8 @@ const Container = styled(Grid)`
   }
 `;
 
-const SubContainer = styled(Grid)`
+// const SubContainer = styled(Grid)`
+const SubContainer = styled.div`
   height: 100%;
   margin: 0.75%;
   background-color: #f8f8ff;
@@ -337,10 +339,10 @@ const CandidateSelectionBody: FC = () => {
         checked={null}
         handleChange={null}
       />
-      {/* <SubContainer> */}
-      {selectedCandidateProfile !== null &&
-        renderCurrentCandidateProfileModeSection()}
-      {/* </SubContainer> */}
+      <SubContainer>
+        {selectedCandidateProfile !== null &&
+          renderCurrentCandidateProfileModeSection()}
+      </SubContainer>
     </Container>
   );
 };
