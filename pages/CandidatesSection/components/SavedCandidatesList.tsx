@@ -1,8 +1,6 @@
 import { FC, useEffect } from 'react';
 
 //-- import MUI components --//
-import styled from '@emotion/styled';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Container } from '@/components/SavedList/SavedList.styles';
 
 //-- import context --//
