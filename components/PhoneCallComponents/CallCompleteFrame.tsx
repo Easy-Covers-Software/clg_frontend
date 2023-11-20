@@ -7,9 +7,9 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { PrimaryButton, UnSelectedButton } from '../Global/Global';
 import CallComplete from './CallComplete/CallComplete';
 import CallCompleteStepper from './CallCompleteStepper';
-import BasicInfoForm from './new-forms/BasicInfoForm';
-import CurrentEmploymentForm from './new-forms/CurrentEmploymentForm';
-import AdditionalInfoForm from './new-forms/AdditionalInfoForm';
+import BasicInfoForm from './NewForms/BasicInfoForm';
+import CurrentEmploymentForm from './NewForms/CurrentEmploymentForm';
+import AdditionalInfoForm from './NewForms/AdditionalInfoForm';
 import { Typography } from '@mui/material';
 
 const steps = [
