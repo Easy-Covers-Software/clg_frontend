@@ -167,7 +167,7 @@ const CallComplete: FC<Props> = () => {
               <InputField
                 type='file'
                 id='resume-upload'
-                onChange={(e) =>
+                onChange={(e: any) =>
                   dispatch({
                     type: 'UPDATE_CALL_COMPLETE_FORM_RESUME',
                     payload: e.target.files[0],
