@@ -52,8 +52,8 @@ const NoteOptions = styled(Grid)`
 `;
 
 interface Props {
-  noteHeader: string;
-  noteContent: string;
+  noteHeader: any;
+  noteContent: any;
 }
 
 const TranscriptionNote: FC<Props> = ({ noteHeader, noteContent }) => {
