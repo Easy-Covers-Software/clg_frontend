@@ -12,11 +12,6 @@ import {
   ForgotPasswordSuccessApiResponse,
 } from '@/Types/ApiResponse.types';
 
-import {
-  APIResponse,
-  ForgotPasswordSuccessApiResponse,
-} from '@/Types/ApiResponse.types';
-
 const { submitNewPasswords } = LoginApiMethods;
 
 const ResetPasswordForm = () => {
