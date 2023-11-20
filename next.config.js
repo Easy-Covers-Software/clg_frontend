@@ -7,6 +7,9 @@ const nextConfig = {
     };
     return config;
   },
+  resolve: {
+    preferRelative: true,
+  },
 };
 
 module.exports = nextConfig;
