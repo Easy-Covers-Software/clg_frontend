@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 //-- mui --//
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+// import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
 import { useMediaQuery } from '@mui/material';
 
@@ -21,7 +21,8 @@ import LoginDialog from '@/components/Login/LoginDialog';
 import SavedCandidatesList from './components/SavedCandidatesList';
 import CandidateSelectionBody from './components/CandidateSelectionBody';
 
-const Container = styled(Grid)`
+// const Container = styled(Grid)`
+const Container = styled.div`
   display: flex;
   justify-content: end;
   width: 100%;
