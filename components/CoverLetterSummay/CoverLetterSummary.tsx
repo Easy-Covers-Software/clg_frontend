@@ -93,7 +93,7 @@ const CoverLetterSummary: FC<Props> = ({
               </Grid>
             ) : (
               <Typography className='job-summary-match-score'>
-                {summaryDetails?.supplementalInfo}
+                {summaryDetails?.supplementaryInfo}
               </Typography>
             )}
             {/* <Typography className='job-summary-match-score'>

@@ -230,61 +230,61 @@ body {
 }
 
 .job-summary-title {
-  font-size: 1.2rem;
+  font-size: 1.2rem !important;
   color: #006d4b;
-  letter-spacing: 0.22rem;
-  white-space: nowrap;
+  letter-spacing: 0.22rem !important;
+  white-space: nowrap !important;
   width: 100%;
-  height: fit-content;
+  height: fit-content !important;
 
   @media screen and (min-width: 0px) and (max-width: 500px) {
-    font-size: 1.04rem;
+    font-size: 1.04rem !important;
     letter-spacing: 0.2rem;
     overflow-y: scroll;
   }
   @media screen and (min-width: 500px) and (max-width: 600px) {
-    font-size: 1.04rem;
+    font-size: 1.04rem !important;
     letter-spacing: 0.22rem;
     overflow-y: scroll;
   }
   @media screen and (min-width: 600px) and (max-width: 700px) {
-    font-size: 1.08rem;
+    font-size: 1.08rem !important;
     letter-spacing: 0.26rem;
   }
   @media screen and (min-width: 700px) and (max-width: 800px) {
-    font-size: 1.12rem;
+    font-size: 1.12rem !important;
     letter-spacing: 0.3rem;
   }
   @media screen and (min-width: 800px) and (max-width: 900px) {
-    font-size: 1.14rem;
+    font-size: 1.14rem !important;
     letter-spacing: 0.28rem;
   }
   @media screen and (min-width: 900px) and (max-width: 950px) {
-    font-size: 1.16rem;
+    font-size: 1.16rem !important;
     letter-spacing: 0.26rem;
   }
   @media screen and (min-width: 950px) and (max-width: 1000px) {
-    font-size: 1.2rem;
+    font-size: 1.2rem !important;
     letter-spacing: 0.24rem;
   }
   @media screen and (min-width: 1000px) and (max-width: 1100px) {
-    font-size: 1.24rem;
+    font-size: 1.24rem !important;
     letter-spacing: 0.22rem;
   }
   @media screen and (min-width: 1100px) and (max-width: 1200px) {
-    font-size: 1.28rem;
+    font-size: 1.28rem !important;
     letter-spacing: 0.2rem;
   }
   @media screen and (min-width: 1200px) and (max-width: 1300px) {
-    font-size: 1.34rem;
+    font-size: 1.34rem !important;
     letter-spacing: 0.2rem;
   }
 }
 
 .job-summary-title::-webkit-scrollbar {
-  width: 0px;
-  height: 0px;
-  background: transparent;
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
 }
 
 .job-summary-company {

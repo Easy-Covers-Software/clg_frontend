@@ -39,7 +39,7 @@ export default function UploadOption({ label, accept }) {
     e.preventDefault();
     setDragging(false);
     generationSetupProps?.updateResume(e);
-    await handleUploadResume();
+    await handleUploadResume(e.target.files[0]);
   };
 
   const handleChange = async (e) => {

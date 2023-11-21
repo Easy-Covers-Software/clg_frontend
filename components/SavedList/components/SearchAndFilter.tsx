@@ -3,16 +3,12 @@ import { styled as muiStyled, alpha } from '@mui/material/styles';
 import styled from '@emotion/styled';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 import FilterDropdown from './FilterDropdown';
-
-import { useSavedCoverLettersContext } from '@/context/SavedCoverLettersContext';
 
 const Search = muiStyled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  // backgroundColor: theme.palette.primary.main,
   backgroundColor: 'white',
   color: '#006D4B',
   border: '1px solid #13D0B7',
@@ -48,9 +44,6 @@ const StyledInputBase = muiStyled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAndFilter({ search, handleSearchChange, type }) {
-  // const { state, dispatch } = useSavedCoverLettersContext();
-  // const { search } = state;
-
   // const handleSearchChange = (event) => {
   //   dispatch({ type: 'SET_SEARCH', payload: event.target.value });
   // };

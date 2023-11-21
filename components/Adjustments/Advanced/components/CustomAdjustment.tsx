@@ -3,8 +3,8 @@ import { useState, FC } from 'react';
 import Typography from '@mui/material/Typography';
 import { useAuth } from '@/context/AuthContext';
 
-import { Helpers, CoverLetterApiMethods } from '@/Utils/utils';
-const { makeAdjustment } = CoverLetterApiMethods;
+import { Helpers, GenerationMethods } from '@/Utils/utils';
+const { makeAdjustment } = GenerationMethods;
 const { determineCoverLetterHtml } = Helpers;
 
 // import { CustomReQueryStyledComponents } from '../ReQueryOptions.styles';

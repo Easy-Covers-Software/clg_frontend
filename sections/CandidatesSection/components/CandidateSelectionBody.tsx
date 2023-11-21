@@ -1,8 +1,7 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 
 //-- import MUI components --//
 import styled from '@emotion/styled';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 //-- import context --//
 import { useAuth } from '@/context/AuthContext';
@@ -22,7 +21,8 @@ import { GenerationMethods, CandidateProfileMethods } from '@/Utils/utils';
 const { calculateMatchScore } = GenerationMethods;
 const { fetchJobPostingsAssociatedWithCandidate } = CandidateProfileMethods;
 
-const Container = styled(Grid)`
+// const Container = styled(Grid)`
+const Container = styled.div`
   width: 100%;
   background-color: white;
   border-radius: 4px;
@@ -45,7 +45,8 @@ const Container = styled(Grid)`
   }
 `;
 
-const SubContainer = styled(Grid)`
+// const SubContainer = styled(Grid)`
+const SubContainer = styled.div`
   height: 100%;
   margin: 0.75%;
   background-color: #f8f8ff;
