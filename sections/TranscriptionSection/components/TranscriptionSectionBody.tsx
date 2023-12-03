@@ -188,7 +188,7 @@ export default function TranscriptionSectionBody() {
     };
 
     const ws = new ReconnectingWebSocket(
-      'ws://asgi:8001/ws/phone_calls/status/',
+      'wss://asgi:8001/ws/phone_calls/status/',
       [],
       wsOptions
     );

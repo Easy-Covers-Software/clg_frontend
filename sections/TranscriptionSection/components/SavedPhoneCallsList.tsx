@@ -172,7 +172,7 @@ export default function SavedPhoneCallsList() {
     };
 
     const ws = new ReconnectingWebSocket(
-      'ws://asgi:8001/ws/transcription/status/',
+      'wss://asgi:8001/ws/transcription/status/',
       [],
       wsOptions
     );
