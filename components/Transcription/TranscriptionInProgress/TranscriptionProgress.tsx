@@ -89,6 +89,8 @@ export default function TranscriptionProgress({ step }) {
         width: '60%',
         padding: '2%',
         marginBottom: '10%',
+        margin: 'auto',
+        marginTop: '10%'
       }}
     >
       <Grid
