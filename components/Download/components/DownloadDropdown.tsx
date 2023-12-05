@@ -102,7 +102,8 @@ const DownloadDropdown: FC<any> = ({
     }
   };
 
-  const disabled = shouldDisable(contentData);
+  // const disabled = shouldDisable(contentData);
+  const disabled = false
 
   return (
     <>

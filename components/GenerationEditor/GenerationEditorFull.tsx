@@ -153,7 +153,7 @@ const GenerationEditorFull: FC<Props> = ({
               {!isMobile && (
                 <RichTextEditor.ControlsGroup ml={'1%'}>
                   <DownloadMenu
-                    coverLetterData={coverLetterData}
+                    contentData={coverLetterData}
                     saveProps={saveProps}
                     downloadProps={downloadProps}
                     snackbar={snackbar}
