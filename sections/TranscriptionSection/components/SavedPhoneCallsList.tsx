@@ -92,7 +92,7 @@ export default function SavedPhoneCallsList() {
 
   const { state, dispatch } = useTranscriptionContext();
   console.log(state);
-  const { phoneCallListState, selectedPhoneCall, transcriptionModeState } =
+  const { phoneCallListState, selectedPhoneCall, transcriptionModeState, checked } =
     state;
 
   const [test, setTest] = useState<string>('');
@@ -123,6 +123,15 @@ export default function SavedPhoneCallsList() {
     dispatch({
       type: 'UPDATE_SELECTED_PHONE_CALL',
       payload: selected,
+    });
+    dispatch({
+      type: 'SET_CURRENT_MODE',
+      payload: 'Notes',
+    });
+    
+    dispatch({
+      type: 'SET_CHECKED',
+      payload: false,
     });
   };
 

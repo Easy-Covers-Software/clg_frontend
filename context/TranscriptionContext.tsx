@@ -70,7 +70,8 @@ const initialState = {
     },
     status: 'new',
   },
-  currentMode: 'Call',
+  currentMode: 'Notes',
+  checked: true,
   newCallForm: {
     candidate_name: '',
     candidate_number: '',
@@ -429,6 +430,12 @@ function reducer(state, action) {
               ? action.payload
               : transcription
         ),
+      };
+
+    case 'SET_CHECKED':
+      return {
+        ...state,
+        checked: action.payload,
       };
 
     //== Current Mode ==//

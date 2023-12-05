@@ -128,14 +128,20 @@ export default function TranscriptionSectionBody() {
     newCallForm,
     candidateSaveForm,
     newCandidateId,
-    phoneCallJobPostingId
+    phoneCallJobPostingId,
+    checked,
   } = state;
 
-  const [checked, setChecked] = useState(true);
+  // const [checked, setChecked] = useState(true);
   const [socket, setSocket] = useState<ReconnectingWebSocket | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
+
+    dispatch({
+      type: 'SET_CHECKED',
+      payload: event.target.checked
+    })
+
     if (checked) {
       dispatch({
         type: 'SET_CURRENT_MODE',
