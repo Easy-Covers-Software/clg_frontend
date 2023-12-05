@@ -41,7 +41,7 @@ const initialState = {
   },
 
   //== Generation Mode ==//
-  generationMode: true, // true=email false=cover letter
+  generationMode: false, // true=email false=cover letter
 
   //=== Generation Results State ==//
   generationResultsState: {
