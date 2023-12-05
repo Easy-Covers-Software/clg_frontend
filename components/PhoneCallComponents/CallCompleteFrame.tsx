@@ -88,14 +88,21 @@ export default function CallCompleteFrame({
   candidateId,
   candidateName,
   candidateNumber,
+  jobPosting,
   updateSaveForm,
   handleSaveCandidate,
   reset,
 }) {
+
+  console.log('jobPosting')
+  console.log(jobPosting)
+
+
   const initialFormData = {
     // Basic Information Fields
     name: candidateName,
     phone_number: candidateNumber,
+    job_posting: jobPosting,
     email: '',
     city: '',
     state: '',

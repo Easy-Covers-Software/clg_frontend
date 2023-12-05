@@ -33,31 +33,6 @@ export default function MenuLoggedIn() {
           </GenerationModeTab>
         </Link>
 
-        <Link href={'/candidates'} className={'no_underline'} passHref>
-          <GenerationModeTab
-            style={{
-              backgroundColor: page === 'candidates' ? '#f5faf5' : 'white',
-            }}
-            onClick={() => {
-              trackers?.updatePage('candidates');
-            }}
-          >
-            Candidates
-          </GenerationModeTab>
-        </Link>
-
-        <Link href={'/generate'} className={'no_underline'} passHref>
-          <GenerationModeTab
-            style={{
-              backgroundColor: page === 'generate' ? '#f5faf5' : 'white',
-            }}
-            onClick={() => {
-              trackers?.updatePage('generate');
-            }}
-          >
-            Generate
-          </GenerationModeTab>
-        </Link>
 
         <Link href={'/calls'} className={'no_underline'} passHref>
           <GenerationModeTab
@@ -71,6 +46,32 @@ export default function MenuLoggedIn() {
             Calls
           </GenerationModeTab>
         </Link>
+
+        <Link href={'/candidates'} className={'no_underline'} passHref>
+          <GenerationModeTab
+            style={{
+              backgroundColor: page === 'candidates' ? '#f5faf5' : 'white',
+            }}
+            onClick={() => {
+              trackers?.updatePage('candidates');
+            }}
+          >
+            Candidates
+          </GenerationModeTab>
+        </Link>
+
+          <Link href={'/generate'} className={'no_underline'} passHref>
+            <GenerationModeTab
+              style={{
+                backgroundColor: page === 'generate' ? '#f5faf5' : 'white',
+              }}
+              onClick={() => {
+                trackers?.updatePage('generate');
+              }}
+            >
+              Generate
+            </GenerationModeTab>
+          </Link>
       </Tabs>
 
       {/* <Grid> */}

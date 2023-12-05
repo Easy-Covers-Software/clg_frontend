@@ -128,6 +128,7 @@ export default function TranscriptionSectionBody() {
     newCallForm,
     candidateSaveForm,
     newCandidateId,
+    phoneCallJobPostingId
   } = state;
 
   const [checked, setChecked] = useState(true);
@@ -172,6 +173,12 @@ export default function TranscriptionSectionBody() {
         payload: response.data.candidate_profile.id,
       });
 
+      dispatch({
+        type: 'SET_CALL_JOB_POSTING_ID',
+        payload: response.data.job_posting_id,
+      });
+      
+
       snackbar.updateSnackbar(true, 'success', 'Phone Call Initiated.');
       handleWebSocketConnection();
     } else {
@@ -188,7 +195,7 @@ export default function TranscriptionSectionBody() {
     };
 
     const ws = new ReconnectingWebSocket(
-      'wss://asgi:8001/ws/phone_calls/status/',
+      'wss://simplxx.org/ws/phone_calls/status/',
       [],
       wsOptions
     );
@@ -361,6 +368,7 @@ export default function TranscriptionSectionBody() {
               candidateId={newCandidateId}
               candidateName={newCallForm.candidate_name}
               candidateNumber={newCallForm.candidate_number}
+              jobPosting={phoneCallJobPostingId}
               updateSaveForm={updateSaveForm}
               handleSaveCandidate={saveCandidateProfile}
               reset={handleDontSave}
@@ -428,6 +436,7 @@ export default function TranscriptionSectionBody() {
               justifyContent: 'center',
               alignItems: 'center',
               marginBottom: '20%',
+              margin: 'auto',
               height: '30%',
               width: '50%',
               padding: '1%',

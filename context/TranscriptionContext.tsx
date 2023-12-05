@@ -81,6 +81,7 @@ const initialState = {
   selectedJobPosting: null,
   newCandidateId: '',
   newCallId: '',
+  phoneCallJobPostingId: null,
 };
 
 function reducer(state, action) {
@@ -466,6 +467,12 @@ function reducer(state, action) {
         ...state,
         newCallId: action.payload,
       };
+    
+    case 'SET_CALL_JOB_POSTING_ID':
+      return {
+        ...state,
+        phoneCallJobPostingId: action.payload,
+      };
 
     default:
       return state;
@@ -552,6 +559,7 @@ export default function TranscriptionPageContext({ children }) {
       payload: {
         name: state.newCallForm.candidate_name,
         phone_number: state.newCallForm.candidate_number,
+        job_posting: state.newCallForm.job_posting
       },
     });
   }, [state.newCallForm?.candidate_name, state.newCallForm?.candidate_number]);
