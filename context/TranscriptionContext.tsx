@@ -71,7 +71,7 @@ const initialState = {
     status: 'new',
   },
   currentMode: 'Notes',
-  checked: true,
+  checked: false,
   newCallForm: {
     candidate_name: '',
     candidate_number: '',
