@@ -22,8 +22,7 @@ const CandidateProfessionalDetails = ({
   console.log('skills', skills);
   // console.log('linkedInUrl', linkedInUrl);
 
-  const skillChips = skills
-    .split(',')
+  const skillChips = skills?.split(',')
     .map((skill, index) => (
       <Chip key={index} label={skill.trim()} style={{ margin: '2px' }} />
     ));
@@ -102,7 +101,7 @@ const CandidateProfessionalDetails = ({
       <Box overflow={'scroll'} pb={1}>
         <Typography variant='body2'>Skills:</Typography>
         <Box display='flex' flexWrap='nowrap' mt={0}>
-          {skillChips.length > 0 ? skillChips : 'N/A'}
+          {skillChips?.length > 0 ? skillChips : 'N/A'}
         </Box>
       </Box>
     </Grid2>

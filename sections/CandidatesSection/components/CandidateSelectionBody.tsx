@@ -223,7 +223,7 @@ const CandidateSelectionBody: FC = () => {
     if (jobPostingsState?.selectedJobPosting !== null) {
       const updatedJobPosting = jobPostingsState?.jobPostings.find(
         (jobPosting) =>
-          jobPosting.id === jobPostingsState?.selectedJobPosting.id
+          jobPosting.id === jobPostingsState?.selectedJobPosting?.id
       );
 
       dispatch({
