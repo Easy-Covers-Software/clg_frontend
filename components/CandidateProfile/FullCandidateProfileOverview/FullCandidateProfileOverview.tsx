@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Grid from '@mui/material/Unstable_Grid2/Grid2'; // Importing Grid2
 import Paper from '@mui/material/Paper';
 import styled from '@emotion/styled';
@@ -7,6 +7,8 @@ import { Typography } from '@mui/material';
 import CandidateJobsList from './components/CandidateJobsList';
 import CandidatePersonalDetails from './components/CandidatePersonalDetails';
 import { useCandidatesContext } from '@/context/CandidatesContext';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'; // Import the upload icon
+
 
 const Container = styled(Grid)`
   height: 100%;
@@ -75,15 +77,29 @@ const FullCandidateProfileOverview = ({
   updateSelectedJobPosting,
   updateSelectedCandidateMode,
   handleCalculate,
+  resumeUrl,
+  handleFileChange
 }) => {
   // const { state, dispatch } = useCandidatesContext();
   // const { selectedCandidateProfile } = state;
+  const fileInputRef = useRef(null);
 
   console.log('Selected Candidate ===*');
   console.log(selectedCandidate);
 
   const onSelectJobPosting = (jobPosting) => {
     console.log('Selected Job Posting:', jobPosting);
+  };
+
+
+  const handleResumeClick = () => {
+    if (resumeUrl === '') {
+      fileInputRef.current.click();
+    } else {
+      // existing logic for non-empty resumeUrl
+      console.log('Resume Panel Clicked');
+      updateSelectedCandidateMode('resume');
+    }
   };
 
   return (
@@ -146,18 +162,28 @@ const FullCandidateProfileOverview = ({
         mr={'0.1%'}
         flexWrap={'nowrap'}
       >
-        {/* 3. Resume Panel - Top Right (smaller height) */}
+      
+        {/* 3. Resume Panel - Top Right */}
         <ResumePanelGrid xs={12}>
           <ResumePanelPaper
             elevation={3}
-            onClick={() => {
-              console.log('Resume Panel Clicked');
-              updateSelectedCandidateMode('resume');
-            }}
+            onClick={handleResumeClick}
           >
-            {/* TODO: Add clickable element here that opens the resume in an iframe */}
-            <Typography variant='h4'>Resume</Typography>
-            {/* <div>Resume Panel (clickable)</div> */}
+            {resumeUrl === '' ? (
+              <div style={{ textAlign: 'center' }}>
+                <Typography variant='h6'>Upload Resume</Typography>
+                <CloudUploadIcon style={{ fontSize: '48px', color: "#13d0b7" }} />
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
+                  accept=".pdf" // you can change this to accept other file types
+                />
+              </div>
+            ) : (
+              <Typography variant='h4'>Resume</Typography>
+            )}
           </ResumePanelPaper>
         </ResumePanelGrid>
 

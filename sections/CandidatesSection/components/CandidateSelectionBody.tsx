@@ -19,7 +19,7 @@ import TranscriptionNotes from '@/components/Transcription/TranscriptionNotes';
 //-- import api methods --//
 import { GenerationMethods, CandidateProfileMethods } from '@/Utils/utils';
 const { calculateMatchScore } = GenerationMethods;
-const { fetchJobPostingsAssociatedWithCandidate } = CandidateProfileMethods;
+const { fetchJobPostingsAssociatedWithCandidate, uploadResume } = CandidateProfileMethods;
 
 // const Container = styled(Grid)`
 const Container = styled.div`
@@ -125,6 +125,32 @@ const CandidateSelectionBody: FC = () => {
       payload: mode,
     });
   };
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      try {
+        // Call your uploadResume function here with necessary parameters
+        const response = await uploadResume(file, selectedCandidateProfile?.id);
+  
+        // Check if the response includes data and no error
+        if (response.data && !response.error) {
+          // Handle successful upload
+          console.log('Resume uploaded successfully', response.data);
+          // You can update the state or UI here as needed
+        } else {
+          // Handle error in response
+          console.error('Error uploading resume', response.error);
+          // Show error notification to the user or handle error
+        }
+      } catch (error) {
+        // Handle any exceptions during the upload process
+        console.error('Exception while uploading resume', error);
+        // Show error notification to the user or handle error
+      }
+    }
+  };
+  
 
   const handleGenerationSelection = (generation: any) => {
     dispatch({
@@ -244,6 +270,8 @@ const CandidateSelectionBody: FC = () => {
             updateSelectedJobPosting={updateSelectedJobPosting}
             updateSelectedCandidateMode={updateSelectedCandidateMode}
             handleCalculate={handleCalculate}
+            resumeUrl={resumeState?.pdfIframePath}
+            handleFileChange={handleFileChange}
           />
         );
       case 'resume':
@@ -318,7 +346,7 @@ const CandidateSelectionBody: FC = () => {
                 subSectionHeader={'Résumé Viewer'}
                 onClose={resetJobPostingMode}
               >
-                <ResumeIframe resumeUrl={jobPostingsState.resumeUrl} />
+                <ResumeIframe resumeUrl={resumeState?.pdfIframePath} />
               </SubSectionFrame>
             );
 

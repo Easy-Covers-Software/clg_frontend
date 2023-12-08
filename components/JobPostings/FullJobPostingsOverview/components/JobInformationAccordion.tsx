@@ -160,6 +160,8 @@ const JobInformationAccordion = ({ jobPosting }) => {
               style={{
                 borderBottom: '1px solid #006D4B',
                 // backgroundColor: '#f5f5ff',
+                // display: 'flex'
+                overflow: 'ellipis'
               }}
             >
               <Typography>{sectionTitle}</Typography>

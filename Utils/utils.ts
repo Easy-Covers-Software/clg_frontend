@@ -1148,21 +1148,13 @@ namespace CandidateProfileMethods {
 
   export const uploadResume = async (
     resume: File,
-    freeText: string,
-    yearsOfExperience: string,
-    awardsAndCerts: string,
-    projectsAndPublications: string,
-    misc: string
+    candidateProfileId: string 
   ): Promise<APIResponse<ResumeUploadApiResponse>> => {
-    const url = `${API_BASE_URL}/resume-upload/`;
+    const url = `${API_BASE}/candidate_profiles/resume/upload/`;
 
     const data = {
       resume_file: resume,
-      free_text: freeText,
-      years_relevant_experience: yearsOfExperience,
-      awards_and_certifications: awardsAndCerts,
-      projects_and_publications: projectsAndPublications,
-      misc,
+      candidate_profile: candidateProfileId
     };
 
     const payload: FormData = Helpers.createPayload(data);

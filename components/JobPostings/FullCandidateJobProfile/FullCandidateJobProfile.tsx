@@ -275,7 +275,7 @@ const FullCandidateJobProfile = ({
                 justifyContent={'center'}
                 alignItems={'center'}
               >
-                <Typography>
+                <Typography textAlign={'center'}>
                   Calculating Match Score for {selectedJobPosting?.job_title}
                 </Typography>
                 <CircularProgress style={{ color: '#13d0b7' }} />

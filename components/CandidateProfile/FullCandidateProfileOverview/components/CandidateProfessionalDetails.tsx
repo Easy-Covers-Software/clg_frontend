@@ -98,7 +98,9 @@ const CandidateProfessionalDetails = ({
           </Grid>
         </Grid>
       </Box>
-      <Box overflow={'scroll'} pb={1}>
+      <Box sx={{
+        overflowY: 'scroll'
+      }} pb={1}>
         <Typography variant='body2'>Skills:</Typography>
         <Box display='flex' flexWrap='nowrap' mt={0}>
           {skillChips?.length > 0 ? skillChips : 'N/A'}
