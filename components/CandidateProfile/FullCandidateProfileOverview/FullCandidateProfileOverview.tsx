@@ -84,6 +84,9 @@ const FullCandidateProfileOverview = ({
   // const { selectedCandidateProfile } = state;
   const fileInputRef = useRef(null);
 
+  console.log('resume URL')
+  console.log(resumeUrl)
+
   console.log('Selected Candidate ===*');
   console.log(selectedCandidate);
 

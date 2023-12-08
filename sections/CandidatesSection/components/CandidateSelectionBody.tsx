@@ -132,11 +132,16 @@ const CandidateSelectionBody: FC = () => {
       try {
         // Call your uploadResume function here with necessary parameters
         const response = await uploadResume(file, selectedCandidateProfile?.id);
+        console.log('RESOINBSEE 321: ', response)
   
         // Check if the response includes data and no error
         if (response.data && !response.error) {
           // Handle successful upload
           console.log('Resume uploaded successfully', response.data);
+          dispatch({
+            type: 'UPDATE_RESUME_URL',
+            payload: response.data.file
+          })
           // You can update the state or UI here as needed
         } else {
           // Handle error in response
@@ -270,7 +275,7 @@ const CandidateSelectionBody: FC = () => {
             updateSelectedJobPosting={updateSelectedJobPosting}
             updateSelectedCandidateMode={updateSelectedCandidateMode}
             handleCalculate={handleCalculate}
-            resumeUrl={resumeState?.pdfIframePath}
+            resumeUrl={jobPostingsState?.resumeUrl}
             handleFileChange={handleFileChange}
           />
         );

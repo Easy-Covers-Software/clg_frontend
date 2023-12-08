@@ -7,6 +7,7 @@ const { fetchFullCandidateProfile, fetchCandidatesResume } =
 const { addPTags, addDivTag } = Helpers;
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
 
 const CandidatesContext = createContext<any>({
   state: {},
@@ -542,7 +543,7 @@ export const CandidatesContextProvider = ({ children }) => {
   useEffect(() => {
     if (state.resumeState?.mostRecentResume) {
       const resume_path = state.resumeState?.mostRecentResume?.file;
-      const path = `https://localhost:8000${resume_path}`;
+      const path = `${DOMAIN}/${resume_path}`;
 
       dispatch({
         type: 'UPDATE_PDF_IFRAME_PATH',
@@ -555,7 +556,7 @@ export const CandidatesContextProvider = ({ children }) => {
   useEffect(() => {
     const updateResumeUrl = async () => {
       const filePath = state.selectedCandidateProfile.resume.file;
-      const fullPath = `https://localhost:8000${filePath}`;
+      const fullPath = `${DOMAIN}/${filePath}`;
 
       dispatch({
         type: 'UPDATE_RESUME_URL',
