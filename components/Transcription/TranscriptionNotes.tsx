@@ -35,16 +35,20 @@ const TranscriptionNotes: React.FC<any> = ({ page, transcriptionNotes }) => {
         width: page === 'transcription' ? '98%' : '100%',
       }}
     >
-      {Object.entries(transcriptionNotes).map(([key, value]) => (
-        <Grid item xs={12} sm={6} key={key}
-          style={{
-            padding: 0,
-            margin: 0,
-          }}
-        >
-          <TranscriptionNote noteHeader={key} noteContent={value} />
-        </Grid>
-      ))}
+      {transcriptionNotes && (
+      <>
+        {Object.entries(transcriptionNotes).map(([key, value]) => (
+          <Grid item xs={12} sm={6} key={key}
+            style={{
+              padding: 0,
+              margin: 0,
+            }}
+          >
+            <TranscriptionNote noteHeader={key} noteContent={value} />
+          </Grid>        
+        ))}
+      </>
+      )}
     </Container>
   );
 };
