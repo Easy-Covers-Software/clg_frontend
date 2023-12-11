@@ -4,6 +4,8 @@ const { fetchFullCandidateProfile, fetchCandidatesResume } =
   CandidateProfileMethods;
 
 const { addPTags, addDivTag } = Helpers;
+
+const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 
 const JobPostingsContext = createContext<any>({
@@ -578,7 +580,7 @@ export const JobPostingsContextProvider = ({ children }) => {
     const updateResumeUrl = async () => {
       const filePath =
         state.selectedJobPostingState.selectedCandidate.resume.file;
-      const fullPath = `https://localhost:8000${filePath}`;
+      const fullPath = `${DOMAIN}/${filePath}`;
 
       dispatch({
         type: 'UPDATE_RESUME_URL',
