@@ -24,7 +24,7 @@ const MainContent = styled(Grid)`
   border-radius: 4px;
   background-color: #f8f8ff;
   margin: 0.3% 0;
-  padding: 1.5% 3% 2.5% 3%;
+  padding: 1.5%;
   overflow: hidden;
 
   @media screen and (min-width: 0px) and (max-width: 700px) {

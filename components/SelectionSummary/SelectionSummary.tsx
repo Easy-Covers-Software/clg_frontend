@@ -22,21 +22,6 @@ interface Props {
   handleChange: null | ((event: React.ChangeEvent<HTMLInputElement>) => void);
 }
 
-// const GreenSwitch = styled(Switch)(({ theme }) => ({
-//   '& .MuiSwitch-switchBase': {
-//     color: `${green[600]} !important`,
-//     '&:hover': {
-//       backgroundColor: `${alpha(
-//         green[600],
-//         theme.palette.action.hoverOpacity
-//       )} !important`,
-//     },
-//   },
-//   '& .MuiSwitch-track': {
-//     backgroundColor: `${green[600]} !important`,
-//   },
-// }));
-
 const SelectionSummary: FC<Props> = ({
   summaryDetails,
   checked,
