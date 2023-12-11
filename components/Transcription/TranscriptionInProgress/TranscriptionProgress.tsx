@@ -104,13 +104,13 @@ export default function TranscriptionProgress({ step }) {
         </Typography>
         <LoadingCircle />
       </Grid>
-      <br />
+      {/* <br />
       <Grid width={'86%'} m={'auto'}>
         <BorderLinearProgress
           variant='determinate'
           value={determineProgressBarValue(step)}
         />
-      </Grid>
+      </Grid> */}
     </Paper>
   );
 }
