@@ -14,27 +14,29 @@ const Container = styled(Grid)`
   flex-direction: column;
   width: 100%;
   padding: 0;
-  margin-top: -7%;
+  margin-top: -3%;
 `;
 
 const Header = styled.h3`
   position: relative;
   top: 20px;
   left: 3%;
+  // padding: 0;
 `;
 
 const NoteContent = styled(Grid)`
   width: 96%;
-  height: 16vh;
-  max-height: 16vh;
-  min-height: 16vh;
+  height: 18vh;
+  max-height: 18vh;
+  min-height: 18vh;
   display: flex;
-  justify-content: end;
   margin: 0 auto;
   padding: 1%;
   border: 1px solid black;
   border-radius: 4px;
   background-color: white;
+
+  overflow: scroll;
 `;
 
 const NoteBody = styled(Grid)`
@@ -61,18 +63,7 @@ const TranscriptionNote: FC<Props> = ({ noteHeader, noteContent }) => {
     <Container>
       <Header>{noteHeader}</Header>
       <NoteContent>
-        <NoteBody>
           <Typography>{noteContent}</Typography>
-        </NoteBody>
-
-        <NoteOptions>
-          <IconButton>
-            <CopyAllIcon fontSize='large' />
-          </IconButton>
-          <IconButton>
-            <SaveIcon fontSize='large' />
-          </IconButton>
-        </NoteOptions>
       </NoteContent>
     </Container>
   );

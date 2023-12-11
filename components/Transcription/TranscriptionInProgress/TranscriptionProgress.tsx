@@ -100,7 +100,7 @@ export default function TranscriptionProgress({ step }) {
         alignItems={'center'}
       >
         <Typography fontSize={'1.8rem'}>
-          Transcription in progress... (step {step}/4)
+          Transcription in progress...
         </Typography>
         <LoadingCircle />
       </Grid>
