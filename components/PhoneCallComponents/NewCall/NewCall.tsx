@@ -67,7 +67,7 @@ const NewCall: FC<Props> = ({
     <StatusContainer
       style={{
         width: '60%',
-        height: '60%',
+        height: '72%',
         marginBottom: '10%',
         padding: '0 3%',
         backgroundColor: 'white',
