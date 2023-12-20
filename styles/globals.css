@@ -15,7 +15,9 @@ body {
 
 /* Style for scrollbar thumb (the part that's draggable) */
 ::-webkit-scrollbar-thumb {
-  background: transparent; 
+  background: transparent;
+  height: '1px';
+  /* margin-top: '3%'; */
 }
 
 /* When hovering or scrolling, show the scrollbar */
