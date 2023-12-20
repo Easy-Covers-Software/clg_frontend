@@ -42,6 +42,7 @@ const TranscriptionNotes: React.FC<any> = ({ page, transcriptionNotes }) => {
             style={{
               padding: 0,
               margin: 0,
+              maxHeight: '22vh',
             }}
           >
             <TranscriptionNote noteHeader={key} noteContent={value} />

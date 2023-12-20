@@ -116,6 +116,7 @@ const FullCandidateProfileOverview = ({
         spacing={2}
         height={'100%'}
         flexWrap={'nowrap'}
+        maxWidth={'35vw'}
       >
         <ProfessionDetailsGrid xs={12}>
           <StyledPaper

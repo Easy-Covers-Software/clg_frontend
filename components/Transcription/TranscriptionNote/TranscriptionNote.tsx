@@ -8,6 +8,8 @@ import { IconButton } from '@mui/material';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
 import SaveIcon from '@mui/icons-material/Save';
 
+import { Tooltip } from '@mui/material';
+
 const Container = styled(Grid)`
   display: flex;
   height: 100%;
@@ -15,13 +17,17 @@ const Container = styled(Grid)`
   width: 100%;
   padding: 0;
   margin-top: -3%;
+  text-overflow: ellipsis;
 `;
 
 const Header = styled.h3`
   position: relative;
   top: 20px;
   left: 3%;
-  // padding: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: clip;
+  width: 340px; 
 `;
 
 const NoteContent = styled(Grid)`
@@ -39,29 +45,22 @@ const NoteContent = styled(Grid)`
   overflow: scroll;
 `;
 
-const NoteBody = styled(Grid)`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
-  overflow: scroll;
-`;
-
-const NoteOptions = styled(Grid)`
-  display: flex;
-  flex-direction: column;
-  // width: 100%;
-`;
-
 interface Props {
   noteHeader: any;
   noteContent: any;
 }
 
 const TranscriptionNote: FC<Props> = ({ noteHeader, noteContent }) => {
+  
+  const isLessThan40Chars = (noteHeader) => {
+    return noteHeader.length < 40;
+  }
+  
   return (
     <Container>
-      <Header>{noteHeader}</Header>
+      <Tooltip title={isLessThan40Chars(noteHeader) ? '' : noteHeader}>
+        <Header>{noteHeader}</Header>
+      </Tooltip>
       <NoteContent>
           <Typography>{noteContent}</Typography>
       </NoteContent>
