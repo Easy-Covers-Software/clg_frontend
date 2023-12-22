@@ -18,10 +18,12 @@ const Container = styled(Grid)`
   width: 100%;
   // padding: 2%;
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   align-content: center;
   justify-content: center;
   margin: auto;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 `;
 
 const ProfessionDetailsGrid = styled(Grid)`
@@ -115,7 +117,7 @@ const FullCandidateProfileOverview = ({
         direction='column'
         spacing={2}
         height={'100%'}
-        flexWrap={'nowrap'}
+        // flexWrap={'nowrap'}
         maxWidth={'35vw'}
       >
         <ProfessionDetailsGrid xs={12}>
