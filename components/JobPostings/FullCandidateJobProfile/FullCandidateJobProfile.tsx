@@ -21,11 +21,11 @@ const Container = styled(Grid)`
   padding-top: 0;
   width: 100%;
   display: flex;
-  // flex-direction: column;
   align-content: center;
   justify-content: center;
   justify-content: flex-end;
   margin: auto;
+  flex-wrap: nowrap;
 `;
 
 const SubPanelContainer = styled(Grid)`
