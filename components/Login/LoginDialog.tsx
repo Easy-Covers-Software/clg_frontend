@@ -119,13 +119,16 @@ export default function LoginDialog() {
       PaperProps={{
         style: {
           backgroundColor: '#F8F8FF',
+          height: '55vh'
         },
       }}
     >
       <FullLogo src='/easy-covers-full.svg' alt='Description of Image' />
 
       <DialogContentContainer>
+        
         <LoginInputs />
+        
 
         {accountAuthProps?.action === 'create' ? (
           <SignInButton onClick={handleCreateAccount}>
@@ -150,19 +153,7 @@ export default function LoginDialog() {
         )}
       </DialogContentContainer>
 
-      <CreateAccountContainer>
-        <DividerContainer>
-          <Divider
-            style={{
-              color: '#006d4b',
-            }}
-          >
-            Or continue with Google / Create Account
-          </Divider>
-        </DividerContainer>
 
-        <CreateAccountOptions />
-      </CreateAccountContainer>
     </Dialog>
   );
 }

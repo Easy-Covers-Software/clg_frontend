@@ -28,17 +28,6 @@ export default function LoginInputs() {
 
   return (
     <Container component='form'>
-      <Typography
-        align='center'
-        style={{
-          color: '#006b4d',
-          fontSize: '1.2rem',
-          marginBottom: '1rem',
-        }}
-      >
-        For a limited time new users get 2 free cover letters and 6 free
-        adjustments! Sign up now!
-      </Typography>
       <FormInput variant='outlined'>
         <InputField
           id='email-input'
@@ -46,7 +35,6 @@ export default function LoginInputs() {
           placeholder='Email'
           value={accountAuthProps?.email}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            //--* AUTH UPDATE *--//
             accountAuthProps?.updateEmail(event.target.value);
           }}
           InputProps={{

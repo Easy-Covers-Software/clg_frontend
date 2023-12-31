@@ -8,7 +8,7 @@ const DialogContentContainer = styled(DialogContent)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: -12%;
+  margin-top: -25%;
   gap: 24px;
 `;
 
@@ -23,9 +23,10 @@ const DividerContainer = styled(Grid)`
 `;
 
 const SignInButton = styled(PrimaryButton)`
-  width: 68%;
+  width: 80%;
   margin: 0 auto;
-  padding: 10px 0;
+  padding: 20px 0;
+  font-size: 1.2rem
 `;
 
 const FullLogo = styled.img`
