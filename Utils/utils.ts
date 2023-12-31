@@ -285,7 +285,7 @@ namespace CoverLetterApiMethods {
     model: string,
     additionalDetails: AdditionalDetails
   ): Promise<APIResponse<CoverLetterGenerateApiResponse>> => {
-    const url = `${API_BASE_URL}/generate/`;
+    const url = `${API_BASE_URL}/generation/`;
 
     console.log('additional details', additionalDetails);
 
@@ -321,7 +321,7 @@ namespace CoverLetterApiMethods {
     coverLetterSections: string[],
     saveName: string
   ): Promise<APIResponse<SaveCoverLetterApiResponse>> => {
-    const url = `${API_BASE_URL}/generate/${coverLetterId}/`;
+    const url = `${API_BASE_URL}/generation/${coverLetterId}/`;
 
     const data = {
       cover_letter: JSON.stringify(coverLetterSections),
@@ -354,7 +354,7 @@ namespace CoverLetterApiMethods {
   export const fetchSavedCoverLetters = async (): Promise<
     APIResponse<SaveCoverLetterApiResponse[]>
   > => {
-    const url = `${API_BASE_URL}/generate/get_saved_cover_letters/`;
+    const url = `${API_BASE_URL}/generation/get_saved_generations/`;
 
     try {
       const response = await axios.get<SaveCoverLetterApiResponse[]>(url, {
@@ -377,7 +377,7 @@ namespace CoverLetterApiMethods {
   export const deleteSavedCoverLetter = async (
     coverLetterId: string
   ): Promise<APIResponse<DeleteCoverLetterApiResponse>> => {
-    const url = `${API_BASE_URL}/generate/${coverLetterId}/`;
+    const url = `${API_BASE_URL}/generation/${coverLetterId}/`;
 
     try {
       const response = await axios.delete(url, {
@@ -505,7 +505,7 @@ namespace DownloadMethods {
   };
 
   export const generateDOCX = async (html: string, saveName: string) => {
-    const url = `${API_BASE_URL}/generate/download_as_docx/`;
+    const url = `${API_BASE_URL}/generation/download_as_docx/`;
 
     const form = new FormData();
     form.append('html', html);
@@ -636,7 +636,7 @@ namespace LoginApiMethods {
   ): Promise<APIResponse<any>> => {
     const url = `${API_BASE}/users/auth/register/`;
 
-    phone_number = `+1${phone_number}`;
+    phone_number = `${phone_number}`;
 
     const data = {
       email,
@@ -728,7 +728,7 @@ namespace GenerationMethods {
     job_posting: string,
     candidate: string
   ): Promise<APIResponse<any>> => {
-    const url = `${API_BASE}/generate/new/`;
+    const url = `${API_BASE}/generation/generate/`;
 
     const data = {
       generation_type,
@@ -758,7 +758,7 @@ namespace GenerationMethods {
     job_posting: string,
     candidate: string
   ): Promise<APIResponse<any>> => {
-    const url = `${API_BASE}/generate/calculate_match_score/`;
+    const url = `${API_BASE}/generation/calculate_match_score/`;
 
     const data = {
       job_posting,
@@ -791,7 +791,7 @@ namespace GenerationMethods {
     userInput: string,
     coverLetter: string
   ): Promise<APIResponse<AdjustmentApiResponse>> => {
-    const url = `${API_BASE_URL}/generate/make_adjustment/`;
+    const url = `${API_BASE_URL}/generation/make_adjustment/`;
 
     const data = {
       adjustment_level: adjustmentLevel,
@@ -861,7 +861,7 @@ namespace GenerationMethods {
   };
 
   export const generateDOCX = async (html: string, saveName: string) => {
-    const url = `${API_BASE_URL}/generate/download_as_docx/`;
+    const url = `${API_BASE_URL}/generation/download_as_docx/`;
 
     const form = new FormData();
     form.append('html', html);
@@ -957,6 +957,7 @@ namespace TranscriptionMethods {
   export const fetchPhoneCall = async (
     phoneCallId: string
   ): Promise<APIResponse<PhoneCall>> => {
+    console.log('fetching phone call', phoneCallId)
     const url = `${API_BASE}/phone_calls/${phoneCallId}/`;
 
     try {
