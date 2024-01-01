@@ -5,14 +5,15 @@ const Container = styled(Grid)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 196px);
-  min-height: calc(100vh - 196px);
+  height: calc(100vh - 210px);
+  min-height: calc(100vh - 210px);
   background-color: #f8f8ff;
   margin: 0.75%;
   margin-top: 0;
   width: 99%;
+  margin: 0 auto;
 
-  margin: 0 0.5%;
+  // margin: 0 0.5%;
   padding-bottom: 2%;
   border-radius: 4px;
   border: 1px solid #006d4b;
@@ -25,9 +26,9 @@ const Container = styled(Grid)`
 
 const SubContainer = styled(Grid)`
   width: 99% !important;
-  height: calc(100vh - 260px);
-  max-height: calc(100vh - 260px);
-  min-height: calc(100vh - 260px);
+  height: calc(100vh - 280px);
+  max-height: calc(100vh - 280px);
+  min-height: calc(100vh - 280px);
   display: flex;
   justify-content: space-between;
   margin: 0 auto;

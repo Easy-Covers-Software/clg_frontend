@@ -12,7 +12,7 @@ import GenerationEditorFull from '@/components/GenerationEditor/GenerationEditor
 import { useGenerationContext } from '@/context/GenerationContext';
 
 const Container = styled(Grid)`
-  width: 90%;
+  width: 100%;
   background-color: white;
   border-radius: 4px;
   border: 1px solid #006d4b;
@@ -30,6 +30,20 @@ const Container = styled(Grid)`
     height: calc(100vh - 90px);
     max-height: calc(100vh - 90px);
   }
+`;
+
+const SubContainer = styled(Grid)`
+  height: 100%;
+  // width: 100%;
+  margin: 0.75%;
+  margin-top: 0;
+  background-color: #f8f8ff;
+  overflow: scroll;
+  overflow-x: hidden;
+  border: 1px solid #006d4b;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default function GenerationSectionBody() {
@@ -64,15 +78,17 @@ export default function GenerationSectionBody() {
         checked={generationMode}
         handleChange={toggleMode}
       />
-      <GenerationEditorFull
-        coverLetterData={coverLetterData}
-        simpleAdjustmentProps={simpleAdjustmentProps}
-        intermediateAdjustmentProps={intermediateAdjustmentProps}
-        customAdjustmentProps={customAdjustmentProps}
-        saveProps={saveProps}
-        downloadProps={downloadProps}
-        adjustmentSection={adjustmentSection}
-      />
+      {/* <SubContainer> */}
+        <GenerationEditorFull
+          coverLetterData={coverLetterData}
+          simpleAdjustmentProps={simpleAdjustmentProps}
+          intermediateAdjustmentProps={intermediateAdjustmentProps}
+          customAdjustmentProps={customAdjustmentProps}
+          saveProps={saveProps}
+          downloadProps={downloadProps}
+          adjustmentSection={adjustmentSection}
+        />
+      {/* </SubContainer> */}
     </Container>
   );
 }

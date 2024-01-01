@@ -46,7 +46,7 @@ const Container = styled(Grid)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1%;
+  gap: 0.1%;
 
   flex: 1;
   margin: 0 0.2%;
