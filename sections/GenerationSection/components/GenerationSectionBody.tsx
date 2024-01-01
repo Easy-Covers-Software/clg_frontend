@@ -6,7 +6,7 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
 
 import SelectionSummary from '@/components/PageStructure/SelectionSummary/SelectionSummary';
-import GenerationEditorFull from '@/components/Generation/GenerationEditor/GenerationEditorFull';
+import GenerationEditorFull from '@/components/GenerationPage/GenerationEditor/GenerationEditorFull';
 
 import { useGenerationContext } from '@/context/GenerationContext';
 

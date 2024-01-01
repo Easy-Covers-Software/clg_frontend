@@ -14,7 +14,7 @@ import SelectionSummary from '@/components/PageStructure/SelectionSummary/Select
 import SubSectionFrame from '@/components/Global/components/SubSectionFrame';
 import FullJobPostingsOverview from '@/components/JobPostings/FullJobPostingsOverview/FullJobPostingsOverview';
 import FullCandidateJobProfile from '@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile';
-import GenerationEditor from '@/components/Generation/GenerationEditor/GenerationEditor';
+import GenerationEditor from '@/components/GenerationPage/GenerationEditor/GenerationEditor';
 import TranscriptionNotes from '@/components/CallsPage/Transcription/TranscriptionNotes';
 import ResumeIframe from '@/components/CandidatesPage/ResumeIframe';
 

@@ -14,11 +14,11 @@ import {
   SubContainer,
   CheckboxIconInComplete,
   CheckboxIconComplete,
-} from '@/components/Generation/GenerationSetup.styles';
+} from '@/components/GenerationPage/GenerationSetup.styles';
 
-import JobPostingSelectionDataGrid from '@/components/Generation/SetupSelectionDataGrids/JobPostingSelectionDataGrid';
-import CandidateProfileSelectionDataGrid from '@/components/Generation/SetupSelectionDataGrids/CandidateProfileSelectionDataGrid';
-import GenerationSettings from '@/components/Generation/GenerationSettings/GenerationSettings';
+import JobPostingSelectionDataGrid from '@/components/GenerationPage/SetupSelectionDataGrids/JobPostingSelectionDataGrid';
+import CandidateProfileSelectionDataGrid from '@/components/GenerationPage/SetupSelectionDataGrids/CandidateProfileSelectionDataGrid';
+import GenerationSettings from '@/components/GenerationPage/GenerationSettings/GenerationSettings';
 
 import { checkAdditionalDetails } from '@/Utils/utils';
 
