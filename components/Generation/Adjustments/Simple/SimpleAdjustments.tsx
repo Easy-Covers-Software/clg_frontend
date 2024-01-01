@@ -28,7 +28,7 @@ const {
 
 const { RestartIconButton } = SimpleAdjustmentsMobileStyledComponents;
 
-import DownloadMenu from '@/components/Download/DownloadMenu';
+import DownloadMenu from '@/components/Generation/Download/DownloadMenu';
 
 import { useAuth } from '@/context/AuthContext';
 

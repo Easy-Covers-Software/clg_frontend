@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import Divider from '@mui/material/Divider';
-import { SaveNameInput, DownloadDropdown } from '../Download/components';
+import { SaveNameInput, DownloadDropdown } from './components';
 import { Container } from './DownloadMenu.styles';
 
 import {
@@ -33,7 +33,7 @@ const DownloadMenu: FC<any> = ({
         saveProps={saveProps}
         snackbar={snackbar}
       />
-      <Divider orientation='vertical' flexItem />
+      <Divider orientation="vertical" flexItem />
       <DownloadDropdown
         contentData={contentData}
         downloadProps={downloadProps}
