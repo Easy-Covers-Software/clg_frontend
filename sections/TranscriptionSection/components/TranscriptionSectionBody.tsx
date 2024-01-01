@@ -60,8 +60,9 @@ const Container = styled(Grid)`
 
 const SubContainer = styled(Grid)`
   height: 100%;
-  // width: 100%;
+  width: 98.5% !important;
   margin: 0.75%;
+  margin-top: 0;
   background-color: #f8f8ff;
   overflow: scroll;
   overflow-x: hidden;
