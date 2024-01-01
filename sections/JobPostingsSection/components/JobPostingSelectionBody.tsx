@@ -12,8 +12,8 @@ import { useJobPostingsContext } from '@/context/JobPostingsContext';
 //-- import components --//
 import SelectionSummary from '@/components/PageStructure/SelectionSummary/SelectionSummary';
 import SubSectionFrame from '@/components/Global/components/SubSectionFrame';
-import FullJobPostingsOverview from '@/components/JobPostings/FullJobPostingsOverview/FullJobPostingsOverview';
-import FullCandidateJobProfile from '@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile';
+import FullJobPostingsOverview from '@/components/JobPostingsPage/FullJobPostingsOverview/FullJobPostingsOverview';
+import FullCandidateJobProfile from '@/components/JobPostingsPage/FullCandidateJobProfile/FullCandidateJobProfile';
 import GenerationEditor from '@/components/GenerationPage/GenerationEditor/GenerationEditor';
 import TranscriptionNotes from '@/components/CallsPage/Transcription/TranscriptionNotes';
 import ResumeIframe from '@/components/CandidatesPage/ResumeIframe';

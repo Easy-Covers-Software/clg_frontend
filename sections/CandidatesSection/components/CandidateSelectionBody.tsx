@@ -12,7 +12,7 @@ import SelectionSummary from '@/components/PageStructure/SelectionSummary/Select
 import FullCandidateProfileOverview from '@/components/CandidatesPage/FullCandidateProfileOverview/FullCandidateProfileOverview';
 import ResumeIframe from '@/components/CandidatesPage/ResumeIframe';
 import SubSectionFrame from '@/components/Global/components/SubSectionFrame';
-import FullCandidateJobProfile from '@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile';
+import FullCandidateJobProfile from '@/components/JobPostingsPage/FullCandidateJobProfile/FullCandidateJobProfile';
 import GenerationEditor from '@/components/GenerationPage/GenerationEditor/GenerationEditor';
 import TranscriptionNotes from '@/components/CallsPage/Transcription/TranscriptionNotes';
 
