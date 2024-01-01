@@ -15,69 +15,10 @@ import Paypal from './components/Paypal';
 import styled from '@emotion/styled';
 import { useMediaQuery } from '@mui/material';
 
-let packages = [
-  {
-    name: 'Intro Drafter',
-    features: ['5 Cover Letters', '10 Adjustments'],
-    price: '$0.99',
-    price_gpt4: '$1.99',
-  },
-  {
-    name: 'Dynamic Drafter',
-    features: ['25 cover letters', '50 Adjustments'],
-    price: '$2.99',
-    price_gpt4: '$3.99',
-  },
-  {
-    name: 'Pro Drafter',
-    features: ['50 cover letters', '100 Adjustments'],
-    price: '$4.99',
-    price_gpt4: '$7.99',
-  },
-  {
-    name: 'Letter Luminary',
-    features: ['100 cover letters', '200 Adjustments'],
-    price: '$8.99',
-    price_gpt4: '$13.99',
-  },
-  {
-    name: 'Cover Connoisseur',
-    features: ['200 cover letters', '400 Adjustments'],
-    price: '$12.99',
-    price_gpt4: '$19.99',
-  },
-];
-
-const PaypalContainer = styled(Grid)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5%;
-
-  @media screen (min-width: 0px) and (max-width: 600px) {
-    margin-bottom: 25%;
-  }
-`;
-
 export default function SettingsDialog() {
   const isMobile = useMediaQuery('(max-width: 600px)');
   const { state } = useAuth();
-  const { dialogProps, isSettingsOpen } = state;
-  const [selectedPackagePrice, setSelectedPackagePrice] = useState('');
-
-  const [hasSelectedPricingOption, setHasSelectedPricingOption] =
-    useState(false);
-
-  const dialogRef = useRef(null);
-
-  useEffect(() => {
-    if (selectedPackagePrice !== '') {
-      setHasSelectedPricingOption(true);
-      if (isMobile) {
-        setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 3000);
-      }
-    }
-  }, [selectedPackagePrice]);
+  const { dialogProps } = state;
 
   const handleClose = () => {
     dialogProps?.toggleSettingsIsOpen();
@@ -88,66 +29,16 @@ export default function SettingsDialog() {
       open={dialogProps?.isSettingsOpen}
       onClose={handleClose}
       fullWidth
-      maxWidth='md'
+      maxWidth="md"
       PaperProps={{
         style: {
           backgroundColor: '#F8F8FF',
         },
       }}
-      ref={dialogRef}
     >
-      <FullLogo src='/easy-covers-full.svg' alt='Description of Image' />
+      <FullLogo src="/easy-covers-full.svg" alt="Description of Image" />
 
-      <Grid
-        display={'flex'}
-        mr={'3%'}
-        style={{
-          flexDirection: isMobile ? 'column' : 'row',
-          // padding: isMobile ? "0 20%" : "0",
-        }}
-      >
-        {hasSelectedPricingOption && isMobile && (
-          <PaypalContainer>
-            <Typography
-              style={{
-                fontSize: '1.5rem',
-                color: '#006d4b',
-                padding: '1%',
-                borderBottom: '1px solid #006d4b',
-              }}
-            >
-              {selectedPackagePrice}
-            </Typography>
-            <Paypal selectedPackagePrice={selectedPackagePrice} />
-          </PaypalContainer>
-        )}
-
-        <DialogContentContainer>
-          {packages.map((packageItem, i) => (
-            <UpgradeAccountOption
-              key={i}
-              packages={packageItem}
-              setSelectedPackagePrice={setSelectedPackagePrice}
-            />
-          ))}
-        </DialogContentContainer>
-
-        {hasSelectedPricingOption && !isMobile && (
-          <PaypalContainer>
-            <Typography
-              style={{
-                fontSize: '1.5rem',
-                color: '#006d4b',
-                padding: '1%',
-                borderBottom: '1px solid #006d4b',
-              }}
-            >
-              {selectedPackagePrice}
-            </Typography>
-            <Paypal selectedPackagePrice={selectedPackagePrice} />
-          </PaypalContainer>
-        )}
-      </Grid>
+      <Grid>{/* CONTENT GOES HERE */}</Grid>
     </Dialog>
   );
 }

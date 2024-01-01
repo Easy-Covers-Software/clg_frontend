@@ -1,5 +1,4 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
-import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 import { fetchUser } from '@/api/AuthMethods';
 
@@ -661,11 +660,7 @@ export const AuthProvider = ({
         dispatch,
       }}
     >
-      <PayPalScriptProvider
-        options={{ clientId: process.env.NEXT_PUBLIC_PPAL_CLIENT_ID }}
-      >
-        {children}
-      </PayPalScriptProvider>
+      {children}
     </AuthContext.Provider>
   );
 };
