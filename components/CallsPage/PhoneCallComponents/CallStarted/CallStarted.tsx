@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 
 import { useAuth } from '@/context/AuthContext';
-import { PrimaryButton } from '../../Global/Global';
+import { PrimaryButton } from '../../../Global/Global';
 
 import {
   StatusContainer,
@@ -20,13 +20,17 @@ import {
 
 interface Props {}
 
-const CallCancelled: FC<Props> = () => {
+const CallStarted: FC<Props> = () => {
   const { state } = useAuth();
   return (
-    <StatusContainer>
-      <Header>Call Cancelled</Header>
+    <StatusContainer
+      style={{
+        backgroundColor: 'white',
+      }}
+    >
+      <Header>Call Initiated...</Header>
     </StatusContainer>
   );
 };
 
-export default CallCancelled;
+export default CallStarted;

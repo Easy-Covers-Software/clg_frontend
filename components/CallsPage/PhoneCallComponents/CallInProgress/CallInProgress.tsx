@@ -10,23 +10,25 @@ import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 
 import { useAuth } from '@/context/AuthContext';
-import { PrimaryButton } from '../../Global/Global';
+import { PrimaryButton } from '../../../Global/Global';
+import Timer from '@/components/Global/components/Timer';
 
 import {
-  FormContainer,
+  StatusContainer,
   Header,
   InputField,
 } from '../PhoneCallComponents.styles';
 
 interface Props {}
 
-const CallBusy: FC<Props> = () => {
+const CallInProgress: FC<Props> = () => {
   const { state } = useAuth();
   return (
-    <FormContainer>
-      <Header>Call Busy</Header>
-    </FormContainer>
+    <StatusContainer>
+      <Header>Call In Progress...</Header>
+      <Timer />
+    </StatusContainer>
   );
 };
 
-export default CallBusy;
+export default CallInProgress;

@@ -15,7 +15,7 @@ import SubSectionFrame from '@/components/Global/components/SubSectionFrame';
 import FullJobPostingsOverview from '@/components/JobPostings/FullJobPostingsOverview/FullJobPostingsOverview';
 import FullCandidateJobProfile from '@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile';
 import GenerationEditor from '@/components/Generation/GenerationEditor/GenerationEditor';
-import TranscriptionNotes from '@/components/Transcription/TranscriptionNotes';
+import TranscriptionNotes from '@/components/CallsPage/Transcription/TranscriptionNotes';
 import ResumeIframe from '@/components/CandidateProfile/ResumeIframe';
 
 //-- import api methods --//

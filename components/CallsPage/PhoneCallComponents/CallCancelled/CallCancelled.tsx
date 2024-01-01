@@ -10,23 +10,23 @@ import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 
 import { useAuth } from '@/context/AuthContext';
-import { PrimaryButton } from '../../Global/Global';
+import { PrimaryButton } from '../../../Global/Global';
 
 import {
-  FormContainer,
+  StatusContainer,
   Header,
   InputField,
 } from '../PhoneCallComponents.styles';
 
 interface Props {}
 
-const CallFailed: FC<Props> = () => {
+const CallCancelled: FC<Props> = () => {
   const { state } = useAuth();
   return (
-    <FormContainer>
-      <Header>Call Failed</Header>
-    </FormContainer>
+    <StatusContainer>
+      <Header>Call Cancelled</Header>
+    </StatusContainer>
   );
 };
 
-export default CallFailed;
+export default CallCancelled;

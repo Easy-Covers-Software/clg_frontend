@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 
 import { useAuth } from '@/context/AuthContext';
-import { PrimaryButton } from '../../Global/Global';
+import { PrimaryButton } from '../../../Global/Global';
 
 import {
   FormContainer,
@@ -20,13 +20,13 @@ import {
 
 interface Props {}
 
-const CallNoAnswer: FC<Props> = () => {
+const CallFailed: FC<Props> = () => {
   const { state } = useAuth();
   return (
     <FormContainer>
-      <Header>No Answer</Header>
+      <Header>Call Failed</Header>
     </FormContainer>
   );
 };
 
-export default CallNoAnswer;
+export default CallFailed;

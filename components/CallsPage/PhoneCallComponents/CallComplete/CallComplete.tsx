@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 
 import { useAuth } from '@/context/AuthContext';
 import { useTranscriptionContext } from '@/context/TranscriptionContext';
-import { PrimaryButton, UnSelectedButton } from '../../Global/Global';
+import { PrimaryButton, UnSelectedButton } from '../../../Global/Global';
 
 import {
   FormContainer,

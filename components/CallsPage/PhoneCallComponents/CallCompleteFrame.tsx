@@ -4,7 +4,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { PrimaryButton, UnSelectedButton } from '../Global/Global';
+import { PrimaryButton, UnSelectedButton } from '../../Global/Global';
 import CallComplete from './CallComplete/CallComplete';
 import CallCompleteStepper from './CallCompleteStepper';
 import BasicInfoForm from './NewForms/BasicInfoForm';
@@ -56,7 +56,7 @@ const FrameComp = ({
       borderRadius={'4px'}
       bgcolor={'white'}
     >
-      <Typography variant='h6' m={'auto'}>
+      <Typography variant="h6" m={'auto'}>
         Call Complete
       </Typography>
       {children}
@@ -93,10 +93,8 @@ export default function CallCompleteFrame({
   handleSaveCandidate,
   reset,
 }) {
-
-  console.log('jobPosting')
-  console.log(jobPosting)
-
+  console.log('jobPosting');
+  console.log(jobPosting);
 
   const initialFormData = {
     // Basic Information Fields

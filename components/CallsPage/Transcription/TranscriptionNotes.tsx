@@ -1,5 +1,5 @@
 import React from 'react';
-import TranscriptionNote from '@/components/Transcription/TranscriptionNote/TranscriptionNote';
+import TranscriptionNote from '@/components/CallsPage/Transcription/TranscriptionNote/TranscriptionNote';
 import styled from '@emotion/styled';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { Grid } from '@mui/material';
@@ -36,19 +36,23 @@ const TranscriptionNotes: React.FC<any> = ({ page, transcriptionNotes }) => {
       }}
     >
       {transcriptionNotes && (
-      <>
-        {Object.entries(transcriptionNotes).map(([key, value]) => (
-          <Grid item xs={12} sm={6} key={key}
-            style={{
-              padding: 0,
-              margin: 0,
-              maxHeight: '22vh',
-            }}
-          >
-            <TranscriptionNote noteHeader={key} noteContent={value} />
-          </Grid>        
-        ))}
-      </>
+        <>
+          {Object.entries(transcriptionNotes).map(([key, value]) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              key={key}
+              style={{
+                padding: 0,
+                margin: 0,
+                maxHeight: '22vh',
+              }}
+            >
+              <TranscriptionNote noteHeader={key} noteContent={value} />
+            </Grid>
+          ))}
+        </>
       )}
     </Container>
   );

@@ -13,16 +13,16 @@ import { Typography } from '@mui/material';
 
 import CoverLetterSummary from '@/components/CoverLetterSummay/CoverLetterSummary';
 
-import TranscriptionNote from '@/components/Transcription/TranscriptionNote/TranscriptionNote';
-import NewCall from '@/components/PhoneCallComponents/NewCall/NewCall';
-import CallStarted from '@/components/PhoneCallComponents/CallStarted/CallStarted';
-import CallRinging from '@/components/PhoneCallComponents/CallRinging/CallRinging';
-import CallInProgress from '@/components/PhoneCallComponents/CallInProgress/CallInProgress';
-import CallComplete from '@/components/PhoneCallComponents/CallComplete/CallComplete';
-import CallBusy from '@/components/PhoneCallComponents/CallBusy/CallBusy';
-import CallNoAnswer from '@/components/PhoneCallComponents/CallNoAnswer/CallNoAnswer';
-import CallFailed from '@/components/PhoneCallComponents/CallFailed/CallFailed';
-import CallCompleteFrame from '@/components/PhoneCallComponents/CallCompleteFrame';
+import TranscriptionNote from '@/components/CallsPage/Transcription/TranscriptionNote/TranscriptionNote';
+import NewCall from '@/components/CallsPage/PhoneCallComponents/NewCall/NewCall';
+import CallStarted from '@/components/CallsPage/PhoneCallComponents/CallStarted/CallStarted';
+import CallRinging from '@/components/CallsPage/PhoneCallComponents/CallRinging/CallRinging';
+import CallInProgress from '@/components/CallsPage/PhoneCallComponents/CallInProgress/CallInProgress';
+import CallComplete from '@/components/CallsPage/PhoneCallComponents/CallComplete/CallComplete';
+import CallBusy from '@/components/CallsPage/PhoneCallComponents/CallBusy/CallBusy';
+import CallNoAnswer from '@/components/CallsPage/PhoneCallComponents/CallNoAnswer/CallNoAnswer';
+import CallFailed from '@/components/CallsPage/PhoneCallComponents/CallFailed/CallFailed';
+import CallCompleteFrame from '@/components/CallsPage/PhoneCallComponents/CallCompleteFrame';
 
 import {
   initiatePhoneCall,
@@ -32,12 +32,12 @@ import {
 
 import { fetchJobPostings } from '@/api/JobPostingsMethods';
 
-import TranscriptionProgress from '@/components/Transcription/TranscriptionInProgress/TranscriptionProgress';
+import TranscriptionProgress from '@/components/CallsPage/Transcription/TranscriptionInProgress/TranscriptionProgress';
 
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
 import SelectionSummary from '@/components/PageStructure/SelectionSummary/SelectionSummary';
-import TranscriptionNotes from '../../../components/Transcription/TranscriptionNotes';
+import TranscriptionNotes from '../../../components/CallsPage/Transcription/TranscriptionNotes';
 
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`
