@@ -21,16 +21,12 @@ import JobPostingSelection from "@/components/Generation/JobPostingSelection";
 import CandidateProfileSelection from "@/components/Generation/CandidateProfileSelection";
 import GenerationSettings from "@/components/Generation/GenerationSettings/GenerationSettings";
 
-import {
-  Helpers,
-  JobPostingMethods,
-  CandidateProfileMethods,
-} from "@/Utils/utils";
-const { fetchJobPostings } = JobPostingMethods;
+import { Helpers, CandidateProfileMethods } from "@/Utils/utils";
 const { fetchCandidateProfiles } = CandidateProfileMethods;
 const { checkAdditionalDetails } = Helpers;
 
 import { generate } from "@/api/GenerationMethods";
+import { fetchJobPostings } from "@/api/JobPostingsMethods";
 
 // Context Imports
 import { useAuth } from "@/context/AuthContext";

@@ -1,25 +1,24 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect } from "react";
 
 //-- import MUI components --//
-import styled from '@emotion/styled';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { Container } from '@/components/SavedList/SavedList.styles';
+import styled from "@emotion/styled";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Container } from "@/components/SavedList/SavedList.styles";
 
 //-- import context --//
-import { useAuth } from '@/context/AuthContext';
-import { useJobPostingsContext } from '@/context/JobPostingsContext';
+import { useAuth } from "@/context/AuthContext";
+import { useJobPostingsContext } from "@/context/JobPostingsContext";
 
 //-- import components --//
-import SavedList from '@/components/SavedList/SavedList';
+import SavedList from "@/components/SavedList/SavedList";
 
 //-- import api methods --//
-import { JobPostingMethods } from '@/Utils/utils';
-const {
+import {
   fetchJobPostings,
   fetchFullJobPosting,
   fetchCandidatesAssociatedWithJobPosting,
   deleteJobPosting,
-} = JobPostingMethods;
+} from "@/api/JobPostingsMethods";
 
 const JobPostingsList: FC = () => {
   const { state: authState } = useAuth();
@@ -34,22 +33,22 @@ const JobPostingsList: FC = () => {
     const response = await fetchJobPostings();
     if (response) {
       dispatch({
-        type: 'UPDATE_SAVED_JOB_POSTINGS_LIST',
+        type: "UPDATE_SAVED_JOB_POSTINGS_LIST",
         payload: response.data,
       });
       dispatch({
-        type: 'UPDATE_FILTERED_SAVED_JOB_POSTINGS_LIST',
+        type: "UPDATE_FILTERED_SAVED_JOB_POSTINGS_LIST",
         payload: response.data,
       });
     } else {
-      snackbar.updateSnackbar(true, 'Error fetching job postings', 'error');
+      snackbar.updateSnackbar(true, "Error fetching job postings", "error");
     }
   };
 
   // TODO: create function to toggle selection of candidate profile on list
   const handleToggle = (selected: any) => () => {
     dispatch({
-      type: 'UPDATE_SELECTED',
+      type: "UPDATE_SELECTED",
       payload: selected,
     });
   };
@@ -60,22 +59,22 @@ const JobPostingsList: FC = () => {
     if (response) {
       snackbar.updateSnackbar(
         true,
-        'Successfully deleted job posting',
-        'success'
+        "Successfully deleted job posting",
+        "success"
       );
       dispatch({
-        type: 'UPDATE_SELECTED',
+        type: "UPDATE_SELECTED",
         payload: null,
       });
       getJobPostings();
     } else {
-      snackbar.updateSnackbar(true, 'Error deleting job posting', 'error');
+      snackbar.updateSnackbar(true, "Error deleting job posting", "error");
     }
   };
 
   // TODO: create function to handle search and filter
   const handleSearchChange = (event) => {
-    dispatch({ type: 'UPDATE_SEARCH_VALUE', payload: event.target.value });
+    dispatch({ type: "UPDATE_SEARCH_VALUE", payload: event.target.value });
   };
 
   // TODO: create hook to fetch job posting upon mount
@@ -84,25 +83,25 @@ const JobPostingsList: FC = () => {
   }, []);
 
   useEffect(() => {
-    if(loggedInProps.user){
+    if (loggedInProps.user) {
       getJobPostings();
     }
   }, [loggedInProps.user]);
 
   const getAllCandidatesAssociatedToJobPosting = async (id) => {
-    console.log('GETTING CALLED');
+    console.log("GETTING CALLED");
 
     const response = await fetchCandidatesAssociatedWithJobPosting(id);
     if (response) {
       dispatch({
-        type: 'UPDATE_ALL_CANDIDATES',
+        type: "UPDATE_ALL_CANDIDATES",
         payload: response.data,
       });
     } else {
       snackbar.updateSnackbar(
         true,
-        'Error fetching candidates associated to job posting',
-        'error'
+        "Error fetching candidates associated to job posting",
+        "error"
       );
     }
   };
@@ -115,14 +114,14 @@ const JobPostingsList: FC = () => {
       );
       if (response) {
         dispatch({
-          type: 'SET_SELECTED_JOB_POSTING',
+          type: "SET_SELECTED_JOB_POSTING",
           payload: response.data,
         });
       } else {
         snackbar.updateSnackbar(
           true,
-          'Error fetching full job posting',
-          'error'
+          "Error fetching full job posting",
+          "error"
         );
       }
     };
@@ -149,7 +148,7 @@ const JobPostingsList: FC = () => {
         search={savedJobPostingsListState?.search}
         loading={savedJobPostingsListState?.loading}
         selected={savedJobPostingsListState?.selected}
-        listType={'jobPostings'}
+        listType={"jobPostings"}
         handleToggle={handleToggle}
         handleSearchChange={handleSearchChange}
       />

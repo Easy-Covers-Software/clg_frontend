@@ -32,6 +32,8 @@ import { createPayload, replaceSpecialCharactersInArray } from '@/Utils/utils';
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+
+//=== Generate Email/Cover Letters Endpoint ===//
 export const generate = async (
     generation_type: string,
     job_posting: string,
@@ -63,6 +65,41 @@ export const generate = async (
     }
 };
 
+//=== Generation Adjustment Endpoint ===//
+export const makeAdjustment = async (
+  adjustmentLevel: string,
+  typeOfAdjustment: string,
+  userInput: string,
+  coverLetter: string
+  ): Promise<APIResponse<AdjustmentApiResponse>> => {
+  const url = `${API_BASE_URL}/generation/make_adjustment/`;
+  
+  const data = {
+      adjustment_level: adjustmentLevel,
+      type_of_adjustment: typeOfAdjustment,
+      user_input: userInput,
+      cover_letter: coverLetter,
+  };
+  
+  const payload: FormData = createPayload(data);
+  
+  try {
+      const response = await axios.post<AdjustmentApiResponse>(url, payload, {
+      withCredentials: true,
+      headers: {
+          'Content-Type': 'multipart/form-data',
+          'X-CSRFToken': Cookie.get('csrftoken'),
+      },
+      });
+  
+      return { data: response.data, error: null };
+  } catch (error) {
+      console.log('Error making adjustment', error);
+      return { data: null, error: error };
+  }
+};
+
+//=== Calculate Match Score ===//
 export const calculateMatchScore = async (
 job_posting: string,
 candidate: string
@@ -94,39 +131,7 @@ try {
 }
 };
 
-export const makeAdjustment = async (
-adjustmentLevel: string,
-typeOfAdjustment: string,
-userInput: string,
-coverLetter: string
-): Promise<APIResponse<AdjustmentApiResponse>> => {
-const url = `${API_BASE_URL}/generation/make_adjustment/`;
-
-const data = {
-    adjustment_level: adjustmentLevel,
-    type_of_adjustment: typeOfAdjustment,
-    user_input: userInput,
-    cover_letter: coverLetter,
-};
-
-const payload: FormData = createPayload(data);
-
-try {
-    const response = await axios.post<AdjustmentApiResponse>(url, payload, {
-    withCredentials: true,
-    headers: {
-        'Content-Type': 'multipart/form-data',
-        'X-CSRFToken': Cookie.get('csrftoken'),
-    },
-    });
-
-    return { data: response.data, error: null };
-} catch (error) {
-    console.log('Error making adjustment', error);
-    return { data: null, error: error };
-}
-};
-
+//=== Download Generation as PDF ===//
 export const generatePDF = async (parts: string[], saveName: string) => {
 const cleanedParts = replaceSpecialCharactersInArray(parts);
 
@@ -169,6 +174,7 @@ doc.save(`${saveName}.pdf`);
 return true;
 };
 
+//=== Download Generation as DOCX ===//
 export const generateDOCX = async (html: string, saveName: string) => {
 const url = `${API_BASE_URL}/generation/download_as_docx/`;
 

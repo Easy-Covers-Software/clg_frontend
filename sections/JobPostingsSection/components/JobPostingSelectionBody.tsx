@@ -19,8 +19,6 @@ import TranscriptionNotes from "@/components/Transcription/TranscriptionNotes";
 import ResumeIframe from "@/components/CandidateProfile/ResumeIframe";
 
 //-- import api methods --//
-import { JobPostingMethods } from "@/Utils/utils";
-
 import { calculateMatchScore } from "@/api/GenerationMethods";
 
 const Container = styled(Grid)`
