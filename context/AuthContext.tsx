@@ -38,12 +38,7 @@ const initialState: any = {
 
   //== Logged In Props ==//
   loggedInProps: {
-    email: '',
-    resume: '',
-    gpt3_generations_available: '0',
-    gpt4_generations_available: '0',
-    adjustments_available: '0',
-    isAuthenticated: false,
+    user: null,
     updateUser: (): void => {},
     reset: (): void => {},
   },
@@ -212,14 +207,6 @@ function reducer(state, action) {
         },
       };
 
-    case 'UPDATE_IS_AUTHENTICATED':
-      return {
-        ...state,
-        loggedInProps: {
-          ...state.loggedInProps,
-          isAuthenticated: action.payload,
-        },
-      };
 
     //== Trackers ==//
     case 'SET_TRACKERS':
@@ -377,12 +364,7 @@ function reducer(state, action) {
         ...state,
         loggedInProps: {
           ...state.loggedInProps,
-          email: '',
-          resume: '',
-          gpt3_generations_available: '',
-          gpt4_generations_available: '',
-          adjustments_available: '',
-          isAuthenticated: false,
+          user: null,
         },
       };
 
@@ -458,18 +440,14 @@ export const AuthProvider = ({
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const initUser = async (): Promise<void> => {
-    const response: APIResponse<FetchUserApiResponse> = await fetchUser();
+    const response: APIResponse<any> = await fetchUser();
+    // const response: APIResponse<FetchUserApiResponse> = await fetchUser();
 
     if (response.data) {
       dispatch({
         type: 'SET_LOGGED_IN_PROPS',
         payload: {
-          email: response.data.email,
-          resume: response.data.resume,
-          gpt3_generations_available: response.data.gpt3_generations_available,
-          gpt4_generations_available: response.data.gpt4_generations_available,
-          adjustments_available: response.data.adjustments_available,
-          isAuthenticated: true,
+          user: response.data.user,
         },
       });
     } else {

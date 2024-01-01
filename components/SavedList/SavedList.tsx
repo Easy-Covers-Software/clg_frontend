@@ -114,7 +114,7 @@ const SavedList: FC<SavedListProps> = ({
     if (loading) return <CircularProgress />;
 
     // Not signed in
-    if (!loggedInProps.isAuthenticated) {
+    if (loggedInProps.user === null || loggedInProps.user.is_active === false) {
       return (
         <List className='saved-letters-list'>
           <EmptyListGrid>

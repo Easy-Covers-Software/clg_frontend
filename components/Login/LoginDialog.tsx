@@ -41,46 +41,6 @@ export default function LoginDialog() {
     dialogProps?.toggleLoginIsOpen();
   };
 
-  const handleLoginAfterSuccessfulRegister = async (): Promise<void> => {
-    const response: APIResponse<AuthResponse> = await login(
-      accountAuthProps?.username,
-      accountAuthProps?.email,
-      accountAuthProps?.password
-    );
-
-    if (response.data) {
-      dispatch({ type: 'UPDATE_USER' });
-      accountAuthProps.reset();
-      dialogProps.toggleLoginIsOpen();
-    } else {
-      snackbar.updateSnackbar(true, 'error', `Error! ${response.error}`);
-    }
-  };
-
-  const handleCreateAccount = async (): Promise<void> => {
-    const response: APIResponse<AuthResponse> = await createAccount(
-      accountAuthProps?.email,
-      accountAuthProps?.password,
-      accountAuthProps?.newPasswordRepeat,
-      accountAuthProps?.phoneNumber,
-      accountAuthProps?.username
-    );
-
-    console.log('create account new response', response);
-
-    if (response.data) {
-      await handleLoginAfterSuccessfulRegister();
-      snackbar.updateSnackbar(
-        true,
-        'success',
-        `Success! ${response.data.message}`
-      );
-      window.location.reload();
-    } else {
-      snackbar.updateSnackbar(true, 'error', `Error! ${response.error}`);
-    }
-  };
-
   const handleLogin = async (): Promise<void> => {
     const response: APIResponse<AuthResponse> = await login(
       accountAuthProps?.username,

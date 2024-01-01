@@ -23,8 +23,7 @@ export default function Sidebar() {
   return (
     <>
       <Logo src='/easy-covers-full.svg' alt='Description of Image' />
-      {loggedInProps?.isAuthenticated ? <MenuLoggedIn /> : <MenuLoggedOut />}
-      {/* {user ? <MenuLoggedOut /> : <MenuLoggedIn />} */}
+      {loggedInProps?.user ? <MenuLoggedIn /> : <MenuLoggedOut />}
     </>
   );
 }
