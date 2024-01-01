@@ -1,25 +1,28 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect } from "react";
 
 //-- import MUI components --//
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 
 //-- import context --//
-import { useAuth } from '@/context/AuthContext';
-import { useCandidatesContext } from '@/context/CandidatesContext';
+import { useAuth } from "@/context/AuthContext";
+import { useCandidatesContext } from "@/context/CandidatesContext";
 
 //-- import components --//
-import SelectionSummary from '@/components/SelectionSummary/SelectionSummary';
-import FullCandidateProfileOverview from '@/components/CandidateProfile/FullCandidateProfileOverview/FullCandidateProfileOverview';
-import ResumeIframe from '@/components/CandidateProfile/ResumeIframe';
-import SubSectionFrame from '@/components/Global/components/SubSectionFrame';
-import FullCandidateJobProfile from '@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile';
-import GenerationEditor from '@/components/GenerationEditor/GenerationEditor';
-import TranscriptionNotes from '@/components/Transcription/TranscriptionNotes';
+import SelectionSummary from "@/components/SelectionSummary/SelectionSummary";
+import FullCandidateProfileOverview from "@/components/CandidateProfile/FullCandidateProfileOverview/FullCandidateProfileOverview";
+import ResumeIframe from "@/components/CandidateProfile/ResumeIframe";
+import SubSectionFrame from "@/components/Global/components/SubSectionFrame";
+import FullCandidateJobProfile from "@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile";
+import GenerationEditor from "@/components/GenerationEditor/GenerationEditor";
+import TranscriptionNotes from "@/components/Transcription/TranscriptionNotes";
 
 //-- import api methods --//
-import { GenerationMethods, CandidateProfileMethods } from '@/Utils/utils';
-const { calculateMatchScore } = GenerationMethods;
-const { fetchJobPostingsAssociatedWithCandidate, uploadResume } = CandidateProfileMethods;
+import { CandidateProfileMethods } from "@/Utils/utils";
+// const { calculateMatchScore } = GenerationMethods;
+const { fetchJobPostingsAssociatedWithCandidate, uploadResume } =
+  CandidateProfileMethods;
+
+import { calculateMatchScore } from "@/api/GenerationMethods";
 
 // const Container = styled(Grid)`
 const Container = styled.div`
@@ -78,51 +81,51 @@ const CandidateSelectionBody: FC = () => {
 
   const updateSelectedCandidateMode = (mode: string) => {
     dispatch({
-      type: 'SET_SELECTED_CANDIDATE_MODE',
+      type: "SET_SELECTED_CANDIDATE_MODE",
       payload: mode,
     });
   };
 
   const resetSelectedCandidateMode = () => {
-    updateSelectedCandidateMode('overview');
+    updateSelectedCandidateMode("overview");
   };
 
   const resetJobPostingMode = () => {
     dispatch({
-      type: 'UPDATE_JOB_POSTING_MODE',
-      payload: 'overview',
+      type: "UPDATE_JOB_POSTING_MODE",
+      payload: "overview",
     });
   };
 
   const updateSelectedJobPosting = (jobPosting: any) => {
     dispatch({
-      type: 'SET_SELECTED_CANDIDATE_MODE',
-      payload: 'jobPosting',
+      type: "SET_SELECTED_CANDIDATE_MODE",
+      payload: "jobPosting",
     });
 
     dispatch({
-      type: 'UPDATE_SELECTED_JOB_POSTING',
+      type: "UPDATE_SELECTED_JOB_POSTING",
       payload: jobPosting,
     });
   };
 
   const updateJobPostingMode = (mode: string) => {
     dispatch({
-      type: 'UPDATE_JOB_POSTING_MODE',
+      type: "UPDATE_JOB_POSTING_MODE",
       payload: mode,
     });
   };
 
   const updateGenerationsPanelMode = (mode: string) => {
     dispatch({
-      type: 'UPDATE_GENERATIONS_PANEL_MODE',
+      type: "UPDATE_GENERATIONS_PANEL_MODE",
       payload: mode,
     });
   };
 
   const updateCallsPanelMode = (mode: string) => {
     dispatch({
-      type: 'UPDATE_CALL_PANEL_MODE',
+      type: "UPDATE_CALL_PANEL_MODE",
       payload: mode,
     });
   };
@@ -133,60 +136,59 @@ const CandidateSelectionBody: FC = () => {
       try {
         // Call your uploadResume function here with necessary parameters
         const response = await uploadResume(file, selectedCandidateProfile?.id);
-        console.log('RESOINBSEE 321: ', response)
-        
+        console.log("RESOINBSEE 321: ", response);
+
         // Check if the response includes data and no error
         if (response.data && !response.error) {
           // Handle successful upload
-          console.log('Resume uploaded successfully', response.data);
+          console.log("Resume uploaded successfully", response.data);
           dispatch({
-            type: 'UPDATE_RESUME_URL',
-            payload: response.data.file
-          })
+            type: "UPDATE_RESUME_URL",
+            payload: response.data.file,
+          });
           dispatch({
-            type: 'UPDATE_PDF_IFRAME_PATH',
-            payload: response.data.file
-          })
+            type: "UPDATE_PDF_IFRAME_PATH",
+            payload: response.data.file,
+          });
           // You can update the state or UI here as needed
         } else {
           // Handle error in response
-          console.error('Error uploading resume', response.error);
+          console.error("Error uploading resume", response.error);
           // Show error notification to the user or handle error
         }
       } catch (error) {
         // Handle any exceptions during the upload process
-        console.error('Exception while uploading resume', error);
+        console.error("Exception while uploading resume", error);
         // Show error notification to the user or handle error
       }
     }
   };
-  
 
   const handleGenerationSelection = (generation: any) => {
     dispatch({
-      type: 'UPDATE_SELECTED_GENERATION',
+      type: "UPDATE_SELECTED_GENERATION",
       payload: generation,
     });
     dispatch({
-      type: 'UPDATE_JOB_POSTING_MODE',
-      payload: 'generation',
+      type: "UPDATE_JOB_POSTING_MODE",
+      payload: "generation",
     });
   };
 
   const handleCallSelection = (call: any) => {
     dispatch({
-      type: 'UPDATE_SELECTED_PHONE_CALL',
+      type: "UPDATE_SELECTED_PHONE_CALL",
       payload: call,
     });
     dispatch({
-      type: 'UPDATE_JOB_POSTING_MODE',
-      payload: 'phoneCall',
+      type: "UPDATE_JOB_POSTING_MODE",
+      payload: "phoneCall",
     });
   };
 
   const handleCalculate = async (jobPostingId) => {
     dispatch({
-      type: 'UPDATE_CURRENTLY_CALCULATING',
+      type: "UPDATE_CURRENTLY_CALCULATING",
       payload: jobPostingId,
     });
 
@@ -196,20 +198,20 @@ const CandidateSelectionBody: FC = () => {
     );
 
     if (response) {
-      console.log('response', response);
+      console.log("response", response);
 
       dispatch({
-        type: 'UPDATE_CURRENTLY_CALCULATING',
-        payload: '',
+        type: "UPDATE_CURRENTLY_CALCULATING",
+        payload: "",
       });
       dispatch({
-        type: 'REFRESH_JOB_POSTINGS',
+        type: "REFRESH_JOB_POSTINGS",
       });
     } else {
-      snackbar.updateSnackbar(true, 'error', 'Error calculating match score');
+      snackbar.updateSnackbar(true, "error", "Error calculating match score");
       dispatch({
-        type: 'UPDATE_CURRENTLY_CALCULATING',
-        payload: '',
+        type: "UPDATE_CURRENTLY_CALCULATING",
+        payload: "",
       });
     }
   };
@@ -217,7 +219,7 @@ const CandidateSelectionBody: FC = () => {
   const getIntroCall = () => {
     return (
       selectedCandidateProfile?.phone_calls.find(
-        (phoneCall) => phoneCall.call_type === 'intro'
+        (phoneCall) => phoneCall.call_type === "intro"
       ) || null
     );
   };
@@ -225,13 +227,13 @@ const CandidateSelectionBody: FC = () => {
   const getFollowUpCalls = () => {
     return (
       selectedCandidateProfile?.phone_calls.filter(
-        (phoneCall) => phoneCall.call_type !== 'intro'
+        (phoneCall) => phoneCall.call_type !== "intro"
       ) || null
     );
   };
 
   const isCurrentlyCalculating = () => {
-    return jobPostingsState?.currentlyCalculating !== '' ? true : false;
+    return jobPostingsState?.currentlyCalculating !== "" ? true : false;
   };
 
   useEffect(() => {
@@ -239,14 +241,14 @@ const CandidateSelectionBody: FC = () => {
       const response = await fetchJobPostingsAssociatedWithCandidate(id);
       if (response) {
         dispatch({
-          type: 'UPDATE_JOB_POSTINGS',
+          type: "UPDATE_JOB_POSTINGS",
           payload: response.data,
         });
       } else {
         snackbar.updateSnackbar(
           true,
-          'Error fetching job postings associated with candidate',
-          'error'
+          "Error fetching job postings associated with candidate",
+          "error"
         );
       }
     };
@@ -263,7 +265,7 @@ const CandidateSelectionBody: FC = () => {
       );
 
       dispatch({
-        type: 'UPDATE_SELECTED_JOB_POSTING',
+        type: "UPDATE_SELECTED_JOB_POSTING",
         payload: updatedJobPosting,
       });
     }
@@ -271,7 +273,7 @@ const CandidateSelectionBody: FC = () => {
 
   const renderCurrentCandidateProfileModeSection = () => {
     switch (selectedCandidateMode) {
-      case 'overview':
+      case "overview":
         return (
           <FullCandidateProfileOverview
             selectedCandidate={selectedCandidateProfile}
@@ -284,25 +286,25 @@ const CandidateSelectionBody: FC = () => {
             handleFileChange={handleFileChange}
           />
         );
-      case 'resume':
+      case "resume":
         return (
           <SubSectionFrame
-            subSectionHeader={'Résumé Viewer'}
+            subSectionHeader={"Résumé Viewer"}
             onClose={resetSelectedCandidateMode}
           >
             <ResumeIframe resumeUrl={resumeState?.pdfIframePath} />
           </SubSectionFrame>
         );
-      case 'jobPosting':
+      case "jobPosting":
         switch (jobPostingsState?.mode) {
-          case 'overview':
+          case "overview":
             return (
               <SubSectionFrame
-                subSectionHeader={'Candidate Score Details'}
+                subSectionHeader={"Candidate Score Details"}
                 onClose={resetSelectedCandidateMode}
               >
                 <FullCandidateJobProfile
-                  page={'candidate'}
+                  page={"candidate"}
                   selectedJobPosting={jobPostingsState?.selectedJobPosting}
                   selectedCandidate={selectedCandidateProfile}
                   phoneCalls={selectedCandidateProfile?.phone_calls}
@@ -322,10 +324,10 @@ const CandidateSelectionBody: FC = () => {
                 />
               </SubSectionFrame>
             );
-          case 'generation':
+          case "generation":
             return (
               <SubSectionFrame
-                subSectionHeader={'Generation'}
+                subSectionHeader={"Generation"}
                 onClose={resetJobPostingMode}
               >
                 <GenerationEditor
@@ -335,14 +337,14 @@ const CandidateSelectionBody: FC = () => {
                 />
               </SubSectionFrame>
             );
-          case 'phoneCall':
+          case "phoneCall":
             return (
               <SubSectionFrame
-                subSectionHeader={'Call Notes'}
+                subSectionHeader={"Call Notes"}
                 onClose={resetJobPostingMode}
               >
                 <TranscriptionNotes
-                  page={'candidate'}
+                  page={"candidate"}
                   transcriptionNotes={
                     jobPostingsState.selectedPhoneCall?.transcription?.notes
                   }
@@ -350,10 +352,10 @@ const CandidateSelectionBody: FC = () => {
               </SubSectionFrame>
             );
 
-          case 'resume':
+          case "resume":
             return (
               <SubSectionFrame
-                subSectionHeader={'Résumé Viewer'}
+                subSectionHeader={"Résumé Viewer"}
                 onClose={resetJobPostingMode}
               >
                 <ResumeIframe resumeUrl={resumeState?.pdfIframePath} />

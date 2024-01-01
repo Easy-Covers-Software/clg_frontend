@@ -1,24 +1,25 @@
-import { FC } from 'react';
-import { useMediaQuery } from '@mui/material';
+import { FC } from "react";
+import { useMediaQuery } from "@mui/material";
 
 // desktop / tablet component
-import SimpleAdjustmentButtonGroup from './components/SimpleAdjustmentButtonGroup';
+import SimpleAdjustmentButtonGroup from "./components/SimpleAdjustmentButtonGroup";
 
 // mobile components
-import { IconButton } from '@mui/material';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { IconButton } from "@mui/material";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
-import { Helpers, GenerationMethods } from '@/Utils/utils';
-const { makeAdjustment } = GenerationMethods;
+import { Helpers } from "@/Utils/utils";
 const { determineCoverLetterHtml } = Helpers;
 
-import { APIResponse, AdjustmentApiResponse } from '@/Types/ApiResponse.types';
-import { Snackbar } from '@/Types/AuthContext.types';
+import { makeAdjustment } from "@/api/GenerationMethods";
+
+import { APIResponse, AdjustmentApiResponse } from "@/Types/ApiResponse.types";
+import { Snackbar } from "@/Types/AuthContext.types";
 
 import {
   SimpleAdjustmentsStyledComponents,
   SimpleAdjustmentsMobileStyledComponents,
-} from './SimpleAdjustments.styles';
+} from "./SimpleAdjustments.styles";
 const {
   Container,
   MobileContainer,
@@ -28,15 +29,15 @@ const {
 
 const { RestartIconButton } = SimpleAdjustmentsMobileStyledComponents;
 
-import DownloadMenu from '@/components/Download/DownloadMenu';
+import DownloadMenu from "@/components/Download/DownloadMenu";
 
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from "@/context/AuthContext";
 
 import {
   SimpleAdjustmentProps,
   AdjustmentSectionProps,
   CoverLetterData,
-} from '@/Types/GenerationContext.types';
+} from "@/Types/GenerationContext.types";
 
 interface Props {
   coverLetterData: CoverLetterData;
@@ -51,7 +52,7 @@ const SimpleAdjustments: FC<Props> = ({
   adjustmentSection,
   reset,
 }) => {
-  const isMobile = useMediaQuery('(max-width: 600px)');
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const { state } = useAuth();
   const { loggedInProps, snackbar } = state;
@@ -62,9 +63,9 @@ const SimpleAdjustments: FC<Props> = ({
     coverLetterData?.toggleLoadingCoverLetter();
 
     const response: APIResponse<AdjustmentApiResponse> = await makeAdjustment(
-      'simple',
+      "simple",
       buttonLabel,
-      'decrease',
+      "decrease",
       determineCoverLetterHtml(coverLetterData)
     );
 
@@ -72,13 +73,13 @@ const SimpleAdjustments: FC<Props> = ({
       coverLetterData?.updateCoverLetterParts(response.data.cover_letter);
       loggedInProps.updateUser();
       coverLetterData?.toggleLoadingCoverLetter();
-      snackbar.updateSnackbar(true, 'success', 'Adjustment made successfully.');
+      snackbar.updateSnackbar(true, "success", "Adjustment made successfully.");
     } else {
       coverLetterData?.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(
         true,
-        'error',
-        'An error occured while making adjustment. Please try again.'
+        "error",
+        "An error occured while making adjustment. Please try again."
       );
     }
   };
@@ -89,9 +90,9 @@ const SimpleAdjustments: FC<Props> = ({
     coverLetterData?.toggleLoadingCoverLetter();
 
     const response: APIResponse<AdjustmentApiResponse> = await makeAdjustment(
-      'simple',
+      "simple",
       buttonLabel,
-      'increase',
+      "increase",
       determineCoverLetterHtml(coverLetterData)
     );
 
@@ -99,13 +100,13 @@ const SimpleAdjustments: FC<Props> = ({
       coverLetterData?.updateCoverLetterParts(response.data.cover_letter);
       loggedInProps.updateUser();
       coverLetterData?.toggleLoadingCoverLetter();
-      snackbar.updateSnackbar(true, 'success', 'Adjustment made successfully.');
+      snackbar.updateSnackbar(true, "success", "Adjustment made successfully.");
     } else {
       coverLetterData?.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(
         true,
-        'error',
-        'An error occured while making adjustment. Please try again.'
+        "error",
+        "An error occured while making adjustment. Please try again."
       );
     }
   };
@@ -113,7 +114,7 @@ const SimpleAdjustments: FC<Props> = ({
   const shouldDisable = (coverLetterData: CoverLetterData) => {
     if (
       !coverLetterData.loadingCoverLetter &&
-      coverLetterData?.coverLetterHtml !== ''
+      coverLetterData?.coverLetterHtml !== ""
     ) {
       return false;
     } else {
@@ -146,19 +147,19 @@ const SimpleAdjustments: FC<Props> = ({
         <Container>
           <SimpleAdjustmentsContainer>
             <SimpleAdjustmentButtonGroup
-              buttonLabel='Length'
+              buttonLabel="Length"
               disabled={disable}
               handleDecreaseSimpleAdjustment={handleDecreaseSimpleAdjustment}
               handleIncreaseSimpleAdjustment={handleIncreaseSimpleAdjustment}
             />
             <SimpleAdjustmentButtonGroup
-              buttonLabel='Formality'
+              buttonLabel="Formality"
               disabled={disable}
               handleDecreaseSimpleAdjustment={handleDecreaseSimpleAdjustment}
               handleIncreaseSimpleAdjustment={handleIncreaseSimpleAdjustment}
             />
             <SimpleAdjustmentButtonGroup
-              buttonLabel='Personability'
+              buttonLabel="Personability"
               disabled={disable}
               handleDecreaseSimpleAdjustment={handleDecreaseSimpleAdjustment}
               handleIncreaseSimpleAdjustment={handleIncreaseSimpleAdjustment}

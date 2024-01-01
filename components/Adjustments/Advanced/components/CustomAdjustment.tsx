@@ -1,23 +1,23 @@
-import { useState, FC } from 'react';
+import { useState, FC } from "react";
 
-import Typography from '@mui/material/Typography';
-import { useAuth } from '@/context/AuthContext';
+import Typography from "@mui/material/Typography";
+import { useAuth } from "@/context/AuthContext";
 
-import { Helpers, GenerationMethods } from '@/Utils/utils';
-const { makeAdjustment } = GenerationMethods;
+import { Helpers } from "@/Utils/utils";
 const { determineCoverLetterHtml } = Helpers;
 
 // import { CustomReQueryStyledComponents } from '../ReQueryOptions.styles';
 // const { CustomReQueryField, SubmitButton } = CustomReQueryStyledComponents;
-import { CustomAdjustmentStyledComponents } from '../AdvancedAdjustments.styles';
+import { CustomAdjustmentStyledComponents } from "../AdvancedAdjustments.styles";
 const { Container, SubContainer, CustomReQueryField, SubmitButton } =
   CustomAdjustmentStyledComponents;
-import { useMediaQuery } from '@mui/material';
+
+import { makeAdjustment } from "@/api/GenerationMethods";
 
 import {
   CoverLetterData,
   CustomAdjustmentProps,
-} from '@/Types/GenerationContext.types';
+} from "@/Types/GenerationContext.types";
 
 interface Props {
   coverLetterData: CoverLetterData;
@@ -32,7 +32,7 @@ const CustomAdjustment: FC<Props> = ({
   const { loggedInProps, snackbar } = state;
 
   const [placeholder, setPlaceholder] = useState(
-    'Anything you want to change about the cover letter...'
+    "Anything you want to change about the cover letter..."
   );
 
   const handleChange = (e) => {
@@ -40,12 +40,12 @@ const CustomAdjustment: FC<Props> = ({
   };
 
   const handleFocus = () => {
-    setPlaceholder('');
+    setPlaceholder("");
   };
 
   const handleBlur = () => {
-    if (customAdjustmentProps?.customAdjustment === '') {
-      setPlaceholder('Anything you want to change about the cover letter...');
+    if (customAdjustmentProps?.customAdjustment === "") {
+      setPlaceholder("Anything you want to change about the cover letter...");
     }
   };
 
@@ -53,8 +53,8 @@ const CustomAdjustment: FC<Props> = ({
     coverLetterData?.toggleLoadingCoverLetter();
 
     const response = await makeAdjustment(
-      'custom',
-      '',
+      "custom",
+      "",
       customAdjustmentProps?.customAdjustment,
       determineCoverLetterHtml(coverLetterData)
     );
@@ -63,13 +63,13 @@ const CustomAdjustment: FC<Props> = ({
       coverLetterData?.updateCoverLetterParts(response.data.cover_letter);
       coverLetterData?.toggleLoadingCoverLetter();
       loggedInProps.updateUser();
-      snackbar.updateSnackbar(true, 'success', 'Adjustment made successfully.');
+      snackbar.updateSnackbar(true, "success", "Adjustment made successfully.");
     } else {
       coverLetterData?.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(
         true,
-        'error',
-        'An error occured while making adjustment. Please try again.'
+        "error",
+        "An error occured while making adjustment. Please try again."
       );
     }
   };
@@ -77,8 +77,8 @@ const CustomAdjustment: FC<Props> = ({
   const shouldDisable = (coverLetterData: CoverLetterData) => {
     if (
       coverLetterData?.loadingCoverLetter ||
-      coverLetterData?.coverLetterHtml === '' ||
-      customAdjustmentProps?.customAdjustment === ''
+      coverLetterData?.coverLetterHtml === "" ||
+      customAdjustmentProps?.customAdjustment === ""
     ) {
       return true;
     } else {
@@ -91,7 +91,7 @@ const CustomAdjustment: FC<Props> = ({
   return (
     <Container>
       <SubContainer>
-        <Typography className='custom-adjustment-heading'>
+        <Typography className="custom-adjustment-heading">
           Custom Adjustment
         </Typography>
         <CustomReQueryField

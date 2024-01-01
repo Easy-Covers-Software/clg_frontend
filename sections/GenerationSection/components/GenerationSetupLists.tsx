@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 // React-related imports
-import { useState, useEffect } from 'react';
-import { Typography } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import styled from '@emotion/styled';
-import { UnSelectedButton } from '@/components/Global/Global';
+import { useState, useEffect } from "react";
+import { Typography } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import styled from "@emotion/styled";
+import { UnSelectedButton } from "@/components/Global/Global";
 
 import {
   Accordion,
@@ -15,26 +15,26 @@ import {
   SubContainer,
   CheckboxIconInComplete,
   CheckboxIconComplete,
-} from '@/components/Generation/GenerationSetup.styles';
+} from "@/components/Generation/GenerationSetup.styles";
 
-import JobPostingSelection from '@/components/Generation/JobPostingSelection';
-import CandidateProfileSelection from '@/components/Generation/CandidateProfileSelection';
-import GenerationSettings from '@/components/Generation/GenerationSettings/GenerationSettings';
+import JobPostingSelection from "@/components/Generation/JobPostingSelection";
+import CandidateProfileSelection from "@/components/Generation/CandidateProfileSelection";
+import GenerationSettings from "@/components/Generation/GenerationSettings/GenerationSettings";
 
 import {
   Helpers,
   JobPostingMethods,
   CandidateProfileMethods,
-  GenerationMethods,
-} from '@/Utils/utils';
+} from "@/Utils/utils";
 const { fetchJobPostings } = JobPostingMethods;
 const { fetchCandidateProfiles } = CandidateProfileMethods;
 const { checkAdditionalDetails } = Helpers;
-const { createNewGeneration } = GenerationMethods;
+
+import { generate } from "@/api/GenerationMethods";
 
 // Context Imports
-import { useAuth } from '@/context/AuthContext';
-import { useGenerationContext } from '@/context/GenerationContext';
+import { useAuth } from "@/context/AuthContext";
+import { useGenerationContext } from "@/context/GenerationContext";
 
 const Container = styled(Grid)`
   height: calc(100vh - 98px);
@@ -122,7 +122,7 @@ export default function GenerationSetupLists() {
   } = state;
 
   // Component State
-  const [expanded, setExpanded] = useState<string | false>('panel1');
+  const [expanded, setExpanded] = useState<string | false>("panel1");
 
   // Panel change handler
   const handleChange =
@@ -130,17 +130,17 @@ export default function GenerationSetupLists() {
     (event: React.SyntheticEvent, isExpanded: boolean) => {
       if (isExpanded) {
         setExpanded(panel);
-      } else if (nextPanel === 'up') {
-        if (panel === 'panel2') {
-          setExpanded('panel1');
+      } else if (nextPanel === "up") {
+        if (panel === "panel2") {
+          setExpanded("panel1");
         } else {
-          setExpanded('panel2');
+          setExpanded("panel2");
         }
       } else {
         if (!isExpanded && nextPanel !== false) {
           setExpanded(nextPanel);
-        } else if (!isExpanded && panel === 'panel3' && nextPanel === false) {
-          setExpanded('panel2');
+        } else if (!isExpanded && panel === "panel3" && nextPanel === false) {
+          setExpanded("panel2");
         } else {
           setExpanded(panel);
         }
@@ -151,28 +151,28 @@ export default function GenerationSetupLists() {
     const response = await fetchJobPostings();
     if (response) {
       dispatch({
-        type: 'UPDATE_JOB_POSTINGS',
+        type: "UPDATE_JOB_POSTINGS",
         payload: response.data,
       });
       dispatch({
-        type: 'UPDATE_FILTERED_JOB_POSTINGS',
+        type: "UPDATE_FILTERED_JOB_POSTINGS",
         payload: response.data,
       });
     } else {
-      snackbar.updateSnackbar(true, 'Error fetching job postings', 'error');
+      snackbar.updateSnackbar(true, "Error fetching job postings", "error");
     }
   };
 
   const handleJobPostingSelection = (jobPosting) => {
     dispatch({
-      type: 'UPDATE_SELECTED_JOB_POSTING',
+      type: "UPDATE_SELECTED_JOB_POSTING",
       payload: jobPosting,
     });
   };
 
   const updateJobPostingSearch = (event) => {
     dispatch({
-      type: 'UPDATE_JOB_POSTING_SEARCH',
+      type: "UPDATE_JOB_POSTING_SEARCH",
       payload: event.target.value,
     });
   };
@@ -181,39 +181,39 @@ export default function GenerationSetupLists() {
     const response = await fetchCandidateProfiles();
     if (response) {
       dispatch({
-        type: 'UPDATE_CANDIDATES',
+        type: "UPDATE_CANDIDATES",
         payload: response.data,
       });
       dispatch({
-        type: 'UPDATE_FILTERED_CANDIDATES',
+        type: "UPDATE_FILTERED_CANDIDATES",
         payload: response.data,
       });
     } else {
       snackbar.updateSnackbar(
         true,
-        'Error fetching candidate profiles',
-        'error'
+        "Error fetching candidate profiles",
+        "error"
       );
     }
   };
 
   const handleCandidateProfileSelection = (candidateProfile) => {
     dispatch({
-      type: 'UPDATE_SELECTED_CANDIDATE',
+      type: "UPDATE_SELECTED_CANDIDATE",
       payload: candidateProfile,
     });
   };
 
   const updateCandidateProfileSearch = (event) => {
     dispatch({
-      type: 'UPDATE_CANDIDATE_SEARCH',
+      type: "UPDATE_CANDIDATE_SEARCH",
       payload: event.target.value,
     });
   };
 
   const toggleGenerationMode = () => {
     dispatch({
-      type: 'TOGGLE_GENERATION_MODE',
+      type: "TOGGLE_GENERATION_MODE",
       payload: true,
     });
   };
@@ -221,21 +221,22 @@ export default function GenerationSetupLists() {
   const handleGenerate = async (): Promise<void> => {
     coverLetterData.toggleLoadingCoverLetter();
     generationResultsState.toggleLoading();
-    let mode = '';
+
+    let mode = "";
     if (!generationMode) {
-      mode = 'email';
+      mode = "email";
     } else {
-      mode = 'cover_letter';
+      mode = "cover_letter";
     }
 
-    const response = await createNewGeneration(
+    const response = await generate(
       mode,
       generationSetupState?.selectedJobPosting?.id,
       generationSetupState?.selectedCandidate?.id
     );
 
     if (response) {
-      console.log('generation response', response);
+      console.log("generation response", response);
       generationResultsState.updateId(response.data.id);
       generationResultsState.updateContent(response.data.content);
       generationResultsState.toggleLoading();
@@ -246,16 +247,16 @@ export default function GenerationSetupLists() {
       loggedInProps.updateUser();
       snackbar.updateSnackbar(
         true,
-        'success',
-        'Success! Cover letter generated.'
+        "success",
+        "Success! Cover letter generated."
       );
     } else {
       console.error(response);
       coverLetterData.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(
         true,
-        'error',
-        'Error generating cover letter. Please try again. If the problem persists, please contact us.'
+        "error",
+        "Error generating cover letter. Please try again. If the problem persists, please contact us."
       );
     }
   };
@@ -266,7 +267,7 @@ export default function GenerationSetupLists() {
   }, []);
 
   useEffect(() => {
-    if(loggedInProps.user){
+    if (loggedInProps.user) {
       getJobPostings();
       getCandidateProfiles();
     }
@@ -276,19 +277,19 @@ export default function GenerationSetupLists() {
     <Container>
       <SubContainer>
         <Accordion
-          expanded={expanded === 'panel1'}
-          currPanel='panel1'
+          expanded={expanded === "panel1"}
+          currPanel="panel1"
           disableGutters
           onChange={handleChange(
-            'panel1',
-            'panel2',
-            `1-${expanded === 'panel1'}`
+            "panel1",
+            "panel2",
+            `1-${expanded === "panel1"}`
           )}
         >
           <AccordionSummary
-            isExpanded={expanded === 'panel1'}
-            expanded='panel1'
-            tracker={`1-${expanded === 'panel1'}`}
+            isExpanded={expanded === "panel1"}
+            expanded="panel1"
+            tracker={`1-${expanded === "panel1"}`}
           >
             {/* {generationSetupState.selectedJobPosting !== null ? ( */}
             {!generationSetupState.selectedJobPosting ? (
@@ -298,14 +299,14 @@ export default function GenerationSetupLists() {
             )}
 
             {!generationSetupState.selectedJobPosting ? (
-              <Typography className='accordion-header'>
+              <Typography className="accordion-header">
                 Select Job Posting
               </Typography>
             ) : (
               <Typography
-                className='accordion-header'
-                flexWrap={'nowrap'}
-                whiteSpace={'nowrap'}
+                className="accordion-header"
+                flexWrap={"nowrap"}
+                whiteSpace={"nowrap"}
               >
                 {generationSetupState?.selectedJobPosting.job_title} <br />@
                 {generationSetupState?.selectedJobPosting.company_name}
@@ -325,18 +326,18 @@ export default function GenerationSetupLists() {
         </Accordion>
 
         <Accordion
-          expanded={expanded === 'panel2'}
-          currPanel='panel2'
+          expanded={expanded === "panel2"}
+          currPanel="panel2"
           onChange={handleChange(
-            'panel2',
-            'panel3',
-            `2-${expanded === 'panel2'}`
+            "panel2",
+            "panel3",
+            `2-${expanded === "panel2"}`
           )}
         >
           <AccordionSummary
-            isExpanded={expanded === 'panel2'}
-            expanded='panel2'
-            tracker={`2-${expanded === 'panel2'}`}
+            isExpanded={expanded === "panel2"}
+            expanded="panel2"
+            tracker={`2-${expanded === "panel2"}`}
           >
             {!generationSetupState?.selectedCandidate ? (
               <CheckboxIconInComplete />
@@ -345,12 +346,12 @@ export default function GenerationSetupLists() {
             )}
 
             {!generationSetupState?.selectedCandidate ? (
-              <Typography className='accordion-header'>
+              <Typography className="accordion-header">
                 Select Candidate
               </Typography>
             ) : (
-              <Typography className='accordion-header'>
-                {generationSetupState?.selectedCandidate.name} <br />{' '}
+              <Typography className="accordion-header">
+                {generationSetupState?.selectedCandidate.name} <br />{" "}
                 {generationSetupState?.selectedCandidate.current_title}
               </Typography>
             )}
@@ -367,14 +368,14 @@ export default function GenerationSetupLists() {
         </Accordion>
 
         <Accordion
-          expanded={expanded === 'panel3'}
-          currPanel='panel3'
-          onChange={handleChange('panel3', false, `3-${expanded === 'panel3'}`)}
+          expanded={expanded === "panel3"}
+          currPanel="panel3"
+          onChange={handleChange("panel3", false, `3-${expanded === "panel3"}`)}
         >
           <AccordionSummary
-            isExpanded={expanded === 'panel3'}
-            expanded='panel3'
-            tracker={`3-${expanded === 'panel3'}`}
+            isExpanded={expanded === "panel3"}
+            expanded="panel3"
+            tracker={`3-${expanded === "panel3"}`}
           >
             {!checkAdditionalDetails(additionalDetails) ? (
               <CheckboxIconInComplete />
@@ -382,7 +383,7 @@ export default function GenerationSetupLists() {
               <CheckboxIconComplete />
             )}
 
-            <Typography className='accordion-header'>
+            <Typography className="accordion-header">
               Generation Settings
             </Typography>
           </AccordionSummary>
@@ -399,7 +400,7 @@ export default function GenerationSetupLists() {
         disabled={false}
         // disabled={disabled}
         onClick={() => {
-          trackers?.updateMobileMode('results');
+          trackers?.updateMobileMode("results");
           handleGenerate();
         }}
       >

@@ -675,7 +675,6 @@ body {
 .saved-letters-list {
   width: 94%;
   height: 100%;
-  /* height: calc(100vh - 150px); */
   background-color: white;
   border-radius: 4px;
   border: 1px solid #006d4b;

@@ -663,9 +663,7 @@ function reducer(state, action) {
         ...state,
         coverLetterData: {
           ...state.coverLetterData,
-          curCoverLetterHtml: formatCoverLetterForAdjustment(
-            removeDivTags(action.payload)
-          ),
+          curCoverLetterHtml: formatCoverLetterForAdjustment(action.payload)
         },
       };
 

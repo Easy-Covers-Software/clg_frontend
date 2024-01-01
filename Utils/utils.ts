@@ -26,11 +26,82 @@ import {
   PhoneCallListState,
   InitateCallResponse,
 } from '@/Types/TranscriptionPage.types';
+import { rem } from '@mantine/core';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+export const createPayload = (values: Object) => {
+  const formData = new FormData();
+
+  Object.entries(values).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+
+  return formData;
+};
+
+export const replaceSpecialCharactersInArray = (strings) => {
+  const replacements = {
+    á: 'a',
+    ä: 'a',
+    â: 'a',
+    à: 'a',
+    ã: 'a',
+    é: 'e',
+    ë: 'e',
+    ê: 'e',
+    è: 'e',
+    í: 'i',
+    ï: 'i',
+    î: 'i',
+    ì: 'i',
+    ó: 'o',
+    ö: 'o',
+    ô: 'o',
+    ò: 'o',
+    õ: 'o',
+    ú: 'u',
+    ü: 'u',
+    û: 'u',
+    ù: 'u',
+    ñ: 'n',
+    ç: 'c',
+    ý: 'y',
+    ÿ: 'y',
+    š: 's',
+    ž: 'z',
+    ł: 'l',
+    đ: 'd',
+    ß: 'ss',
+    þ: 'th',
+    ĥ: 'h',
+    ĵ: 'j',
+    œ: 'oe',
+    æ: 'ae',
+    ƒ: 'f',
+    ĝ: 'g',
+    ě: 'e',
+    ř: 'r',
+    ů: 'u',
+    č: 'c',
+    Vū: 'Vu', // The specific example you gave
+  };
+
+  const replaceInString = (str) => {
+    for (let [key, value] of Object.entries(replacements)) {
+      str = str.replace(new RegExp(key, 'g'), value);
+    }
+    return str;
+  };
+
+  return strings.map(replaceInString);
+};
+
+
 namespace Helpers {
+
+  // only used in 1 file -- can move function to that file
   export const removeDivTags = (html: string) => {
     if (html.startsWith('<div>') && html.endsWith('</div>')) {
       return html.substring(5, html.length - 6);
@@ -38,24 +109,30 @@ namespace Helpers {
     return html;
   };
 
+  // only used in 1 file -- can move function to that file (^)
+  export const formatCoverLetterForAdjustment = (input: string): string => {
+    const prepInput = removeDivTags(input);
+    return prepInput.replace(/<p>/g, '').replace(/<\/p>/g, '\n');
+  };
+
+  // remove
   export const removePTags = (html: string) => {
     return html.replace(/<p>/g, '').replace(/<\/p>/g, '');
   };
 
+  // keep
   export const addPTags = (parts: any) => {
     const coverLetterParts = parts.map((part) => `<p>${part}</p>`).join('');
     const coverLetter = `<div>${coverLetterParts}</div>`;
     return coverLetter;
   };
 
+  // keep
   export const addDivTag = (html: string) => {
     return `<div>${html}</div>`;
   };
 
-  export const formatCoverLetterForAdjustment = (input: string): string => {
-    return input.replace(/<p>/g, '').replace(/<\/p>/g, '\n');
-  };
-
+  // keep
   export const parseSectionsFromHTML = (html) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
@@ -66,6 +143,7 @@ namespace Helpers {
     return sections;
   };
 
+  // only used in 1 file -- can move function to that file
   export const isOriginalGenerationEdited = (
     originalCoverLetterHtml: string,
     updatedCoverLetterHtml: string
@@ -80,6 +158,7 @@ namespace Helpers {
     }
   };
 
+  // remove -- paypal 
   export const extractPrice = (frontendValue) => {
     const pattern = /(\d+\.\d+)/g;
     const match = frontendValue.match(pattern);
@@ -91,16 +170,7 @@ namespace Helpers {
     return null;
   };
 
-  export const createPayload = (values: Object) => {
-    const formData = new FormData();
-
-    Object.entries(values).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-
-    return formData;
-  };
-
+  // keep
   export const checkAdditionalDetails = (additionalDetails) => {
     console.log('checking additional details, ', additionalDetails);
 
@@ -116,6 +186,7 @@ namespace Helpers {
     }
   };
 
+  // keep
   export const determineCoverLetterHtml = (contentData: any) => {
     if (
       contentData?.editedContent !== '' &&
@@ -127,6 +198,7 @@ namespace Helpers {
     }
   };
 
+  // only used in 1 file -- can move function to that file
   export const determineCoverLetterParts = (
     coverLetterState: CoverLetterData
   ) => {
@@ -138,63 +210,6 @@ namespace Helpers {
     } else {
       return coverLetterState?.coverLetterParts;
     }
-  };
-
-  export const replaceSpecialCharactersInArray = (strings) => {
-    const replacements = {
-      á: 'a',
-      ä: 'a',
-      â: 'a',
-      à: 'a',
-      ã: 'a',
-      é: 'e',
-      ë: 'e',
-      ê: 'e',
-      è: 'e',
-      í: 'i',
-      ï: 'i',
-      î: 'i',
-      ì: 'i',
-      ó: 'o',
-      ö: 'o',
-      ô: 'o',
-      ò: 'o',
-      õ: 'o',
-      ú: 'u',
-      ü: 'u',
-      û: 'u',
-      ù: 'u',
-      ñ: 'n',
-      ç: 'c',
-      ý: 'y',
-      ÿ: 'y',
-      š: 's',
-      ž: 'z',
-      ł: 'l',
-      đ: 'd',
-      ß: 'ss',
-      þ: 'th',
-      ĥ: 'h',
-      ĵ: 'j',
-      œ: 'oe',
-      æ: 'ae',
-      ƒ: 'f',
-      ĝ: 'g',
-      ě: 'e',
-      ř: 'r',
-      ů: 'u',
-      č: 'c',
-      Vū: 'Vu', // The specific example you gave
-    };
-
-    const replaceInString = (str) => {
-      for (let [key, value] of Object.entries(replacements)) {
-        str = str.replace(new RegExp(key, 'g'), value);
-      }
-      return str;
-    };
-
-    return strings.map(replaceInString);
   };
 }
 
@@ -224,7 +239,7 @@ namespace CoverLetterApiMethods {
 
     const data = { job_posting: jobPosting };
 
-    const payload: FormData = Helpers.createPayload(data);
+    const payload: FormData = createPayload(data);
 
     try {
       const response = await axios.post<GetJobDetailsApiResponse>(
@@ -262,7 +277,7 @@ namespace CoverLetterApiMethods {
       misc,
     };
 
-    const payload: FormData = Helpers.createPayload(data);
+    const payload: FormData = createPayload(data);
 
     try {
       const response = await axios.post<ResumeUploadApiResponse>(url, payload, {
@@ -294,7 +309,7 @@ namespace CoverLetterApiMethods {
       additional_details: JSON.stringify(additionalDetails),
     };
 
-    const payload: FormData = Helpers.createPayload(data);
+    const payload: FormData = createPayload(data);
 
     try {
       const response = await axios.post<CoverLetterGenerateApiResponse>(
@@ -328,7 +343,7 @@ namespace CoverLetterApiMethods {
       save_name: saveName,
     };
 
-    const payload: FormData = Helpers.createPayload(data);
+    const payload: FormData = createPayload(data);
 
     try {
       const response = await axios.patch<SaveCoverLetterApiResponse>(
@@ -397,62 +412,7 @@ namespace CoverLetterApiMethods {
 }
 
 namespace DownloadMethods {
-  const replaceSpecialCharactersInArray = (strings) => {
-    const replacements = {
-      á: 'a',
-      ä: 'a',
-      â: 'a',
-      à: 'a',
-      ã: 'a',
-      é: 'e',
-      ë: 'e',
-      ê: 'e',
-      è: 'e',
-      í: 'i',
-      ï: 'i',
-      î: 'i',
-      ì: 'i',
-      ó: 'o',
-      ö: 'o',
-      ô: 'o',
-      ò: 'o',
-      õ: 'o',
-      ú: 'u',
-      ü: 'u',
-      û: 'u',
-      ù: 'u',
-      ñ: 'n',
-      ç: 'c',
-      ý: 'y',
-      ÿ: 'y',
-      š: 's',
-      ž: 'z',
-      ł: 'l',
-      đ: 'd',
-      ß: 'ss',
-      þ: 'th',
-      ĥ: 'h',
-      ĵ: 'j',
-      œ: 'oe',
-      æ: 'ae',
-      ƒ: 'f',
-      ĝ: 'g',
-      ě: 'e',
-      ř: 'r',
-      ů: 'u',
-      č: 'c',
-      Vū: 'Vu', // The specific example you gave
-    };
 
-    const replaceInString = (str) => {
-      for (let [key, value] of Object.entries(replacements)) {
-        str = str.replace(new RegExp(key, 'g'), value);
-      }
-      return str;
-    };
-
-    return strings.map(replaceInString);
-  };
 
   export const generatePDF = async (
     parts: string[] | null,
@@ -537,23 +497,6 @@ namespace DownloadMethods {
 }
 
 namespace LoginApiMethods {
-  export const signInGoogle = async (): Promise<void> => {
-    const parameters = {
-      client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      redirect_uri: `${API_BASE}/users/auth/google-callback`,
-      response_type: 'code',
-      scope: 'email profile openid',
-      access_type: 'online',
-      prompt: 'consent',
-    };
-
-    const url = new URL('https://accounts.google.com/o/oauth2/v2/auth');
-    Object.keys(parameters).forEach((key) =>
-      url.searchParams.append(key, parameters[key])
-    );
-    window.location.href = url.toString();
-  };
-
   export const fetchUser = async (): Promise<
     APIResponse<FetchUserApiResponse>
   > => {
@@ -586,7 +529,7 @@ namespace LoginApiMethods {
       password,
     };
 
-    const payload: FormData = Helpers.createPayload(data);
+    const payload: FormData = createPayload(data);
 
     try {
       const response = await axios.post<AuthResponse>(url, payload, {
@@ -646,7 +589,7 @@ namespace LoginApiMethods {
       username,
     };
 
-    const payload: FormData = Helpers.createPayload(data);
+    const payload: FormData = createPayload(data);
 
     try {
       const response = await axios.post<any>(url, payload, {
@@ -672,7 +615,7 @@ namespace LoginApiMethods {
       email: email,
     };
 
-    const payload: FormData = Helpers.createPayload(data);
+    const payload: FormData = createPayload(data);
 
     try {
       const response = await axios.post<AuthResponse>(url, payload, {
@@ -704,7 +647,7 @@ namespace LoginApiMethods {
       token: token,
     };
 
-    const payload: FormData = Helpers.createPayload(data);
+    const payload: FormData = createPayload(data);
 
     try {
       const response = await axios.post(url, payload, {
@@ -718,176 +661,6 @@ namespace LoginApiMethods {
     } catch (error) {
       console.log('Error submitting new passwords', error);
       return { data: null, error: error };
-    }
-  };
-}
-
-namespace GenerationMethods {
-  export const createNewGeneration = async (
-    generation_type: string,
-    job_posting: string,
-    candidate: string
-  ): Promise<APIResponse<any>> => {
-    const url = `${API_BASE}/generation/generate/`;
-
-    const data = {
-      generation_type,
-      job_posting,
-      candidate,
-    };
-
-    const payload: FormData = Helpers.createPayload(data);
-
-    try {
-      const response = await axios.post<any>(url, payload, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'X-CSRFToken': Cookie.get('csrftoken'),
-        },
-      });
-
-      return { data: response.data, error: null };
-    } catch (error) {
-      console.log('Error creating new generation', error);
-      return { data: null, error: error };
-    }
-  };
-
-  export const calculateMatchScore = async (
-    job_posting: string,
-    candidate: string
-  ): Promise<APIResponse<any>> => {
-    const url = `${API_BASE}/generation/calculate_match_score/`;
-
-    const data = {
-      job_posting,
-      candidate,
-    };
-
-    const payload: FormData = Helpers.createPayload(data);
-
-    try {
-      const response = await axios.post<any>(url, payload, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'X-CSRFToken': Cookie.get('csrftoken'),
-        },
-      });
-
-      console.log('match score response', response);
-
-      return { data: response.data, error: null };
-    } catch (error) {
-      console.log('Error calculating match score', error);
-      return { data: null, error: error };
-    }
-  };
-
-  export const makeAdjustment = async (
-    adjustmentLevel: string,
-    typeOfAdjustment: string,
-    userInput: string,
-    coverLetter: string
-  ): Promise<APIResponse<AdjustmentApiResponse>> => {
-    const url = `${API_BASE_URL}/generation/make_adjustment/`;
-
-    const data = {
-      adjustment_level: adjustmentLevel,
-      type_of_adjustment: typeOfAdjustment,
-      user_input: userInput,
-      cover_letter: coverLetter,
-    };
-
-    const payload: FormData = Helpers.createPayload(data);
-
-    try {
-      const response = await axios.post<AdjustmentApiResponse>(url, payload, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'X-CSRFToken': Cookie.get('csrftoken'),
-        },
-      });
-
-      return { data: response.data, error: null };
-    } catch (error) {
-      console.log('Error making adjustment', error);
-      return { data: null, error: error };
-    }
-  };
-
-  export const generatePDF = async (parts: string[], saveName: string) => {
-    const cleanedParts = Helpers.replaceSpecialCharactersInArray(parts);
-
-    const doc = new jsPDF('p', 'px', 'a4', true);
-
-    doc.setFont('Times New Roman');
-    doc.setFontSize(12);
-
-    const textWidth = 350;
-    const lineHeight = 7;
-    const paragraphSpacing = 15;
-    let yAxis = 60;
-
-    cleanedParts.forEach((part, index) => {
-      const numLinesInPart = Math.ceil(part.length / 80);
-      const lines = doc.splitTextToSize(part, textWidth);
-      doc.text(lines, 50, yAxis);
-
-      let spacing =
-        numLinesInPart === 1
-          ? paragraphSpacing
-          : paragraphSpacing + numLinesInPart * 2.5;
-
-      // Check if the part is the second to last in the array
-      if (index === cleanedParts.length - 2) {
-        spacing = 7;
-      }
-
-      if (index === cleanedParts.length - 3) {
-        numLinesInPart === 1
-          ? paragraphSpacing
-          : paragraphSpacing + numLinesInPart * 2;
-      }
-
-      yAxis += lines.length * lineHeight + spacing;
-    });
-
-    doc.save(`${saveName}.pdf`);
-
-    return true;
-  };
-
-  export const generateDOCX = async (html: string, saveName: string) => {
-    const url = `${API_BASE_URL}/generation/download_as_docx/`;
-
-    const form = new FormData();
-    form.append('html', html);
-
-    try {
-      const response = await axios.post(url, form, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'X-CSRFToken': Cookie.get('csrftoken'),
-        },
-        responseType: 'blob',
-      });
-
-      if (response.statusText === 'OK') {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `${saveName}.docx`); //or any other extension
-        document.body.appendChild(link);
-        link.click();
-        return true;
-      }
-    } catch (error) {
-      console.log(error);
-      return error;
     }
   };
 }
@@ -918,7 +691,7 @@ namespace TranscriptionMethods {
   ): Promise<APIResponse<any>> => {
     const url = `${API_BASE}/transcription/perform_transcription/`;
 
-    const payload = Helpers.createPayload({ phone_call_id: phoneCallId });
+    const payload = createPayload({ phone_call_id: phoneCallId });
 
     try {
       const response = await axios.post<any>(url, payload, {
@@ -985,7 +758,7 @@ namespace TranscriptionMethods {
       job_posting,
     };
 
-    const payload = Helpers.createPayload(data);
+    const payload = createPayload(data);
 
     try {
       const response = await axios.post<InitateCallResponse>(url, payload, {
@@ -1008,7 +781,7 @@ namespace TranscriptionMethods {
 
     // const data = {}
 
-    const payload = Helpers.createPayload(formData);
+    const payload = createPayload(formData);
 
     try {
       const response = await axios.patch(url, payload, {
@@ -1158,7 +931,7 @@ namespace CandidateProfileMethods {
       candidate_profile: candidateProfileId
     };
 
-    const payload: FormData = Helpers.createPayload(data);
+    const payload: FormData = createPayload(data);
 
     try {
       const response = await axios.post<ResumeUploadApiResponse>(url, payload, {
@@ -1251,7 +1024,6 @@ export {
   CoverLetterApiMethods,
   DownloadMethods,
   LoginApiMethods,
-  GenerationMethods,
   TranscriptionMethods,
   CandidateProfileMethods,
   JobPostingMethods,
