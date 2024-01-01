@@ -3,9 +3,9 @@
 import { useAuth } from '@/context/AuthContext';
 import { GenerationContext } from '@/context/GenerationContext';
 
-import LoginDialog from '@/components/Login/LoginDialog';
-import SettingsDialog from '@/components/Settings/SettingsDialog';
-import HelpDialog from '@/components/HelpDialog/HelpDialog';
+import LoginDialog from '@/components/Global/Login/LoginDialog';
+import SettingsDialog from '@/components/Global/Settings/SettingsDialog';
+import HelpDialog from '@/components/Global/HelpDialog/HelpDialog';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
 

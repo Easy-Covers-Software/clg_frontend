@@ -6,12 +6,10 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Typography } from '@mui/material';
 
 import Dialog from '@mui/material/Dialog';
-import UpgradeAccountOption from './components/UpgradeAccountOption';
 import { useAuth } from '@/context/AuthContext';
 
 import { DialogContentContainer, FullLogo } from './SettingsDialog.styles';
 
-import Paypal from './components/Paypal';
 import styled from '@emotion/styled';
 import { useMediaQuery } from '@mui/material';
 

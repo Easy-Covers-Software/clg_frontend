@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { PrimaryButton } from "../Global/Global";
-import { Box, FormControl, TextField, DialogContent } from "@mui/material";
+import styled from '@emotion/styled';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { PrimaryButton } from '../Global';
+import { Box, FormControl, TextField, DialogContent } from '@mui/material';
 
 const DialogContentContainer = styled(DialogContent)`
   display: flex;
@@ -46,7 +46,7 @@ namespace LoginInputsStyledComponents {
     align-items: center;
     gap: 16px;
     width: 100%;
-    margin-top: -22%
+    margin-top: -22%;
   `;
 
   export const FormInput = styled(FormControl)`

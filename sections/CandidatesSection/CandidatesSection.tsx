@@ -15,7 +15,7 @@ import { CandidatesContextProvider } from '@/context/CandidatesContext';
 //-- components (global) --//
 import SnackbarAlert from '../../components/Global/components/SnackbarAlert';
 import AlertDialogConfirm from '../../components/Global/components/AlertDialogConfirm';
-import LoginDialog from '@/components/Login/LoginDialog';
+import LoginDialog from '@/components/Global/Login/LoginDialog';
 
 //-- components (local) --//
 import SavedCandidatesList from './components/SavedCandidatesList';

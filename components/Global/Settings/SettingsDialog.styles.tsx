@@ -1,18 +1,18 @@
-import styled from "@emotion/styled";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import DialogContent from "@mui/material/DialogContent";
-import Switch from "@mui/material/Switch";
-import { UnSelectedButton } from "../Global/Global";
+import styled from '@emotion/styled';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import DialogContent from '@mui/material/DialogContent';
+import Switch from '@mui/material/Switch';
+import { UnSelectedButton } from '../Global';
 
 const DialogContentContainer = styled(DialogContent)`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  margin-top: -25%;
+  margin-top: -8%;
   gap: 4px;
 
-  @media screen and (min-width: 0px) and (max-width: 800px) {
+  @media screen and (min-width: 0px) and (max-width: 600px) {
     margin-top: -25%;
     gap: 1px;
     align-items: center;
@@ -24,7 +24,6 @@ const FullLogo = styled.img`
   width: 50%;
   margin: 0 auto;
   margin-top: -3%;
-  margin-bottom: 8%;
 `;
 
 namespace ModelChoiceSwitchStyledComponents {
@@ -32,20 +31,26 @@ namespace ModelChoiceSwitchStyledComponents {
     display: flex;
     justify-content: center;
     align-items: center;
+    // margin-top: 1%;
+
+    // @media screen and (min-width: 0px) and (max-width: 600px) {
+    //   margin-top: 0;
+    // }
   `;
 
   export const GreenSwitch = styled(Switch)(({ theme }) => ({
-    "& .MuiSwitch-switchBase": {
-      color: "#13d0b7",
+    '& .MuiSwitch-switchBase': {
+      color: '#13d0b7',
     },
-    "& .MuiSwitch-switchBase.Mui-checked": {
-      color: "white",
+    '& .MuiSwitch-switchBase.Mui-checked': {
+      color: 'white',
     },
-    "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-      backgroundColor: "#13d0b7",
+    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+      backgroundColor: '#13d0b7',
     },
-    "& .MuiSwitch-switchBase + .MuiSwitch-track": {
-      backgroundColor: "#13d0b7",
+    '& .MuiSwitch-switchBase + .MuiSwitch-track': {
+      backgroundColor: '#13d0b7',
+      // opacity: 0.5, // You can control the color opacity when switch is not checked
     },
   }));
 }
@@ -55,7 +60,9 @@ namespace UpgradeAccountOptionStyledComponents {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    // gap: 12px;
     width: 82%;
+    // max-width: 100%;
     border: 3px solid #13d0b7;
     border-radius: 8px;
     height: 10%;
@@ -85,7 +92,6 @@ namespace UpgradeAccountOptionStyledComponents {
       margin-left: 2%;
     }
   `;
-
   export const PackageDetailsContainer = styled(Grid)`
     width: 60%;
     display: flex;
@@ -101,13 +107,16 @@ namespace UpgradeAccountOptionStyledComponents {
 
   export const FeatureList = styled.ul`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-around;
     height: 100%;
+    // text-align: left;
+    // align-items: center;
     white-space: nowrap;
 
     @media screen and (min-width: 0px) and (max-width: 600px) {
       margin-right: 35%;
+      flex-direction: column;
     }
   `;
 
@@ -120,6 +129,7 @@ namespace UpgradeAccountOptionStyledComponents {
 
   export const PackageNameButtonDouble = styled(UnSelectedButton)`
     height: 60%;
+    // width: 60%;
     font-size: 0.8rem;
     white-space: nowrap;
 
@@ -135,6 +145,7 @@ namespace UpgradeAccountOptionStyledComponents {
     display: flex;
     flex-direction: column;
     align-items: center;
+    // margin-top: -2%;
     widtth: 100%;
 
     @media screen and (min-width: 0px) and (max-width: 600px) {
