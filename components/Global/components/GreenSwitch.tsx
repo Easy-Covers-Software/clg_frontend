@@ -11,7 +11,7 @@ import {
   Container,
   MainContent,
   ExtraInfo,
-} from '@/components/SelectionSummary/SelectionSummary.styles';
+} from '@/components/PageStructure/SelectionSummary/SelectionSummary.styles';
 
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { SummaryHeaderProps } from '@/Types/Common.types';

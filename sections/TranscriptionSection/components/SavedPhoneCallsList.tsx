@@ -7,7 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useTranscriptionContext } from '@/context/TranscriptionContext';
 
 // Components (global)
-import SavedList from '@/components/SavedList/SavedList';
+import SavedList from '@/components/PageStructure/SavedList/SavedList';
 import { UnSelectedButton, PrimaryButton } from '@/components/Global/Global';
 
 import ReconnectingWebSocket from 'reconnecting-websocket';

@@ -14,7 +14,7 @@ import { SummaryHeaderProps } from '@/Types/Common.types';
 import { alpha, styled } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 
-import { GreenSwitch } from '../Global/components/GreenSwitch';
+import { GreenSwitch } from '@/components/Global/components/GreenSwitch';
 
 interface Props {
   summaryDetails: SummaryHeaderProps;
@@ -64,14 +64,14 @@ const SelectionSummary: FC<Props> = ({
       <MainContent>
         {summaryDetails?.loading ? (
           <Grid m={'auto'}>
-            <CircularProgress color='success' />
+            <CircularProgress color="success" />
           </Grid>
         ) : (
           <>
-            <Typography className='job-summary-title'>
+            <Typography className="job-summary-title">
               {summaryDetails?.mainTitle}
             </Typography>
-            <Typography className='job-summary-company'>
+            <Typography className="job-summary-company">
               {summaryDetails?.secondaryTitle}
             </Typography>
           </>
@@ -80,7 +80,7 @@ const SelectionSummary: FC<Props> = ({
 
       {/* {extraInfo && ( */}
       <ExtraInfo>
-        <Typography className='job-summary-match-score-header'>
+        <Typography className="job-summary-match-score-header">
           {getSupplementalInfoHeader()}
         </Typography>
 
@@ -103,12 +103,12 @@ const SelectionSummary: FC<Props> = ({
             </Typography>
           </Grid>
         ) : trackers?.page === 'jobPostings' ? (
-          <Typography className='job-summary-match-score'>
+          <Typography className="job-summary-match-score">
             {formatIsoDateToReadable(summaryDetails.supplementaryInfo) || 'N/A'}
           </Typography>
         ) : trackers?.page === 'generate' ? (
           <Grid display={'flex'}>
-            <Typography variant='body1' mt={'6%'} pl={'1%'}>
+            <Typography variant="body1" mt={'6%'} pl={'1%'}>
               Email
             </Typography>
             <GreenSwitch
@@ -117,7 +117,7 @@ const SelectionSummary: FC<Props> = ({
               inputProps={{ 'aria-label': 'controlled' }}
             />
             <Typography
-              variant='body1'
+              variant="body1"
               // mt={'6%'}
               pr={'1%'}
               // whiteSpace={'nowrap'}
@@ -126,7 +126,7 @@ const SelectionSummary: FC<Props> = ({
             </Typography>
           </Grid>
         ) : (
-          <Typography className='candidate-date-updated'>
+          <Typography className="candidate-date-updated">
             {formatIsoDateToReadable(summaryDetails.supplementaryInfo) || 'N/A'}
           </Typography>
         )}

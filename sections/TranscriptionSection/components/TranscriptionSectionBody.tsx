@@ -36,7 +36,7 @@ import TranscriptionProgress from '@/components/Transcription/TranscriptionInPro
 
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
-import SelectionSummary from '@/components/SelectionSummary/SelectionSummary';
+import SelectionSummary from '@/components/PageStructure/SelectionSummary/SelectionSummary';
 import TranscriptionNotes from '../../../components/Transcription/TranscriptionNotes';
 
 // Want to eventually change this depending on if a generation has already occured or not

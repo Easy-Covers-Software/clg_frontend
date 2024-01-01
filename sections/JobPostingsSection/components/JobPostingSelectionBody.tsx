@@ -10,7 +10,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useJobPostingsContext } from '@/context/JobPostingsContext';
 
 //-- import components --//
-import SelectionSummary from '@/components/SelectionSummary/SelectionSummary';
+import SelectionSummary from '@/components/PageStructure/SelectionSummary/SelectionSummary';
 import SubSectionFrame from '@/components/Global/components/SubSectionFrame';
 import FullJobPostingsOverview from '@/components/JobPostings/FullJobPostingsOverview/FullJobPostingsOverview';
 import FullCandidateJobProfile from '@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile';

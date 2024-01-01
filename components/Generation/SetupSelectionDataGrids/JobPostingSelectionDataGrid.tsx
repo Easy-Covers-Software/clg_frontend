@@ -6,7 +6,7 @@ import {
   GridRowSelectionModel,
 } from '@mui/x-data-grid';
 import { Box, Typography, Radio } from '@mui/material';
-import SearchAndFilter from '../../SavedList/components/SearchAndFilter';
+import SearchAndFilter from '../../PageStructure/SavedList/components/SearchAndFilter';
 
 interface JobPosting {
   id: number;

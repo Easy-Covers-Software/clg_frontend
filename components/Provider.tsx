@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { FC, ReactNode } from "react";
-import { ThemeProvider } from "@mui/material";
-import Header from "./Header/Header";
-import Sidebar from "./Sidebar/Sidebar";
-import { AuthProvider } from "@/context/AuthContext";
-import theme from "../styles/theme/index.js";
-import "styles/globals.css";
+import { FC, ReactNode } from 'react';
+import { ThemeProvider } from '@mui/material';
+import Header from './PageStructure/Header/Header';
+import Sidebar from './PageStructure/Sidebar/Sidebar';
+import { AuthProvider } from '@/context/AuthContext';
+import theme from '../styles/theme/index.js';
+import 'styles/globals.css';
 
 type Props = {
   children: ReactNode;

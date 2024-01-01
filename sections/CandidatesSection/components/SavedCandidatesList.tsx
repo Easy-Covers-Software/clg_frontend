@@ -1,14 +1,14 @@
 import { FC, useEffect } from 'react';
 
 //-- import MUI components --//
-import { Container } from '@/components/SavedList/SavedList.styles';
+import { Container } from '@/components/PageStructure/SavedList/SavedList.styles';
 
 //-- import context --//
 import { useAuth } from '@/context/AuthContext';
 import { useCandidatesContext } from '@/context/CandidatesContext';
 
 //-- import components --//
-import SavedList from '@/components/SavedList/SavedList';
+import SavedList from '@/components/PageStructure/SavedList/SavedList';
 
 //-- import api methods --//
 import {

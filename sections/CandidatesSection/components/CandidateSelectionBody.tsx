@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useCandidatesContext } from '@/context/CandidatesContext';
 
 //-- import components --//
-import SelectionSummary from '@/components/SelectionSummary/SelectionSummary';
+import SelectionSummary from '@/components/PageStructure/SelectionSummary/SelectionSummary';
 import FullCandidateProfileOverview from '@/components/CandidateProfile/FullCandidateProfileOverview/FullCandidateProfileOverview';
 import ResumeIframe from '@/components/CandidateProfile/ResumeIframe';
 import SubSectionFrame from '@/components/Global/components/SubSectionFrame';
