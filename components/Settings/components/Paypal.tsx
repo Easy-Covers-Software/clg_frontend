@@ -3,14 +3,13 @@ import { PayPalButtons } from '@paypal/react-paypal-js';
 
 // import SnackbarAlert from "@/components/Global/components/SnackbarAlert";
 import { useAuth } from '@/context/AuthContext';
+import { extractPrice } from '@/Utils/utils';
 
-import { Helpers } from '@/Utils/utils';
 import { AlertColor } from '@mui/material';
 
 export default function Paypal({ selectedPackagePrice }) {
   const { state, dispatch } = useAuth();
   const { dialogProps, loggedInProps, snackbar } = state;
-  const { extractPrice } = Helpers;
 
   const handleClose = () => {
     dialogProps?.toggleSettingsIsOpen();

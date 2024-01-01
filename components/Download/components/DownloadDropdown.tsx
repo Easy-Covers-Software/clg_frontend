@@ -18,8 +18,10 @@ import DownloadForOfflineOutlinedIcon from '@mui/icons-material/DownloadForOffli
 import { DownloadProps } from '@/Types/GenerationContext.types';
 import { Snackbar } from '@/Types/AuthContext.types';
 
-import { Helpers } from '@/Utils/utils';
-const { determineCoverLetterParts, determineCoverLetterHtml } = Helpers;
+import {
+  determineGenerationParts,
+  determineGenerationHtml,
+} from '@/Utils/utils';
 
 import { generatePDF, generateDOCX } from '@/api/GenerationMethods';
 
@@ -53,7 +55,7 @@ const DownloadDropdown: FC<any> = ({
 
   const handlePDFDownload = () => {
     const pdf = generatePDF(
-      determineCoverLetterParts(contentData),
+      determineGenerationParts(contentData),
       contentData.saveName
     );
 
@@ -75,7 +77,7 @@ const DownloadDropdown: FC<any> = ({
 
   const handleDOCXDownload = async () => {
     const response = await generateDOCX(
-      determineCoverLetterHtml(contentData),
+      determineGenerationHtml(contentData),
       contentData.saveName
     );
 

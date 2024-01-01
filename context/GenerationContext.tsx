@@ -1,8 +1,10 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 
-import { Helpers } from '@/Utils/utils';
-const { removeDivTags, formatCoverLetterForAdjustment, addPTags, addDivTag } =
-  Helpers;
+import {
+  formatGenerationForAdjustment,
+  addPTags,
+  addDivTag,
+} from '@/Utils/utils';
 
 import { GenerationState } from '@/Types/GenerationContext.types';
 
@@ -663,7 +665,7 @@ function reducer(state, action) {
         ...state,
         coverLetterData: {
           ...state.coverLetterData,
-          curCoverLetterHtml: formatCoverLetterForAdjustment(action.payload)
+          curCoverLetterHtml: formatGenerationForAdjustment(action.payload),
         },
       };
 

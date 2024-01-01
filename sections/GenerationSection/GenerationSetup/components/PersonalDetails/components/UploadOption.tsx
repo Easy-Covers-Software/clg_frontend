@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useGenerationContext } from '@/context/GenerationContext';
 import { Typography } from '@mui/material';
 
-import { CoverLetterApiMethods } from '@/Utils/utils';
-const { uploadResume } = CoverLetterApiMethods;
+import { uploadResume } from '@/api/CandidateProfileMethods';
 
 import { UploadOptionStyledComponents } from '../PersonalDetails.styles';
 import {
@@ -69,7 +68,7 @@ export default function UploadOption({ label, accept }) {
     <Container>
       <FileUploadInput
         id={id}
-        type='file'
+        type="file"
         onChange={handleChange}
         accept={accept}
       />
@@ -80,7 +79,7 @@ export default function UploadOption({ label, accept }) {
           onDragLeave={dragLeave}
           onDrop={fileDrop}
         >
-          <Typography className='drag-drop'>
+          <Typography className="drag-drop">
             {getDisplayText(generationSetupProps?.resume)}
           </Typography>
         </Dropzone>

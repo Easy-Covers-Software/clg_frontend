@@ -1,23 +1,21 @@
-import { useState, FC, useEffect } from "react";
+import { useState, FC, useEffect } from 'react';
 
-import { IntermediateAdjustmentStyledComponents } from "../AdvancedAdjustments.styles";
+import { IntermediateAdjustmentStyledComponents } from '../AdvancedAdjustments.styles';
 const { Container, SubmitButton } = IntermediateAdjustmentStyledComponents;
 
-import IntermediateAdjustmentInput from "./IntermediateAdjustmentInput";
-import { useAuth } from "@/context/AuthContext";
-import { useMediaQuery } from "@mui/material";
+import IntermediateAdjustmentInput from './IntermediateAdjustmentInput';
+import { useAuth } from '@/context/AuthContext';
+import { useMediaQuery } from '@mui/material';
 
-import { Helpers } from "@/Utils/utils";
-// const { makeAdjustment } = GenerationMethods;
-const { determineCoverLetterHtml } = Helpers;
+import { determineGenerationHtml } from '@/Utils/utils';
 
-import { makeAdjustment } from "@/api/GenerationMethods";
+import { makeAdjustment } from '@/api/GenerationMethods';
 
-import { APIResponse, AdjustmentApiResponse } from "@/Types/ApiResponse.types";
+import { APIResponse, AdjustmentApiResponse } from '@/Types/ApiResponse.types';
 import {
   IntermediateAdjustmentProps,
   CoverLetterData,
-} from "@/Types/GenerationContext.types";
+} from '@/Types/GenerationContext.types';
 
 interface Props {
   coverLetterData: CoverLetterData;
@@ -28,17 +26,17 @@ const IntermediateAdjustments: FC<Props> = ({
   coverLetterData,
   intermediateAdjustmentProps,
 }) => {
-  const isMobile = useMediaQuery("(max-width:600px)");
+  const isMobile = useMediaQuery('(max-width:600px)');
   const { state } = useAuth();
   const { loggedInProps, snackbar } = state;
 
   const getIntermediateAdjustmentTypeValue = (label: string): string | null => {
     switch (label) {
-      case "Add Skill":
+      case 'Add Skill':
         return intermediateAdjustmentProps?.addSkillInput;
-      case "Insert Keyword":
+      case 'Insert Keyword':
         return intermediateAdjustmentProps?.insertKeywordInput;
-      case "Remove":
+      case 'Remove':
         return intermediateAdjustmentProps?.removeRedundancyInput;
       default:
         return null;
@@ -49,25 +47,25 @@ const IntermediateAdjustments: FC<Props> = ({
     coverLetterData?.toggleLoadingCoverLetter();
 
     const response: APIResponse<AdjustmentApiResponse> = await makeAdjustment(
-      "intermediate",
+      'intermediate',
       intermediateAdjustmentProps.intermediateType,
       getIntermediateAdjustmentTypeValue(
         intermediateAdjustmentProps.intermediateType
       ),
-      determineCoverLetterHtml(coverLetterData)
+      determineGenerationHtml(coverLetterData)
     );
 
     if (response.data) {
       coverLetterData?.updateCoverLetterParts(response.data.cover_letter);
       coverLetterData?.toggleLoadingCoverLetter();
       loggedInProps.updateUser();
-      snackbar.updateSnackbar(true, "success", "Adjustment made successfully.");
+      snackbar.updateSnackbar(true, 'success', 'Adjustment made successfully.');
     } else {
       coverLetterData?.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(
         true,
-        "error",
-        "An error occured while making adjustment. Please try again."
+        'error',
+        'An error occured while making adjustment. Please try again.'
       );
     }
   };
@@ -97,9 +95,9 @@ const IntermediateAdjustments: FC<Props> = ({
 
   useEffect(() => {
     if (
-      intermediateAdjustmentProps?.addSkillInput === "" &&
-      intermediateAdjustmentProps?.insertKeywordInput === "" &&
-      intermediateAdjustmentProps?.removeRedundancyInput === ""
+      intermediateAdjustmentProps?.addSkillInput === '' &&
+      intermediateAdjustmentProps?.insertKeywordInput === '' &&
+      intermediateAdjustmentProps?.removeRedundancyInput === ''
     ) {
       intermediateAdjustmentProps?.updateIntermediateType(null);
     }
@@ -112,22 +110,22 @@ const IntermediateAdjustments: FC<Props> = ({
   return (
     <Container>
       <IntermediateAdjustmentInput
-        label={"Add Skill"}
+        label={'Add Skill'}
         inputValue={intermediateAdjustmentProps?.addSkillInput}
         intermediateAdjustmentProps={intermediateAdjustmentProps}
-        disabled={isDisabled("Add Skill")}
+        disabled={isDisabled('Add Skill')}
       />
       <IntermediateAdjustmentInput
-        label={"Insert Keyword"}
+        label={'Insert Keyword'}
         inputValue={intermediateAdjustmentProps?.insertKeywordInput}
         intermediateAdjustmentProps={intermediateAdjustmentProps}
-        disabled={isDisabled("Insert Keyword")}
+        disabled={isDisabled('Insert Keyword')}
       />
       <IntermediateAdjustmentInput
-        label={"Remove"}
+        label={'Remove'}
         inputValue={intermediateAdjustmentProps?.removeRedundancyInput}
         intermediateAdjustmentProps={intermediateAdjustmentProps}
-        disabled={isDisabled("Remove")}
+        disabled={isDisabled('Remove')}
       />
 
       <SubmitButton

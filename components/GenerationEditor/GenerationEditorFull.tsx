@@ -26,8 +26,7 @@ import AdvancedAdjustments from '../Adjustments/Advanced/AdvancedAdjustments';
 
 import DownloadMenu from '../Download/DownloadMenu';
 
-import { Helpers } from '@/Utils/utils';
-const { parseSectionsFromHTML, addDivTag } = Helpers;
+import { parseSectionsFromHTML, addDivTag } from '@/Utils/utils';
 
 import {
   CoverLetterData,
@@ -127,11 +126,11 @@ const GenerationEditorFull: FC<Props> = ({
             customAdjustmentProps={customAdjustmentProps}
           />
         ) : (
-          <RichTextEditor editor={editor} className='rich-text-editor'>
+          <RichTextEditor editor={editor} className="rich-text-editor">
             <RichTextEditor.Toolbar
               sticky
               stickyOffset={60}
-              className='rich-text-editor-toolbar'
+              className="rich-text-editor-toolbar"
             >
               <RichTextEditor.ControlsGroup>
                 <RichTextEditor.Bold />
@@ -170,7 +169,7 @@ const GenerationEditorFull: FC<Props> = ({
                   alignItems={'center'}
                   height={'100%'}
                 >
-                  <CircularProgress color='success' />
+                  <CircularProgress color="success" />
                 </Grid>
               ) : (
                 <Grid m={'0 5%'}>

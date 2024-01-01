@@ -205,3 +205,58 @@ try {
     return error;
 }
 };
+
+export const saveCoverLetter = async (
+  coverLetterId: string,
+  coverLetterSections: string[],
+  saveName: string
+): Promise<APIResponse<SaveCoverLetterApiResponse>> => {
+  const url = `${API_BASE_URL}/generation/${coverLetterId}/`;
+
+  const data = {
+    cover_letter: JSON.stringify(coverLetterSections),
+    save_name: saveName,
+  };
+
+  const payload: FormData = createPayload(data);
+
+  try {
+    const response = await axios.patch<SaveCoverLetterApiResponse>(
+      url,
+      payload,
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'X-CSRFToken': Cookie.get('csrftoken'),
+        },
+      }
+    );
+
+    return { data: response.data, error: null };
+  } catch (error) {
+    console.log('Error saving cover letter', error);
+    return { data: null, error: error };
+  }
+};
+
+export const deleteSavedCoverLetter = async (
+  coverLetterId: string
+): Promise<APIResponse<DeleteCoverLetterApiResponse>> => {
+  const url = `${API_BASE_URL}/generation/${coverLetterId}/`;
+
+  try {
+    const response = await axios.delete(url, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'X-CSRFToken': Cookie.get('csrftoken'),
+      },
+    });
+
+    return { data: response.data, error: null };
+  } catch (error) {
+    console.log('Error deleting saved cover letter', error);
+    return { data: null, error: error };
+  }
+};

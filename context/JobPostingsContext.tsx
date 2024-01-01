@@ -1,7 +1,6 @@
 import { createContext, useContext, useReducer, useEffect, use } from 'react';
-import { Helpers } from '@/Utils/utils';
 
-const { addPTags, addDivTag } = Helpers;
+import { addPTags, addDivTag } from '@/Utils/utils';
 
 const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE;

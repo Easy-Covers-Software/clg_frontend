@@ -1,10 +1,7 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 
-import { Helpers } from '@/Utils/utils';
-
 import { fetchCandidatesResume } from '@/api/CandidateProfileMethods';
-
-const { addPTags, addDivTag } = Helpers;
+import { addPTags, addDivTag } from '@/Utils/utils';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;

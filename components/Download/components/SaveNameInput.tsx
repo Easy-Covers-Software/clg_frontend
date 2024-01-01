@@ -11,8 +11,7 @@ import {
 
 import { useAuth } from '@/context/AuthContext';
 
-import { CoverLetterApiMethods } from '@/Utils/utils';
-const { saveCoverLetter } = CoverLetterApiMethods;
+import { saveCoverLetter } from '@/api/GenerationMethods';
 
 import {
   APIResponse,
@@ -87,7 +86,7 @@ const SaveNameInput: FC<any> = ({ contentData, saveProps, snackbar }) => {
 
   return (
     <>
-      <Tooltip title='Save'>
+      <Tooltip title="Save">
         <span>
           <IconButton
             onClick={handleClick}
@@ -98,13 +97,13 @@ const SaveNameInput: FC<any> = ({ contentData, saveProps, snackbar }) => {
             }}
             disabled={disabled}
           >
-            <SaveOutlinedIcon fontSize='medium' />
+            <SaveOutlinedIcon fontSize="medium" />
           </IconButton>
         </span>
       </Tooltip>
 
       <Menu
-        id='basic-menu'
+        id="basic-menu"
         anchorEl={anchorEl}
         open={saveProps?.isSavedDropdownOpen}
         onClose={handleClose}
@@ -122,8 +121,8 @@ const SaveNameInput: FC<any> = ({ contentData, saveProps, snackbar }) => {
       >
         <Grid m={'3%'}>
           <TextField
-            variant='outlined'
-            margin='dense'
+            variant="outlined"
+            margin="dense"
             defaultValue={contentData?.saveName}
             onChange={handleInputChange}
           />

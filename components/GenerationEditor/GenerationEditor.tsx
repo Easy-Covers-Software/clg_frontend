@@ -18,8 +18,7 @@ import { useAuth } from '@/context/AuthContext';
 
 import DownloadMenu from '../Download/DownloadMenu';
 
-import { Helpers } from '@/Utils/utils';
-const { parseSectionsFromHTML, addDivTag } = Helpers;
+import { parseSectionsFromHTML, addDivTag } from '@/Utils/utils';
 
 import {
   CoverLetterData,

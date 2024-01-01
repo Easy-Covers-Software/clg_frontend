@@ -7,8 +7,7 @@ import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOut
 import { useGenerationContext } from '@/context/GenerationContext';
 import { useAuth } from '@/context/AuthContext';
 
-import { Helpers, CoverLetterApiMethods } from '@/Utils/utils';
-const { isOriginalGenerationEdited } = Helpers;
+import { isOriginalGenerationEdited } from '@/Utils/utils';
 
 import { SimpleAdjustmentsButtonGroupStyledComponents } from '../SimpleAdjustments.styles';
 const { Container, ButtonContainer } =
@@ -36,7 +35,7 @@ const SimpleAdjustmentButtonGroup: FC<Props> = ({
 }) => {
   return (
     <Container>
-      <Typography className='simple-adjustment-label'>{buttonLabel}</Typography>
+      <Typography className="simple-adjustment-label">{buttonLabel}</Typography>
       <ButtonContainer>
         <IconButton
           disabled={disabled}
@@ -47,7 +46,7 @@ const SimpleAdjustmentButtonGroup: FC<Props> = ({
           <RemoveCircleOutlineOutlinedIcon />
         </IconButton>
 
-        <Divider orientation='vertical' />
+        <Divider orientation="vertical" />
 
         <IconButton
           disabled={disabled}

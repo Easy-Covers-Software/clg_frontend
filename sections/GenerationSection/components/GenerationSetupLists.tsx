@@ -21,8 +21,7 @@ import JobPostingSelection from '@/components/Generation/JobPostingSelection';
 import CandidateProfileSelection from '@/components/Generation/CandidateProfileSelection';
 import GenerationSettings from '@/components/Generation/GenerationSettings/GenerationSettings';
 
-import { Helpers } from '@/Utils/utils';
-const { checkAdditionalDetails } = Helpers;
+import { checkAdditionalDetails } from '@/Utils/utils';
 
 import { generate } from '@/api/GenerationMethods';
 import { fetchJobPostings } from '@/api/JobPostingsMethods';

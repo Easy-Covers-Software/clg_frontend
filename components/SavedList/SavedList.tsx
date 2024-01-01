@@ -17,10 +17,6 @@ import { SubContainer } from './SavedList.styles';
 
 import styled from '@emotion/styled';
 
-import { CoverLetterApiMethods } from '@/Utils/utils';
-const { deleteSavedCoverLetter, fetchSavedCoverLetters } =
-  CoverLetterApiMethods;
-
 const EmptyListGrid = styled(Grid)`
   text-align: center;
   padding: 1%;
@@ -74,8 +70,8 @@ const SavedList: FC<SavedListProps> = ({
         secondaryAction={
           selected?.id === item.id && (
             <IconButton
-              edge='end'
-              aria-label='comments'
+              edge="end"
+              aria-label="comments"
               onClick={(e) => {
                 e.stopPropagation();
                 handleDelete();
@@ -90,7 +86,7 @@ const SavedList: FC<SavedListProps> = ({
       >
         <IconButton disableRipple>
           <Radio
-            edge='start'
+            edge="start"
             checked={selected?.id === item.id}
             tabIndex={-1}
             disableRipple
@@ -116,7 +112,7 @@ const SavedList: FC<SavedListProps> = ({
     // Not signed in
     if (loggedInProps.user === null || loggedInProps.user.is_active === false) {
       return (
-        <List className='saved-letters-list'>
+        <List className="saved-letters-list">
           <EmptyListGrid>
             <Typography>
               Not signed in. Sign in to save cover letters and view them here.
@@ -133,7 +129,7 @@ const SavedList: FC<SavedListProps> = ({
       search === ''
     ) {
       return (
-        <List className='saved-letters-list'>
+        <List className="saved-letters-list">
           <EmptyListGrid>
             <Typography>
               None Saved! Generate a cover letter and save to view on this page.
@@ -146,7 +142,7 @@ const SavedList: FC<SavedListProps> = ({
     // Empty search
     if (savedItems?.length === 0 && search !== '') {
       return (
-        <List className='saved-letters-list'>
+        <List className="saved-letters-list">
           <EmptyListGrid>
             <Typography>
               No cover letters found with that name. Try another search.
@@ -176,13 +172,13 @@ const SavedList: FC<SavedListProps> = ({
 
   return (
     <SubContainer>
-      <Typography className='saved-header'>{determineListHeader()}</Typography>
+      <Typography className="saved-header">{determineListHeader()}</Typography>
       <SearchAndFilter
         search={search}
         handleSearchChange={handleSearchChange}
         type={'full'}
       />
-      <List className='saved-letters-list'>
+      <List className="saved-letters-list">
         {savedItems?.map(renderCoverLetterItem)}
       </List>
     </SubContainer>

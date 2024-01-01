@@ -22,8 +22,7 @@ import JobPostingInput from './components/JobPostingInput/JobPostingInput';
 import PersonalDetails from './components/PersonalDetails/PersonalDetails';
 import AdditionalDetails from './components/AdditionalDetails/AdditionalDetails';
 
-import { Helpers } from '@/Utils/utils';
-const { checkAdditionalDetails } = Helpers;
+import { checkAdditionalDetails } from '@/Utils/utils';
 
 // Context Imports
 import { useAuth } from '@/context/AuthContext';
@@ -65,7 +64,7 @@ export default function GenerationSetup() {
       <SubContainer>
         <Accordion
           expanded={expanded === 'panel1'}
-          currPanel='panel1'
+          currPanel="panel1"
           disableGutters
           onChange={handleChange(
             'panel1',
@@ -75,7 +74,7 @@ export default function GenerationSetup() {
         >
           <AccordionSummary
             isExpanded={expanded === 'panel1'}
-            expanded='panel1'
+            expanded="panel1"
             tracker={`1-${expanded === 'panel1'}`}
           >
             {generationSetupProps?.jobPosting === '' ? (
@@ -84,7 +83,7 @@ export default function GenerationSetup() {
               <CheckboxIconComplete />
             )}
 
-            <Typography className='accordion-header'>Job Posting</Typography>
+            <Typography className="accordion-header">Job Posting</Typography>
           </AccordionSummary>
 
           <AccordionDetails>
@@ -94,7 +93,7 @@ export default function GenerationSetup() {
 
         <Accordion
           expanded={expanded === 'panel2'}
-          currPanel='panel2'
+          currPanel="panel2"
           onChange={handleChange(
             'panel2',
             'panel3',
@@ -103,7 +102,7 @@ export default function GenerationSetup() {
         >
           <AccordionSummary
             isExpanded={expanded === 'panel2'}
-            expanded='panel2'
+            expanded="panel2"
             tracker={`2-${expanded === 'panel2'}`}
           >
             {generationSetupProps?.resume === null &&
@@ -113,7 +112,7 @@ export default function GenerationSetup() {
             ) : (
               <CheckboxIconComplete />
             )}
-            <Typography className='accordion-header'>
+            <Typography className="accordion-header">
               Résumé Upload / Personal Details
             </Typography>
           </AccordionSummary>
@@ -124,12 +123,12 @@ export default function GenerationSetup() {
 
         <Accordion
           expanded={expanded === 'panel3'}
-          currPanel='panel3'
+          currPanel="panel3"
           onChange={handleChange('panel3', false, `3-${expanded === 'panel3'}`)}
         >
           <AccordionSummary
             isExpanded={expanded === 'panel3'}
-            expanded='panel3'
+            expanded="panel3"
             tracker={`3-${expanded === 'panel3'}`}
           >
             {!checkAdditionalDetails(additionalDetails) ? (
@@ -138,7 +137,7 @@ export default function GenerationSetup() {
               <CheckboxIconComplete />
             )}
 
-            <Typography className='accordion-header'>
+            <Typography className="accordion-header">
               Additional Details (optional)
             </Typography>
           </AccordionSummary>

@@ -9,12 +9,11 @@ import {
   GenerateButtonDouble,
 } from '../../GenerationSetup.styles';
 
-import { Helpers } from '@/Utils/utils';
-const { checkAdditionalDetails } = Helpers;
+import { checkAdditionalDetails } from '@/Utils/utils';
 
-import { CoverLetterApiMethods } from '@/Utils/utils';
-const { getJobDetails, generateCoverLetter, uploadResume } =
-  CoverLetterApiMethods;
+// import { CoverLetterApiMethods } from '@/Utils/utils';
+// const { getJobDetails, generateCoverLetter, uploadResume } =
+//   CoverLetterApiMethods;
 
 import TwoModelsAvailableButton from './components/TwoModelAvailableButton';
 import OneModelAvailableButton from './components/OneModelAvailableButton';
