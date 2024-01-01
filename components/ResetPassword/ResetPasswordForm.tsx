@@ -5,14 +5,13 @@ import Grid from '@mui/material/Grid';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { Paper, TextField, Button, Typography, Box } from '@mui/material';
 import { useAuth } from '@/context/AuthContext';
-import { LoginApiMethods } from '@/Utils/utils';
 import SnackbarAlert from '../Global/components/SnackbarAlert';
 import {
   APIResponse,
   ForgotPasswordSuccessApiResponse,
 } from '@/Types/ApiResponse.types';
 
-const { submitNewPasswords } = LoginApiMethods;
+import { submitNewPasswords } from '@/api/AuthMethods';
 
 const ResetPasswordForm = () => {
   const { state } = useAuth();
@@ -66,18 +65,18 @@ const ResetPasswordForm = () => {
   };
 
   return (
-    <Grid container justifyContent='center' alignItems='center'>
+    <Grid container justifyContent="center" alignItems="center">
       <Paper elevation={3} style={{ padding: '2rem', marginBottom: '10%' }}>
-        <Typography className='enter-new-password'>
+        <Typography className="enter-new-password">
           Enter your new password
         </Typography>
 
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
-            type='password'
-            label='New Password'
-            variant='outlined'
+            type="password"
+            label="New Password"
+            variant="outlined"
             value={newPassword1}
             onChange={(e) => setNewPassword1(e.target.value)}
             style={{ marginBottom: '1rem' }}
@@ -85,19 +84,19 @@ const ResetPasswordForm = () => {
 
           <TextField
             fullWidth
-            type='password'
-            label='Confirm New Password'
-            variant='outlined'
+            type="password"
+            label="Confirm New Password"
+            variant="outlined"
             value={newPassword2}
             onChange={(e) => setNewPassword2(e.target.value)}
             style={{ marginBottom: '1rem' }}
           />
 
-          <Grid2 display='flex' justifyContent='flex-end'>
+          <Grid2 display="flex" justifyContent="flex-end">
             <Button
-              variant='contained'
-              color='primary'
-              type='submit'
+              variant="contained"
+              color="primary"
+              type="submit"
               style={{ border: '1px solid #006d4b', color: '#006d4b' }}
             >
               Reset Password

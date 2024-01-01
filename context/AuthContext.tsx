@@ -1,8 +1,7 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
-import { LoginApiMethods } from '@/Utils/utils';
-const { fetchUser } = LoginApiMethods;
+import { fetchUser } from '@/api/AuthMethods';
 
 import { APIResponse, FetchUserApiResponse } from '@/Types/ApiResponse.types';
 import { AuthState } from '@/Types/AuthContext.types';
@@ -206,7 +205,6 @@ function reducer(state, action) {
           ...action.payload,
         },
       };
-
 
     //== Trackers ==//
     case 'SET_TRACKERS':

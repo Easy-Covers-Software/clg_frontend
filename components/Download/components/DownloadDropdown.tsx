@@ -18,9 +18,10 @@ import DownloadForOfflineOutlinedIcon from '@mui/icons-material/DownloadForOffli
 import { DownloadProps } from '@/Types/GenerationContext.types';
 import { Snackbar } from '@/Types/AuthContext.types';
 
-import { Helpers, DownloadMethods } from '@/Utils/utils';
-const { generatePDF, generateDOCX } = DownloadMethods;
+import { Helpers } from '@/Utils/utils';
 const { determineCoverLetterParts, determineCoverLetterHtml } = Helpers;
+
+import { generatePDF, generateDOCX } from '@/api/GenerationMethods';
 
 import { CoverLetterData } from '@/Types/GenerationContext.types';
 
@@ -103,11 +104,11 @@ const DownloadDropdown: FC<any> = ({
   };
 
   // const disabled = shouldDisable(contentData);
-  const disabled = false
+  const disabled = false;
 
   return (
     <>
-      <Tooltip title='Download'>
+      <Tooltip title="Download">
         <IconButton
           onClick={handleDownload}
           disableRipple
@@ -122,7 +123,7 @@ const DownloadDropdown: FC<any> = ({
       </Tooltip>
 
       <Menu
-        id='basic-menu'
+        id="basic-menu"
         anchorEl={downloadMenuAnchor}
         open={downloadProps?.isDownloadDropdownOpen}
         onClose={handleCloseDownload}

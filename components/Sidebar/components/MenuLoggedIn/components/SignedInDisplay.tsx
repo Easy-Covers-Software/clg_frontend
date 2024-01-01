@@ -15,14 +15,13 @@ const {
   StatContainer,
 } = SignedInDisplayStyledComponents;
 
-import { LoginApiMethods } from '@/Utils/utils';
 import { APIResponse, AuthResponse } from '@/Types/ApiResponse.types';
-const { logout } = LoginApiMethods;
+import { logout } from '@/api/AuthMethods';
 
 const Stat = ({ statName, statValue }) => (
   <StatContainer>
-    <Typography className='access-stats left'>{statName}</Typography>
-    <Typography className='access-stats right'>{statValue}</Typography>
+    <Typography className="access-stats left">{statName}</Typography>
+    <Typography className="access-stats right">{statValue}</Typography>
   </StatContainer>
 );
 
@@ -50,7 +49,7 @@ export default function SignedInDisplay() {
 
   return (
     <Container>
-      <Typography className='profile-email'>{loggedInProps?.email}</Typography>
+      <Typography className="profile-email">{loggedInProps?.email}</Typography>
 
       <HorizontalDivider />
 

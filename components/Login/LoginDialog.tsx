@@ -19,19 +19,13 @@ import {
 
 import { APIResponse, AuthResponse } from '@/Types/ApiResponse.types';
 
-import { LoginApiMethods } from '@/Utils/utils';
-const { createAccount, login, resetPassword } = LoginApiMethods;
-
+import { login, resetPassword } from '@/api/AuthMethods';
 
 const ToggleBackToLogin = ({ accountAuthProps }) => (
-  <SignInButton
-    onClick={() => accountAuthProps?.updateAction('login')}
-  >
+  <SignInButton onClick={() => accountAuthProps?.updateAction('login')}>
     Back to Login
   </SignInButton>
 );
-
-
 
 export default function LoginDialog() {
   const { state, dispatch } = useAuth();
@@ -97,7 +91,10 @@ export default function LoginDialog() {
     } else {
       return (
         <>
-          <SignInButton onClick={handleResetPassword} style={{ marginTop: '3%' }}>
+          <SignInButton
+            onClick={handleResetPassword}
+            style={{ marginTop: '3%' }}
+          >
             Send Reset Email
           </SignInButton>
 
@@ -112,25 +109,21 @@ export default function LoginDialog() {
       open={dialogProps?.isLoginOpen}
       onClose={handleClose}
       fullWidth
-      maxWidth='xs'
+      maxWidth="xs"
       PaperProps={{
         style: {
           backgroundColor: '#F8F8FF',
-          minHeight: '510px'
+          minHeight: '510px',
         },
       }}
-      >
+    >
       <DialogContentContainer>
+        <FullLogo src="/easy-covers-full.svg" alt="Description of Image" />
 
-        <FullLogo src='/easy-covers-full.svg' alt='Description of Image' />
-        
         <LoginInputs />
-        
+
         {renderAuthActions()}
-
       </DialogContentContainer>
-
-
     </Dialog>
   );
 }
