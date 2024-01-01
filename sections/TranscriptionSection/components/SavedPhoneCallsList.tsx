@@ -23,7 +23,7 @@ const {
 
 const Container = styled(Grid)`
   height: calc(100vh - 98px);
-  width: 25vw;
+  width: 100%;
   min-width: 25vw;
 
   overflow: hidden;

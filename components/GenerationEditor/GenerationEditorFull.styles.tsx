@@ -8,7 +8,8 @@ const Container = styled(Grid)`
   height: calc(100vh - 196px);
   min-height: calc(100vh - 196px);
   background-color: #f8f8ff;
-
+  margin: 0.75%;
+  margin-top: 0;
   width: 99%;
 
   margin: 0 0.5%;

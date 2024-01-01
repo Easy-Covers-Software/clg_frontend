@@ -11,11 +11,12 @@ const Search = muiStyled('div')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   backgroundColor: 'white',
   color: '#006D4B',
-  border: '1px solid #13D0B7',
+  border: '1px solid #006D4B',
   '&:hover': {
     // backgroundColor: alpha(theme.palette.grey[00], 0.18),
   },
   width: '100%',
+  height: '6vh',
   [theme.breakpoints.up('sm')]: {
     // marginLeft: theme.spacing(3),
   },
@@ -35,8 +36,8 @@ const SearchIconWrapper = muiStyled('div')(({ theme }) => ({
 const StyledInputBase = muiStyled(InputBase)(({ theme }) => ({
   color: '#006D4B',
   '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: '25%',
+    paddingTop: '6%',
     transition: theme.transitions.create('width'),
     width: '100%',
     color: '#006D4B',
@@ -50,8 +51,8 @@ export default function SearchAndFilter({ search, handleSearchChange, type }) {
 
   return (
     <Search
-      sx={{
-        width: type === 'full' ? '100%' : '99%',
+      style={{
+        width: '97.5%',
         marginBottom: type === 'full' ? '0' : '1%',
       }}
     >
