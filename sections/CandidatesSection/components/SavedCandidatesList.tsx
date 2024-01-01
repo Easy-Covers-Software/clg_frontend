@@ -11,14 +11,13 @@ import { useCandidatesContext } from '@/context/CandidatesContext';
 import SavedList from '@/components/SavedList/SavedList';
 
 //-- import api methods --//
-import { CandidateProfileMethods } from '@/Utils/utils';
-const {
+import {
   fetchCandidateProfiles,
   fetchFullCandidateProfile,
   fetchJobPostingsAssociatedWithCandidate,
   fetchGenerationsAssociatedWithCandidate,
   deleteCandidateProfile,
-} = CandidateProfileMethods;
+} from '@/api/CandidateProfileMethods';
 
 const SavedCandidatesList: FC = () => {
   // 1. get auth state from context and destructure snackbar
@@ -92,7 +91,7 @@ const SavedCandidatesList: FC = () => {
   }, []);
 
   useEffect(() => {
-    if(loggedInProps.user){
+    if (loggedInProps.user) {
       getCandidateProfiles();
     }
   }, [loggedInProps.user]);
@@ -186,7 +185,7 @@ const SavedCandidatesList: FC = () => {
         search={savedCandidatesListState?.search}
         loading={savedCandidatesListState?.loading}
         selected={savedCandidatesListState?.selected}
-        listType='candidates'
+        listType="candidates"
         handleToggle={handleToggle}
         handleSearchChange={handleSearchChange}
       />

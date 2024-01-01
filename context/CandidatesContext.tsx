@@ -1,8 +1,8 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 
-import { Helpers, CandidateProfileMethods } from '@/Utils/utils';
-const { fetchFullCandidateProfile, fetchCandidatesResume } =
-  CandidateProfileMethods;
+import { Helpers } from '@/Utils/utils';
+
+import { fetchCandidatesResume } from '@/api/CandidateProfileMethods';
 
 const { addPTags, addDivTag } = Helpers;
 

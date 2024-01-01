@@ -1,7 +1,5 @@
 import { createContext, useContext, useReducer, useEffect, use } from 'react';
-import { Helpers, CandidateProfileMethods } from '@/Utils/utils';
-const { fetchFullCandidateProfile, fetchCandidatesResume } =
-  CandidateProfileMethods;
+import { Helpers } from '@/Utils/utils';
 
 const { addPTags, addDivTag } = Helpers;
 
