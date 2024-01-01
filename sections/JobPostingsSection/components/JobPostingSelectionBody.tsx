@@ -1,25 +1,25 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from 'react';
 
 //-- import MUI components --//
-import styled from "@emotion/styled";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import Typography from "@mui/material/Typography";
+import styled from '@emotion/styled';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Typography from '@mui/material/Typography';
 
 //-- import context --//
-import { useAuth } from "@/context/AuthContext";
-import { useJobPostingsContext } from "@/context/JobPostingsContext";
+import { useAuth } from '@/context/AuthContext';
+import { useJobPostingsContext } from '@/context/JobPostingsContext';
 
 //-- import components --//
-import SelectionSummary from "@/components/SelectionSummary/SelectionSummary";
-import SubSectionFrame from "@/components/Global/components/SubSectionFrame";
-import FullJobPostingsOverview from "@/components/JobPostings/FullJobPostingsOverview/FullJobPostingsOverview";
-import FullCandidateJobProfile from "@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile";
-import GenerationEditor from "@/components/GenerationEditor/GenerationEditor";
-import TranscriptionNotes from "@/components/Transcription/TranscriptionNotes";
-import ResumeIframe from "@/components/CandidateProfile/ResumeIframe";
+import SelectionSummary from '@/components/SelectionSummary/SelectionSummary';
+import SubSectionFrame from '@/components/Global/components/SubSectionFrame';
+import FullJobPostingsOverview from '@/components/JobPostings/FullJobPostingsOverview/FullJobPostingsOverview';
+import FullCandidateJobProfile from '@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile';
+import GenerationEditor from '@/components/Generation/GenerationEditor/GenerationEditor';
+import TranscriptionNotes from '@/components/Transcription/TranscriptionNotes';
+import ResumeIframe from '@/components/CandidateProfile/ResumeIframe';
 
 //-- import api methods --//
-import { calculateMatchScore } from "@/api/GenerationMethods";
+import { calculateMatchScore } from '@/api/GenerationMethods';
 
 const Container = styled(Grid)`
   width: 100%;
@@ -72,76 +72,76 @@ const JobPostingSelectionBody: FC = () => {
 
   const updateSelectedJobPostingMode = (mode: string) => {
     dispatch({
-      type: "SET_SELECTED_JOB_POSTING_MODE",
+      type: 'SET_SELECTED_JOB_POSTING_MODE',
       payload: mode,
     });
   };
 
   const updateCandidateViewMode = (mode: string) => {
     dispatch({
-      type: "UPDATE_SELECTED_CANDIDATE_MODE",
+      type: 'UPDATE_SELECTED_CANDIDATE_MODE',
       payload: mode,
     });
   };
 
   const resetSelectedJobPostingMode = () => {
-    updateSelectedJobPostingMode("overview");
+    updateSelectedJobPostingMode('overview');
   };
 
   const resetCandidateViewMode = () => {
-    updateCandidateViewMode("overview");
+    updateCandidateViewMode('overview');
   };
 
   const updateGenerationsPanelMode = (mode: string) => {
     dispatch({
-      type: "UPDATE_GENERATIONS_PANEL_MODE",
+      type: 'UPDATE_GENERATIONS_PANEL_MODE',
       payload: mode,
     });
   };
 
   const updateCallsPanelMode = (mode: string) => {
     dispatch({
-      type: "UPDATE_CALL_PANEL_MODE",
+      type: 'UPDATE_CALL_PANEL_MODE',
       payload: mode,
     });
   };
 
   const updateSelectedCandidate = (candidate: any) => {
     dispatch({
-      type: "UPDATE_SELECTED_CANDIDATE",
+      type: 'UPDATE_SELECTED_CANDIDATE',
       payload: candidate,
     });
     dispatch({
-      type: "SET_SELECTED_JOB_POSTING_MODE",
-      payload: "candidate",
+      type: 'SET_SELECTED_JOB_POSTING_MODE',
+      payload: 'candidate',
     });
   };
 
   const handleGenerationSelection = (generation: any) => {
     dispatch({
-      type: "UPDATE_SELECTED_GENERATION",
+      type: 'UPDATE_SELECTED_GENERATION',
       payload: generation,
     });
     dispatch({
-      type: "UPDATE_SELECTED_CANDIDATE_MODE",
-      payload: "generation",
+      type: 'UPDATE_SELECTED_CANDIDATE_MODE',
+      payload: 'generation',
     });
   };
 
   const handleCallSelection = (call: any) => {
     dispatch({
-      type: "UPDATE_SELECTED_PHONE_CALL",
+      type: 'UPDATE_SELECTED_PHONE_CALL',
       payload: call,
     });
     dispatch({
-      type: "UPDATE_SELECTED_CANDIDATE_MODE",
-      payload: "phoneCall",
+      type: 'UPDATE_SELECTED_CANDIDATE_MODE',
+      payload: 'phoneCall',
     });
   };
 
   const handleCalculate = async (candidateId) => {
     dispatch({
-      type: "UPDATE_CURRENTLY_CALCULATING",
+      type: 'UPDATE_CURRENTLY_CALCULATING',
       payload: candidateId,
     });
 
@@ -151,20 +151,20 @@ const JobPostingSelectionBody: FC = () => {
     );
 
     if (response) {
-      console.log("response", response);
+      console.log('response', response);
 
       dispatch({
-        type: "UPDATE_CURRENTLY_CALCULATING",
-        payload: "",
+        type: 'UPDATE_CURRENTLY_CALCULATING',
+        payload: '',
       });
       dispatch({
-        type: "REFRESH_CANDIDATES",
+        type: 'REFRESH_CANDIDATES',
       });
     } else {
-      snackbar.updateSnackbar(true, "error", "Error calculating match score");
+      snackbar.updateSnackbar(true, 'error', 'Error calculating match score');
       dispatch({
-        type: "UPDATE_CURRENTLY_CALCULATING",
-        payload: "",
+        type: 'UPDATE_CURRENTLY_CALCULATING',
+        payload: '',
       });
     }
   };
@@ -172,7 +172,7 @@ const JobPostingSelectionBody: FC = () => {
   const getIntroCall = () => {
     return (
       selectedJobPostingState?.selectedCandidate?.phone_calls.find(
-        (phoneCall) => phoneCall.call_type === "intro"
+        (phoneCall) => phoneCall.call_type === 'intro'
       ) || null
     );
   };
@@ -180,36 +180,36 @@ const JobPostingSelectionBody: FC = () => {
   const getFollowUpCalls = () => {
     return (
       selectedJobPostingState?.selectedCandidate?.phone_calls.filter(
-        (phoneCall) => phoneCall.call_type !== "intro"
+        (phoneCall) => phoneCall.call_type !== 'intro'
       ) || null
     );
   };
 
   const isCurrentlyCalculating = () => {
-    return selectedJobPostingState?.currentlyCalculating !== "" ? true : false;
+    return selectedJobPostingState?.currentlyCalculating !== '' ? true : false;
   };
 
   const handleListFilterChange = (event) => {
     dispatch({
-      type: "UPDATE_LIST_FILTER",
+      type: 'UPDATE_LIST_FILTER',
       payload: event.target.value,
     });
   };
 
   const handleScoreFilterChange = (event) => {
     dispatch({
-      type: "UPDATE_SCORE_FILTER",
+      type: 'UPDATE_SCORE_FILTER',
       payload: event.target.value,
     });
   };
 
   const getCandidatesList = () => {
     switch (selectedJobPostingState?.listFilter) {
-      case "rankings":
+      case 'rankings':
         return selectedJobPostingState?.rankings;
-      case "all":
+      case 'all':
         return selectedJobPostingState?.allCandidates;
-      case "unscored":
+      case 'unscored':
         return selectedJobPostingState?.unscoredCandidates;
       default:
         return selectedJobPostingState?.rankings;
@@ -224,7 +224,7 @@ const JobPostingSelectionBody: FC = () => {
       );
 
       dispatch({
-        type: "UPDATE_SELECTED_CANDIDATE",
+        type: 'UPDATE_SELECTED_CANDIDATE',
         payload: updatedCandidate,
       });
     }
@@ -232,7 +232,7 @@ const JobPostingSelectionBody: FC = () => {
 
   const renderCurrentJobPostingModeSection = () => {
     switch (selectedJobPostingMode) {
-      case "overview":
+      case 'overview':
         return (
           <FullJobPostingsOverview
             selectedJobPosting={selectedJobPosting}
@@ -244,16 +244,16 @@ const JobPostingSelectionBody: FC = () => {
             handleScoreFilterChange={handleScoreFilterChange}
           />
         );
-      case "candidate":
+      case 'candidate':
         switch (selectedJobPostingState?.selectedCandidateMode) {
-          case "overview":
+          case 'overview':
             return (
               <SubSectionFrame
-                subSectionHeader={"Candidate Profile"}
+                subSectionHeader={'Candidate Profile'}
                 onClose={resetSelectedJobPostingMode}
               >
                 <FullCandidateJobProfile
-                  page={"jobPosting"}
+                  page={'jobPosting'}
                   selectedJobPosting={selectedJobPosting}
                   selectedCandidate={selectedJobPostingState?.selectedCandidate}
                   phoneCalls={
@@ -279,10 +279,10 @@ const JobPostingSelectionBody: FC = () => {
                 />
               </SubSectionFrame>
             );
-          case "generation":
+          case 'generation':
             return (
               <SubSectionFrame
-                subSectionHeader={"Generation"}
+                subSectionHeader={'Generation'}
                 onClose={resetCandidateViewMode}
               >
                 <GenerationEditor
@@ -292,14 +292,14 @@ const JobPostingSelectionBody: FC = () => {
                 />
               </SubSectionFrame>
             );
-          case "phoneCall":
+          case 'phoneCall':
             return (
               <SubSectionFrame
-                subSectionHeader={"Generation"}
+                subSectionHeader={'Generation'}
                 onClose={resetCandidateViewMode}
               >
                 <TranscriptionNotes
-                  page={"jobPosting"}
+                  page={'jobPosting'}
                   transcriptionNotes={
                     selectedJobPostingState?.selectedCall?.transcription?.notes
                   }
@@ -307,10 +307,10 @@ const JobPostingSelectionBody: FC = () => {
               </SubSectionFrame>
             );
 
-          case "resume":
+          case 'resume':
             return (
               <SubSectionFrame
-                subSectionHeader={"Résumé Viewer"}
+                subSectionHeader={'Résumé Viewer'}
                 onClose={resetCandidateViewMode}
               >
                 <ResumeIframe resumeUrl={selectedJobPostingState?.resumeUrl} />

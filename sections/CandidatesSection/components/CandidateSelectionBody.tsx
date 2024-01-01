@@ -13,7 +13,7 @@ import FullCandidateProfileOverview from '@/components/CandidateProfile/FullCand
 import ResumeIframe from '@/components/CandidateProfile/ResumeIframe';
 import SubSectionFrame from '@/components/Global/components/SubSectionFrame';
 import FullCandidateJobProfile from '@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile';
-import GenerationEditor from '@/components/GenerationEditor/GenerationEditor';
+import GenerationEditor from '@/components/Generation/GenerationEditor/GenerationEditor';
 import TranscriptionNotes from '@/components/Transcription/TranscriptionNotes';
 
 //-- import api methods --//

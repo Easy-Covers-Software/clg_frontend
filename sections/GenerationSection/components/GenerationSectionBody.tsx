@@ -6,8 +6,7 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
 
 import SelectionSummary from '@/components/SelectionSummary/SelectionSummary';
-import CoverLetterSummary from '@/components/CoverLetterSummay/CoverLetterSummary';
-import GenerationEditorFull from '@/components/GenerationEditor/GenerationEditorFull';
+import GenerationEditorFull from '@/components/Generation/GenerationEditor/GenerationEditorFull';
 
 import { useGenerationContext } from '@/context/GenerationContext';
 
@@ -79,15 +78,15 @@ export default function GenerationSectionBody() {
         handleChange={toggleMode}
       />
       {/* <SubContainer> */}
-        <GenerationEditorFull
-          coverLetterData={coverLetterData}
-          simpleAdjustmentProps={simpleAdjustmentProps}
-          intermediateAdjustmentProps={intermediateAdjustmentProps}
-          customAdjustmentProps={customAdjustmentProps}
-          saveProps={saveProps}
-          downloadProps={downloadProps}
-          adjustmentSection={adjustmentSection}
-        />
+      <GenerationEditorFull
+        coverLetterData={coverLetterData}
+        simpleAdjustmentProps={simpleAdjustmentProps}
+        intermediateAdjustmentProps={intermediateAdjustmentProps}
+        customAdjustmentProps={customAdjustmentProps}
+        saveProps={saveProps}
+        downloadProps={downloadProps}
+        adjustmentSection={adjustmentSection}
+      />
       {/* </SubContainer> */}
     </Container>
   );
