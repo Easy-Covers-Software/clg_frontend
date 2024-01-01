@@ -35,6 +35,7 @@ export default function SignedInDisplay() {
 
     if (response.data) {
       // loggedInProps.reset();
+      window.location.reload();
       snackbar.updateSnackbar(
         true,
         'success',
@@ -49,27 +50,9 @@ export default function SignedInDisplay() {
 
   return (
     <Container>
-      {/* <CoverLetterStatsContainer>
-        <Stat
-          statName='Gpt-3 Generations'
-          statValue={loggedInProps?.gpt3_generations_available}
-        />
-        <Stat
-          statName='Gpt-4 Generations'
-          statValue={loggedInProps?.gpt4_generations_available}
-        />
-        <Stat
-          statName='Adjustments Available'
-          statValue={loggedInProps?.adjustments_available}
-        />
-      </CoverLetterStatsContainer> */}
       <Typography className='profile-email'>{loggedInProps?.email}</Typography>
 
       <HorizontalDivider />
-
-      {/* <UnSelectedButton onClick={() => dialogProps?.toggleSettingsIsOpen()}>
-        Upgrade
-      </UnSelectedButton> */}
 
       <UnSelectedButton onClick={() => dialogProps?.toggleHelpDialog()}>
         Help
