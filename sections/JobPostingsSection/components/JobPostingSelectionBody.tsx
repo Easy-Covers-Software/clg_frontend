@@ -16,7 +16,7 @@ import FullJobPostingsOverview from '@/components/JobPostings/FullJobPostingsOve
 import FullCandidateJobProfile from '@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile';
 import GenerationEditor from '@/components/Generation/GenerationEditor/GenerationEditor';
 import TranscriptionNotes from '@/components/CallsPage/Transcription/TranscriptionNotes';
-import ResumeIframe from '@/components/CandidateProfile/ResumeIframe';
+import ResumeIframe from '@/components/CandidatesPage/ResumeIframe';
 
 //-- import api methods --//
 import { calculateMatchScore } from '@/api/GenerationMethods';

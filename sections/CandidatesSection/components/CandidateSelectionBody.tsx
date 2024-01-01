@@ -9,8 +9,8 @@ import { useCandidatesContext } from '@/context/CandidatesContext';
 
 //-- import components --//
 import SelectionSummary from '@/components/PageStructure/SelectionSummary/SelectionSummary';
-import FullCandidateProfileOverview from '@/components/CandidateProfile/FullCandidateProfileOverview/FullCandidateProfileOverview';
-import ResumeIframe from '@/components/CandidateProfile/ResumeIframe';
+import FullCandidateProfileOverview from '@/components/CandidatesPage/FullCandidateProfileOverview/FullCandidateProfileOverview';
+import ResumeIframe from '@/components/CandidatesPage/ResumeIframe';
 import SubSectionFrame from '@/components/Global/components/SubSectionFrame';
 import FullCandidateJobProfile from '@/components/JobPostings/FullCandidateJobProfile/FullCandidateJobProfile';
 import GenerationEditor from '@/components/Generation/GenerationEditor/GenerationEditor';
