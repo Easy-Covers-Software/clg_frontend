@@ -11,6 +11,71 @@ import { useAuth } from '@/context/AuthContext';
 import { LoginInputsStyledComponents } from '../LoginDialog.styles';
 const { Container, FormInput, InputField } = LoginInputsStyledComponents;
 
+
+
+const EmailInputField = ({ accountAuthProps }) => (
+  <InputField
+    id="email-input"
+    variant="outlined"
+    placeholder="Email"
+    value={accountAuthProps?.email}
+    onChange={(event) => accountAuthProps?.updateEmail(event.target.value)}
+    InputProps={{
+      style: {
+        padding: '1% 0',
+        paddingRight: '5%',
+        fontSize: '1.3rem',
+      },
+      endAdornment: (
+        <InputAdornment position="end">
+          <IconButton
+            disableTouchRipple
+            aria-label="toggle password visibility"
+            onClick={accountAuthProps?.clearEmail}
+            edge="end"
+          >
+            <HighlightOffIcon />
+          </IconButton>
+        </InputAdornment>
+      ),
+    }}
+  />
+);
+
+
+const PasswordInputField = ({ accountAuthProps, handleMouseDownPassword }) => (
+  <InputField
+    id="password-input"
+    variant="outlined"
+    placeholder="Password"
+    type={accountAuthProps?.showPassword ? 'text' : 'password'}
+    value={accountAuthProps?.password}
+    onChange={(event) => accountAuthProps?.updatePassword(event.target.value)}
+    InputProps={{
+      style: {
+        padding: '1% 0',
+        paddingRight: '5%',
+        fontSize: '1.3rem',
+      },
+      endAdornment: (
+        <InputAdornment position="end">
+          <IconButton
+            aria-label="toggle password visibility"
+            onClick={accountAuthProps?.toggleShowPassword}
+            onMouseDown={handleMouseDownPassword}
+            edge="end"
+          >
+            {accountAuthProps?.showPassword ? <Visibility /> : <VisibilityOff />}
+          </IconButton>
+        </InputAdornment>
+      ),
+    }}
+  />
+);
+
+
+
+
 export default function LoginInputs() {
   const { state } = useAuth();
   const { accountAuthProps } = state;
@@ -27,121 +92,19 @@ export default function LoginInputs() {
   };
 
   return (
-    <Container component='form'>
-      <FormInput variant='outlined'>
-        <InputField
-          id='email-input'
-          variant='outlined'
-          placeholder='Email'
-          value={accountAuthProps?.email}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            accountAuthProps?.updateEmail(event.target.value);
-          }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position='end'>
-                <IconButton
-                  disableTouchRipple
-                  aria-label='toggle password visibility'
-                  onClick={accountAuthProps?.clearEmail}
-                  edge='end'
-                >
-                  <HighlightOffIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </FormInput>
-
+    <Container component="form">
+      {/* <FormInput variant="outlined"> */}
+        <EmailInputField accountAuthProps={accountAuthProps} />
+      {/* </FormInput> */}
+  
       {accountAuthProps?.action !== 'forgot' && (
-        <FormInput variant='outlined'>
-          <InputField
-            id='password-input'
-            variant='outlined'
-            placeholder='Password'
-            value={accountAuthProps?.password}
-            type={accountAuthProps?.showPassword ? 'text' : 'password'}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              accountAuthProps?.updatePassword(event.target.value);
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton
-                    aria-label='toggle password visibility'
-                    onClick={() => {
-                      accountAuthProps?.toggleShowPassword();
-                    }}
-                    onMouseDown={handleMouseDownPassword}
-                    edge='end'
-                  >
-                    {accountAuthProps?.showPassword ? (
-                      <Visibility />
-                    ) : (
-                      <VisibilityOff />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
+        // <FormInput variant="outlined">
+          <PasswordInputField 
+            accountAuthProps={accountAuthProps} 
+            handleMouseDownPassword={handleMouseDownPassword} 
           />
-        </FormInput>
-      )}
-
-      {accountAuthProps?.action === 'create' && (
-        <>
-          <FormInput variant='outlined'>
-            <InputField
-              id='password-input-repeat'
-              variant='outlined'
-              placeholder='Re-enter Password'
-              value={accountAuthProps?.newPasswordRepeat}
-              type={accountAuthProps?.showPasswordRepeat ? 'text' : 'password'}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                accountAuthProps?.updateNewPasswordRepeat(event.target.value);
-              }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <IconButton
-                      aria-label='toggle password visibility'
-                      onClick={() => {
-                        accountAuthProps?.toggleShowPasswordRepeat();
-                      }}
-                      onMouseDown={handleMouseDownPasswordRepeat}
-                      edge='end'
-                    >
-                      {accountAuthProps?.showPasswordRepeat ? (
-                        <Visibility />
-                      ) : (
-                        <VisibilityOff />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </FormInput>
-
-          <FormInput variant='outlined'>
-            <InputField
-              id='phone-number-input'
-              variant='outlined'
-              placeholder='Phone Number'
-              value={accountAuthProps?.phoneNumber}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                accountAuthProps?.updatePhoneNumber(event.target.value);
-              }}
-              InputProps={
-                {
-                  // Include any additional input props you might need
-                }
-              }
-            />
-          </FormInput>
-        </>
+        // </FormInput>
       )}
     </Container>
-  );
+  )
 }

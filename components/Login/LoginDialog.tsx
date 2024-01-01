@@ -110,6 +110,28 @@ export default function LoginDialog() {
     }
   };
 
+  const renderAuthActions = () => {
+    if (accountAuthProps?.action !== 'forgot') {
+      return (
+        <>
+          <Typography
+            className="forgot-password"
+            onClick={() => accountAuthProps?.updateAction('forgot')}
+          >
+            Forgot password?
+          </Typography>
+          <SignInButton onClick={handleLogin}>Sign In</SignInButton>
+        </>
+      );
+    } else {
+      return (
+        <SignInButton onClick={handleResetPassword}>
+          Send Reset Email
+        </SignInButton>
+      );
+    }
+  };
+
   return (
     <Dialog
       open={dialogProps?.isLoginOpen}
@@ -119,38 +141,18 @@ export default function LoginDialog() {
       PaperProps={{
         style: {
           backgroundColor: '#F8F8FF',
-          height: '55vh'
+          minHeight: '500px'
         },
       }}
-    >
-      <FullLogo src='/easy-covers-full.svg' alt='Description of Image' />
-
+      >
       <DialogContentContainer>
+
+        <FullLogo src='/easy-covers-full.svg' alt='Description of Image' />
         
         <LoginInputs />
         
+        {renderAuthActions()}
 
-        {accountAuthProps?.action === 'create' ? (
-          <SignInButton onClick={handleCreateAccount}>
-            Create Account
-          </SignInButton>
-        ) : accountAuthProps?.action === 'forgot' ? (
-          <SignInButton onClick={handleResetPassword}>
-            Send Reset Email
-          </SignInButton>
-        ) : (
-          <>
-            <Typography
-              className='forgot-password'
-              onClick={() => {
-                accountAuthProps?.updateAction('forgot');
-              }}
-            >
-              Forgot password?
-            </Typography>
-            <SignInButton onClick={handleLogin}>Sign In</SignInButton>
-          </>
-        )}
       </DialogContentContainer>
 
 

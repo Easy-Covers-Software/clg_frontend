@@ -6,10 +6,11 @@ import { Box, FormControl, TextField, DialogContent } from "@mui/material";
 const DialogContentContainer = styled(DialogContent)`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
   margin-top: -25%;
   gap: 24px;
+  overflow: hidden;
 `;
 
 const CreateAccountContainer = styled(Grid)`
@@ -24,16 +25,16 @@ const DividerContainer = styled(Grid)`
 
 const SignInButton = styled(PrimaryButton)`
   width: 80%;
+  padding: 12px 0;
+  font-size: 1.2rem;
   margin: 0 auto;
-  padding: 20px 0;
-  font-size: 1.2rem
 `;
 
 const FullLogo = styled.img`
-  height: 180px;
-  width: 50%;
-  margin: 0 auto;
-  margin-top: -6%;
+  height: 300px;
+  width: 100%;
+  margin-top: 3%;
+  margin-right: 4%;
 `;
 
 namespace LoginInputsStyledComponents {
@@ -43,6 +44,7 @@ namespace LoginInputsStyledComponents {
     align-items: center;
     gap: 16px;
     width: 100%;
+    margin-top: -22%
   `;
 
   export const FormInput = styled(FormControl)`
@@ -51,9 +53,11 @@ namespace LoginInputsStyledComponents {
   `;
 
   export const InputField = styled(TextField)`
+    width: 95%;
     border-radius: 4px;
     border: 1px solid #006d4b;
     background-color: #fff;
+    // padding: 2% 0;
   `;
 }
 
