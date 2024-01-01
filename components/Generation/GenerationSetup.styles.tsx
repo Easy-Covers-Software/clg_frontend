@@ -52,8 +52,7 @@ const AccordionSummary = muiStyled(
       <MuiAccordionSummary
         expandIcon={
           isExpanded && expanded !== 'panel3' ? (
-            <KeyboardDoubleArrowRightOutlinedIcon sx={{ fontSize: '0.9rem', 
-          }} />
+            <KeyboardDoubleArrowRightOutlinedIcon sx={{ fontSize: '0.9rem' }} />
           ) : (
             <KeyboardDoubleArrowLeftOutlinedIcon sx={{ fontSize: '0.9rem' }} />
           )
@@ -63,7 +62,6 @@ const AccordionSummary = muiStyled(
     );
   }
 )(() => ({
-  
   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
     transform: 'rotate(90deg)',
   },

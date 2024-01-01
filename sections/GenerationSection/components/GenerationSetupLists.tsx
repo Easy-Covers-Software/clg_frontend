@@ -17,8 +17,8 @@ import {
   CheckboxIconComplete,
 } from '@/components/Generation/GenerationSetup.styles';
 
-import JobPostingSelection from '@/components/Generation/JobPostingSelection';
-import CandidateProfileSelection from '@/components/Generation/CandidateProfileSelection';
+import JobPostingSelectionDataGrid from '@/components/Generation/SetupSelectionDataGrids/JobPostingSelectionDataGrid';
+import CandidateProfileSelectionDataGrid from '@/components/Generation/SetupSelectionDataGrids/CandidateProfileSelectionDataGrid';
 import GenerationSettings from '@/components/Generation/GenerationSettings/GenerationSettings';
 
 import { checkAdditionalDetails } from '@/Utils/utils';
@@ -51,14 +51,6 @@ const Container = styled(Grid)`
 
   border: 1px solid #13d0b7;
   border-radius: 4px;
-`;
-
-const ButtonContainer = styled(Grid)`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.2%;
 `;
 
 export const SecondButtonContainer = styled(Grid)`
@@ -310,7 +302,7 @@ export default function GenerationSetupLists() {
           </AccordionSummary>
 
           <AccordionDetails>
-            <JobPostingSelection
+            <JobPostingSelectionDataGrid
               jobPostings={generationSetupState?.filteredJobPostings}
               selected={generationSetupProps?.selectedJobPosting?.id}
               search={generationSetupProps?.jobPostingSearch}
@@ -352,7 +344,7 @@ export default function GenerationSetupLists() {
             )}
           </AccordionSummary>
           <AccordionDetails>
-            <CandidateProfileSelection
+            <CandidateProfileSelectionDataGrid
               candidates={generationSetupState?.filteredCandidates}
               selected={generationSetupProps?.selectedCandidate?.id}
               search={generationSetupProps?.candidateSearch}

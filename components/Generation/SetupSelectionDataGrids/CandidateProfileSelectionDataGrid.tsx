@@ -6,7 +6,7 @@ import {
   GridRowSelectionModel,
 } from '@mui/x-data-grid';
 import { Box, Typography, Radio } from '@mui/material';
-import SearchAndFilter from '../SavedList/components/SearchAndFilter';
+import SearchAndFilter from '../../SavedList/components/SearchAndFilter';
 
 interface CandidateProfile {
   id: number;
@@ -18,7 +18,7 @@ interface CandidateSelectionProps {
   candidates: any[];
 }
 
-const CandidateProfileSelection: any = ({
+const CandidateProfileSelectionDataGrid: any = ({
   candidates,
   selected,
   search,
@@ -84,4 +84,4 @@ const CandidateProfileSelection: any = ({
   );
 };
 
-export default CandidateProfileSelection;
+export default CandidateProfileSelectionDataGrid;

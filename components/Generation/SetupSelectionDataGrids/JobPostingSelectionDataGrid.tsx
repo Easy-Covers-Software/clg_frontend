@@ -6,7 +6,7 @@ import {
   GridRowSelectionModel,
 } from '@mui/x-data-grid';
 import { Box, Typography, Radio } from '@mui/material';
-import SearchAndFilter from '../SavedList/components/SearchAndFilter';
+import SearchAndFilter from '../../SavedList/components/SearchAndFilter';
 
 interface JobPosting {
   id: number;
@@ -18,7 +18,7 @@ interface JobPostingSelectionProps {
   jobPostings: JobPosting[];
 }
 
-const JobPostingSelection: any = ({
+const JobPostingSelectionDataGrid: any = ({
   jobPostings,
   selected,
   search,
@@ -90,4 +90,4 @@ const JobPostingSelection: any = ({
   );
 };
 
-export default JobPostingSelection;
+export default JobPostingSelectionDataGrid;

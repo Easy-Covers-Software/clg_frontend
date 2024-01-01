@@ -9,7 +9,7 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 const GenerationSettings = ({ mode, toggleMode }) => {
   return (
     <Box>
-      <Box display='flex' alignItems='center' justifyContent='center' mt={'1%'}>
+      <Box display="flex" alignItems="center" justifyContent="center" mt={'1%'}>
         <Typography>Email</Typography>
         <GreenSwitch
           checked={typeof mode === 'boolean' ? mode : false}
