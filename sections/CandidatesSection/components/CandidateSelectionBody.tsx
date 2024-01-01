@@ -49,6 +49,7 @@ const Container = styled.div`
 const SubContainer = styled.div`
   height: 100%;
   margin: 0.75%;
+  margin-top: 0;
   background-color: #f8f8ff;
   overflow: scroll;
   overflow-x: hidden;

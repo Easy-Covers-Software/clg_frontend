@@ -5,7 +5,7 @@ const Container = styled(Grid)`
   display: flex;
   width: 100%;
   gap: 0.5%;
-  height: 12vh;
+  height: 14vh;
   min-height: 90px;
 
   overflow: hidden; // Add this line
