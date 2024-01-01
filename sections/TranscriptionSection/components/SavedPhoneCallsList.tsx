@@ -12,14 +12,12 @@ import { UnSelectedButton, PrimaryButton } from '@/components/Global/Global';
 
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
-import { TranscriptionMethods } from '@/Utils/utils';
-import { get } from 'http';
-const {
+import {
   fetchPhoneCall,
   fetchPhoneCalls,
   fetchTranscription,
   performTranscription,
-} = TranscriptionMethods;
+} from '@/api/TranscriptionMethods';
 
 const Container = styled(Grid)`
   height: calc(100vh - 98px);
@@ -92,8 +90,12 @@ export default function SavedPhoneCallsList() {
 
   const { state, dispatch } = useTranscriptionContext();
   console.log(state);
-  const { phoneCallListState, selectedPhoneCall, transcriptionModeState, checked } =
-    state;
+  const {
+    phoneCallListState,
+    selectedPhoneCall,
+    transcriptionModeState,
+    checked,
+  } = state;
 
   const [test, setTest] = useState<string>('');
 
@@ -128,7 +130,7 @@ export default function SavedPhoneCallsList() {
       type: 'SET_CURRENT_MODE',
       payload: 'Notes',
     });
-    
+
     dispatch({
       type: 'SET_CHECKED',
       payload: false,
@@ -218,7 +220,7 @@ export default function SavedPhoneCallsList() {
   }, []);
 
   useEffect(() => {
-    if(loggedInProps.user){
+    if (loggedInProps.user) {
       getSavedPhoneCalls();
     }
   }, [loggedInProps.user]);
@@ -312,7 +314,7 @@ export default function SavedPhoneCallsList() {
         search={phoneCallListState?.search}
         loading={phoneCallListState?.loading}
         selected={phoneCallListState?.selected}
-        listType='phoneCalls'
+        listType="phoneCalls"
         handleToggle={handleToggle}
         handleSearchChange={handleSearchChange}
       />

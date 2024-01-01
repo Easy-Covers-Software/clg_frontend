@@ -1,12 +1,10 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 
-import { TranscriptionMethods } from '@/Utils/utils';
-const { fetchTranscription } = TranscriptionMethods;
-
 type PhoneCallTranscriptionTracker = {
   phoneCallId: string;
   status: string;
 };
+
 const TranscriptionContext = createContext<any>({
   phoneCallListState: {},
   notesHeaderSummaryState: {},
@@ -474,7 +472,7 @@ function reducer(state, action) {
         ...state,
         newCallId: action.payload,
       };
-    
+
     case 'SET_CALL_JOB_POSTING_ID':
       return {
         ...state,
@@ -566,7 +564,7 @@ export default function TranscriptionPageContext({ children }) {
       payload: {
         name: state.newCallForm.candidate_name,
         phone_number: state.newCallForm.candidate_number,
-        job_posting: state.newCallForm.job_posting
+        job_posting: state.newCallForm.job_posting,
       },
     });
   }, [state.newCallForm?.candidate_name, state.newCallForm?.candidate_number]);

@@ -20,9 +20,6 @@ import {
   InputField,
 } from '../PhoneCallComponents.styles';
 
-import { TranscriptionMethods } from '@/Utils/utils';
-const { initiatePhoneCall } = TranscriptionMethods;
-
 interface Props {
   handleInitiatePhoneCall: any;
   updateNewCallForm: any;
@@ -75,13 +72,13 @@ const NewCall: FC<Props> = ({
     >
       <Header>New Call</Header>
 
-      <Box component='form' noValidate autoComplete='off'>
+      <Box component="form" noValidate autoComplete="off">
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <FormControl fullWidth>
               <InputField
-                name='candidate_name'
-                label='Candidate Name'
+                name="candidate_name"
+                label="Candidate Name"
                 value={formData.candidate_name}
                 onChange={handleChange}
                 required
@@ -92,8 +89,8 @@ const NewCall: FC<Props> = ({
           <Grid item xs={12}>
             <FormControl fullWidth>
               <InputField
-                name='candidate_number'
-                label='Phone Number'
+                name="candidate_number"
+                label="Phone Number"
                 value={formData.candidate_number}
                 onChange={handleChange}
                 required
@@ -105,7 +102,7 @@ const NewCall: FC<Props> = ({
             <FormControl fullWidth>
               <InputLabel>Job Posting</InputLabel>
               <Select
-                name='job_posting'
+                name="job_posting"
                 value={formData.job_posting}
                 onChange={handleChange}
                 required
@@ -121,9 +118,9 @@ const NewCall: FC<Props> = ({
           </Grid>
         </Grid>
 
-        <Box display='flex' justifyContent='flex-end' mt={2}>
+        <Box display="flex" justifyContent="flex-end" mt={2}>
           <PrimaryButton
-            type='submit'
+            type="submit"
             style={{
               marginTop: '16px',
               textAlign: 'end',

@@ -19,9 +19,6 @@ import {
   InputField,
 } from '../PhoneCallComponents.styles';
 
-import { TranscriptionMethods } from '@/Utils/utils';
-const { initiatePhoneCall } = TranscriptionMethods;
-
 interface Props {}
 
 const CallComplete: FC<Props> = () => {
@@ -43,12 +40,12 @@ const CallComplete: FC<Props> = () => {
     <FormContainer>
       {/* <Header>Call Complete</Header> */}
 
-      <Box component='form' noValidate autoComplete='off'>
+      <Box component="form" noValidate autoComplete="off">
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <FormControl fullWidth>
               <InputField
-                label='Candidate Name'
+                label="Candidate Name"
                 value={callCompleteForm.candidateName}
                 onChange={(e) =>
                   dispatch({
@@ -64,7 +61,7 @@ const CallComplete: FC<Props> = () => {
           <Grid item xs={6}>
             <FormControl fullWidth>
               <InputField
-                label='Phone Number'
+                label="Phone Number"
                 value={callCompleteForm.phone}
                 onChange={(e) =>
                   dispatch({
@@ -94,8 +91,8 @@ const CallComplete: FC<Props> = () => {
                 }}
               >
                 {/* Replace with your job postings */}
-                <MenuItem value='job1'>Job 1</MenuItem>
-                <MenuItem value='job2'>Job 2</MenuItem>
+                <MenuItem value="job1">Job 1</MenuItem>
+                <MenuItem value="job2">Job 2</MenuItem>
                 {/* ... */}
               </Select>
             </FormControl>
@@ -104,7 +101,7 @@ const CallComplete: FC<Props> = () => {
           <Grid item xs={6}>
             <FormControl fullWidth>
               <InputField
-                label='Email'
+                label="Email"
                 value={callCompleteForm.email}
                 onChange={(e) =>
                   dispatch({
@@ -119,7 +116,7 @@ const CallComplete: FC<Props> = () => {
           <Grid item xs={6}>
             <FormControl fullWidth>
               <InputField
-                label='LinkedIn'
+                label="LinkedIn"
                 value={callCompleteForm.linkedin}
                 onChange={(e) =>
                   dispatch({
@@ -134,7 +131,7 @@ const CallComplete: FC<Props> = () => {
           <Grid item xs={6}>
             <FormControl fullWidth>
               <InputField
-                label='Portfolio Site'
+                label="Portfolio Site"
                 value={callCompleteForm.portfolio}
                 onChange={(e) =>
                   dispatch({
@@ -149,7 +146,7 @@ const CallComplete: FC<Props> = () => {
           <Grid item xs={6}>
             <FormControl fullWidth>
               <InputField
-                label='Location'
+                label="Location"
                 value={callCompleteForm.location}
                 onChange={(e) =>
                   dispatch({
@@ -165,8 +162,8 @@ const CallComplete: FC<Props> = () => {
             <FormControl fullWidth>
               {/* <InputLabel htmlFor='resume-upload'>Upload Resume</InputLabel> */}
               <InputField
-                type='file'
-                id='resume-upload'
+                type="file"
+                id="resume-upload"
                 onChange={(e: any) =>
                   dispatch({
                     type: 'UPDATE_CALL_COMPLETE_FORM_RESUME',
@@ -183,7 +180,7 @@ const CallComplete: FC<Props> = () => {
           <Grid item xs={6}>
             <FormControl fullWidth>
               <InputField
-                label='Feedback'
+                label="Feedback"
                 value={feedback}
                 onChange={(e) =>
                   dispatch({
@@ -198,9 +195,9 @@ const CallComplete: FC<Props> = () => {
           </Grid>
         </Grid>
 
-        <Box display='flex' justifyContent='flex-end' mt={2}>
+        <Box display="flex" justifyContent="flex-end" mt={2}>
           <UnSelectedButton
-            variant='outlined'
+            variant="outlined"
             style={{
               marginTop: '16px',
               marginRight: '16px',
@@ -213,7 +210,7 @@ const CallComplete: FC<Props> = () => {
             Don't Save
           </UnSelectedButton>
           <PrimaryButton
-            type='submit'
+            type="submit"
             style={{
               marginTop: '16px',
               textAlign: 'end',

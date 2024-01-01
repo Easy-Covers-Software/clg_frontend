@@ -18,9 +18,6 @@ import {
   InputField,
 } from '../PhoneCallComponents.styles';
 
-import { TranscriptionMethods } from '@/Utils/utils';
-const { initiatePhoneCall } = TranscriptionMethods;
-
 interface Props {}
 
 const CallNoAnswer: FC<Props> = () => {
