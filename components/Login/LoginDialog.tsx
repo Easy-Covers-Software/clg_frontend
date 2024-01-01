@@ -156,7 +156,7 @@ export default function LoginDialog() {
       PaperProps={{
         style: {
           backgroundColor: '#F8F8FF',
-          minHeight: '500px'
+          minHeight: '510px'
         },
       }}
       >

@@ -8,7 +8,7 @@ const DialogContentContainer = styled(DialogContent)`
   flex-direction: column;
   // justify-content: center;
   align-items: center;
-  margin-top: -25%;
+  margin-top: -22%;
   gap: 24px;
   overflow: hidden;
 `;
