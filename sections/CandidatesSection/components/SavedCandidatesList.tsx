@@ -23,7 +23,7 @@ const {
 const SavedCandidatesList: FC = () => {
   // 1. get auth state from context and destructure snackbar
   const { state: authState } = useAuth();
-  const { snackbar } = authState;
+  const { loggedInProps, snackbar } = authState;
 
   // 2. TODO: get candidate profile state and dispatch from context
   const { state, dispatch } = useCandidatesContext();
@@ -90,6 +90,12 @@ const SavedCandidatesList: FC = () => {
   useEffect(() => {
     getCandidateProfiles();
   }, []);
+
+  useEffect(() => {
+    if(loggedInProps.user){
+      getCandidateProfiles();
+    }
+  }, [loggedInProps.user]);
 
   const getAllJobPostingsAssociatedWithCandidate = async (id: any) => {
     const response = await fetchJobPostingsAssociatedWithCandidate(id);

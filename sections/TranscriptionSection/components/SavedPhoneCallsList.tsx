@@ -88,7 +88,7 @@ export const TranscribeButton = styled(UnSelectedButton)`
 
 export default function SavedPhoneCallsList() {
   const { state: authState } = useAuth();
-  const { snackbar } = authState;
+  const { loggedInProps, snackbar } = authState;
 
   const { state, dispatch } = useTranscriptionContext();
   console.log(state);
@@ -216,6 +216,12 @@ export default function SavedPhoneCallsList() {
   useEffect(() => {
     getSavedPhoneCalls();
   }, []);
+
+  useEffect(() => {
+    if(loggedInProps.user){
+      getSavedPhoneCalls();
+    }
+  }, [loggedInProps.user]);
 
   useEffect(() => {
     const getSelectedPhoneCallInstance = async () => {

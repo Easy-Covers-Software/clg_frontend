@@ -23,7 +23,7 @@ const {
 
 const JobPostingsList: FC = () => {
   const { state: authState } = useAuth();
-  const { snackbar } = authState;
+  const { loggedInProps, snackbar } = authState;
 
   // TODO: get candidate profile state and dispatch from context
   const { state, dispatch } = useJobPostingsContext();
@@ -82,6 +82,12 @@ const JobPostingsList: FC = () => {
   useEffect(() => {
     getJobPostings();
   }, []);
+
+  useEffect(() => {
+    if(loggedInProps.user){
+      getJobPostings();
+    }
+  }, [loggedInProps.user]);
 
   const getAllCandidatesAssociatedToJobPosting = async (id) => {
     console.log('GETTING CALLED');

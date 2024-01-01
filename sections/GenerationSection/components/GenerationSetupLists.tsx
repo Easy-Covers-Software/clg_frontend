@@ -265,6 +265,13 @@ export default function GenerationSetupLists() {
     getCandidateProfiles();
   }, []);
 
+  useEffect(() => {
+    if(loggedInProps.user){
+      getJobPostings();
+      getCandidateProfiles();
+    }
+  }, [loggedInProps.user]);
+
   return (
     <Container>
       <SubContainer>
