@@ -22,6 +22,17 @@ import { APIResponse, AuthResponse } from '@/Types/ApiResponse.types';
 import { LoginApiMethods } from '@/Utils/utils';
 const { createAccount, login, resetPassword } = LoginApiMethods;
 
+
+const ToggleBackToLogin = ({ accountAuthProps }) => (
+  <SignInButton
+    onClick={() => accountAuthProps?.updateAction('login')}
+  >
+    Back to Login
+  </SignInButton>
+);
+
+
+
 export default function LoginDialog() {
   const { state, dispatch } = useAuth();
   const { accountAuthProps, dialogProps, snackbar } = state;
@@ -125,9 +136,13 @@ export default function LoginDialog() {
       );
     } else {
       return (
-        <SignInButton onClick={handleResetPassword}>
-          Send Reset Email
-        </SignInButton>
+        <>
+          <SignInButton onClick={handleResetPassword} style={{ marginTop: '3%' }}>
+            Send Reset Email
+          </SignInButton>
+
+          <ToggleBackToLogin accountAuthProps={accountAuthProps} />
+        </>
       );
     }
   };

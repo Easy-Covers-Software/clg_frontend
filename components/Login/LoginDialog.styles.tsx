@@ -25,6 +25,8 @@ const DividerContainer = styled(Grid)`
 
 const SignInButton = styled(PrimaryButton)`
   width: 80%;
+  min-width: 200px;
+  min-height: 50px;
   padding: 12px 0;
   font-size: 1.2rem;
   margin: 0 auto;
