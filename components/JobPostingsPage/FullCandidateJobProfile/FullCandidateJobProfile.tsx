@@ -249,7 +249,7 @@ const FullCandidateJobProfile = ({
   };
 
   console.log('selectedJobPosting ====***');
-  console.log(selectedJobPosting);
+  console.log(loading);
 
   return (
     <Container container spacing={2}>

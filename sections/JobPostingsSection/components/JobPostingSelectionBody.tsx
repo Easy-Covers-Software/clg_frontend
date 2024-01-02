@@ -154,12 +154,12 @@ const JobPostingSelectionBody: FC = () => {
 
   const handleCalculate = async (candidateId) => {
     dispatch({
-      type: 'UPDATE_CURRENTLY_CALCULATING_CANDIDATE',
+      type: 'UPDATE_CURRENTLY_CALCULATING',
       payload: candidateId,
     });
 
     const response = await calculateMatchScore(
-      selectedListItemFullDetails?.id,
+      selectedItemBodyDisplayState.candidateJobPostingsListState?.id,
       candidateId
     );
 
@@ -182,7 +182,7 @@ const JobPostingSelectionBody: FC = () => {
       snackbar.updateSnackbar(true, 'error', 'Error calculating match score');
       dispatch({
         type: 'UPDATE_CURRENTLY_CALCULATING_CANDIDATE',
-        payload: '',
+        payload: null,
       });
     }
   };
@@ -204,7 +204,8 @@ const JobPostingSelectionBody: FC = () => {
   };
 
   const isCurrentlyCalculating = () => {
-    return selectedListItemFullDetails?.currentlyCalculating !== ''
+    return selectedItemBodyDisplayState?.currentlyCalculatingInOverviewMode !==
+      null
       ? true
       : false;
   };

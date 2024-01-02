@@ -29,12 +29,12 @@ const StyledListItem = styled(ListItem)`
 `;
 
 const splitString = (inputString) => {
-  if(inputString.length > 32){
+  if (inputString.length > 32) {
     return inputString.substring(0, 32) + '...';
   } else {
-    return inputString
+    return inputString;
   }
-}
+};
 
 const CandidateJobsList = ({
   jobPostings,
@@ -46,14 +46,14 @@ const CandidateJobsList = ({
   console.log(loadingId);
   return (
     <Box p={2}>
-      <Grid container borderBottom='0.4px solid #006D4B'>
+      <Grid container borderBottom="0.4px solid #006D4B">
         <Typography textAlign={'center'}>Current Jobs</Typography>
       </Grid>
-      <List component='nav'>
+      <List component="nav">
         {jobPostings?.map((jobPosting, index) => (
           <StyledListItem
             key={index}
-            disabled={loadingId !== ''}
+            disabled={loadingId !== null ? true : false}
             onClick={() => {
               updateSelectedJobPosting(jobPosting);
             }}
@@ -62,12 +62,12 @@ const CandidateJobsList = ({
               primary={splitString(jobPosting.job_title)}
               secondary={jobPosting.company_name}
             />
-            <MatchScoreGrid xs='auto'>
+            <MatchScoreGrid xs="auto">
               {jobPosting.match_score ? (
-                <Typography variant='caption'>
+                <Typography variant="caption">
                   {jobPosting.match_score['weighted_score']} / 10
                 </Typography>
-              ) : loadingId !== '' && loadingId === jobPosting.id ? (
+              ) : loadingId !== null && loadingId === jobPosting.id ? (
                 <CircularProgress style={{ color: '#13d0b7' }} />
               ) : (
                 <IconButton

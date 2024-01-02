@@ -105,6 +105,10 @@ export default function GenerationSetupLists() {
     jobDetailsProps,
     coverLetterData,
     additionalDetails,
+
+    // listState,
+    // selectedListItemFullDetails,
+    // selectedListItemBodyDisplayState,
   } = state;
 
   // Component State

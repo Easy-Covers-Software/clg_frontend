@@ -30,6 +30,10 @@ const SavedCandidatesList: FC = () => {
     savedCandidatesListState,
     jobPostingsState,
     selectedCandidateProfile,
+
+    listState,
+    selectedItemBodyDisplayState,
+    selectedListItemFullDetails,
   } = state;
 
   // 3. TODO: create function to fetch candidate profiles from db
@@ -100,8 +104,8 @@ const SavedCandidatesList: FC = () => {
     const response = await fetchJobPostingsAssociatedWithCandidate(id);
     if (response) {
       dispatch({
-        type: 'UPDATE_JOB_POSTINGS',
-        payload: response.data,
+        type: 'UPDATE_CANDIDATE_JOB_POSTINGS_LIST_STATE',
+        payload: { jobPostings: response.data },
       });
     } else {
       snackbar.updateSnackbar(
@@ -115,9 +119,7 @@ const SavedCandidatesList: FC = () => {
   // 8. TODO: create hook to fetch the full candidate profile when the selected candidate changes
   useEffect(() => {
     const getFullCandidateProfile = async () => {
-      const response = await fetchFullCandidateProfile(
-        savedCandidatesListState.selected?.id
-      );
+      const response = await fetchFullCandidateProfile(listState.selected?.id);
       if (response) {
         dispatch({
           type: 'SET_SELECTED_CANDIDATE_PROFILE',
@@ -148,43 +150,34 @@ const SavedCandidatesList: FC = () => {
       }
     };
 
-    if (savedCandidatesListState.selected) {
+    if (listState.selected) {
       getFullCandidateProfile();
-      getAllJobPostingsAssociatedWithCandidate(
-        savedCandidatesListState.selected?.id
-      );
-      getAllGenerationsAssociatedWithCandidate(
-        savedCandidatesListState.selected?.id
-      );
+      getAllJobPostingsAssociatedWithCandidate(listState.selected?.id);
+      getAllGenerationsAssociatedWithCandidate(listState.selected?.id);
     }
-  }, [savedCandidatesListState.selected]);
+  }, [listState.selected]);
 
   // 9. TODO: create hook to handle search bar value
   useEffect(() => {
     dispatch({
       type: 'UPDATE_FILTERED_SAVED_CANDIDATES_LIST',
-      payload: savedCandidatesListState.savedCandidatesList?.filter(
-        (candidate) =>
-          candidate.name
-            .toLowerCase()
-            .includes(savedCandidatesListState.search.toLowerCase())
+      payload: listState?.listItems.filter((candidate) =>
+        candidate.name.toLowerCase().includes(listState.search.toLowerCase())
       ),
     });
-  }, [savedCandidatesListState.search]);
+  }, [listState.search]);
 
   useEffect(() => {
-    getAllJobPostingsAssociatedWithCandidate(
-      savedCandidatesListState.selected?.id
-    );
-  }, [jobPostingsState.refreshJobPostings]);
+    getAllJobPostingsAssociatedWithCandidate(listState.selected?.id);
+  }, [listState.refresh]);
 
   return (
     <Container>
       <SavedList
-        savedItems={savedCandidatesListState?.filteredItems}
-        search={savedCandidatesListState?.search}
-        loading={savedCandidatesListState?.loading}
-        selected={savedCandidatesListState?.selected}
+        savedItems={listState?.filteredListItems}
+        search={listState?.search}
+        loading={listState?.loading}
+        selected={listState?.selected}
         listType="candidates"
         handleToggle={handleToggle}
         handleSearchChange={handleSearchChange}
