@@ -125,12 +125,12 @@ const jobPostingsReducer = (state: any, action: any) => {
           loading: action.payload,
         },
       };
-    case 'UPDATE_REFRESH_JOB_POSTINGS_LIST':
+    case 'REFRESH_JOB_POSTINGS_LIST':
       return {
         ...state,
         listState: {
           ...state.listState,
-          refresh: action.payload,
+          refresh: !state.listState.refresh,
         },
       };
 
@@ -217,6 +217,20 @@ const jobPostingsReducer = (state: any, action: any) => {
 export const JobPostingsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(jobPostingsReducer, initialState);
 
+  //-- update selection summary --//
+  useEffect(() => {
+    if (state.selectedListItemFullDetails) {
+      dispatch({
+        type: 'UPDATE_JOB_POSTING_SELECTION_SUMMARY_STATE',
+        payload: {
+          mainTitle: state.selectedListItemFullDetails.job_title,
+          secondaryTitle: state.selectedListItemFullDetails.company_name,
+          supplementaryInfo: state.selectedListItemFullDetails.created_at,
+        },
+      });
+    }
+  }, [state.selectedListItemFullDetails]);
+
   //== List State ==//
   useEffect(() => {
     dispatch({
@@ -261,7 +275,7 @@ export const JobPostingsContextProvider = ({ children }) => {
         },
         toggleRefresh: () => {
           dispatch({
-            type: 'UPDATE_REFRESH_JOB_POSTINGS_LIST',
+            type: 'REFRESH_JOB_POSTINGS_LIST',
             payload: !state.listState.refresh,
           });
         },
@@ -269,7 +283,7 @@ export const JobPostingsContextProvider = ({ children }) => {
     });
   }, []);
 
-  // //== Selected Item Body Display State ==//
+  //== Selected Item Body Display State ==//
   useEffect(() => {
     dispatch({
       type: 'SET_SELECTED_JOB_POSTING_BODY_DISPLAY_STATE',
