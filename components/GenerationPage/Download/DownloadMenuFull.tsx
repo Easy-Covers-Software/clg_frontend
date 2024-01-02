@@ -19,24 +19,29 @@ interface Props {
   snackbar: Snackbar;
 }
 
-const DownloadMenu: FC<any> = ({ contentData, snackbar, dispatch }) => {
+const DownloadMenuFull: FC<any> = ({
+  contentData,
+  saveProps,
+  downloadProps,
+  snackbar,
+}) => {
   return (
     <Container>
       <SaveNameInput
         contentData={contentData && contentData}
+        saveProps={saveProps}
         snackbar={snackbar}
-        dispatch={dispatch}
-        isFull={false}
+        isFull={true}
       />
       <Divider orientation="vertical" flexItem />
       <DownloadDropdown
         contentData={contentData}
+        downloadProps={downloadProps}
         snackbar={snackbar}
-        dispatch={dispatch}
-        isFull={false}
+        isFull={true}
       />
     </Container>
   );
 };
 
-export default DownloadMenu;
+export default DownloadMenuFull;

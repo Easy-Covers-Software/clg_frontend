@@ -104,7 +104,8 @@ const SelectionSummary: FC<Props> = ({
           </Grid>
         ) : trackers?.page === 'jobPostings' ? (
           <Typography className="job-summary-match-score">
-            {formatIsoDateToReadable(summaryDetails.supplementaryInfo) || 'N/A'}
+            {formatIsoDateToReadable(summaryDetails?.supplementaryInfo) ||
+              'N/A'}
           </Typography>
         ) : trackers?.page === 'generate' ? (
           <Grid display={'flex'}>

@@ -85,7 +85,7 @@ const CandidateRankings = ({
       >
         <FilterMenu>
           <FormLabel
-            component='legend'
+            component="legend"
             sx={{
               position: 'relative',
               top: '8%',
@@ -96,14 +96,14 @@ const CandidateRankings = ({
             List Filter
           </FormLabel>
           <Select value={listFilterState} onChange={(e) => handleListChange(e)}>
-            <MenuItem value='rankings'>Rankings</MenuItem>
-            <MenuItem value='all'>All Candidates</MenuItem>
-            <MenuItem value='unscored'>Unscored Candidates</MenuItem>
+            <MenuItem value="rankings">Rankings</MenuItem>
+            <MenuItem value="all">All Candidates</MenuItem>
+            <MenuItem value="unscored">Unscored Candidates</MenuItem>
           </Select>
         </FilterMenu>
         <FilterMenu>
           <FormLabel
-            component='legend'
+            component="legend"
             sx={{
               position: 'relative',
               top: '8%',
@@ -117,8 +117,8 @@ const CandidateRankings = ({
             value={scoreFilterState}
             onChange={(e) => handleScoreFiltChange(e)}
           >
-            <MenuItem value='weighted'>Weighted</MenuItem>
-            <MenuItem value='total'>Total</MenuItem>
+            <MenuItem value="weighted">Weighted</MenuItem>
+            <MenuItem value="total">Total</MenuItem>
           </Select>
         </FilterMenu>
       </Grid2>
@@ -139,7 +139,7 @@ const CandidateRankings = ({
           )}
         </Grid2>
 
-        <List component='nav'>
+        <List component="nav">
           {candidateProfiles?.map((candidate, index) => (
             <StyledListItem
               key={index}
@@ -150,9 +150,9 @@ const CandidateRankings = ({
                     ? '0.4px solid #006D4B'
                     : 'none',
                 borderTop: '0.4px solid #006D4B',
-                cursor: loadingId !== '' ? 'wait' : 'pointer',
+                cursor: loadingId ? 'wait' : 'pointer',
               }}
-              disabled={loadingId !== '' ? true : false}
+              disabled={loadingId ? true : false}
             >
               {listFilterState === 'rankings' && (
                 <ListItemIcon
@@ -160,7 +160,7 @@ const CandidateRankings = ({
                     minWidth: '30px',
                   }}
                 >
-                  <Typography variant='body1'>{index + 1}</Typography>
+                  <Typography variant="body1">{index + 1}</Typography>
                 </ListItemIcon>
               )}
               <ListItemText
@@ -169,14 +169,14 @@ const CandidateRankings = ({
               />
               <MatchScoreGrid>
                 {candidate.match_score ? (
-                  <Typography variant='caption'>
+                  <Typography variant="caption">
                     {getScoreBasedOnFilter(candidate)}
                   </Typography>
-                ) : loadingId !== '' && loadingId === candidate.id ? (
+                ) : loadingId && loadingId === candidate.id ? (
                   <CircularProgress style={{ color: '#13d0b7' }} />
                 ) : (
                   <IconButton
-                    disabled={loadingId !== ''}
+                    disabled={loadingId !== null}
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();

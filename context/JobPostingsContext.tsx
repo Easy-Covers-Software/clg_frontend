@@ -11,429 +11,206 @@ const JobPostingsContext = createContext<any>({
 });
 
 const initialState = {
-  savedJobPostingsListState: {
-    savedItems: [],
-    filteredItems: [],
+  listState: {
+    listItems: [],
+    filteredListItems: [],
     selected: null,
     search: '',
     loading: false,
+    refresh: false,
+    updateListItems: (list: any): void => {},
+    updateFilteredListItems: (list: any): void => {},
+    updateSelected: (id: string): void => {},
+    updateSearch: (search: string): void => {},
+    updateLoading: (loading: boolean): void => {},
+    toggleRefresh: (): void => {},
   },
-  selectedJobPosting: null,
-  selectionSummary: {
-    id: '',
-    mainTitle: 'Job Title',
-    secondaryTitle: 'Company Name',
-    supplementaryInfo: '',
-    loading: false,
-    updateMainTitle: (title: string): void => {},
-    updateSecondaryTitle: (title: string): void => {},
-    updateSupplementalInfo: (info: number): void => {},
-    toggleLoading: (): void => {},
-  },
-  selectedJobPostingState: {
-    allCandidates: [],
-    selectedCandidate: null,
-    rankings: [],
-    unscoredCandidates: [],
-    currentlyCalculating: '',
-    selectedCandidateMode: 'overview', // overview, phoneCall, generation
-    generationPanelMode: 'overview', // overview, emailSelection, coverLetterSelection
-    callPanelMode: 'overview', // overview, followUpSelection
-    selectedGeneration: null,
-    selectedCall: null,
-    loading: false,
-    resumeUrl: '',
-    scoreFilter: 'rankings', // rankings, all, unscored
-    listFilter: 'weighted', // weighted, total
-    refreshCandidates: true,
-  },
-  selectedJobPostingMode: 'overview', // overview, candidate
+  selectedListItemFullDetails: null,
+  selectedItemBodyDisplayState: {
+    mode: 'overview', // overview, candidate
 
-  //=== Generation Results State ==//
-  generationResultsState: {
-    id: '',
-    content: null,
-    contentHtml: '',
-    editedContent: null,
-    editedContentHtml: '',
-    saveName: '',
-    loading: false,
-    updateId: (id: string): void => {},
-    updateContent: (content: string): void => {},
-    updateContentHtml: (contentHtml: string): void => {},
-    updateEditedContent: (editedContent: string): void => {},
-    updateEditedContentHtml: (editedContentHtml: string): void => {},
-    toggleLoading: (): void => {},
-  },
+    selectionSummaryState: {
+      id: '',
+      mainTitle: 'Job Title',
+      secondaryTitle: 'Company Name',
+      supplementaryInfo: '',
+      loading: false,
+    },
 
-  //== Save ==//
-  saveProps: {
-    isSavedDropdownOpen: false,
-    disableSavedButton: true,
-    toggleIsSavedDropdownOpen: (): void => {},
-    toggleDisableSavedButton: (): void => {},
-  },
-  //== Download ==//
-  downloadProps: {
-    isDownloadDropdownOpen: false,
-    disableDownloads: true,
-    toggleIsDownloadDropdownOpen: (): void => {},
-    toggleDisableDownloads: (): void => {},
+    // rankings list state
+    candidateRankingsState: {
+      allCandidates: [],
+      selectedCandidate: null,
+      rankings: [],
+      unscoredCandidates: [],
+      scoreFilter: 'rankings', // rankings, all, unscored
+      listFilter: 'weighted', // weighted, total
+      refreshCandidates: true,
+    },
+
+    // calculating main
+    currentlyCalculatingInOverviewMode: null,
+
+    // selected candidate mode
+    selectedCandidateScoreDetailsState: {
+      selectedCandidateMode: 'overview', // overview, phoneCall, generation
+      generationPanelMode: 'overview', // overview, emailSelection, coverLetterSelection
+      callPanelMode: 'overview', // overview, followUpSelection
+      selectedGeneration: null,
+      selectedCall: null,
+      loading: false,
+      resumeUrl: '',
+      refreshCandidates: true,
+    },
+
+    //=== Generation Results State ==//
+    generationResultsState: {
+      id: '',
+      content: null,
+      contentHtml: '',
+      editedContent: null,
+      editedContentHtml: '',
+      saveName: '',
+      loading: false,
+      isSavedDropdownOpen: false,
+      disableSavedButton: true,
+      isDownloadDropdownOpen: false,
+      disableDownloads: true,
+    },
+
+    updateMode: (mode: string): void => {},
+    updateSelectionSummaryState: (state: any): void => {},
+    updateCandidateRankingsState: (rankings: any): void => {},
+    updateCurrentlyCalculatingInOverviewMode: (candidate: any): void => {},
+    updateSelectedCandidateScoreDetailsState: (state: any): void => {},
+    updateGenerationResultsState: (state: any): void => {},
   },
 };
 
 const jobPostingsReducer = (state: any, action: any) => {
   switch (action.type) {
-    //-- list state --//
+    //=== List State ===//
     case 'SET_SAVED_JOB_POSTINGS_LIST_STATE':
       return {
         ...state,
-        savedJobPostingsListState: action.payload,
+        listState: action.payload,
       };
-    case 'UPDATE_SAVED_JOB_POSTINGS_LIST':
+    case 'UPDATE_JOB_POSTINGS_LIST':
       return {
         ...state,
-        savedJobPostingsListState: {
-          ...state.savedJobPostingsListState,
-          savedJobPostingsList: action.payload,
+        listState: {
+          ...state.listState,
+          listItems: action.payload,
         },
       };
-    case 'UPDATE_FILTERED_SAVED_JOB_POSTINGS_LIST':
+    case 'UPDATE_FILTERED_JOB_POSTINGS_LIST':
       return {
         ...state,
-        savedJobPostingsListState: {
-          ...state.savedJobPostingsListState,
-          filteredItems: action.payload,
+        listState: {
+          ...state.listState,
+          filteredListItems: action.payload,
         },
       };
-    case 'UPDATE_SELECTED':
+    case 'UPDATE_SELECTED_JOB_POSTING_LIST_STATE':
       return {
         ...state,
-        savedJobPostingsListState: {
-          ...state.savedJobPostingsListState,
+        listState: {
+          ...state.listState,
           selected: action.payload,
         },
       };
-    case 'UPDATE_SEARCH_VALUE':
+    case 'UPDATE_JOB_POSTINGS_LIST_SEARCH':
       return {
         ...state,
-        savedJobPostingsListState: {
-          ...state.savedJobPostingsListState,
+        listState: {
+          ...state.listState,
           search: action.payload,
         },
       };
-    case 'UPDATE_LOADING':
+    case 'UPDATE_LOADING_JOB_POSTINGS_LIST_LOADING':
       return {
         ...state,
-        savedJobPostingsListState: {
-          ...state.savedJobPostingsListState,
+        listState: {
+          ...state.listState,
           loading: action.payload,
         },
       };
-
-    //-- selected candidate state --//
-    case 'SET_SELECTED_JOB_POSTING':
+    case 'UPDATE_REFRESH_JOB_POSTINGS_LIST':
       return {
         ...state,
-        selectedJobPosting: action.payload,
-      };
-
-    //-- selection summary state --//
-    case 'SET_SELECTION_SUMMARY':
-      return {
-        ...state,
-        selectionSummary: action.payload,
-      };
-    case 'UPDATE_SUMMARY_ID':
-      return {
-        ...state,
-        selectionSummary: {
-          ...state.selectionSummary,
-          id: action.payload,
-        },
-      };
-    case 'UPDATE_SUMMARY_MAIN_TITLE':
-      return {
-        ...state,
-        selectionSummary: {
-          ...state.selectionSummary,
-          mainTitle: action.payload,
-        },
-      };
-    case 'UPDATE_SUMMARY_SECONDARY_TITLE':
-      return {
-        ...state,
-        selectionSummary: {
-          ...state.selectionSummary,
-          secondaryTitle: action.payload,
-        },
-      };
-    case 'UPDATE_SUMMARY_SUPPLEMENTARY_INFO':
-      return {
-        ...state,
-        selectionSummary: {
-          ...state.selectionSummary,
-          supplementaryInfo: action.payload,
-        },
-      };
-    case 'UPDATE_SUMMARY_LOADING':
-      return {
-        ...state,
-        selectionSummary: {
-          ...state.selectionSummary,
-          loading: action.payload,
+        listState: {
+          ...state.listState,
+          refresh: action.payload,
         },
       };
 
-    //-- selected job posting mode state --//
-    case 'SET_SELECTED_JOB_POSTING_MODE':
+    //=== Selected Full Details ===//
+    case 'SET_SELECTED_JOB_POSTING_FULL_DETAILS':
       return {
         ...state,
-        selectedJobPostingMode: action.payload,
-      };
-    case 'UPDATE_RANKINGS':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          rankings: action.payload,
-        },
-      };
-    case 'UPDATE_CURRENTLY_CALCULATING':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          currentlyCalculating: action.payload,
-        },
-      };
-    case 'UPDATE_SELECTED_CANDIDATE_MODE':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          selectedCandidateMode: action.payload,
-        },
-      };
-    case 'UPDATE_SELECTED_CANDIDATE':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          selectedCandidate: action.payload,
-        },
-      };
-    case 'UPDATE_RANKINGS_LOADING':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          loading: action.payload,
-        },
-      };
-    case 'UPDATE_ALL_CANDIDATES':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          allCandidates: action.payload,
-        },
-      };
-    case 'UPDATE_SELECTED_GENERATION':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          selectedGeneration: action.payload,
-        },
-      };
-    case 'UPDATE_SELECTED_PHONE_CALL':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          selectedCall: action.payload,
-        },
-      };
-    case 'UPDATE_GENERATIONS_PANEL_MODE':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          generationPanelMode: action.payload,
-        },
-      };
-    case 'UPDATE_CALL_PANEL_MODE':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          callPanelMode: action.payload,
-        },
-      };
-    case 'UPDATE_RESUME_URL':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          resumeUrl: action.payload,
-        },
-      };
-    case 'UPDATE_SCORE_FILTER':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          scoreFilter: action.payload,
-        },
-      };
-    case 'UPDATE_LIST_FILTER':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          listFilter: action.payload,
-        },
-      };
-    case 'REFRESH_CANDIDATES':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          refreshCandidates: !state.selectedJobPostingState.refreshCandidates,
-        },
-      };
-    case 'UPDATE_UNSCORED_CANDIDATES':
-      return {
-        ...state,
-        selectedJobPostingState: {
-          ...state.selectedJobPostingState,
-          unscoredCandidates: action.payload,
-        },
+        selectedListItemFullDetails: action.payload,
       };
 
-    //-- selected job posting mode --//
-    case 'SET_SELECTED_JOB_POSTING_MODE':
+    //=== Selected Item Body Display State ===//
+    case 'UPDATE_JOB_POSTING_BODY_DISPLAY_MODE':
       return {
         ...state,
-        selectedJobPostingMode: action.payload,
-      };
-
-    //=== Generation Results State ==//
-    case 'SET_GENERATION_RESULTS_STATE':
-      return {
-        ...state,
-        generationResultsState: {
-          ...state.generationResultsState,
-          ...action.payload,
+        selectedItemBodyDisplayState: {
+          ...state.selectedItemBodyDisplayState,
+          mode: action.payload,
         },
       };
-    case 'UPDATE_GENERATION_RESULTS_ID':
+    case 'UPDATE_JOB_POSTING_SELECTION_SUMMARY_STATE':
       return {
         ...state,
-        generationResultsState: {
-          ...state.generationResultsState,
-          id: action.payload,
+        selectedItemBodyDisplayState: {
+          ...state.selectedItemBodyDisplayState,
+          selectionSummaryState: {
+            ...state.selectedItemBodyDisplayState.selectionSummaryState,
+            ...action.payload,
+          },
         },
       };
-    case 'UPDATE_GENERATION_RESULTS_CONTENT':
+    case 'UPDATE_JOB_POSTING_SELECTION_CANDIDATE_RANKINGS_STATE':
       return {
         ...state,
-        generationResultsState: {
-          ...state.generationResultsState,
-          content: action.payload,
+        selectedItemBodyDisplayState: {
+          ...state.selectedItemBodyDisplayState,
+          candidateRankingsState: {
+            ...state.selectedItemBodyDisplayState.candidateRankingsState,
+            ...action.payload,
+          },
         },
       };
-    case 'UPDATE_GENERATION_RESULTS_CONTENT_HTML':
+    case 'UPDATE_CURRENTLY_CALCULATING_CANDIDATE':
       return {
         ...state,
-        generationResultsState: {
-          ...state.generationResultsState,
-          contentHtml: action.payload,
+        selectedItemBodyDisplayState: {
+          ...state.selectedItemBodyDisplayState,
+          currentlyCalculatingInOverviewMode: action.payload,
         },
       };
-    case 'UPDATE_GENERATION_RESULTS_EDITED_CONTENT':
+    case 'UPDATE_SELECTED_CANDIDATE_SCORE_DETAILS':
       return {
         ...state,
-        generationResultsState: {
-          ...state.generationResultsState,
-          editedContent: action.payload,
+        selectedItemBodyDisplayState: {
+          ...state.selectedItemBodyDisplayState,
+          selectedCandidateScoreDetailsState: {
+            ...state.selectedItemBodyDisplayState
+              .selectedCandidateScoreDetailsState,
+            ...action.payload,
+          },
         },
       };
-    case 'UPDATE_GENERATION_RESULTS_EDITED_CONTENT_HTML':
+    case 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE':
       return {
         ...state,
-        generationResultsState: {
-          ...state.generationResultsState,
-          editedContentHtml: action.payload,
-        },
-      };
-    case 'UPDATE_GENERATION_RESULTS_SAVE_NAME':
-      return {
-        ...state,
-        generationResultsState: {
-          ...state.generationResultsState,
-          saveName: action.payload,
-        },
-      };
-    case 'TOGGLE_GENERATION_RESULTS_LOADING':
-      return {
-        ...state,
-        generationResultsState: {
-          ...state.generationResultsState,
-          loading: !state.generationResultsState.loading,
-        },
-      };
-
-    //== Save ==//
-    case 'SET_SAVE_PROPS':
-      return {
-        ...state,
-        saveProps: {
-          ...state.saveProps,
-          ...action.payload,
-        },
-      };
-    case 'TOGGLE_IS_SAVED_DROPDOWN_OPEN':
-      return {
-        ...state,
-        saveProps: {
-          ...state.saveProps,
-          isSavedDropdownOpen: !state.saveProps.isSavedDropdownOpen,
-        },
-      };
-    case 'TOGGLE_DISABLE_SAVED_BUTTON':
-      return {
-        ...state,
-        saveProps: {
-          ...state.saveProps,
-          disableSavedButton: !state.saveProps.disableSavedButton,
-        },
-      };
-
-    //== Download ==//
-    case 'SET_DOWNLOAD_PROPS':
-      return {
-        ...state,
-        downloadProps: {
-          ...state.downloadProps,
-          ...action.payload,
-        },
-      };
-    case 'TOGGLE_IS_DOWNLOAD_DROPDOWN_OPEN':
-      return {
-        ...state,
-        downloadProps: {
-          ...state.downloadProps,
-          isDownloadDropdownOpen: !state.downloadProps.isDownloadDropdownOpen,
-        },
-      };
-    case 'TOGGLE_DISABLE_DOWNLOADS':
-      return {
-        ...state,
-        downloadProps: {
-          ...state.downloadProps,
-          disableDownloads: !state.downloadProps.disableDownloads,
+        selectedItemBodyDisplayState: {
+          ...state.selectedItemBodyDisplayState,
+          generationResultsState: {
+            ...state.selectedItemBodyDisplayState.generationResultsState,
+            ...action.payload,
+          },
         },
       };
 
@@ -445,156 +222,75 @@ const jobPostingsReducer = (state: any, action: any) => {
 export const JobPostingsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(jobPostingsReducer, initialState);
 
-  //-- update selection summary --//
+  //== Generation selection ==//
   useEffect(() => {
-    if (state.selectedJobPosting) {
-      dispatch({
-        type: 'UPDATE_SUMMARY_MAIN_TITLE',
-        payload: state.selectedJobPosting.job_title,
-      });
-      dispatch({
-        type: 'UPDATE_SUMMARY_SECONDARY_TITLE',
-        payload: state.selectedJobPosting.company_name,
-      });
-      dispatch({
-        type: 'UPDATE_SUMMARY_SUPPLEMENTARY_INFO',
-        payload: state.selectedJobPosting.created_at,
-      });
+    if (
+      !state.selectedItemBodyDisplayState.selectedCandidateScoreDetailsState
+        .selectedGeneration
+    ) {
+      return;
     }
 
-    // if (state.selectedJobPosting) {
-    //   getAllCandidatesAssociatedToJobPosting();
-    // }
-  }, [state.selectedJobPosting]);
-
-  const value = { state, dispatch };
-  console.log('job postings state');
-  console.log(state);
-
-  //-- update generation results state --//
-  useEffect(() => {
     dispatch({
-      type: 'SET_GENERATION_RESULTS_STATE',
+      type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
       payload: {
-        updateId: (id: string): void => {
-          dispatch({
-            type: 'UPDATE_GENERATION_RESULTS_ID',
-            payload: id,
-          });
-        },
-        updateContent: (content: string): void => {
-          dispatch({
-            type: 'UPDATE_GENERATION_RESULTS_CONTENT',
-            payload: content,
-          });
-        },
-        updateContentHtml: (contentHtml: string): void => {
-          dispatch({
-            type: 'UPDATE_GENERATION_RESULTS_CONTENT_HTML',
-            payload: contentHtml,
-          });
-        },
-        updateEditedContent: (editedContent: string): void => {
-          dispatch({
-            type: 'UPDATE_GENERATION_RESULTS_EDITED_CONTENT',
-            payload: editedContent,
-          });
-        },
-        updateEditedContentHtml: (editedContentHtml: string): void => {
-          dispatch({
-            type: 'UPDATE_GENERATION_RESULTS_EDITED_CONTENT_HTML',
-            payload: editedContentHtml,
-          });
-        },
-        toggleLoading: (): void => {
-          dispatch({
-            type: 'TOGGLE_GENERATION_RESULTS_LOADING',
-          });
-        },
+        id: state.selectedItemBodyDisplayState
+          .selectedCandidateScoreDetailsState.selectedGeneration?.id,
       },
     });
-  }, []);
-
-  //== Save ==//
-  useEffect(() => {
     dispatch({
-      type: 'SET_SAVE_PROPS',
+      type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
       payload: {
-        toggleIsSavedDropdownOpen: (): void => {
-          dispatch({
-            type: 'TOGGLE_IS_SAVED_DROPDOWN_OPEN',
-          });
-        },
-        toggleDisableSavedButton: (): void => {
-          dispatch({
-            type: 'TOGGLE_DISABLE_SAVED_BUTTON',
-          });
-        },
+        content:
+          state.selectedItemBodyDisplayState.selectedCandidateScoreDetailsState
+            .selectedGeneration?.content,
       },
     });
-  }, []);
-
-  //== Download ==//
-  useEffect(() => {
     dispatch({
-      type: 'SET_DOWNLOAD_PROPS',
+      type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
       payload: {
-        toggleIsDownloadDropdownOpen: (): void => {
-          dispatch({
-            type: 'TOGGLE_IS_DOWNLOAD_DROPDOWN_OPEN',
-          });
-        },
-        toggleDisableDownloads: (): void => {
-          dispatch({
-            type: 'TOGGLE_DISABLE_DOWNLOADS',
-          });
-        },
+        contentHtml: addDivTag(
+          addPTags(
+            state.selectedItemBodyDisplayState
+              .selectedCandidateScoreDetailsState.selectedGeneration?.content
+          )
+        ),
       },
     });
-  }, []);
-
-  //-- generation selection --//
-  useEffect(() => {
-    if (!state.selectedJobPostingState.selectedGeneration) return;
-    dispatch({
-      type: 'UPDATE_GENERATION_RESULTS_ID',
-      payload: state.selectedJobPostingState.selectedGeneration?.id,
-    });
-    dispatch({
-      type: 'UPDATE_GENERATION_RESULTS_CONTENT',
-      payload: state.selectedJobPostingState.selectedGeneration?.content,
-    });
-    dispatch({
-      type: 'UPDATE_GENERATION_RESULTS_CONTENT_HTML',
-      payload: addDivTag(
-        addPTags(state.selectedJobPostingState.selectedGeneration?.content)
-      ),
-    });
-  }, [state.selectedJobPostingState.selectedGeneration]);
+  }, [
+    state.selectedItemBodyDisplayState.selectedCandidateScoreDetailsState
+      .selectedGeneration,
+  ]);
 
   //== Resume Path ==//
   useEffect(() => {
     const updateResumeUrl = async () => {
       const filePath =
-        state.selectedJobPostingState.selectedCandidate.resume.file;
+        state.selectedItemBodyDisplayState.candidateRankingsState
+          .selectedCandidate.resume.file;
       const fullPath = `${DOMAIN}/${filePath}`;
 
       dispatch({
-        type: 'UPDATE_RESUME_URL',
-        payload: fullPath,
+        type: 'UPDATE_SELECTED_CANDIDATE_SCORE_DETAILS',
+        payload: { resumeUrl: fullPath },
       });
     };
 
-    if (state.selectedJobPostingState?.selectedCandidate?.resume) {
+    if (
+      state.selectedItemBodyDisplayState.candidateRankingsState
+        ?.selectedCandidate?.resume
+    ) {
       updateResumeUrl();
     }
-  }, [state.selectedJobPostingState.selectedCandidate]);
+  }, [
+    state.selectedItemBodyDisplayState.candidateRankingsState.selectedCandidate,
+  ]);
 
   //== Candidate Rankings ==//
   useEffect(() => {
     const updateRankings = async () => {
       const filteredCandidates =
-        state.selectedJobPostingState.allCandidates.filter(
+        state.selectedItemBodyDisplayState.candidateRankingsState.allCandidates.filter(
           (candidate) => candidate.match_score !== null
         );
 
@@ -604,28 +300,35 @@ export const JobPostingsContextProvider = ({ children }) => {
         return b.match_score.weighted_score - a.match_score.weighted_score;
       });
       dispatch({
-        type: 'UPDATE_RANKINGS',
-        payload: sortedCandidates,
+        type: 'UPDATE_JOB_POSTING_SELECTION_CANDIDATE_RANKINGS_STATE',
+        payload: { rankings: sortedCandidates },
       });
     };
 
     const updateUnscoredCandidates = async () => {
       const filteredCandidates =
-        state.selectedJobPostingState.allCandidates.filter(
+        state.selectedItemBodyDisplayState.candidateRankingsState.allCandidates.filter(
           (candidate) => candidate.match_score === null
         );
 
       dispatch({
-        type: 'UPDATE_UNSCORED_CANDIDATES',
-        payload: filteredCandidates,
+        type: 'UPDATE_JOB_POSTING_SELECTION_CANDIDATE_RANKINGS_STATE',
+        payload: { unscoredCandidates: filteredCandidates },
       });
     };
 
-    if (state.selectedJobPostingState?.allCandidates?.length > 0) {
+    if (
+      state.selectedItemBodyDisplayState.candidateRankingsState.allCandidates
+        ?.length > 0
+    ) {
       updateRankings();
       updateUnscoredCandidates();
     }
-  }, [state.selectedJobPostingState.allCandidates]);
+  }, [state.selectedItemBodyDisplayState.candidateRankingsState.allCandidates]);
+
+  console.log('job postings state', state);
+
+  const value = { state, dispatch };
 
   return (
     <JobPostingsContext.Provider value={value}>

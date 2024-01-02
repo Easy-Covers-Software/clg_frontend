@@ -30,19 +30,40 @@ interface Props {
   snackbar: Snackbar;
 }
 
-const SaveNameInput: FC<any> = ({ contentData, saveProps, snackbar }) => {
+const SaveNameInput: FC<any> = ({
+  contentData,
+  snackbar,
+  dispatch,
+  saveProps,
+  isFull,
+}) => {
   const isMobile = useMediaQuery('(max-width: 600px)');
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-    saveProps?.toggleIsSavedDropdownOpen();
+    if (isFull) {
+      saveProps?.toggleIsSavedDropdownOpen();
+    } else {
+      dispatch({
+        type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
+        payload: { isSavedDropdownOpen: true },
+      });
+    }
+    // }
   };
 
   const handleClose = () => {
     setAnchorEl(null);
-    saveProps?.toggleIsSavedDropdownOpen();
+    if (isFull) {
+      saveProps?.toggleIsSavedDropdownOpen();
+    } else {
+      dispatch({
+        type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
+        payload: { isSavedDropdownOpen: false },
+      });
+    }
   };
 
   const handleSave = async () => {
@@ -105,7 +126,11 @@ const SaveNameInput: FC<any> = ({ contentData, saveProps, snackbar }) => {
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
-        open={saveProps?.isSavedDropdownOpen}
+        open={
+          isFull
+            ? saveProps?.isSavedDropdownOpen
+            : contentData?.isSavedDropdownOpen
+        }
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'bottom',

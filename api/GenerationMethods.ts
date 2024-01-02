@@ -101,77 +101,77 @@ export const makeAdjustment = async (
 
 //=== Calculate Match Score ===//
 export const calculateMatchScore = async (
-job_posting: string,
-candidate: string
+  job_posting: string,
+  candidate: string
 ): Promise<APIResponse<any>> => {
-const url = `${API_BASE}/generation/calculate_match_score/`;
+  const url = `${API_BASE}/generation/calculate_match_score/`;
 
-const data = {
-    job_posting,
-    candidate,
-};
+  const data = {
+      job_posting,
+      candidate,
+  };
 
-const payload: FormData = createPayload(data);
+  const payload: FormData = createPayload(data);
 
-try {
-    const response = await axios.post<any>(url, payload, {
-    withCredentials: true,
-    headers: {
-        'Content-Type': 'multipart/form-data',
-        'X-CSRFToken': Cookie.get('csrftoken'),
-    },
-    });
+  try {
+      const response = await axios.post<any>(url, payload, {
+      withCredentials: true,
+      headers: {
+          'Content-Type': 'multipart/form-data',
+          'X-CSRFToken': Cookie.get('csrftoken'),
+      },
+      });
 
-    console.log('match score response', response);
+      console.log('match score response', response);
 
-    return { data: response.data, error: null };
-} catch (error) {
-    console.log('Error calculating match score', error);
-    return { data: null, error: error };
-}
+      return { data: response.data, error: null };
+  } catch (error) {
+      console.log('Error calculating match score', error);
+      return { data: null, error: error };
+  }
 };
 
 //=== Download Generation as PDF ===//
 export const generatePDF = async (parts: string[], saveName: string) => {
-const cleanedParts = replaceSpecialCharactersInArray(parts);
+  const cleanedParts = replaceSpecialCharactersInArray(parts);
 
-const doc = new jsPDF('p', 'px', 'a4', true);
+  const doc = new jsPDF('p', 'px', 'a4', true);
 
-doc.setFont('Times New Roman');
-doc.setFontSize(12);
+  doc.setFont('Times New Roman');
+  doc.setFontSize(12);
 
-const textWidth = 350;
-const lineHeight = 7;
-const paragraphSpacing = 15;
-let yAxis = 60;
+  const textWidth = 350;
+  const lineHeight = 7;
+  const paragraphSpacing = 15;
+  let yAxis = 60;
 
-cleanedParts.forEach((part, index) => {
-    const numLinesInPart = Math.ceil(part.length / 80);
-    const lines = doc.splitTextToSize(part, textWidth);
-    doc.text(lines, 50, yAxis);
+  cleanedParts.forEach((part, index) => {
+      const numLinesInPart = Math.ceil(part.length / 80);
+      const lines = doc.splitTextToSize(part, textWidth);
+      doc.text(lines, 50, yAxis);
 
-    let spacing =
-    numLinesInPart === 1
-        ? paragraphSpacing
-        : paragraphSpacing + numLinesInPart * 2.5;
+      let spacing =
+      numLinesInPart === 1
+          ? paragraphSpacing
+          : paragraphSpacing + numLinesInPart * 2.5;
 
-    // Check if the part is the second to last in the array
-    if (index === cleanedParts.length - 2) {
-    spacing = 7;
-    }
+      // Check if the part is the second to last in the array
+      if (index === cleanedParts.length - 2) {
+      spacing = 7;
+      }
 
-    if (index === cleanedParts.length - 3) {
-    numLinesInPart === 1
-        ? paragraphSpacing
-        : paragraphSpacing + numLinesInPart * 2;
-    }
+      if (index === cleanedParts.length - 3) {
+      numLinesInPart === 1
+          ? paragraphSpacing
+          : paragraphSpacing + numLinesInPart * 2;
+      }
 
-    yAxis += lines.length * lineHeight + spacing;
-});
+      yAxis += lines.length * lineHeight + spacing;
+  });
 
-doc.save(`${saveName}.pdf`);
+  doc.save(`${saveName}.pdf`);
 
-return true;
+  return true;
 };
 
 //=== Download Generation as DOCX ===//

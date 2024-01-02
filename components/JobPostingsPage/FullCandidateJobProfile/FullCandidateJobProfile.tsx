@@ -145,7 +145,7 @@ const GenerationsList = ({
           >
             <ListItemText
               primary={
-                <Typography variant='subtitle1'>
+                <Typography variant="subtitle1">
                   {generation.save_name}
                 </Typography>
               }
@@ -165,7 +165,7 @@ const PanelButtonGroup = ({
   handleRightButtonClick,
 }) => {
   return (
-    <ButtonGroupContainer variant='text' aria-label='text button group'>
+    <ButtonGroupContainer variant="text" aria-label="text button group">
       <PanelButton onClick={() => handleLeftButtonClick()}>
         {buttonLabels[0]}
       </PanelButton>
@@ -196,12 +196,12 @@ const FullCandidateJobProfile = ({
   handleGenerationSelection,
   handleCallSelection,
 }) => {
-  const emailGenerations = generations.filter(
-    (item) => item.generation_type === 'email'
+  const emailGenerations = generations?.filter(
+    (item) => item?.generation_type === 'email'
   );
 
-  const coverLetterGenerations = generations.filter(
-    (item) => item.generation_type === 'cover_letter'
+  const coverLetterGenerations = generations?.filter(
+    (item) => item?.generation_type === 'cover_letter'
   );
 
   const setModeToIntroCall = () => {
@@ -258,13 +258,13 @@ const FullCandidateJobProfile = ({
         xs={12}
         md={8}
         container
-        direction='column'
+        direction="column"
         spacing={2}
         height={'100%'}
         flexWrap={'nowrap'}
       >
         <Grid xs={12} height={'60vh'}>
-          <Typography variant='h6'>Score Details</Typography>
+          <Typography variant="h6">Score Details</Typography>
           <ScoreDetailsPaper elevation={3}>
             {matchScore ? (
               <ScoreDetails matchScoreDetails={matchScore} />
@@ -288,11 +288,11 @@ const FullCandidateJobProfile = ({
                 justifyContent={'center'}
                 alignItems={'center'}
               >
-                <Typography variant='h5'>
+                <Typography variant="h5">
                   Click Calculate to get the match score
                 </Typography>
                 <PrimaryButton
-                  variant='contained'
+                  variant="contained"
                   onClick={() => {
                     if (page === 'candidate') {
                       handleCalculate(selectedJobPosting?.id);
@@ -321,7 +321,7 @@ const FullCandidateJobProfile = ({
         xs={12}
         md={4}
         container
-        direction='column'
+        direction="column"
         spacing={2}
         height={'100%'}
         flexWrap={'nowrap'}
@@ -329,7 +329,7 @@ const FullCandidateJobProfile = ({
       >
         {/* Calls Panel */}
         <SubPanelContainer xs={12}>
-          <Typography variant='h6'>&nbsp;</Typography>
+          <Typography variant="h6">&nbsp;</Typography>
           <CallsPaper elevation={3}>
             {callMode === 'callsSelection' ? (
               <GenerationsList
@@ -340,12 +340,12 @@ const FullCandidateJobProfile = ({
               />
             ) : (
               <>
-                <Typography variant='h5' textAlign={'center'} marginTop={'1%'}>
+                <Typography variant="h5" textAlign={'center'} marginTop={'1%'}>
                   Calls
                 </Typography>
                 <ButtonGroupContainer
-                  variant='text'
-                  aria-label='text button group'
+                  variant="text"
+                  aria-label="text button group"
                 >
                   <PanelButton
                     onClick={() => {
@@ -387,7 +387,7 @@ const FullCandidateJobProfile = ({
 
         {/* Generations Panel */}
         <SubPanelContainer xs={12}>
-          <Typography variant='h6'>&nbsp;</Typography>
+          <Typography variant="h6">&nbsp;</Typography>
           <GenerationsPaper elevation={3}>
             {genMode === 'emailsSelection' ? (
               <GenerationsList
@@ -405,21 +405,21 @@ const FullCandidateJobProfile = ({
               />
             ) : (
               <>
-                <Typography variant='h5'>Generations</Typography>
+                <Typography variant="h5">Generations</Typography>
                 <ButtonGroupContainer
-                  variant='text'
-                  aria-label='text button group'
+                  variant="text"
+                  aria-label="text button group"
                 >
                   <PanelButton
                     onClick={() => setModeToEmailsSelection()}
-                    disabled={emailGenerations.length === 0}
+                    disabled={emailGenerations?.length === 0}
                   >
                     Emails
                   </PanelButton>
 
                   <PanelButton
                     onClick={() => setModeToCoverLettersSelection()}
-                    disabled={coverLetterGenerations.length === 0}
+                    disabled={coverLetterGenerations?.length === 0}
                   >
                     Cover <br /> Letters
                   </PanelButton>
@@ -431,9 +431,9 @@ const FullCandidateJobProfile = ({
 
         {/* Resume Panel */}
         <SubPanelContainer xs={12} height={'20vh'}>
-          <Typography variant='h6'>&nbsp;</Typography>
+          <Typography variant="h6">&nbsp;</Typography>
           <ResumePanelPaper elevation={3} onClick={setModeToResume}>
-            <Typography variant='h4'>Resume</Typography>
+            <Typography variant="h4">Resume</Typography>
           </ResumePanelPaper>
         </SubPanelContainer>
       </Grid>

@@ -53,11 +53,7 @@ const Container = styled(Grid)`
   }
 `;
 
-const GenerationEditor: FC<any> = ({
-  contentData,
-  saveProps,
-  downloadProps,
-}) => {
+const GenerationEditor: FC<any> = ({ contentData, dispatch }) => {
   const isMobile = useMediaQuery('(max-width: 600px)');
   const { state } = useAuth();
   const { trackers, snackbar } = state;
@@ -164,9 +160,8 @@ const GenerationEditor: FC<any> = ({
             <RichTextEditor.ControlsGroup ml={'1%'}>
               <DownloadMenu
                 contentData={contentData}
-                saveProps={saveProps}
-                downloadProps={downloadProps}
                 snackbar={snackbar}
+                dispatch={dispatch}
               />
             </RichTextEditor.ControlsGroup>
           )}

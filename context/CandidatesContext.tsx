@@ -18,6 +18,7 @@ const initialState = {
     selected: null,
     search: '',
     loading: false,
+    refresh: false,
   },
   selectedCandidateProfile: null,
   selectionSummary: {

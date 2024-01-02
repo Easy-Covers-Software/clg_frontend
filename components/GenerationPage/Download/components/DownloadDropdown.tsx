@@ -35,8 +35,10 @@ interface Props {
 
 const DownloadDropdown: FC<any> = ({
   contentData,
-  downloadProps,
   snackbar,
+  dispatch,
+  downloadProps,
+  isFull,
 }) => {
   const isMobile = useMediaQuery('(max-width: 600px)');
 
@@ -45,12 +47,26 @@ const DownloadDropdown: FC<any> = ({
 
   const handleDownload = (event: MouseEvent<HTMLButtonElement>) => {
     setDownloadMenuAnchor(event.currentTarget);
-    downloadProps.toggleIsDownloadDropdownOpen();
+    if (isFull) {
+      downloadProps?.toggleIsDownloadDropdownOpen();
+    } else {
+      dispatch({
+        type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
+        payload: { isDownloadDropdownOpen: true },
+      });
+    }
   };
 
   const handleCloseDownload = () => {
     setDownloadMenuAnchor(null);
-    downloadProps.toggleIsDownloadDropdownOpen();
+    if (isFull) {
+      downloadProps?.toggleIsDownloadDropdownOpen();
+    } else {
+      dispatch({
+        type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
+        payload: { isDownloadDropdownOpen: false },
+      });
+    }
   };
 
   const handlePDFDownload = () => {
@@ -127,7 +143,11 @@ const DownloadDropdown: FC<any> = ({
       <Menu
         id="basic-menu"
         anchorEl={downloadMenuAnchor}
-        open={downloadProps?.isDownloadDropdownOpen}
+        open={
+          isFull
+            ? downloadProps?.isDownloadDropdownOpen
+            : contentData?.isDownloadDropdownOpen
+        }
         onClose={handleCloseDownload}
         MenuListProps={{
           'aria-labelledby': 'basic-button',

@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { Paper, TextField, Button, Typography, Box } from '@mui/material';
 import { useAuth } from '@/context/AuthContext';
-import SnackbarAlert from '../Global/components/SnackbarAlert';
+import SnackbarAlert from '../../components/SnackbarAlert';
 import {
   APIResponse,
   ForgotPasswordSuccessApiResponse,

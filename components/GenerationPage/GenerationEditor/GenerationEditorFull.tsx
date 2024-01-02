@@ -24,7 +24,7 @@ import {
 import SimpleAdjustments from '../Adjustments/Simple/SimpleAdjustments';
 import AdvancedAdjustments from '../Adjustments/Advanced/AdvancedAdjustments';
 
-import DownloadMenu from '../Download/DownloadMenu';
+import DownloadMenuFull from '../Download/DownloadMenuFull';
 
 import { parseSectionsFromHTML, addDivTag } from '@/Utils/utils';
 
@@ -151,7 +151,7 @@ const GenerationEditorFull: FC<Props> = ({
 
               {!isMobile && (
                 <RichTextEditor.ControlsGroup ml={'1%'}>
-                  <DownloadMenu
+                  <DownloadMenuFull
                     contentData={coverLetterData}
                     saveProps={saveProps}
                     downloadProps={downloadProps}
