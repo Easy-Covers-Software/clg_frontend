@@ -33,10 +33,12 @@ interface Props {
   customAdjustmentProps: CustomAdjustmentProps;
 }
 
-const AdvancedAdjustments: FC<Props> = ({
+const AdvancedAdjustments: FC<any> = ({
   coverLetterData,
   intermediateAdjustmentProps,
   customAdjustmentProps,
+  updateIntermediateAdjustmentState,
+  updateCustomAdjustmentState,
 }) => {
   const isMobile = useMediaQuery('(max-width: 600px)');
   return (
@@ -44,11 +46,13 @@ const AdvancedAdjustments: FC<Props> = ({
       <IntermediateAdjustments
         coverLetterData={coverLetterData}
         intermediateAdjustmentProps={intermediateAdjustmentProps}
+        updateIntermediateAdjustmentState={updateIntermediateAdjustmentState}
       />
 
       <CustomAdjustment
         coverLetterData={coverLetterData}
         customAdjustmentProps={customAdjustmentProps}
+        updateCustomAdjustmentState={updateCustomAdjustmentState}
       />
     </Container>
   );

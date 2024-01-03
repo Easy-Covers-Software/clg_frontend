@@ -217,9 +217,9 @@ export default function TranscriptionPageContext({ children }) {
     dispatch({
       type: 'UPDATE_CALL_COMPLETE_FORM',
       payload: {
-        name: state.newCallForm.candidate_name,
-        phone_number: state.newCallForm.candidate_number,
-        job_posting: state.newCallForm.job_posting,
+        name: state.newCallForm?.candidate_name,
+        phone_number: state.newCallForm?.candidate_number,
+        job_posting: state.newCallForm?.job_posting,
       },
     });
   }, [state.newCallForm?.candidate_name, state.newCallForm?.candidate_number]);

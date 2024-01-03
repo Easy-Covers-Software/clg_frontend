@@ -60,32 +60,64 @@ export default function GenerationSectionBody() {
     saveProps,
     downloadProps,
     adjustmentSection,
+
+    generationSetupState,
+    bodyState,
   } = state;
 
   const [checked, setChecked] = useState(false);
 
-  const toggleMode = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const toggleGenerationMode = () => {
+    if (generationSetupState.mode === 'email') {
+      generationSetupState.updateGenerationMode('cover_letter');
+    } else {
+      generationSetupState.updateGenerationMode('email');
+    }
+    // dispatch({
+    //   type: 'TOGGLE_GENERATION_MODE',
+    //   payload: true,
+    // });
+  };
+
+  const toggleAdjustmentsSection = () => {
     dispatch({
-      type: 'TOGGLE_GENERATION_MODE',
+      type: 'TOGGLE_IS_ADJUSTMENTS_SECTION_EXPANDED',
     });
   };
+
+  let isAdjustmentsSectionExpanded =
+    bodyState.generationAdjustmentsState?.isAdjustmentsSectionExpanded;
 
   return (
     <Container>
       <SelectionSummary
-        summaryDetails={jobDetailsProps}
-        checked={generationMode}
-        handleChange={toggleMode}
+        summaryDetails={bodyState.selectionSummaryState}
+        checked={generationSetupState.generationMode}
+        handleChange={toggleGenerationMode}
       />
       {/* <SubContainer> */}
       <GenerationEditorFull
-        coverLetterData={coverLetterData}
-        simpleAdjustmentProps={simpleAdjustmentProps}
-        intermediateAdjustmentProps={intermediateAdjustmentProps}
-        customAdjustmentProps={customAdjustmentProps}
+        generationData={bodyState.generationResultsState}
+        updateGenerationResultsState={bodyState.updateGenerationResultsState}
+        simpleAdjustmentProps={
+          bodyState.generationAdjustmentsState?.simpleAdjustmentState
+        }
+        intermediateAdjustmentProps={
+          bodyState.generationAdjustmentsState?.intermediateAdjustmentState
+        }
+        customAdjustmentProps={
+          bodyState.generationAdjustmentsState?.customAdjustmentState
+        }
         saveProps={saveProps}
         downloadProps={downloadProps}
-        adjustmentSection={adjustmentSection}
+        adjustmentSection={isAdjustmentsSectionExpanded}
+        toggleAdjustmentsSection={toggleAdjustmentsSection}
+        dispatch={dispatch}
+        updateSimpleAdjustmentState={bodyState.updateSimpleAdjustmentState}
+        updateIntermediateAdjustmentsState={
+          bodyState.updateIntermediateAdjustmentState
+        }
+        updateCustomAdjustmentsState={bodyState.updateCustomAdjustmentState}
       />
       {/* </SubContainer> */}
     </Container>

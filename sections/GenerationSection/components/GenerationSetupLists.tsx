@@ -106,9 +106,8 @@ export default function GenerationSetupLists() {
     coverLetterData,
     additionalDetails,
 
-    // listState,
-    // selectedListItemFullDetails,
-    // selectedListItemBodyDisplayState,
+    generationSetupState,
+    bodyState,
   } = state;
 
   // Component State
@@ -140,44 +139,65 @@ export default function GenerationSetupLists() {
   const getJobPostings = async (): Promise<void> => {
     const response = await fetchJobPostings();
     if (response) {
-      dispatch({
-        type: 'UPDATE_JOB_POSTINGS',
-        payload: response.data,
-      });
-      dispatch({
-        type: 'UPDATE_FILTERED_JOB_POSTINGS',
-        payload: response.data,
-      });
+      generationSetupState.updateJobPostingSelectionState(
+        'jobPostings',
+        response.data
+      );
+      generationSetupState.updateJobPostingSelectionState(
+        'filteredJobPostings',
+        response.data
+      );
+      // dispatch({
+      //   type: 'UPDATE_JOB_POSTINGS',
+      //   payload: response.data,
+      // });
+      // dispatch({
+      //   type: 'UPDATE_FILTERED_JOB_POSTINGS',
+      //   payload: response.data,
+      // });
     } else {
       snackbar.updateSnackbar(true, 'Error fetching job postings', 'error');
     }
   };
 
   const handleJobPostingSelection = (jobPosting) => {
-    dispatch({
-      type: 'UPDATE_SELECTED_JOB_POSTING',
-      payload: jobPosting,
-    });
+    generationSetupState.updateJobPostingSelectionState(
+      'selectedJobPosting',
+      jobPosting
+    );
+    // dispatch({
+    //   type: 'UPDATE_SELECTED_JOB_POSTING',
+    //   payload: jobPosting,
+    // });
   };
 
+  //== DELETE //
   const updateJobPostingSearch = (event) => {
-    dispatch({
-      type: 'UPDATE_JOB_POSTING_SEARCH',
-      payload: event.target.value,
-    });
+    // dispatch({
+    //   type: 'UPDATE_JOB_POSTING_SEARCH',
+    //   payload: event.target.value,
+    // });
   };
 
   const getCandidateProfiles = async (): Promise<void> => {
     const response = await fetchCandidateProfiles();
     if (response) {
-      dispatch({
-        type: 'UPDATE_CANDIDATES',
-        payload: response.data,
-      });
-      dispatch({
-        type: 'UPDATE_FILTERED_CANDIDATES',
-        payload: response.data,
-      });
+      generationSetupState.updateCandidateSelectionState(
+        'candidates',
+        response.data
+      );
+      generationSetupState.updateCandidateSelectionState(
+        'filteredCandidates',
+        response.data
+      );
+      // dispatch({
+      //   type: 'UPDATE_CANDIDATES',
+      //   payload: response.data,
+      // });
+      // dispatch({
+      //   type: 'UPDATE_FILTERED_CANDIDATES',
+      //   payload: response.data,
+      // });
     } else {
       snackbar.updateSnackbar(
         true,
@@ -188,52 +208,67 @@ export default function GenerationSetupLists() {
   };
 
   const handleCandidateProfileSelection = (candidateProfile) => {
-    dispatch({
-      type: 'UPDATE_SELECTED_CANDIDATE',
-      payload: candidateProfile,
-    });
+    generationSetupState.updateCandidateSelectionState(
+      'selectedCandidate',
+      candidateProfile
+    );
+    // dispatch({
+    //   type: 'UPDATE_SELECTED_CANDIDATE',
+    //   payload: candidateProfile,
+    // });
   };
 
+  //== DELETE //
   const updateCandidateProfileSearch = (event) => {
-    dispatch({
-      type: 'UPDATE_CANDIDATE_SEARCH',
-      payload: event.target.value,
-    });
+    // dispatch({
+    //   type: 'UPDATE_CANDIDATE_SEARCH',
+    //   payload: event.target.value,
+    // });
   };
 
   const toggleGenerationMode = () => {
-    dispatch({
-      type: 'TOGGLE_GENERATION_MODE',
-      payload: true,
-    });
+    if (generationSetupState.mode === 'email') {
+      generationSetupState.updateGenerationMode('cover_letter');
+    } else {
+      generationSetupState.updateGenerationMode('email');
+    }
+    // dispatch({
+    //   type: 'TOGGLE_GENERATION_MODE',
+    //   payload: true,
+    // });
   };
 
   const handleGenerate = async (): Promise<void> => {
-    coverLetterData.toggleLoadingCoverLetter();
-    generationResultsState.toggleLoading();
+    bodyState.updateGenerationResultsState('loading', true);
+    // coverLetterData.toggleLoadingCoverLetter();
+    // generationResultsState.toggleLoading();
 
-    let mode = '';
-    if (!generationMode) {
-      mode = 'email';
-    } else {
-      mode = 'cover_letter';
-    }
+    console.log('generationSetupState', generationSetupState);
+
+    const jobPosting =
+      generationSetupState.jobPostingSelectionState?.selectedJobPosting;
+    const candidate =
+      generationSetupState.candidateSelectionState?.selectedCandidate;
+
+    console.log('jobPosting =====2', jobPosting);
+    console.log('candidate ======2', candidate);
 
     const response = await generate(
-      mode,
-      generationSetupState?.selectedJobPosting?.id,
-      generationSetupState?.selectedCandidate?.id
+      generationSetupState.mode,
+      jobPosting.id,
+      candidate.id
     );
+    // const response = await generate(
+    //   generationSetupState.mode,
+    //   generationSetupState?.selectedJobPosting?.id,
+    //   generationSetupState?.selectedCandidate?.id
+    // );
 
     if (response) {
-      console.log('generation response', response);
-      generationResultsState.updateId(response.data.id);
-      generationResultsState.updateContent(response.data.content);
-      generationResultsState.toggleLoading();
-
-      coverLetterData.updateCoverLetterId(response.data.id);
-      coverLetterData.updateCoverLetterParts(response.data.content);
-      coverLetterData.toggleLoadingCoverLetter();
+      console.log('response2', response);
+      bodyState.updateGenerationResultsState('id', response.data.id);
+      bodyState.updateGenerationResultsState('content', response.data.content);
+      bodyState.updateGenerationResultsState('loading', false);
       loggedInProps.updateUser();
       snackbar.updateSnackbar(
         true,
@@ -242,7 +277,7 @@ export default function GenerationSetupLists() {
       );
     } else {
       console.error(response);
-      coverLetterData.toggleLoadingCoverLetter();
+      bodyState.updateGenerationResultsState('loading', false);
       snackbar.updateSnackbar(
         true,
         'error',
@@ -282,13 +317,17 @@ export default function GenerationSetupLists() {
             tracker={`1-${expanded === 'panel1'}`}
           >
             {/* {generationSetupState.selectedJobPosting !== null ? ( */}
-            {!generationSetupState.selectedJobPosting ? (
+            {/* {!generationSetupState.selectedJobPosting ? ( */}
+            {!generationSetupState.jobPostingSelectionState
+              ?.selectedJobPosting ? (
               <CheckboxIconInComplete />
             ) : (
               <CheckboxIconComplete />
             )}
 
-            {!generationSetupState.selectedJobPosting ? (
+            {/* {!generationSetupState.selectedJobPosting ? ( */}
+            {!generationSetupState.jobPostingSelectionState
+              ?.selectedJobPosting ? (
               <Typography className="accordion-header">
                 Select Job Posting
               </Typography>
@@ -298,17 +337,37 @@ export default function GenerationSetupLists() {
                 flexWrap={'nowrap'}
                 whiteSpace={'nowrap'}
               >
-                {generationSetupState?.selectedJobPosting.job_title} <br />@
-                {generationSetupState?.selectedJobPosting.company_name}
+                {/* {generationSetupState?.selectedJobPosting.job_title} <br />@
+                {generationSetupState?.selectedJobPosting.company_name} */}
+                {
+                  generationSetupState.jobPostingSelectionState
+                    ?.selectedJobPosting.job_title
+                }{' '}
+                <br />@
+                {
+                  generationSetupState.jobPostingSelectionState
+                    ?.selectedJobPosting.company_name
+                }
               </Typography>
             )}
           </AccordionSummary>
 
           <AccordionDetails>
             <JobPostingSelectionDataGrid
-              jobPostings={generationSetupState?.filteredJobPostings}
-              selected={generationSetupProps?.selectedJobPosting?.id}
-              search={generationSetupProps?.jobPostingSearch}
+              // jobPostings={generationSetupState?.filteredJobPostings}
+              // selected={generationSetupProps?.selectedJobPosting?.id}
+              // search={generationSetupProps?.jobPostingSearch}
+              jobPostings={
+                generationSetupState.jobPostingSelectionState
+                  ?.filteredJobPostings
+              }
+              selected={
+                generationSetupState.jobPostingSelectionState
+                  ?.selectedJobPosting?.id
+              }
+              search={
+                generationSetupState.jobPostingSelectionState?.jobPostingSearch
+              }
               handleSelectionChange={handleJobPostingSelection}
               updateSearch={updateJobPostingSearch}
             />
@@ -329,28 +388,50 @@ export default function GenerationSetupLists() {
             expanded="panel2"
             tracker={`2-${expanded === 'panel2'}`}
           >
-            {!generationSetupState?.selectedCandidate ? (
+            {/* {!generationSetupState?.selectedCandidate ? ( */}
+            {!generationSetupState.candidateSelectionState
+              ?.selectedCandidate ? (
               <CheckboxIconInComplete />
             ) : (
               <CheckboxIconComplete />
             )}
 
-            {!generationSetupState?.selectedCandidate ? (
+            {!generationSetupState.candidateSelectionState
+              ?.selectedCandidate ? (
               <Typography className="accordion-header">
                 Select Candidate
               </Typography>
             ) : (
               <Typography className="accordion-header">
-                {generationSetupState?.selectedCandidate.name} <br />{' '}
-                {generationSetupState?.selectedCandidate.current_title}
+                {/* {generationSetupState?.selectedCandidate.name} <br />{' '}
+                {generationSetupState?.selectedCandidate.current_title} */}
+                {
+                  generationSetupState.candidateSelectionState
+                    ?.selectedCandidate.name
+                }{' '}
+                <br />{' '}
+                {
+                  generationSetupState.candidateSelectionState
+                    ?.selectedCandidate.current_title
+                }
               </Typography>
             )}
           </AccordionSummary>
           <AccordionDetails>
             <CandidateProfileSelectionDataGrid
-              candidates={generationSetupState?.filteredCandidates}
-              selected={generationSetupProps?.selectedCandidate?.id}
-              search={generationSetupProps?.candidateSearch}
+              // candidates={generationSetupState?.filteredCandidates}
+              // selected={generationSetupProps?.selectedCandidate?.id}
+              // search={generationSetupProps?.candidateSearch}
+              candidates={
+                generationSetupState.candidateSelectionState?.filteredCandidates
+              }
+              selected={
+                generationSetupState.candidateSelectionState?.selectedCandidate
+                  ?.id
+              }
+              search={
+                generationSetupState.candidateSelectionState?.candidateSearch
+              }
               handleSelectionChange={handleCandidateProfileSelection}
               updateSearch={updateCandidateProfileSearch}
             />
@@ -367,7 +448,9 @@ export default function GenerationSetupLists() {
             expanded="panel3"
             tracker={`3-${expanded === 'panel3'}`}
           >
-            {!checkAdditionalDetails(additionalDetails) ? (
+            {!checkAdditionalDetails(
+              generationSetupState.additionalDetailsState
+            ) ? (
               <CheckboxIconInComplete />
             ) : (
               <CheckboxIconComplete />
@@ -379,7 +462,7 @@ export default function GenerationSetupLists() {
           </AccordionSummary>
           <AccordionDetails>
             <GenerationSettings
-              mode={generationMode}
+              mode={generationSetupState.mode}
               toggleMode={toggleGenerationMode}
             />
           </AccordionDetails>

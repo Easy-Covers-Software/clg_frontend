@@ -22,9 +22,10 @@ interface Props {
   intermediateAdjustmentProps: IntermediateAdjustmentProps;
 }
 
-const IntermediateAdjustments: FC<Props> = ({
+const IntermediateAdjustments: FC<any> = ({
   coverLetterData,
   intermediateAdjustmentProps,
+  updateIntermediateAdjustmentState,
 }) => {
   const isMobile = useMediaQuery('(max-width:600px)');
   const { state } = useAuth();
@@ -72,7 +73,7 @@ const IntermediateAdjustments: FC<Props> = ({
 
   const isDisabled = (label: string): boolean => {
     if (
-      intermediateAdjustmentProps?.intermediateType === null ||
+      intermediateAdjustmentProps?.intermediateType ||
       intermediateAdjustmentProps?.intermediateType === label
     ) {
       return false;
@@ -84,7 +85,7 @@ const IntermediateAdjustments: FC<Props> = ({
   const shouldDisable = (
     intermediateAdjustmentProps: IntermediateAdjustmentProps
   ): boolean => {
-    if (intermediateAdjustmentProps.intermediateType === null) {
+    if (intermediateAdjustmentProps?.intermediateType) {
       return true;
     } else {
       return false;
@@ -93,19 +94,20 @@ const IntermediateAdjustments: FC<Props> = ({
 
   const disableRegenerateButton = shouldDisable(intermediateAdjustmentProps);
 
-  useEffect(() => {
-    if (
-      intermediateAdjustmentProps?.addSkillInput === '' &&
-      intermediateAdjustmentProps?.insertKeywordInput === '' &&
-      intermediateAdjustmentProps?.removeRedundancyInput === ''
-    ) {
-      intermediateAdjustmentProps?.updateIntermediateType(null);
-    }
-  }, [
-    intermediateAdjustmentProps.addSkillInput,
-    intermediateAdjustmentProps.insertKeywordInput,
-    intermediateAdjustmentProps.removeRedundancyInput,
-  ]);
+  // useEffect(() => {
+  //   if (
+  //     intermediateAdjustmentProps?.addSkillInput === '' &&
+  //     intermediateAdjustmentProps?.insertKeywordInput === '' &&
+  //     intermediateAdjustmentProps?.removeRedundancyInput === ''
+  //   ) {
+  //     // intermediateAdjustmentProps?.updateIntermediateType(null);
+  //     updateIntermediateAdjustmentState('intermediateType', null);
+  //   }
+  // }, [
+  //   intermediateAdjustmentProps?.addSkillInput,
+  //   intermediateAdjustmentProps?.insertKeywordInput,
+  //   intermediateAdjustmentProps?.removeRedundancyInput,
+  // ]);
 
   return (
     <Container>

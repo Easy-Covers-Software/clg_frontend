@@ -147,15 +147,15 @@ export const determineGenerationHtml = (contentData: any) => {
 
 // only used in 1 file -- can move function to that file
 export const determineGenerationParts = (
-  coverLetterState: CoverLetterData
+  generationResultsState: any,
 ) => {
   if (
-    coverLetterState?.editedCoverLetter !== '' &&
-    coverLetterState?.editedCoverLetter !== coverLetterState?.coverLetterHtml
+    generationResultsState?.editedContentHtml !== '' &&
+    generationResultsState?.editedContentHtml !== generationResultsState?.contentHtml
   ) {
-    return coverLetterState?.editedCoverLetterParts;
+    return generationResultsState?.editedContent;
   } else {
-    return coverLetterState?.coverLetterParts;
+    return generationResultsState?.content;
   }
 };
 

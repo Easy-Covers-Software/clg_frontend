@@ -39,16 +39,17 @@ import {
 } from '@/Types/GenerationContext.types';
 
 interface Props {
-  coverLetterData: CoverLetterData;
+  generationData: any;
   simpleAdjustmentProps: SimpleAdjustmentProps;
   adjustmentSection: AdjustmentSectionProps;
   reset: () => void;
 }
 
-const SimpleAdjustments: FC<Props> = ({
-  coverLetterData,
+const SimpleAdjustments: FC<any> = ({
+  generationData,
   simpleAdjustmentProps,
   adjustmentSection,
+  toggleAdjustmentsSection,
   reset,
 }) => {
   const isMobile = useMediaQuery('(max-width: 600px)');
@@ -59,22 +60,22 @@ const SimpleAdjustments: FC<Props> = ({
   const handleDecreaseSimpleAdjustment = async (
     buttonLabel: string
   ): Promise<void> => {
-    coverLetterData?.toggleLoadingCoverLetter();
+    generationData?.toggleLoadingCoverLetter();
 
     const response: APIResponse<AdjustmentApiResponse> = await makeAdjustment(
       'simple',
       buttonLabel,
       'decrease',
-      determineGenerationHtml(coverLetterData)
+      determineGenerationHtml(generationData)
     );
 
     if (response.data) {
-      coverLetterData?.updateCoverLetterParts(response.data.cover_letter);
+      generationData?.updateCoverLetterParts(response.data.cover_letter);
       loggedInProps.updateUser();
-      coverLetterData?.toggleLoadingCoverLetter();
+      generationData?.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(true, 'success', 'Adjustment made successfully.');
     } else {
-      coverLetterData?.toggleLoadingCoverLetter();
+      generationData?.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(
         true,
         'error',
@@ -86,22 +87,22 @@ const SimpleAdjustments: FC<Props> = ({
   const handleIncreaseSimpleAdjustment = async (
     buttonLabel: string
   ): Promise<void> => {
-    coverLetterData?.toggleLoadingCoverLetter();
+    generationData?.toggleLoadingCoverLetter();
 
     const response: APIResponse<AdjustmentApiResponse> = await makeAdjustment(
       'simple',
       buttonLabel,
       'increase',
-      determineGenerationHtml(coverLetterData)
+      determineGenerationHtml(generationData)
     );
 
     if (response.data) {
-      coverLetterData?.updateCoverLetterParts(response.data.cover_letter);
+      generationData?.updateCoverLetterParts(response.data.cover_letter);
       loggedInProps.updateUser();
-      coverLetterData?.toggleLoadingCoverLetter();
+      generationData?.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(true, 'success', 'Adjustment made successfully.');
     } else {
-      coverLetterData?.toggleLoadingCoverLetter();
+      generationData?.toggleLoadingCoverLetter();
       snackbar.updateSnackbar(
         true,
         'error',
@@ -111,17 +112,14 @@ const SimpleAdjustments: FC<Props> = ({
   };
 
   const shouldDisable = (coverLetterData: CoverLetterData) => {
-    if (
-      !coverLetterData.loadingCoverLetter &&
-      coverLetterData?.coverLetterHtml !== ''
-    ) {
+    if (!coverLetterData?.loading && coverLetterData?.coverLetterHtml !== '') {
       return false;
     } else {
       return true;
     }
   };
 
-  const disable = shouldDisable(coverLetterData);
+  const disable = shouldDisable(generationData);
 
   return (
     <>
@@ -131,9 +129,7 @@ const SimpleAdjustments: FC<Props> = ({
             <RestartAltIcon />
           </RestartIconButton>
 
-          <ToggleAdvancedAdjustmentsButton
-            onClick={adjustmentSection.toggleIsAdjustmentsSectionExpanded}
-          >
+          <ToggleAdvancedAdjustmentsButton onClick={toggleAdjustmentsSection}>
             Adjustments
           </ToggleAdvancedAdjustmentsButton>
 
@@ -165,9 +161,7 @@ const SimpleAdjustments: FC<Props> = ({
             />
           </SimpleAdjustmentsContainer>
 
-          <ToggleAdvancedAdjustmentsButton
-            onClick={adjustmentSection.toggleIsAdjustmentsSectionExpanded}
-          >
+          <ToggleAdvancedAdjustmentsButton onClick={toggleAdjustmentsSection}>
             Adjustments
           </ToggleAdvancedAdjustmentsButton>
         </Container>

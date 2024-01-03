@@ -24,6 +24,7 @@ const DownloadMenuFull: FC<any> = ({
   saveProps,
   downloadProps,
   snackbar,
+  dispatch,
 }) => {
   return (
     <Container>
@@ -32,6 +33,7 @@ const DownloadMenuFull: FC<any> = ({
         saveProps={saveProps}
         snackbar={snackbar}
         isFull={true}
+        dispatch={dispatch}
       />
       <Divider orientation="vertical" flexItem />
       <DownloadDropdown
@@ -39,6 +41,7 @@ const DownloadMenuFull: FC<any> = ({
         downloadProps={downloadProps}
         snackbar={snackbar}
         isFull={true}
+        dispatch={dispatch}
       />
     </Container>
   );

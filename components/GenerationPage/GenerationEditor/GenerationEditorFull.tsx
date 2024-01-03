@@ -39,7 +39,7 @@ import {
 } from '@/Types/GenerationContext.types';
 
 interface Props {
-  coverLetterData: CoverLetterData;
+  generationData: any;
   adjustmentSection: AdjustmentSectionProps;
   simpleAdjustmentProps: SimpleAdjustmentProps;
   intermediateAdjustmentProps: IntermediateAdjustmentProps;
@@ -48,23 +48,27 @@ interface Props {
   downloadProps: DownloadProps;
 }
 
-const GenerationEditorFull: FC<Props> = ({
-  coverLetterData,
+const GenerationEditorFull: FC<any> = ({
+  generationData,
+  updateGenerationResultsState,
   adjustmentSection,
   simpleAdjustmentProps,
   intermediateAdjustmentProps,
   customAdjustmentProps,
   saveProps,
   downloadProps,
+  dispatch,
+  toggleAdjustmentsSection,
+  updateSimpleAdjustmentState,
+  updateIntermediateAdjustmentState,
+  updateCustomAdjustmentState,
 }) => {
   const isMobile = useMediaQuery('(max-width: 600px)');
   const { state } = useAuth();
   const { trackers, snackbar } = state;
 
-  console.log(
-    'isAdjustmentsSectionOPn',
-    adjustmentSection?.isAdjustmentsSectionExpanded
-  );
+  console.log('toggleAdjustmentsSection', toggleAdjustmentsSection);
+  console.log('adjustmentSection =======22', adjustmentSection);
 
   const editor = useEditor(
     {
@@ -77,16 +81,16 @@ const GenerationEditorFull: FC<Props> = ({
         Highlight,
         TextAlign.configure({ types: ['heading', 'paragraph'] }),
       ],
-      content: coverLetterData?.coverLetterHtml,
+      content: generationData?.contentHtml,
     },
-    [coverLetterData?.coverLetterHtml]
+    [generationData?.contentHtml]
   );
 
   useEffect(() => {
     if (editor) {
-      editor.commands.setContent(coverLetterData?.coverLetterHtml);
+      editor.commands.setContent(generationData?.contentHtml);
     }
-  }, [coverLetterData?.coverLetterHtml, editor]);
+  }, [generationData?.contentHtml, editor]);
 
   useEffect(() => {
     if (editor) {
@@ -94,8 +98,11 @@ const GenerationEditorFull: FC<Props> = ({
         const html = editor.getHTML();
         const parsedSections = parseSectionsFromHTML(html);
         console.log('parsedSections', parsedSections);
-        coverLetterData.updateEditedCoverLetterHtml(addDivTag(html));
-        coverLetterData.updateEditedCoverLetterParts(parsedSections);
+        updateGenerationResultsState('editedContentHtml', html);
+        updateGenerationResultsState('editedContent', parsedSections);
+
+        // coverLetterData.updateEditedCoverLetterHtml(addDivTag(html));
+        // coverLetterData.updateEditedCoverLetterParts(parsedSections);
       };
 
       editor.on('update', updateHandler);
@@ -119,9 +126,9 @@ const GenerationEditorFull: FC<Props> = ({
           `}
         />
 
-        {isMobile && adjustmentSection?.isAdjustmentsSectionExpanded ? (
+        {isMobile && adjustmentSection ? (
           <AdvancedAdjustments
-            coverLetterData={coverLetterData}
+            coverLetterData={generationData}
             intermediateAdjustmentProps={intermediateAdjustmentProps}
             customAdjustmentProps={customAdjustmentProps}
           />
@@ -152,17 +159,18 @@ const GenerationEditorFull: FC<Props> = ({
               {!isMobile && (
                 <RichTextEditor.ControlsGroup ml={'1%'}>
                   <DownloadMenuFull
-                    contentData={coverLetterData}
+                    contentData={generationData}
                     saveProps={saveProps}
                     downloadProps={downloadProps}
                     snackbar={snackbar}
+                    dispatch={dispatch}
                   />
                 </RichTextEditor.ControlsGroup>
               )}
             </RichTextEditor.Toolbar>
 
             <ContentWrapper>
-              {coverLetterData?.loadingCoverLetter ? (
+              {generationData?.loading ? (
                 <Grid
                   display={'flex'}
                   justifyContent={'center'}
@@ -180,20 +188,28 @@ const GenerationEditorFull: FC<Props> = ({
           </RichTextEditor>
         )}
 
-        {!isMobile && adjustmentSection?.isAdjustmentsSectionExpanded && (
-          <AdvancedAdjustments
-            coverLetterData={coverLetterData}
-            intermediateAdjustmentProps={intermediateAdjustmentProps}
-            customAdjustmentProps={customAdjustmentProps}
-          />
+        {!isMobile && adjustmentSection && (
+          <>
+            {console.log('adjustmentSection =======22', adjustmentSection)}
+            <AdvancedAdjustments
+              coverLetterData={generationData}
+              intermediateAdjustmentProps={intermediateAdjustmentProps}
+              customAdjustmentProps={customAdjustmentProps}
+              updateIntermediateAdjustmentState={
+                updateIntermediateAdjustmentState
+              }
+              updateCustomAdjustmentState={updateCustomAdjustmentState}
+            />
+          </>
         )}
       </SubContainer>
 
       <SimpleAdjustments
-        coverLetterData={coverLetterData}
+        generationData={generationData}
         simpleAdjustmentProps={simpleAdjustmentProps}
         adjustmentSection={adjustmentSection}
-        reset={coverLetterData.reset}
+        toggleAdjustmentsSection={toggleAdjustmentsSection}
+        reset={() => {}}
       />
     </Container>
   );

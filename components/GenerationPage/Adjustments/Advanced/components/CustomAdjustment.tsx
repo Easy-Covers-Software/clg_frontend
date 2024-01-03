@@ -23,9 +23,10 @@ interface Props {
   customAdjustmentProps: CustomAdjustmentProps;
 }
 
-const CustomAdjustment: FC<Props> = ({
+const CustomAdjustment: FC<any> = ({
   coverLetterData,
   customAdjustmentProps,
+  updateCustomAdjustmentState,
 }) => {
   const { state } = useAuth();
   const { loggedInProps, snackbar } = state;
@@ -35,7 +36,8 @@ const CustomAdjustment: FC<Props> = ({
   );
 
   const handleChange = (e) => {
-    customAdjustmentProps?.updateCustomAdjustment(e.target.value);
+    updateCustomAdjustmentState('customAdjustment', e.target.value); // 'customAdjustment' is the key, 'e.target.value' is the value
+    // customAdjustmentProps?.updateCustomAdjustment(e.target.value);
   };
 
   const handleFocus = () => {
