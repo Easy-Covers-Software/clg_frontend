@@ -134,28 +134,39 @@ export default function TranscriptionSectionBody() {
     newCandidateId,
     phoneCallJobPostingId,
     checked,
+
+    listState,
+    selectedItemFullDetails,
+    selectedItemBodyDisplayState,
   } = state;
 
   // const [checked, setChecked] = useState(true);
   const [socket, setSocket] = useState<ReconnectingWebSocket | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: 'SET_CHECKED',
-      payload: event.target.checked,
-    });
-
-    if (checked) {
+    if (event.target.checked) {
       dispatch({
-        type: 'SET_CURRENT_MODE',
-        payload: 'Notes',
+        type: 'UPDATE_CALL_OR_NOTE_MODE',
+        payload: 'Call',
       });
     } else {
       dispatch({
-        type: 'SET_CURRENT_MODE',
-        payload: 'Call',
+        type: 'UPDATE_CALL_OR_NOTE_MODE',
+        payload: 'Notes',
       });
     }
+
+    // if (checked) {
+    //   dispatch({
+    //     type: 'SET_CURRENT_MODE',
+    //     payload: 'Notes',
+    //   });
+    // } else {
+    //   dispatch({
+    //     type: 'SET_CURRENT_MODE',
+    //     payload: 'Call',
+    //   });
+    // }
   };
 
   const handleInitiatePhoneCall = async (
@@ -290,9 +301,9 @@ export default function TranscriptionSectionBody() {
   useEffect(() => {
     dispatch({
       type: 'UPDATE_TRANSCRIPTION_STATE_PHONE_CALL',
-      payload: phoneCallListState.selected,
+      payload: listState?.selected,
     });
-  }, [phoneCallListState.selected]);
+  }, [listState.selected]);
 
   useEffect(() => {
     const getJobPostings = async (): Promise<void> => {
@@ -311,14 +322,16 @@ export default function TranscriptionSectionBody() {
   }, []);
 
   const renderPhoneCallComponent = () => {
-    switch (callModeState.status) {
+    switch (selectedItemBodyDisplayState.callModeState.status) {
       case 'new':
         return (
           <CallsContainer>
             <NewCall
               handleInitiatePhoneCall={handleInitiatePhoneCall}
               updateNewCallForm={updateNewCallForm}
-              jobPostings={jobPostings}
+              jobPostings={
+                selectedItemBodyDisplayState.callModeState.availableJobPostings
+              }
             />
             ;
           </CallsContainer>
@@ -373,10 +386,18 @@ export default function TranscriptionSectionBody() {
         return (
           <CallsContainer>
             <CallCompleteFrame
-              candidateId={newCandidateId}
-              candidateName={newCallForm.candidate_name}
-              candidateNumber={newCallForm.candidate_number}
-              jobPosting={phoneCallJobPostingId}
+              candidateId={
+                selectedItemBodyDisplayState.callModeState.newCallCandidateId
+              }
+              candidateName={
+                selectedItemBodyDisplayState.callModeState.newCallForm
+                  .candidate_name
+              }
+              candidateNumber={
+                selectedItemBodyDisplayState.callModeState.newCallForm
+                  .candidate_number
+              }
+              jobPosting={selectedItemBodyDisplayState.callModeState.newCallId}
               updateSaveForm={updateSaveForm}
               handleSaveCandidate={saveCandidateProfile}
               reset={handleDontSave}
@@ -390,7 +411,9 @@ export default function TranscriptionSectionBody() {
             <NewCall
               handleInitiatePhoneCall={handleInitiatePhoneCall}
               updateNewCallForm={updateNewCallForm}
-              jobPostings={jobPostings}
+              jobPostings={
+                selectedItemBodyDisplayState.callModeState.availableJobPostings
+              }
             />
             ;
           </CallsContainer>
@@ -400,7 +423,7 @@ export default function TranscriptionSectionBody() {
   };
 
   const renderTranscriptionNotesComponent = () => {
-    switch (selectedPhoneCall?.transcription_status) {
+    switch (selectedItemFullDetails?.transcription_status) {
       case 'awaiting':
         return (
           <NotesContainer>
@@ -432,7 +455,7 @@ export default function TranscriptionSectionBody() {
         return (
           <NotesProcessingContainer>
             <TranscriptionProgress
-              step={selectedPhoneCall?.transcription_status_step}
+              step={selectedItemFullDetails?.transcription_status_step}
             />
           </NotesProcessingContainer>
         );
@@ -466,7 +489,7 @@ export default function TranscriptionSectionBody() {
         return (
           <TranscriptionNotes
             page={'transcription'}
-            transcriptionNotes={selectedPhoneCall?.transcription?.notes}
+            transcriptionNotes={selectedItemFullDetails?.transcription?.notes}
           />
         );
       default:
@@ -494,8 +517,8 @@ export default function TranscriptionSectionBody() {
   return (
     <Container>
       <SelectionSummary
-        summaryDetails={notesHeaderSummaryState}
-        checked={checked}
+        summaryDetails={selectedItemBodyDisplayState.selectionSummaryState}
+        checked={selectedItemBodyDisplayState.mode === 'Notes' ? false : true}
         handleChange={handleChange}
       />
       {/* <SubContainer
@@ -515,7 +538,7 @@ export default function TranscriptionSectionBody() {
               : '',
         }}
       > */}
-      {currentMode === 'Notes' ? (
+      {selectedItemBodyDisplayState.mode === 'Notes' ? (
         <>
           {renderTranscriptionNotesComponent()}
           {/* {transcriptionState?.transcriptionNotes?.length > 0 ? (

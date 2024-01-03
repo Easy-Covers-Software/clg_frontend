@@ -12,6 +12,8 @@ import { UnSelectedButton, PrimaryButton } from '@/components/Global/Global';
 
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
+import { fetchFullCandidateProfile } from '@/api/CandidateProfileMethods';
+
 import {
   fetchPhoneCall,
   fetchPhoneCalls,
@@ -95,6 +97,10 @@ export default function SavedPhoneCallsList() {
     selectedPhoneCall,
     transcriptionModeState,
     checked,
+
+    listState,
+    selectedItemFullDetails,
+    selectedItemBodyDisplayState,
   } = state;
 
   const [test, setTest] = useState<string>('');
@@ -149,9 +155,7 @@ export default function SavedPhoneCallsList() {
       type: 'UPDATE_TRANSCRIPTION_LOADING',
       payload: true,
     });
-    const response = await performTranscription(
-      phoneCallListState?.selected?.id
-    );
+    const response = await performTranscription(listState?.selected?.id);
     if (response) {
       dispatch({
         type: 'SET_CURRENT_MODE',
@@ -194,7 +198,7 @@ export default function SavedPhoneCallsList() {
       const data = JSON.parse(event.data);
 
       if (data.phone_call) {
-        if (selectedPhoneCall.id === data.phone_call.id)
+        if (selectedItemFullDetails?.id === data.phone_call.id)
           dispatch({
             type: 'SET_SELECTED_PHONE_CALL',
             payload: data.phone_call,
@@ -228,7 +232,7 @@ export default function SavedPhoneCallsList() {
   useEffect(() => {
     const getSelectedPhoneCallInstance = async () => {
       try {
-        const response = await fetchPhoneCall(phoneCallListState?.selected?.id);
+        const response = await fetchPhoneCall(listState?.selected?.id);
         if (response) {
           dispatch({
             type: 'SET_SELECTED_PHONE_CALL',
@@ -241,14 +245,14 @@ export default function SavedPhoneCallsList() {
       }
     };
     getSelectedPhoneCallInstance();
-  }, [phoneCallListState?.selected]);
+  }, [listState?.selected]);
 
   useEffect(() => {
     const getTranscriptionInstance = async () => {
-      if (selectedPhoneCall?.transcription) {
+      if (selectedItemFullDetails?.transcription) {
         try {
           const response = await fetchTranscription(
-            selectedPhoneCall?.transcription.id
+            selectedItemFullDetails?.transcription.id
           );
           if (response) {
             dispatch({
@@ -262,14 +266,40 @@ export default function SavedPhoneCallsList() {
         }
       }
     };
+
+    const getCandidateInstance = async () => {
+      if (selectedItemFullDetails?.candidate) {
+        try {
+          const response = await fetchFullCandidateProfile(
+            selectedItemFullDetails?.candidate.id
+          );
+          if (response) {
+            dispatch({
+              type: 'UPDATE_TRANSCRIPTION_MODE_STATE',
+              payload: { selectedCandidate: response.data },
+            });
+          } else {
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    getCandidateInstance();
     getTranscriptionInstance();
-  }, [selectedPhoneCall]);
+  }, [selectedItemFullDetails]);
 
   useEffect(() => {
     const getTranscriptionNotes = () => {
-      const notes = transcriptionModeState.selectedTranscription.notes;
+      const notes =
+        selectedItemBodyDisplayState.transcriptionModeState
+          ?.selectedTranscription.notes;
 
-      if (!transcriptionModeState.selectedTranscription.notes) {
+      if (
+        !selectedItemBodyDisplayState.transcriptionModeState
+          ?.selectedTranscription?.notes
+      ) {
         return;
       }
 
@@ -285,35 +315,39 @@ export default function SavedPhoneCallsList() {
       });
     };
 
-    if (transcriptionModeState.selectedTranscription) {
+    if (
+      selectedItemBodyDisplayState.transcriptionModeState?.selectedTranscription
+    ) {
       getTranscriptionNotes();
     }
 
-    if (selectedPhoneCall?.transcription_status === 'processing') {
+    if (selectedItemFullDetails?.transcription_status === 'processing') {
       dispatch({
         type: 'UPDATE_TRANSCRIPTION_STATUS',
-        payload: selectedPhoneCall?.transcription_status_step,
+        payload: selectedItemFullDetails?.transcription_status_step,
       });
     }
-  }, [transcriptionModeState.selectedTranscription]);
+  }, [
+    selectedItemBodyDisplayState.transcriptionModeState.selectedTranscription,
+  ]);
 
   useEffect(() => {
     getSavedPhoneCalls();
-  }, [phoneCallListState.refresh]);
+  }, [listState.refresh]);
 
   // TODO: update filteredItems value base on search value
 
   const isTranscribeDisabled =
-    !phoneCallListState?.selected ||
-    selectedPhoneCall?.transcription_status !== 'awaiting';
+    !listState?.selected ||
+    selectedItemFullDetails?.transcription_status !== 'awaiting';
 
   return (
     <Container>
       <SavedList
-        savedItems={phoneCallListState?.filteredItems}
-        search={phoneCallListState?.search}
-        loading={phoneCallListState?.loading}
-        selected={phoneCallListState?.selected}
+        savedItems={listState?.filteredItems}
+        search={listState?.search}
+        loading={listState?.loading}
+        selected={listState?.selected}
         listType="phoneCalls"
         handleToggle={handleToggle}
         handleSearchChange={handleSearchChange}
