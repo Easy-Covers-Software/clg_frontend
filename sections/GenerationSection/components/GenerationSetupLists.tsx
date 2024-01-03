@@ -92,23 +92,7 @@ export default function GenerationSetupLists() {
 
   // Contexts
   const { state, dispatch } = useGenerationContext();
-  const {
-    //== NEW ==//
-    generationSetupState,
-    emailGenerationSettings,
-    coverLetterGenerationSettings,
-    generationMode,
-    generationResultsState,
-
-    //== OLD ==//
-    generationSetupProps,
-    jobDetailsProps,
-    coverLetterData,
-    additionalDetails,
-
-    generationSetupState,
-    bodyState,
-  } = state;
+  const { generationSetupState, bodyState } = state;
 
   // Component State
   const [expanded, setExpanded] = useState<string | false>('panel1');
@@ -473,7 +457,6 @@ export default function GenerationSetupLists() {
         disabled={false}
         // disabled={disabled}
         onClick={() => {
-          trackers?.updateMobileMode('results');
           handleGenerate();
         }}
       >

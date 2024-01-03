@@ -47,20 +47,8 @@ export default function TranscriptionPage() {
       {dialogProps.isLoginOpen ? <LoginDialog /> : null}
       {/* {dialogProps.isSettingsOpen ? <SettingsDialog /> : null} */}
       <TranscriptionContext>
-        {isMobile ? (
-          <>
-            {trackers.mobileModeSaved === 'choose' ? (
-              <SavedPhoneCallsList />
-            ) : (
-              <TranscriptionSectionBody />
-            )}
-          </>
-        ) : (
-          <>
-            <SavedPhoneCallsList />
-            <TranscriptionSectionBody />
-          </>
-        )}
+        <SavedPhoneCallsList />
+        <TranscriptionSectionBody />
       </TranscriptionContext>
 
       <SnackbarAlert

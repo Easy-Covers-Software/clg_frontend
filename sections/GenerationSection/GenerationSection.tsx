@@ -38,7 +38,7 @@ const Container = styled(Grid)`
 export default function GenerationSection() {
   const isMobile = useMediaQuery('(max-width: 600px)');
   const { state, dispatch } = useAuth();
-  const { trackers, dialogProps, snackbar, confirmDialog, mobileMode } = state;
+  const { trackers, dialogProps, snackbar, confirmDialog } = state;
 
   useEffect(() => {
     if (trackers.updatePage) {
@@ -51,20 +51,8 @@ export default function GenerationSection() {
       {dialogProps?.isLoginOpen ? <LoginDialog /> : null}
       {dialogProps?.isHelpDialogOpen ? <HelpDialog /> : null}
       <GenerationContext>
-        {isMobile ? (
-          <>
-            {mobileMode === 'setup' ? (
-              <GenerationSetupLists />
-            ) : (
-              <GenerationSectionBody />
-            )}
-          </>
-        ) : (
-          <>
-            <GenerationSetupLists />
-            <GenerationSectionBody />
-          </>
-        )}
+        <GenerationSetupLists />
+        <GenerationSectionBody />
       </GenerationContext>
 
       <SnackbarAlert

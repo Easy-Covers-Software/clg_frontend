@@ -16,20 +16,13 @@ const initialState: any = {
   accountAuthProps: {
     email: '',
     password: '',
-    newPasswordRepeat: '',
-    phoneNumber: '',
-    username: '',
     showPassword: false,
-    showPasswordRepeat: false,
-    action: 'login', // "login", "create", "forgot"
+    action: 'login', // "login", "forgot"
     updateEmail: (email: string): void => {},
     clearEmail: (): void => {},
     updatePassword: (password: string): void => {},
-    updateNewPasswordRepeat: (newPasswordRepeat: string): void => {},
-    updatePhoneNumber: (phoneNumber: string): void => {},
     updateUsername: (username: string): void => {},
     toggleShowPassword: (): void => {},
-    toggleShowPasswordRepeat: (): void => {},
     updateAction: (action: string): void => {},
     reset: (): void => {},
   },
@@ -44,13 +37,8 @@ const initialState: any = {
   //== Trackers ==//
   trackers: {
     page: 'jobPostings', // "jobPostings", "candidates", "generate", "calls"
-    mobileMode: 'setup',
-    mobileModeSaved: 'choose',
     updatePage: (page: string): void => {},
-    updateMobileMode: (mobileMode: string): void => {},
-    updateMobileModeSaved: (mobileModeSaved: string): void => {},
     reset: (): void => {},
-    resetMobile: (): void => {},
   },
 
   //== Confirm Dialog ==//
@@ -75,13 +63,11 @@ const initialState: any = {
     isLoginOpen: false,
     isSettingsOpen: false,
     isHelpDialogOpen: false,
-    isPaymentSuccessDialogOpen: false,
     isConfirmDialogOpen: false,
     updateConfirmDialog: (): void => {},
     toggleLoginIsOpen: (): void => {},
     toggleSettingsIsOpen: (): void => {},
     toggleHelpDialog: (): void => {},
-    togglePaymentSuccessDialog: (): void => {},
   },
 
   //== Snackbar ==//
@@ -224,24 +210,6 @@ function reducer(state, action) {
         },
       };
 
-    case 'UPDATE_MOBILE_MODE':
-      return {
-        ...state,
-        trackers: {
-          ...state.trackers,
-          mobileMode: action.payload,
-        },
-      };
-
-    case 'UPDATE_MOBILE_MODE_SAVED':
-      return {
-        ...state,
-        trackers: {
-          ...state.trackers,
-          mobileModeSaved: action.payload,
-        },
-      };
-
     //== Confirm Dialog ==//
     case 'SET_CONFIRM_DIALOG':
       return {
@@ -371,18 +339,6 @@ function reducer(state, action) {
         trackers: {
           ...state.trackers,
           page: '',
-          mobileMode: 'setup',
-          mobileModeSaved: 'choose',
-        },
-      };
-
-    case 'RESET_MOBILE_TRACKERS':
-      return {
-        ...state,
-        trackers: {
-          ...state.trackers,
-          mobileMode: 'setup',
-          mobileModeSaved: 'choose',
         },
       };
 
@@ -422,10 +378,6 @@ function reducer(state, action) {
         },
       };
 
-    //--* OLD *--//
-    case 'SET_MOBILE_MODE':
-      return { ...state, mobileMode: action.payload };
-
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -460,6 +412,10 @@ export const AuthProvider = ({
     dispatch({
       type: 'SET_ACCOUNT_AUTH_PROPS',
       payload: {
+        email: initialState.accountAuthProps.email,
+        password: initialState.accountAuthProps.password,
+        showPassword: initialState.accountAuthProps.showPassword,
+        action: initialState.accountAuthProps.action,
         updateEmail: (email: string): void => {
           dispatch({ type: 'UPDATE_EMAIL', payload: email });
         },
@@ -469,23 +425,11 @@ export const AuthProvider = ({
         updatePassword: (password: string): void => {
           dispatch({ type: 'UPDATE_PASSWORD', payload: password });
         },
-        updateNewPasswordRepeat: (newPasswordRepeat: string): void => {
-          dispatch({
-            type: 'UPDATE_NEW_PASSWORD_REPEAT',
-            payload: newPasswordRepeat,
-          });
-        },
-        updatePhoneNumber: (phoneNumber: string): void => {
-          dispatch({ type: 'UPDATE_PHONE_NUMBER', payload: phoneNumber });
-        },
         updateUsername: (username: string): void => {
           dispatch({ type: 'UPDATE_USERNAME', payload: username });
         },
         toggleShowPassword: (): void => {
           dispatch({ type: 'TOGGLE_SHOW_PASSWORD' });
-        },
-        toggleShowPasswordRepeat: (): void => {
-          dispatch({ type: 'TOGGLE_SHOW_PASSWORD_REPEAT' });
         },
         updateAction: (action: string): void => {
           dispatch({ type: 'UPDATE_ACTION', payload: action });
@@ -502,6 +446,7 @@ export const AuthProvider = ({
     dispatch({
       type: 'SET_LOGGED_IN_PROPS',
       payload: {
+        user: initialState.loggedInProps.user,
         updateUser: (): void => {
           dispatch({ type: 'UPDATE_USER' });
         },
@@ -517,23 +462,12 @@ export const AuthProvider = ({
     dispatch({
       type: 'SET_TRACKERS',
       payload: {
+        page: initialState.trackers.page,
         updatePage: (page: string): void => {
           dispatch({ type: 'UPDATE_PAGE', payload: page });
         },
-        updateMobileMode: (mobileMode: string): void => {
-          dispatch({ type: 'UPDATE_MOBILE_MODE', payload: mobileMode });
-        },
-        updateMobileModeSaved: (mobileModeSaved: string): void => {
-          dispatch({
-            type: 'UPDATE_MOBILE_MODE_SAVED',
-            payload: mobileModeSaved,
-          });
-        },
         reset: (): void => {
           dispatch({ type: 'RESET_TRACKERS' });
-        },
-        resetMobile: (): void => {
-          dispatch({ type: 'RESET_MOBILE_TRACKERS' });
         },
       },
     });
@@ -544,6 +478,12 @@ export const AuthProvider = ({
     dispatch({
       type: 'SET_CONFIRM_DIALOG',
       payload: {
+        open: initialState.confirmDialog.open,
+        header: initialState.confirmDialog.header,
+        message: initialState.confirmDialog.message,
+        buttonText: initialState.confirmDialog.buttonText,
+        didConfirmAlert: initialState.confirmDialog.didConfirmAlert,
+
         openAlertDialogConfirm: (
           open: boolean,
           header: string,
@@ -578,6 +518,11 @@ export const AuthProvider = ({
     dispatch({
       type: 'SET_DIALOG_PROPS',
       payload: {
+        isLoginOpen: initialState.dialogProps.isLoginOpen,
+        isSettingsOpen: initialState.dialogProps.isSettingsOpen,
+        isHelpDialogOpen: initialState.dialogProps.isHelpDialogOpen,
+        isConfirmDialogOpen: initialState.dialogProps.isConfirmDialogOpen,
+
         toggleLoginIsOpen: (): void => {
           dispatch({ type: 'TOGGLE_IS_LOGIN_OPEN' });
         },
@@ -605,6 +550,9 @@ export const AuthProvider = ({
     dispatch({
       type: 'SET_SNACKBAR',
       payload: {
+        open: initialState.snackbar.open,
+        type: initialState.snackbar.type,
+        message: initialState.snackbar.message,
         updateSnackbar: (
           isOpen: boolean,
           type: string,
@@ -631,25 +579,6 @@ export const AuthProvider = ({
   useEffect(() => {
     initUser();
   }, [state.updateUser]);
-
-  //== Updates Username ==//
-  useEffect(() => {
-    if (state.accountAuthProps.email !== '') {
-      const atSymbolIndex = state.accountAuthProps.email.indexOf('@');
-
-      if (atSymbolIndex !== -1) {
-        const substringBeforeAt = state.accountAuthProps.email.slice(
-          0,
-          atSymbolIndex
-        );
-
-        dispatch({
-          type: 'UPDATE_USERNAME',
-          payload: substringBeforeAt,
-        });
-      }
-    }
-  }, [state.accountAuthProps.email]);
 
   console.log('auth state', state);
 

@@ -44,20 +44,8 @@ export default function JobPostingSection() {
       {dialogProps.isLoginOpen ? <LoginDialog /> : null}
       {/* {dialogProps.isSettingsOpen ? <SettingsDialog /> : null} */}
       <JobPostingsContextProvider>
-        {isMobile ? (
-          <>
-            {trackers.mobileModeSaved === 'choose' ? (
-              <JobPostingsList />
-            ) : (
-              <JobPostingSelectionBody />
-            )}
-          </>
-        ) : (
-          <>
-            <JobPostingsList />
-            <JobPostingSelectionBody />
-          </>
-        )}
+        <JobPostingsList />
+        <JobPostingSelectionBody />
       </JobPostingsContextProvider>
 
       <SnackbarAlert

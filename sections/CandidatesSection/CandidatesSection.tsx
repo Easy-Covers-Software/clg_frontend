@@ -44,20 +44,8 @@ export default function CandidatesSection() {
     <Container>
       {dialogProps.isLoginOpen ? <LoginDialog /> : null}
       <CandidatesContextProvider>
-        {isMobile ? (
-          <>
-            {trackers.mobileModeSaved === 'choose' ? (
-              <SavedCandidatesList />
-            ) : (
-              <CandidateSelectionBody />
-            )}
-          </>
-        ) : (
-          <>
-            <SavedCandidatesList />
-            <CandidateSelectionBody />
-          </>
-        )}
+        <SavedCandidatesList />
+        <CandidateSelectionBody />
       </CandidatesContextProvider>
 
       <SnackbarAlert
