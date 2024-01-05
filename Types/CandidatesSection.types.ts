@@ -4,6 +4,7 @@ import { PhoneCall } from "./TranscriptionSection.types";
 import { BodyState } from "./Common.types";
 import { StdContext } from "./Common.types";
 import { JobPostingListObject } from "./JobPostingsSection.types";
+import { UpdateSelectionSummaryPayload } from "./Common.types";
 
 
 //== Used Elsewhere ==//
@@ -69,6 +70,7 @@ export type CandidateListState = {
   updateSearch: (search: string) => void;
   updateLoading: (tof: boolean) => void;
   toggleRefresh: () => void;
+  updateFullCandidateProfile: (candidate: CandidateListItem) => void;
 };
 //== selected list item type ==//
 
@@ -143,46 +145,37 @@ type UpdateCandidateListStatePayload = {
 };
 
 
-
-interface SelectedListItemPayload { 
-  selectedListItem: CandidateListItem;  
+type BodyStatePayload = { 
+  bodyState: CandidateContextBodyState;
 }
-interface BodyStatePayload { /* ... */ }
-interface SelectionSummaryStatePayload { /* ... */ }
-interface CandidateJobPostingsListStatePayload { /* ... */ }
-interface CandidateScoreDetailsStatePayload { /* ... */ }
-interface GenerationResultsStatePayload { /* ... */ }
-
+type UpdateCandidateJobPostingsListStatePayload = { 
+  [K in keyof CandidateJobPostingsListState]?: CandidateJobPostingsListState[K];
+}
+type CandidateScoreDetailsStatePayload = { 
+  [K in keyof SelectedCandidateScoreDetails]?: SelectedCandidateScoreDetails[K];
+}
+type GenerationResultsStatePayload = { 
+  [K in keyof GenerationResultsState]?: GenerationResultsState[K];
+}
 
 type CandidatesAction =
   | { type: 'SET_CANDIDATE_LIST_STATE'; payload: SetListStatePayload }
   | { type: 'UPDATE_CANDIDATE_LIST_STATE'; payload: UpdateCandidateListStatePayload }
-
-  | { type: 'UPDATE_SAVED_CANDIDATES_LIST'; payload: ListStatePayload }
-  | { type: 'UPDATE_FILTERED_SAVED_CANDIDATES_LIST'; payload: ListStatePayload }
-  | { type: 'UPDATE_SELECTED'; payload: SelectedListItemPayload }
-  | { type: 'UPDATE_SEARCH_VALUE'; payload: string }
-  | { type: 'UPDATE_LOADING'; payload: boolean }
-  | { type: 'REFRESH_CANDIDATES_LIST'; }
-  | { type: 'SET_SELECTED_CANDIDATE_PROFILE'; payload: SelectedListItemPayload }
+  | { type: 'SET_SELECTED_CANDIDATE_PROFILE'; payload: CandidateListItem }
   | { type: 'SET_SELECTED_ITEM_BODY_DISPLAY_STATE'; payload: BodyStatePayload }
   | { type: 'UPDATE_CANDIDATE_BODY_DISPLAY_MODE'; payload: string }
-  | { type: 'UPDATE_CANDIDATE_SELECTION_SUMMARY_STATE'; payload: SelectionSummaryStatePayload }
-  | { type: 'UPDATE_CANDIDATE_JOB_POSTINGS_LIST_STATE'; payload: CandidateJobPostingsListStatePayload }
-  | { type: 'UPDATE_CURRENTLY_CALCULATING'; payload: any } // Replace 'any' with the specific type
+  | { type: 'UPDATE_CANDIDATE_SELECTION_SUMMARY_STATE'; payload: UpdateSelectionSummaryPayload }
+  | { type: 'UPDATE_CANDIDATE_JOB_POSTINGS_LIST_STATE'; payload: UpdateCandidateJobPostingsListStatePayload }
+  | { type: 'UPDATE_CURRENTLY_CALCULATING'; payload: null | string }
   | { type: 'UPDATE_SELECTED_CANDIDATE_SCORE_DETAILS_STATE'; payload: CandidateScoreDetailsStatePayload }
   | { type: 'UPDATE_GENERATION_RESULTS_STATE'; payload: GenerationResultsStatePayload }
 ;
 
-export type CandidateContextAction = {
-
+export type CandidatesContext = {
+  state: CandidateContextState;
+  dispatch: React.Dispatch<CandidatesAction>;
 }
 
-export type CandidateContext = {
-  listState: CandidateListState;
-  selectedListItem: CandidateListItem;
-  bodyState: CandidateContextBodyState | null;
-}
 
 export type CandidateJobPostingsUniqueFields = {
   match_scores: MatchScore[];

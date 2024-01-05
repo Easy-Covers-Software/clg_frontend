@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
@@ -33,7 +33,17 @@ const Body = styled(Grid)`
   box-sizing: border-box;
 `;
 
-const SubSectionFrame = ({ subSectionHeader, onClose, children }) => {
+interface Props {
+  subSectionHeader: string;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+const SubSectionFrame: React.FC<Props> = ({
+  subSectionHeader,
+  onClose,
+  children,
+}) => {
   return (
     <Container>
       <BackButton onClick={onClose}>

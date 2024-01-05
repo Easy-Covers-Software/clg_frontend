@@ -26,6 +26,7 @@ import {
 import { APIResponse } from '@/Types/Api.types';
 import { Resume, MatchScore } from '@/Types/CandidatesSection.types';
 import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
+import { get } from 'http';
 
 // const Container = styled(Grid)`
 const Container = styled.div`
@@ -74,12 +75,12 @@ const CandidateSelectionBody: FC = () => {
   const { listState, selectedListItem, bodyState } = state;
 
   //=== Helpers ===//
-  const updateSelectedCandidateMode = (mode: string) => {
+  const updateScoreDetailsMode = (mode: string) => {
     bodyState.updateMode(mode);
   };
 
   const resetSelectedCandidateMode = () => {
-    updateSelectedCandidateMode('overview');
+    updateScoreDetailsMode('overview');
   };
 
   const updateJobPostingMode = (mode: string) => {
@@ -94,7 +95,7 @@ const CandidateSelectionBody: FC = () => {
   };
 
   const updateSelectedJobPosting = (jobPosting: JobPostingListObject) => {
-    updateSelectedCandidateMode('jobPosting');
+    updateScoreDetailsMode('jobPosting');
     bodyState.updateCandidateJobPostingsListState(
       'selectedJobPosting',
       jobPosting
@@ -183,6 +184,36 @@ const CandidateSelectionBody: FC = () => {
     return bodyState?.currentlyCalculating !== null ? true : false;
   };
 
+  const getSelectedJobPosting = () => {
+    return bodyState.candidateJobPostingsListState?.selectedJobPosting;
+  };
+
+  const getCallPanelMode = () => {
+    return bodyState.selectedCandidateScoreDetailsState?.callPanelMode;
+  };
+
+  const getGenerationPanelMode = () => {
+    return bodyState.selectedCandidateScoreDetailsState?.generationPanelMode;
+  };
+
+  const getMatchScore = () => {
+    return bodyState.candidateJobPostingsListState?.selectedJobPosting
+      ?.match_score;
+  };
+
+  const getResumeUrl = () => {
+    return bodyState.selectedCandidateScoreDetailsState?.resumeUrl;
+  };
+
+  const getScoreDetailsMode = () => {
+    return bodyState.selectedCandidateScoreDetailsState?.selectedCandidateMode;
+  };
+
+  const getTranscriptionNotes = () => {
+    bodyState.selectedCandidateScoreDetailsState?.selectedCall?.transcription
+      ?.notes;
+  };
+
   //=== API Methods ===//
   const handleCalculate = async (jobPostingId: string) => {
     bodyState.updateCurrentlyCalculating(jobPostingId);
@@ -247,10 +278,10 @@ const CandidateSelectionBody: FC = () => {
             selectedCandidate={selectedListItem}
             jobPostings={bodyState.candidateJobPostingsListState.jobPostings}
             jobLoadingId={bodyState?.currentlyCalculating}
-            updateSelectedJobPosting={updateSelectedJobPosting}
-            updateSelectedCandidateMode={updateSelectedCandidateMode}
-            handleCalculate={handleCalculate}
             resumeUrl={bodyState.selectedCandidateScoreDetailsState?.resumeUrl}
+            updateSelectedJobPosting={updateSelectedJobPosting}
+            updateScoreDetailsMode={updateScoreDetailsMode}
+            handleCalculate={handleCalculate}
             handleFileChange={handleFileChange}
           />
         );
@@ -260,17 +291,11 @@ const CandidateSelectionBody: FC = () => {
             subSectionHeader={'Résumé Viewer'}
             onClose={resetSelectedCandidateMode}
           >
-            <ResumeIframe
-              resumeUrl={
-                bodyState.selectedCandidateScoreDetailsState?.resumeUrl
-              }
-            />
+            <ResumeIframe resumeUrl={getResumeUrl()} />
           </SubSectionFrame>
         );
       case 'jobPosting':
-        switch (
-          bodyState.selectedCandidateScoreDetailsState.selectedCandidateMode
-        ) {
+        switch (getScoreDetailsMode()) {
           case 'overview':
             return (
               <SubSectionFrame
@@ -279,25 +304,15 @@ const CandidateSelectionBody: FC = () => {
               >
                 <FullCandidateJobProfile
                   page={'candidate'}
-                  selectedJobPosting={
-                    bodyState.candidateJobPostingsListState?.selectedJobPosting
-                  }
+                  selectedJobPosting={getSelectedJobPosting()}
                   selectedCandidate={selectedListItem}
                   phoneCalls={selectedListItem?.phone_calls}
                   introCall={getIntroCall()}
                   followUpCalls={getFollowUpCalls()}
                   generations={selectedListItem?.generations}
-                  genMode={
-                    bodyState.selectedCandidateScoreDetailsState
-                      ?.generationPanelMode
-                  }
-                  callMode={
-                    bodyState.selectedCandidateScoreDetailsState?.callPanelMode
-                  }
-                  matchScore={
-                    bodyState.candidateJobPostingsListState?.selectedJobPosting
-                      ?.match_score
-                  }
+                  genMode={getGenerationPanelMode()}
+                  callMode={getCallPanelMode()}
+                  matchScore={getMatchScore()}
                   loading={isCurrentlyCalculating()}
                   updateSubSectionMode={updateJobPostingMode}
                   updateGenerationsPanelMode={updateGenerationsPanelMode}
@@ -327,10 +342,7 @@ const CandidateSelectionBody: FC = () => {
               >
                 <TranscriptionNotes
                   page={'candidate'}
-                  transcriptionNotes={
-                    bodyState.selectedCandidateScoreDetailsState?.selectedCall
-                      ?.transcription?.notes
-                  }
+                  transcriptionNotes={getTranscriptionNotes()}
                 />
               </SubSectionFrame>
             );
@@ -341,11 +353,7 @@ const CandidateSelectionBody: FC = () => {
                 subSectionHeader={'Résumé Viewer'}
                 onClose={resetJobPostingMode}
               >
-                <ResumeIframe
-                  resumeUrl={
-                    bodyState.selectedCandidateScoreDetailsState?.resumeUrl
-                  }
-                />
+                <ResumeIframe resumeUrl={getResumeUrl()} />
               </SubSectionFrame>
             );
 

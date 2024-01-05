@@ -28,6 +28,10 @@ type SelectionSummaryState = {
   loading: boolean; 
 }
 
+export type UpdateSelectionSummaryPayload = {
+  [K in keyof SelectionSummaryState]?: SelectionSummaryState[K];
+}
+
 export type BodyState = {
   selectionSummaryState: SelectionSummaryState;
   updateSelectionSummaryState: (field: any, state: any) => void;

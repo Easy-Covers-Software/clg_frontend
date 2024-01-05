@@ -2,9 +2,6 @@ import React from 'react';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 const ResumeIframe = ({ resumeUrl }) => {
-  console.log('resume url');
-  console.log(resumeUrl);
-
   if (!resumeUrl) {
     return <div>Loading resume...</div>;
   }
@@ -13,11 +10,9 @@ const ResumeIframe = ({ resumeUrl }) => {
   return (
     <Grid p={'3%'}>
       <iframe
-        // src={resumeUrl}
         src={resumeUrl}
         title="Candidate's Resume"
-        width='98%'
-        // height='500px'
+        width="98%"
         height={'620px'}
         style={{
           borderRadius: '8px',

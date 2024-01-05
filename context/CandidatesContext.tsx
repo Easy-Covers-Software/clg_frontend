@@ -4,18 +4,13 @@ import { addPTags, addDivTag } from '@/Utils/utils';
 import { fetchCandidateProfiles } from '@/api/CandidateProfileMethods';
 
 import {
-  CandidateContext,
-  CandidateContextInitialState,
+  CandidatesContext,
+  CandidateContextState,
 } from '@/Types/CandidatesSection.types';
 
 const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
 
-const CandidatesContext = createContext<any>({
-  state: {},
-  dispatch: () => null,
-});
-
-const initialState: any = {
+const initialState: CandidateContextState = {
   listState: {
     listItems: [],
     filteredListItems: [],
@@ -85,9 +80,15 @@ const initialState: any = {
     updateCandidateJobPostingsListState: (field, state: any): void => {},
     updateCurrentlyCalculating: (candidateId: any): void => {},
     updateSelectedCandidateScoreDetailsState: (field, state: any): void => {},
+    updateGenerationResultsState: (field, state: any): void => {},
     setFullCandidateProfile: (field, state: any): void => {},
   },
 };
+
+const CandidatesContext = createContext<CandidatesContext>({
+  state: initialState,
+  dispatch: () => null,
+});
 
 const candidatesReducer = (state: any, action: any) => {
   switch (action.type) {
@@ -103,55 +104,6 @@ const candidatesReducer = (state: any, action: any) => {
         listState: {
           ...state.listState,
           ...action.payload,
-        },
-      };
-
-    case 'UPDATE_SAVED_CANDIDATES_LIST':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          listItems: action.payload,
-        },
-      };
-    case 'UPDATE_FILTERED_SAVED_CANDIDATES_LIST':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          filteredListItems: action.payload,
-        },
-      };
-    case 'UPDATE_SELECTED':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          selected: action.payload,
-        },
-      };
-    case 'UPDATE_SEARCH_VALUE':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          search: action.payload,
-        },
-      };
-    case 'UPDATE_LOADING':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          loading: action.payload,
-        },
-      };
-    case 'REFRESH_CANDIDATES_LIST':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          refresh: !state.listState.refresh,
         },
       };
 
@@ -241,15 +193,6 @@ export const CandidatesContextProvider = ({ children }) => {
     try {
       const response = await fetchCandidateProfiles();
       if (response) {
-        // dispatch({
-        //   type: 'UPDATE_SAVED_CANDIDATES_LIST',
-        //   payload: response.data,
-        // });
-        // dispatch({
-        //   type: 'UPDATE_FILTERED_SAVED_CANDIDATES_LIST',
-        //   payload: response.data,
-        // });
-
         dispatch({
           type: 'UPDATE_CANDIDATE_LIST_STATE',
           payload: {
@@ -303,87 +246,6 @@ export const CandidatesContextProvider = ({ children }) => {
     }
   }, [state.selectedListItem]);
 
-  //== Generation Results State ==//
-  // useEffect(() => {
-  //   dispatch({
-  //     type: 'SET_SAVE_PROPS',
-  //     payload: {
-  //       toggleIsSavedDropdownOpen: (): void => {
-  //         dispatch({
-  //           type: 'TOGGLE_IS_SAVED_DROPDOWN_OPEN',
-  //         });
-  //       },
-  //       toggleDisableSavedButton: (): void => {
-  //         dispatch({
-  //           type: 'TOGGLE_DISABLE_SAVED_BUTTON',
-  //         });
-  //       },
-  //     },
-  //   });
-  // }, []);
-
-  // //== Download ==//
-  // useEffect(() => {
-  //   dispatch({
-  //     type: 'SET_DOWNLOAD_PROPS',
-  //     payload: {
-  //       toggleIsDownloadDropdownOpen: (): void => {
-  //         dispatch({
-  //           type: 'TOGGLE_IS_DOWNLOAD_DROPDOWN_OPEN',
-  //         });
-  //       },
-  //       toggleDisableDownloads: (): void => {
-  //         dispatch({
-  //           type: 'TOGGLE_DISABLE_DOWNLOADS',
-  //         });
-  //       },
-  //     },
-  //   });
-  // }, []);
-
-  //-- update generation results state --//
-  // useEffect(() => {
-  //   dispatch({
-  //     type: 'SET_GENERATION_RESULTS_STATE',
-  //     payload: {
-  //       updateId: (id: string): void => {
-  //         dispatch({
-  //           type: 'UPDATE_GENERATION_RESULTS_ID',
-  //           payload: id,
-  //         });
-  //       },
-  //       updateContent: (content: string): void => {
-  //         dispatch({
-  //           type: 'UPDATE_GENERATION_RESULTS_CONTENT',
-  //           payload: content,
-  //         });
-  //       },
-  //       updateContentHtml: (contentHtml: string): void => {
-  //         dispatch({
-  //           type: 'UPDATE_GENERATION_RESULTS_CONTENT_HTML',
-  //           payload: contentHtml,
-  //         });
-  //       },
-  //       updateEditedContent: (editedContent: string): void => {
-  //         dispatch({
-  //           type: 'UPDATE_GENERATION_RESULTS_EDITED_CONTENT',
-  //           payload: editedContent,
-  //         });
-  //       },
-  //       updateEditedContentHtml: (editedContentHtml: string): void => {
-  //         dispatch({
-  //           type: 'UPDATE_GENERATION_RESULTS_EDITED_CONTENT_HTML',
-  //           payload: editedContentHtml,
-  //         });
-  //       },
-  //       toggleLoading: (): void => {
-  //         dispatch({
-  //           type: 'TOGGLE_GENERATION_RESULTS_LOADING',
-  //         });
-  //       },
-  //     },
-  //   });
-  // }, []);
   useEffect(() => {
     if (
       !state.bodyState.selectedCandidateScoreDetailsState?.selectedGeneration
@@ -422,7 +284,7 @@ export const CandidatesContextProvider = ({ children }) => {
         refresh: false,
         updateListItems: (list: any): void => {
           dispatch({
-            type: 'UPDATE_SAVED_CANDIDATES_LIST',
+            type: 'UPDATE_CANDIDATE_LIST_STATE',
             payload: { listItems: list },
           });
         },

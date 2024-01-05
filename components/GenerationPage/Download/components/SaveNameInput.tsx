@@ -46,7 +46,7 @@ const SaveNameInput: FC<any> = ({
       saveProps?.toggleIsSavedDropdownOpen();
     } else {
       dispatch({
-        type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
+        type: 'UPDATE_GENERATION_RESULTS_STATE',
         payload: { isSavedDropdownOpen: true },
       });
     }
@@ -59,7 +59,7 @@ const SaveNameInput: FC<any> = ({
       saveProps?.toggleIsSavedDropdownOpen();
     } else {
       dispatch({
-        type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
+        type: 'UPDATE_GENERATION_RESULTS_STATE',
         payload: { isSavedDropdownOpen: false },
       });
     }
