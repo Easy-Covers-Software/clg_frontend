@@ -13,28 +13,31 @@ import { Typography } from '@mui/material';
 
 import CoverLetterSummary from '@/components/CoverLetterSummay/CoverLetterSummary';
 
-import TranscriptionNote from '@/components/Transcription/TranscriptionNote/TranscriptionNote';
-import NewCall from '@/components/PhoneCallComponents/NewCall/NewCall';
-import CallStarted from '@/components/PhoneCallComponents/CallStarted/CallStarted';
-import CallRinging from '@/components/PhoneCallComponents/CallRinging/CallRinging';
-import CallInProgress from '@/components/PhoneCallComponents/CallInProgress/CallInProgress';
-import CallComplete from '@/components/PhoneCallComponents/CallComplete/CallComplete';
-import CallBusy from '@/components/PhoneCallComponents/CallBusy/CallBusy';
-import CallNoAnswer from '@/components/PhoneCallComponents/CallNoAnswer/CallNoAnswer';
-import CallFailed from '@/components/PhoneCallComponents/CallFailed/CallFailed';
-import CallCompleteFrame from '@/components/PhoneCallComponents/CallCompleteFrame';
+import TranscriptionNote from '@/components/CallsPage/Transcription/TranscriptionNote/TranscriptionNote';
+import NewCall from '@/components/CallsPage/PhoneCallComponents/NewCall/NewCall';
+import CallStarted from '@/components/CallsPage/PhoneCallComponents/CallStarted/CallStarted';
+import CallRinging from '@/components/CallsPage/PhoneCallComponents/CallRinging/CallRinging';
+import CallInProgress from '@/components/CallsPage/PhoneCallComponents/CallInProgress/CallInProgress';
+import CallComplete from '@/components/CallsPage/PhoneCallComponents/CallComplete/CallComplete';
+import CallBusy from '@/components/CallsPage/PhoneCallComponents/CallBusy/CallBusy';
+import CallNoAnswer from '@/components/CallsPage/PhoneCallComponents/CallNoAnswer/CallNoAnswer';
+import CallFailed from '@/components/CallsPage/PhoneCallComponents/CallFailed/CallFailed';
+import CallCompleteFrame from '@/components/CallsPage/PhoneCallComponents/CallCompleteFrame';
 
-import { TranscriptionMethods, JobPostingMethods } from '@/Utils/utils';
-const { initiatePhoneCall, updateCandidate, deleteCandidate } =
-  TranscriptionMethods;
-const { fetchJobPostings } = JobPostingMethods;
+import {
+  initiatePhoneCall,
+  updateCandidate,
+  deleteCandidate,
+} from '@/api/TranscriptionMethods';
 
-import TranscriptionProgress from '@/components/Transcription/TranscriptionInProgress/TranscriptionProgress';
+import { fetchJobPostings } from '@/api/JobPostingsMethods';
+
+import TranscriptionProgress from '@/components/CallsPage/Transcription/TranscriptionInProgress/TranscriptionProgress';
 
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
-import SelectionSummary from '@/components/SelectionSummary/SelectionSummary';
-import TranscriptionNotes from '../../../components/Transcription/TranscriptionNotes';
+import SelectionSummary from '@/components/PageStructure/SelectionSummary/SelectionSummary';
+import TranscriptionNotes from '../../../components/CallsPage/Transcription/TranscriptionNotes';
 
 // Want to eventually change this depending on if a generation has already occured or not
 const Container = styled(Grid)`
@@ -60,8 +63,9 @@ const Container = styled(Grid)`
 
 const SubContainer = styled(Grid)`
   height: 100%;
-  // width: 100%;
+  width: 98.5% !important;
   margin: 0.75%;
+  margin-top: 0;
   background-color: #f8f8ff;
   overflow: scroll;
   overflow-x: hidden;
@@ -128,24 +132,41 @@ export default function TranscriptionSectionBody() {
     newCallForm,
     candidateSaveForm,
     newCandidateId,
+    phoneCallJobPostingId,
+    checked,
+
+    listState,
+    selectedListItem,
+    bodyState,
   } = state;
 
-  const [checked, setChecked] = useState(true);
+  // const [checked, setChecked] = useState(true);
   const [socket, setSocket] = useState<ReconnectingWebSocket | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-    if (checked) {
+    if (event.target.checked) {
       dispatch({
-        type: 'SET_CURRENT_MODE',
-        payload: 'Notes',
+        type: 'UPDATE_CALL_OR_NOTE_MODE',
+        payload: 'Call',
       });
     } else {
       dispatch({
-        type: 'SET_CURRENT_MODE',
-        payload: 'Call',
+        type: 'UPDATE_CALL_OR_NOTE_MODE',
+        payload: 'Notes',
       });
     }
+
+    // if (checked) {
+    //   dispatch({
+    //     type: 'SET_CURRENT_MODE',
+    //     payload: 'Notes',
+    //   });
+    // } else {
+    //   dispatch({
+    //     type: 'SET_CURRENT_MODE',
+    //     payload: 'Call',
+    //   });
+    // }
   };
 
   const handleInitiatePhoneCall = async (
@@ -172,6 +193,11 @@ export default function TranscriptionSectionBody() {
         payload: response.data.candidate_profile.id,
       });
 
+      dispatch({
+        type: 'SET_CALL_JOB_POSTING_ID',
+        payload: response.data.job_posting_id,
+      });
+
       snackbar.updateSnackbar(true, 'success', 'Phone Call Initiated.');
       handleWebSocketConnection();
     } else {
@@ -188,7 +214,7 @@ export default function TranscriptionSectionBody() {
     };
 
     const ws = new ReconnectingWebSocket(
-      'ws://127.0.0.1:8001/ws/phone_calls/status/',
+      'wss://simplxx.org/ws/phone_calls/status/',
       [],
       wsOptions
     );
@@ -275,9 +301,9 @@ export default function TranscriptionSectionBody() {
   useEffect(() => {
     dispatch({
       type: 'UPDATE_TRANSCRIPTION_STATE_PHONE_CALL',
-      payload: phoneCallListState.selected,
+      payload: listState?.selected,
     });
-  }, [phoneCallListState.selected]);
+  }, [listState.selected]);
 
   useEffect(() => {
     const getJobPostings = async (): Promise<void> => {
@@ -296,14 +322,14 @@ export default function TranscriptionSectionBody() {
   }, []);
 
   const renderPhoneCallComponent = () => {
-    switch (callModeState.status) {
+    switch (bodyState.callModeState.status) {
       case 'new':
         return (
           <CallsContainer>
             <NewCall
               handleInitiatePhoneCall={handleInitiatePhoneCall}
               updateNewCallForm={updateNewCallForm}
-              jobPostings={jobPostings}
+              jobPostings={bodyState.callModeState.availableJobPostings}
             />
             ;
           </CallsContainer>
@@ -358,9 +384,12 @@ export default function TranscriptionSectionBody() {
         return (
           <CallsContainer>
             <CallCompleteFrame
-              candidateId={newCandidateId}
-              candidateName={newCallForm.candidate_name}
-              candidateNumber={newCallForm.candidate_number}
+              candidateId={bodyState.callModeState.newCallCandidateId}
+              candidateName={bodyState.callModeState.newCallForm.candidate_name}
+              candidateNumber={
+                bodyState.callModeState.newCallForm.candidate_number
+              }
+              jobPosting={bodyState.callModeState.newCallId}
               updateSaveForm={updateSaveForm}
               handleSaveCandidate={saveCandidateProfile}
               reset={handleDontSave}
@@ -374,7 +403,7 @@ export default function TranscriptionSectionBody() {
             <NewCall
               handleInitiatePhoneCall={handleInitiatePhoneCall}
               updateNewCallForm={updateNewCallForm}
-              jobPostings={jobPostings}
+              jobPostings={bodyState.callModeState.availableJobPostings}
             />
             ;
           </CallsContainer>
@@ -384,7 +413,7 @@ export default function TranscriptionSectionBody() {
   };
 
   const renderTranscriptionNotesComponent = () => {
-    switch (selectedPhoneCall?.transcription_status) {
+    switch (selectedListItem?.transcription_status) {
       case 'awaiting':
         return (
           <NotesContainer>
@@ -416,7 +445,7 @@ export default function TranscriptionSectionBody() {
         return (
           <NotesProcessingContainer>
             <TranscriptionProgress
-              step={selectedPhoneCall?.transcription_status_step}
+              step={selectedListItem?.transcription_status_step}
             />
           </NotesProcessingContainer>
         );
@@ -428,6 +457,7 @@ export default function TranscriptionSectionBody() {
               justifyContent: 'center',
               alignItems: 'center',
               marginBottom: '20%',
+              margin: 'auto',
               height: '30%',
               width: '50%',
               padding: '1%',
@@ -449,7 +479,7 @@ export default function TranscriptionSectionBody() {
         return (
           <TranscriptionNotes
             page={'transcription'}
-            transcriptionNotes={selectedPhoneCall?.transcription?.notes}
+            transcriptionNotes={selectedListItem?.transcription?.notes}
           />
         );
       default:
@@ -477,8 +507,8 @@ export default function TranscriptionSectionBody() {
   return (
     <Container>
       <SelectionSummary
-        summaryDetails={notesHeaderSummaryState}
-        checked={checked}
+        summaryDetails={bodyState.selectionSummaryState}
+        checked={bodyState.mode === 'Notes' ? false : true}
         handleChange={handleChange}
       />
       {/* <SubContainer
@@ -498,7 +528,7 @@ export default function TranscriptionSectionBody() {
               : '',
         }}
       > */}
-      {currentMode === 'Notes' ? (
+      {bodyState.mode === 'Notes' ? (
         <>
           {renderTranscriptionNotesComponent()}
           {/* {transcriptionState?.transcriptionNotes?.length > 0 ? (

@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import Button from "@mui/material/Button";
+import styled from '@emotion/styled';
+import Button from '@mui/material/Button';
 
 const PrimaryButton = styled(Button)`
   width: 100%;

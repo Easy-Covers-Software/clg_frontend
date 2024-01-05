@@ -5,14 +5,13 @@ import { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
 
-import SelectionSummary from '@/components/SelectionSummary/SelectionSummary';
-import CoverLetterSummary from '@/components/CoverLetterSummay/CoverLetterSummary';
-import GenerationEditorFull from '@/components/GenerationEditor/GenerationEditorFull';
+import SelectionSummary from '@/components/PageStructure/SelectionSummary/SelectionSummary';
+import GenerationEditorFull from '@/components/GenerationPage/GenerationEditor/GenerationEditorFull';
 
 import { useGenerationContext } from '@/context/GenerationContext';
 
 const Container = styled(Grid)`
-  width: 90%;
+  width: 100%;
   background-color: white;
   border-radius: 4px;
   border: 1px solid #006d4b;
@@ -32,6 +31,20 @@ const Container = styled(Grid)`
   }
 `;
 
+const SubContainer = styled(Grid)`
+  height: 100%;
+  // width: 100%;
+  margin: 0.75%;
+  margin-top: 0;
+  background-color: #f8f8ff;
+  overflow: scroll;
+  overflow-x: hidden;
+  border: 1px solid #006d4b;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+`;
+
 export default function GenerationSectionBody() {
   const { state, dispatch } = useGenerationContext();
   const {
@@ -47,32 +60,66 @@ export default function GenerationSectionBody() {
     saveProps,
     downloadProps,
     adjustmentSection,
+
+    generationSetupState,
+    bodyState,
   } = state;
 
   const [checked, setChecked] = useState(false);
 
-  const toggleMode = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const toggleGenerationMode = () => {
+    if (generationSetupState.mode === 'email') {
+      generationSetupState.updateGenerationMode('cover_letter');
+    } else {
+      generationSetupState.updateGenerationMode('email');
+    }
+    // dispatch({
+    //   type: 'TOGGLE_GENERATION_MODE',
+    //   payload: true,
+    // });
+  };
+
+  const toggleAdjustmentsSection = () => {
     dispatch({
-      type: 'TOGGLE_GENERATION_MODE',
+      type: 'TOGGLE_IS_ADJUSTMENTS_SECTION_EXPANDED',
     });
   };
+
+  let isAdjustmentsSectionExpanded =
+    bodyState.generationAdjustmentsState?.isAdjustmentsSectionExpanded;
 
   return (
     <Container>
       <SelectionSummary
-        summaryDetails={jobDetailsProps}
-        checked={generationMode}
-        handleChange={toggleMode}
+        summaryDetails={bodyState.selectionSummaryState}
+        checked={generationSetupState.generationMode}
+        handleChange={toggleGenerationMode}
       />
+      {/* <SubContainer> */}
       <GenerationEditorFull
-        coverLetterData={coverLetterData}
-        simpleAdjustmentProps={simpleAdjustmentProps}
-        intermediateAdjustmentProps={intermediateAdjustmentProps}
-        customAdjustmentProps={customAdjustmentProps}
+        generationData={bodyState.generationResultsState}
+        updateGenerationResultsState={bodyState.updateGenerationResultsState}
+        simpleAdjustmentProps={
+          bodyState.generationAdjustmentsState?.simpleAdjustmentState
+        }
+        intermediateAdjustmentProps={
+          bodyState.generationAdjustmentsState?.intermediateAdjustmentState
+        }
+        customAdjustmentProps={
+          bodyState.generationAdjustmentsState?.customAdjustmentState
+        }
         saveProps={saveProps}
         downloadProps={downloadProps}
-        adjustmentSection={adjustmentSection}
+        adjustmentSection={isAdjustmentsSectionExpanded}
+        toggleAdjustmentsSection={toggleAdjustmentsSection}
+        dispatch={dispatch}
+        updateSimpleAdjustmentState={bodyState.updateSimpleAdjustmentState}
+        updateIntermediateAdjustmentsState={
+          bodyState.updateIntermediateAdjustmentState
+        }
+        updateCustomAdjustmentsState={bodyState.updateCustomAdjustmentState}
       />
+      {/* </SubContainer> */}
     </Container>
   );
 }

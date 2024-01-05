@@ -3,13 +3,11 @@
 import { useAuth } from '@/context/AuthContext';
 import { GenerationContext } from '@/context/GenerationContext';
 
-import LoginDialog from '@/components/Login/LoginDialog';
-import SettingsDialog from '@/components/Settings/SettingsDialog';
-import HelpDialog from '@/components/HelpDialog/HelpDialog';
+import LoginDialog from '@/components/Global/Login/LoginDialog';
+import SettingsDialog from '@/components/Global/Settings/SettingsDialog';
+import HelpDialog from '@/components/Global/HelpDialog/HelpDialog';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
-
-import GenerationSetup from '@/sections/GenerationSection/GenerationSetup/GenerationSetup';
 
 // import GenerationSetup from './components/GenerationSetup'
 import GenerationSetupLists from './components/GenerationSetupLists';
@@ -40,7 +38,7 @@ const Container = styled(Grid)`
 export default function GenerationSection() {
   const isMobile = useMediaQuery('(max-width: 600px)');
   const { state, dispatch } = useAuth();
-  const { trackers, dialogProps, snackbar, confirmDialog, mobileMode } = state;
+  const { trackers, dialogProps, snackbar, confirmDialog } = state;
 
   useEffect(() => {
     if (trackers.updatePage) {
@@ -53,20 +51,8 @@ export default function GenerationSection() {
       {dialogProps?.isLoginOpen ? <LoginDialog /> : null}
       {dialogProps?.isHelpDialogOpen ? <HelpDialog /> : null}
       <GenerationContext>
-        {isMobile ? (
-          <>
-            {mobileMode === 'setup' ? (
-              <GenerationSetupLists />
-            ) : (
-              <GenerationSectionBody />
-            )}
-          </>
-        ) : (
-          <>
-            <GenerationSetupLists />
-            <GenerationSectionBody />
-          </>
-        )}
+        <GenerationSetupLists />
+        <GenerationSectionBody />
       </GenerationContext>
 
       <SnackbarAlert

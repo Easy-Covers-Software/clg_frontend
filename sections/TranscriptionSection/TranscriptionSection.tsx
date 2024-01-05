@@ -16,7 +16,7 @@ import SnackbarAlert from '../../components/Global/components/SnackbarAlert';
 import AlertDialogConfirm from '../../components/Global/components/AlertDialogConfirm';
 
 // Components (local)
-import LoginDialog from '@/components/Login/LoginDialog';
+import LoginDialog from '@/components/Global/Login/LoginDialog';
 import SettingsDialog from '@/components/Settings/SettingsDialog';
 
 import SavedPhoneCallsList from './components/SavedPhoneCallsList';
@@ -47,20 +47,8 @@ export default function TranscriptionPage() {
       {dialogProps.isLoginOpen ? <LoginDialog /> : null}
       {/* {dialogProps.isSettingsOpen ? <SettingsDialog /> : null} */}
       <TranscriptionContext>
-        {isMobile ? (
-          <>
-            {trackers.mobileModeSaved === 'choose' ? (
-              <SavedPhoneCallsList />
-            ) : (
-              <TranscriptionSectionBody />
-            )}
-          </>
-        ) : (
-          <>
-            <SavedPhoneCallsList />
-            <TranscriptionSectionBody />
-          </>
-        )}
+        <SavedPhoneCallsList />
+        <TranscriptionSectionBody />
       </TranscriptionContext>
 
       <SnackbarAlert

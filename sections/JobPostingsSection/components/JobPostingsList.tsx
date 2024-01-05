@@ -3,95 +3,70 @@ import { FC, useEffect } from 'react';
 //-- import MUI components --//
 import styled from '@emotion/styled';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { Container } from '@/components/SavedList/SavedList.styles';
+import { Container } from '@/components/PageStructure/SavedList/SavedList.styles';
 
 //-- import context --//
 import { useAuth } from '@/context/AuthContext';
 import { useJobPostingsContext } from '@/context/JobPostingsContext';
 
 //-- import components --//
-import SavedList from '@/components/SavedList/SavedList';
+import SavedList from '@/components/PageStructure/SavedList/SavedList';
 
 //-- import api methods --//
-import { JobPostingMethods } from '@/Utils/utils';
-const {
+import {
   fetchJobPostings,
   fetchFullJobPosting,
   fetchCandidatesAssociatedWithJobPosting,
   deleteJobPosting,
-} = JobPostingMethods;
+} from '@/api/JobPostingsMethods';
 
 const JobPostingsList: FC = () => {
+  //=== Context ===//
   const { state: authState } = useAuth();
-  const { snackbar } = authState;
+  const { loggedInProps, snackbar } = authState;
 
-  // TODO: get candidate profile state and dispatch from context
-  const { state, dispatch } = useJobPostingsContext();
-  const { savedJobPostingsListState, selectedJobPostingState } = state;
+  const { state } = useJobPostingsContext();
+  const { listState, bodyState } = state;
 
-  // TODO: create function to fetch candidate profiles from db
+  //=== Helpers ===//
+  const handleSearchChange = (searchValue: string) => {
+    listState.updateSearch(searchValue);
+  };
+
+  const handleNewJobPostingSelection = (selected: any) => () => {
+    listState.updateSelected(selected);
+  };
+
+  //=== API Methods ===//
   const getJobPostings = async (): Promise<void> => {
     const response = await fetchJobPostings();
     if (response) {
-      dispatch({
-        type: 'UPDATE_SAVED_JOB_POSTINGS_LIST',
-        payload: response.data,
-      });
-      dispatch({
-        type: 'UPDATE_FILTERED_SAVED_JOB_POSTINGS_LIST',
-        payload: response.data,
-      });
+      listState.updateListItems(response.data);
+      listState.updateFilteredListItems(response.data);
     } else {
       snackbar.updateSnackbar(true, 'Error fetching job postings', 'error');
     }
   };
 
-  // TODO: create function to toggle selection of candidate profile on list
-  const handleToggle = (selected: any) => () => {
-    dispatch({
-      type: 'UPDATE_SELECTED',
-      payload: selected,
-    });
-  };
-
-  // TODO: create function to delete candidate profile from db
   const handleDelete = async () => {
-    const response = await deleteJobPosting(savedJobPostingsListState.selected);
+    const response = await deleteJobPosting(listState.selected);
     if (response) {
+      listState.updateSelected(null);
+      await getJobPostings();
       snackbar.updateSnackbar(
         true,
         'Successfully deleted job posting',
         'success'
       );
-      dispatch({
-        type: 'UPDATE_SELECTED',
-        payload: null,
-      });
-      getJobPostings();
     } else {
       snackbar.updateSnackbar(true, 'Error deleting job posting', 'error');
     }
   };
 
-  // TODO: create function to handle search and filter
-  const handleSearchChange = (event) => {
-    dispatch({ type: 'UPDATE_SEARCH_VALUE', payload: event.target.value });
-  };
-
-  // TODO: create hook to fetch job posting upon mount
-  useEffect(() => {
-    getJobPostings();
-  }, []);
-
   const getAllCandidatesAssociatedToJobPosting = async (id) => {
-    console.log('GETTING CALLED');
-
     const response = await fetchCandidatesAssociatedWithJobPosting(id);
     if (response) {
-      dispatch({
-        type: 'UPDATE_ALL_CANDIDATES',
-        payload: response.data,
-      });
+      bodyState.updateCandidateRankingsState('allCandidates', response.data);
     } else {
       snackbar.updateSnackbar(
         true,
@@ -101,17 +76,20 @@ const JobPostingsList: FC = () => {
     }
   };
 
-  // TODO: create hook to fetch full job posting upon selection
+  //=== Hooks ===//
   useEffect(() => {
+    if (loggedInProps.user) {
+      getJobPostings();
+    }
+  }, [loggedInProps.user]);
+
+  useEffect(() => {
+    if (!listState.selected) return console.error('No job posting selected');
+
     const getFullJobPosting = async () => {
-      const response = await fetchFullJobPosting(
-        savedJobPostingsListState.selected.id
-      );
+      const response = await fetchFullJobPosting(listState.selected.id);
       if (response) {
-        dispatch({
-          type: 'SET_SELECTED_JOB_POSTING',
-          payload: response.data,
-        });
+        listState.setFullJobPostingDetails(response.data);
       } else {
         snackbar.updateSnackbar(
           true,
@@ -121,31 +99,25 @@ const JobPostingsList: FC = () => {
       }
     };
 
-    if (savedJobPostingsListState.selected) {
-      getFullJobPosting();
-      getAllCandidatesAssociatedToJobPosting(
-        savedJobPostingsListState.selected.id
-      );
-    }
-  }, [savedJobPostingsListState.selected]);
+    getFullJobPosting();
+    getAllCandidatesAssociatedToJobPosting(listState.selected.id);
+  }, [listState.selected]);
 
-  // TODO: create hook to delete job posting upon confirmation
   useEffect(() => {
-    getAllCandidatesAssociatedToJobPosting(
-      savedJobPostingsListState?.selected?.id
-    );
-  }, [selectedJobPostingState.refreshCandidates]);
+    getAllCandidatesAssociatedToJobPosting(listState?.selected?.id);
+  }, [bodyState.candidateRankingsState.refreshCandidates]);
 
   return (
     <Container>
       <SavedList
-        savedItems={savedJobPostingsListState?.filteredItems}
-        search={savedJobPostingsListState?.search}
-        loading={savedJobPostingsListState?.loading}
-        selected={savedJobPostingsListState?.selected}
         listType={'jobPostings'}
-        handleToggle={handleToggle}
+        items={listState?.filteredListItems}
+        search={listState?.search}
+        loading={listState?.loading}
+        selected={listState?.selected}
+        handleNewSelection={handleNewJobPostingSelection}
         handleSearchChange={handleSearchChange}
+        handleDelete={handleDelete}
       />
     </Container>
   );
