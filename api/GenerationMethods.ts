@@ -17,12 +17,6 @@ import {
 } from '../Types/ApiResponse.types';
 
 
-import {
-  PhoneCall,
-  PhoneCallListState,
-  InitateCallResponse,
-} from '@/Types/TranscriptionPage.types';
-
 import { createPayload, replaceSpecialCharactersInArray } from '@/Utils/utils';
 import { MatchScore } from '@/Types/CandidatesSection.types';
 

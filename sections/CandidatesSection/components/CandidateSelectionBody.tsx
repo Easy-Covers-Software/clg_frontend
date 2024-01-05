@@ -366,7 +366,6 @@ const CandidateSelectionBody: FC = () => {
           default:
             return <></>;
         }
-
       default:
         return <></>;
     }

@@ -70,7 +70,7 @@ export type CandidateListState = {
   updateSearch: (search: string) => void;
   updateLoading: (tof: boolean) => void;
   toggleRefresh: () => void;
-  updateFullCandidateProfile: (candidate: CandidateListItem) => void;
+  setFullCandidateProfile: (candidate: CandidateListItem) => void;
 };
 //== selected list item type ==//
 

@@ -65,7 +65,7 @@ const SavedCandidatesList: FC = () => {
   //= GET CANDIDATE PROFILES =//
   const getCandidateProfiles = async (): Promise<void> => {
     try {
-      const response: APIResponse<CandidateListItem> =
+      const response: APIResponse<CandidateListItem[]> =
         await fetchCandidateProfiles();
 
       listState.updateListItems(response.data);
