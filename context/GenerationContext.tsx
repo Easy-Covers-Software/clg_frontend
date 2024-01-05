@@ -1,6 +1,9 @@
-import { createContext, useContext, useReducer, useEffect } from 'react';
+import { createContext, useContext, useReducer, useEffect, use } from 'react';
 
 import { addPTags, addDivTag } from '@/Utils/utils';
+
+import { fetchCandidateProfiles } from '@/api/CandidateProfileMethods';
+import { fetchJobPostings } from '@/api/JobPostingsMethods';
 
 const Context = createContext<any>({
   state: {},
@@ -9,21 +12,6 @@ const Context = createContext<any>({
 
 // const initialState: GenerationState = {
 const initialState = {
-  //== Save ==//
-  saveProps: {
-    isSavedDropdownOpen: false,
-    disableSavedButton: true,
-    toggleIsSavedDropdownOpen: (): void => {},
-    toggleDisableSavedButton: (): void => {},
-  },
-  //== Download ==//
-  downloadProps: {
-    isDownloadDropdownOpen: false,
-    disableDownloads: true,
-    toggleIsDownloadDropdownOpen: (): void => {},
-    toggleDisableDownloads: (): void => {},
-  },
-
   //=== Generation Setup State ==//
   generationSetupState: {
     mode: 'email', // email == true && cover letter == false
@@ -55,10 +43,10 @@ const initialState = {
       },
     },
     updateGenerationMode: (mode: string): void => {},
-    updateCandidateSelectionState: (state: any): void => {},
-    updateJobPostingSelectionState: (state: any): void => {},
-    updateEmailGenerationSettings: (state: any): void => {},
-    updateCoverLetterGenerationSettings: (state: any): void => {},
+    updateCandidateSelectionState: (field: any, state: any): void => {},
+    updateJobPostingSelectionState: (field: any, state: any): void => {},
+    updateEmailGenerationSettings: (field: any, state: any): void => {},
+    updateCoverLetterGenerationSettings: (field: any, state: any): void => {},
   },
   bodyState: {
     selectionSummaryState: {
@@ -105,67 +93,17 @@ const initialState = {
       //== Adjustments Section ==//
       isAdjustmentsSectionExpanded: false,
     },
-    updateGenerationResultsState: (state: any): void => {},
-    updateSimpleAdjustmentState: (state: any): void => {},
-    updateIntermediateAdjustmentState: (state: any): void => {},
-    updateCustomAdjustmentState: (state: any): void => {},
+    updateSelectionSummaryState: (field: any, state: any): void => {},
+    updateGenerationResultsState: (field: any, state: any): void => {},
+    updateSimpleAdjustmentState: (field: any, state: any): void => {},
+    updateIntermediateAdjustmentState: (field: any, state: any): void => {},
+    updateCustomAdjustmentState: (field: any, state: any): void => {},
     toggleIsAdjustmentsSectionExpanded: (): void => {},
   },
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    //== Save ==//
-    case 'SET_SAVE_PROPS':
-      return {
-        ...state,
-        saveProps: {
-          ...state.saveProps,
-          ...action.payload,
-        },
-      };
-    case 'TOGGLE_IS_SAVED_DROPDOWN_OPEN':
-      return {
-        ...state,
-        saveProps: {
-          ...state.saveProps,
-          isSavedDropdownOpen: !state.saveProps.isSavedDropdownOpen,
-        },
-      };
-    case 'TOGGLE_DISABLE_SAVED_BUTTON':
-      return {
-        ...state,
-        saveProps: {
-          ...state.saveProps,
-          disableSavedButton: !state.saveProps.disableSavedButton,
-        },
-      };
-    //== Download ==//
-    case 'SET_DOWNLOAD_PROPS':
-      return {
-        ...state,
-        downloadProps: {
-          ...state.downloadProps,
-          ...action.payload,
-        },
-      };
-    case 'TOGGLE_IS_DOWNLOAD_DROPDOWN_OPEN':
-      return {
-        ...state,
-        downloadProps: {
-          ...state.downloadProps,
-          isDownloadDropdownOpen: !state.downloadProps.isDownloadDropdownOpen,
-        },
-      };
-    case 'TOGGLE_DISABLE_DOWNLOADS':
-    //   return {
-    //     ...state,
-    //     downloadProps: {
-    //       ...state.downloadProps,
-    //       disableDownloads: !state.downloadProps.disableDownloads,
-    //     },
-    //   };
-
     //== generationSetupState ==//
     case 'SET_GENERATION_SETUP_STATE':
       return {
@@ -327,6 +265,55 @@ function reducer(state, action) {
 
 export function GenerationContext({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    const getCandidateProfiles = async (): Promise<void> => {
+      try {
+        const response = await fetchCandidateProfiles();
+        console.log('response ======*****', response);
+        if (response.data) {
+          // generationSetupState.updateCandidateSelectionState(
+          //   'candidates',
+          //   response.data
+          // );
+          // generationSetupState.updateCandidateSelectionState(
+          //   'filteredCandidates',
+          //   response.data
+          // );
+          dispatch({
+            type: 'UPDATE_CANDIDATE_SELECTION_STATE',
+            payload: {
+              candidates: response.data,
+              filteredCandidates: response.data,
+            },
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const getJobPostings = async (): Promise<void> => {
+      try {
+        const response = await fetchJobPostings();
+        if (response) {
+          dispatch({
+            type: 'UPDATE_JOB_POSTING_SELECTION_STATE',
+            payload: {
+              jobPostings: response.data,
+              filteredJobPostings: response.data,
+            },
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getJobPostings();
+    getCandidateProfiles();
+  }, []);
+
   //=== generationSetupState ==//
   useEffect(() => {
     dispatch({
@@ -410,44 +397,6 @@ export function GenerationContext({ children }) {
         toggleIsAdjustmentsSectionExpanded: (): void => {
           dispatch({
             type: 'TOGGLE_IS_ADJUSTMENTS_SECTION_EXPANDED',
-          });
-        },
-      },
-    });
-  }, []);
-
-  //== Save ==//
-  useEffect(() => {
-    dispatch({
-      type: 'SET_SAVE_PROPS',
-      payload: {
-        toggleIsSavedDropdownOpen: (): void => {
-          dispatch({
-            type: 'TOGGLE_IS_SAVED_DROPDOWN_OPEN',
-          });
-        },
-        toggleDisableSavedButton: (): void => {
-          dispatch({
-            type: 'TOGGLE_DISABLE_SAVED_BUTTON',
-          });
-        },
-      },
-    });
-  }, []);
-
-  //== Download ==//
-  useEffect(() => {
-    dispatch({
-      type: 'SET_DOWNLOAD_PROPS',
-      payload: {
-        toggleIsDownloadDropdownOpen: (): void => {
-          dispatch({
-            type: 'TOGGLE_IS_DOWNLOAD_DROPDOWN_OPEN',
-          });
-        },
-        toggleDisableDownloads: (): void => {
-          dispatch({
-            type: 'TOGGLE_DISABLE_DOWNLOADS',
           });
         },
       },

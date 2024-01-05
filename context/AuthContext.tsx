@@ -3,7 +3,7 @@ import { createContext, useContext, useReducer, useEffect } from 'react';
 import { fetchUser } from '@/api/AuthMethods';
 
 import { APIResponse, FetchUserApiResponse } from '@/Types/ApiResponse.types';
-import { AuthState } from '@/Types/AuthContext.types';
+import { AuthState } from '@/Types/Auth.types';
 
 interface AuthProviderProps {
   children: React.ReactNode;

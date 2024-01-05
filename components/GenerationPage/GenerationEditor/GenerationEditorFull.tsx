@@ -28,24 +28,14 @@ import DownloadMenuFull from '../Download/DownloadMenuFull';
 
 import { parseSectionsFromHTML, addDivTag } from '@/Utils/utils';
 
-import {
-  CoverLetterData,
-  AdjustmentSectionProps,
-  SimpleAdjustmentProps,
-  IntermediateAdjustmentProps,
-  CustomAdjustmentProps,
-  SaveProps,
-  DownloadProps,
-} from '@/Types/GenerationContext.types';
-
 interface Props {
   generationData: any;
-  adjustmentSection: AdjustmentSectionProps;
-  simpleAdjustmentProps: SimpleAdjustmentProps;
-  intermediateAdjustmentProps: IntermediateAdjustmentProps;
-  customAdjustmentProps: CustomAdjustmentProps;
-  saveProps: SaveProps;
-  downloadProps: DownloadProps;
+  adjustmentSection: any;
+  simpleAdjustmentProps: any;
+  intermediateAdjustmentProps: any;
+  customAdjustmentProps: any;
+  saveProps: any;
+  downloadProps: any;
 }
 
 const GenerationEditorFull: FC<any> = ({
@@ -160,8 +150,8 @@ const GenerationEditorFull: FC<any> = ({
                 <RichTextEditor.ControlsGroup ml={'1%'}>
                   <DownloadMenuFull
                     contentData={generationData}
-                    saveProps={saveProps}
-                    downloadProps={downloadProps}
+                    // saveProps={saveProps}
+                    // downloadProps={downloadProps}
                     snackbar={snackbar}
                     dispatch={dispatch}
                   />

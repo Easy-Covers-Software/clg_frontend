@@ -44,11 +44,17 @@ const StyledInputBase = muiStyled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAndFilter({ search, handleSearchChange, type }) {
-  // const handleSearchChange = (event) => {
-  //   dispatch({ type: 'SET_SEARCH', payload: event.target.value });
-  // };
+interface Props {
+  type: string;
+  search: string;
+  handleSearchChange: (searchValue: string) => void;
+}
 
+const SearchAndFilter: React.FC<Props> = ({
+  type,
+  search,
+  handleSearchChange,
+}) => {
   return (
     <Search
       style={{
@@ -62,11 +68,13 @@ export default function SearchAndFilter({ search, handleSearchChange, type }) {
       </SearchIconWrapper>
       <StyledInputBase
         sx={{ color: 'white' }}
-        placeholder='Search…'
+        placeholder="Search…"
         inputProps={{ 'aria-label': 'search' }}
         value={search}
-        onChange={(e) => handleSearchChange(e)}
+        onChange={(e) => handleSearchChange(e.target.value)}
       />
     </Search>
   );
-}
+};
+
+export default SearchAndFilter;

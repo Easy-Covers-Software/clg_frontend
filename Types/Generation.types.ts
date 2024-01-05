@@ -1,71 +1,89 @@
-import { SummaryHeaderProps } from './Common.types';
+import { CandidateListItem } from "./CandidatesSection.types";
+import { JobPostingListObject } from "./JobPostingsSection.types";
+import { BodyState } from "./Common.types";
 
-//== Additional Details ==//
-interface AdditionalDetails {
-  simpleInput1: string;
-  simpleInput2: string;
-  simpleInput3: string;
-  openEndedInput: string;
-  updateSimpleInput(id: string, value: string): void;
-  updateOpenEndedInput(openEndedInput: string): void;
-}
-
-//== Generation Setup ==//
-interface GenerationSetupProps {
-  jobPosting: string;
-  resume: File | null;
-  freeText: string;
-  model: string;
-  isUsingPreviousResume: boolean;
-  disableGenerateButton: boolean;
-  updateJobPosting(jobPosting: string): void;
-  updateResume(resume: File): void;
-  updateFreeText(freeText: string): void;
-  updateModel(model: string): void;
-  updateIsUsingPreviousResume(): void;
-  toggleDisableGenerateButton(): void;
-}
-//== Job Details ==//
-// type JobDetailsProps = {
-//   id: string;
-//   mainTitle: string;
-//   secondaryTitle: string;
-//   supplementalInfo: number;
-//   loading: boolean;
-//   updateJobTitle: (jobTitle: string) => void;
-//   updateCompanyName: (companyName: string) => void;
-//   updateMatchScore: (matchScore: number) => void;
-//   toggleLoadingSummary: () => void;
-// };
-
-//== Cover Letter Data ==//
-type CoverLetterData = {
-  coverLetterId: string;
+//=== State ===//
+export type GenerationResultsState = {
+  id: string;
+  content: string[] | null;
+  contentHtml: string;
+  editedContent: string[] | null;
+  editedContentHtml: string;
   saveName: string;
-  coverLetterHtml: string;
-  coverLetterParts: string[] | null;
-  editedCoverLetter: string;
-  editedCoverLetterParts: string[] | null;
-  loadingCoverLetter: boolean;
-  updateCoverLetterId: (coverLetterId: string) => void;
-  updateJobPostingId: (jobPostingId: string) => void;
-  updateSaveName: (saveName: string) => void;
-  updateCoverLetterHtml: (html: string) => void;
-  updateCoverLetterParts: (parts: string[]) => void;
-  updateEditedCoverLetterHtml: (editedHtml: string) => void;
-  updateEditedCoverLetterParts: (editedParts: string[]) => void;
-  toggleLoadingCoverLetter: () => void;
-  reset: () => void;
+  loading: boolean;
+  isSavedDropdownOpen: boolean;
+  disableSavedButton: boolean;
+  isDownloadDropdownOpen: boolean;
+  disableDownloads: boolean;
 };
 
-//== Simple Adjustments ==//
-type SimpleAdjustmentProps = {
+export type Generation = {
+  id: string;
+  generation_type: string;
+  save_name: string;
+  content: string[];
+  created_at: string;
+  updated_at: string;
+  recruiter: string;
+  candidate: string;
+  job_posting: string;
+};
+
+export type GenerationResponse = {
+  id: string;
+  content: string[];
+};
+
+
+type CandidateSelectionState = {
+  candidates: CandidateListItem[];
+  filteredCandidates: CandidateListItem[];
+  selectedCandidate: CandidateListItem | null;
+}
+
+type JobPostingSelectionState = {
+  jobPostings: JobPostingListObject[];
+  filteredJobPostings: JobPostingListObject[];
+  selectedJobPosting: JobPostingListObject | null;
+}
+
+type EmailGenerationSettings = {
+  introductionStyle: string;
+  interviewAvailability: string;
+  referal: string;
+  networkingPurpose: string;
+  communicationStyle: string;
+}
+
+type CoverLetterGenerationSettings = {
+  tone: string;
+  experienceLevel: string;
+  achievementEmphasis: string;
+  teamCollabStyle: string;
+}
+
+type AdditionalDetailsState = {
+  emailGenerationSettings: EmailGenerationSettings;
+  coverLetterGenerationSettings: CoverLetterGenerationSettings;
+}
+
+export type GenerationSetupState = {
+  mode: string;
+  candidateSelectionState: CandidateSelectionState;
+  jobPostingSelectionState: JobPostingSelectionState;
+  additionalDetailsState: AdditionalDetailsState;
+  updateGenerationMode: (mode: string) => void;
+  updateCandidateSelectionState: (field: string, state: any) => void;
+  updateJobPostingSelectionState: (field: string, state: any) => void;
+  updateEmailGenerationSettings: (field: string, state: any) => void;
+  updateCoverLetterGenerationSettings: (field: string, state: any) => void;
+};
+
+type SimpleAdjustmentsState = {
   disableSimpleAdjustment: boolean;
-  toggleDisableSimpleAdjustment: (disableSimpleAdjustment: boolean) => void;
-};
+}
 
-//== Intermediate Adjustments ==//
-type IntermediateAdjustmentProps = {
+type IntermediateAdjustmentsState = {
   addSkillInput: string;
   insertKeywordInput: string;
   removeRedundancyInput: string;
@@ -74,69 +92,35 @@ type IntermediateAdjustmentProps = {
   disableInsertKeyword: boolean;
   disableRemoveRedundancy: boolean;
   disableIntermediateAdjustment: boolean;
-  updateAddSkillInput: (addSkillInput: string) => void;
-  updateInsertKeywordInput: (insertKeywordInput: string) => void;
-  updateRemoveRedundancyInput: (removeRedundancyInput: string) => void;
-  updateIntermediateType: (intermediateType: string) => void;
-  toggleDisableAddSkill: () => void;
-  toggleDisableInsertKeyword: () => void;
-  toggleDisableRemoveRedundancy: () => void;
-  toggleDisableIntermediateAdjustment: () => void;
-};
+}
 
-//== Custom Adjustments ==//
-type CustomAdjustmentProps = {
+type CustomAdjustmentsState = {
   customAdjustment: string;
   disableCustomAdjustment: boolean;
-  updateCustomAdjustment: (customAdjustment: string) => void;
-  toggleDisableCustomAdjustment: (disableCustomAdjustment: boolean) => void;
-};
+}
 
-//== Save ==//
-type SaveProps = {
-  isSavedDropdownOpen: boolean;
-  disableSavedButton: boolean;
-  toggleIsSavedDropdownOpen: () => void;
-  toggleDisableSavedButton: () => void;
-};
-
-//== Download ==//
-type DownloadProps = {
-  isDownloadDropdownOpen: boolean;
-  disableDownloads: boolean;
-  toggleIsDownloadDropdownOpen: () => void;
-  toggleDisableDownloads: () => void;
-};
-
-//== Adjustments Section ==//
-type AdjustmentSectionProps = {
+type GenerationAdjustmentsState = {
+  simpleAdjustmentsState: SimpleAdjustmentsState;
+  intermediateAdjustmentsState: IntermediateAdjustmentsState;
+  customAdjustmentsState: CustomAdjustmentsState;
   isAdjustmentsSectionExpanded: boolean;
-  toggleIsAdjustmentsSectionExpanded: () => void;
-};
+}
 
-//== Master State Type ==//
-type GenerationState = {
-  additionalDetails: AdditionalDetails;
-  generationSetupProps: GenerationSetupProps;
-  jobDetailsProps: SummaryHeaderProps;
-  coverLetterData: CoverLetterData;
-  simpleAdjustmentProps: SimpleAdjustmentProps;
-  intermediateAdjustmentProps: IntermediateAdjustmentProps;
-  customAdjustmentProps: CustomAdjustmentProps;
-  saveProps: SaveProps;
-  downloadProps: DownloadProps;
-  adjustmentSection: AdjustmentSectionProps;
-};
 
-export type {
-  AdditionalDetails,
-  GenerationSetupProps,
-  CoverLetterData,
-  SimpleAdjustmentProps,
-  IntermediateAdjustmentProps,
-  CustomAdjustmentProps,
-  SaveProps,
-  DownloadProps,
-  AdjustmentSectionProps,
-  GenerationState,
-};
+export type GenerationBodyUnique = {
+  generationResultsState: GenerationResultsState;
+  generationAdjustmentsState: GenerationAdjustmentsState;
+  updateGenerationResultsState: (field: string, state: any) => void;
+  updateSimpleAdjustmentsState: (field: string, state: any) => void;
+  updateIntermediateAdjustmentsState: (field: string, state: any) => void;
+  updateCustomAdjustmentsState: (field: string, state: any) => void;
+  toggleIsAdjustmentsSectionExpanded: () => void;  
+}
+
+export type GenerationBodyState = BodyState & GenerationBodyUnique;
+
+
+
+
+//=== Context ===//
+

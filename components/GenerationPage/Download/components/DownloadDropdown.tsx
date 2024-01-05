@@ -15,8 +15,7 @@ import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined';
 import DownloadForOfflineOutlinedIcon from '@mui/icons-material/DownloadForOfflineOutlined';
 
 // import { DownloadProperties } from '../DownloadMenu.types';
-import { DownloadProps } from '@/Types/GenerationContext.types';
-import { Snackbar } from '@/Types/AuthContext.types';
+import { Snackbar } from '@/Types/Auth.types';
 
 import {
   determineGenerationParts,
@@ -25,11 +24,9 @@ import {
 
 import { generatePDF, generateDOCX } from '@/api/GenerationMethods';
 
-import { CoverLetterData } from '@/Types/GenerationContext.types';
-
 interface Props {
-  coverLetterData: CoverLetterData;
-  downloadProps: DownloadProps;
+  coverLetterData: any;
+  downloadProps: any;
   snackbar: Snackbar;
 }
 
@@ -51,7 +48,7 @@ const DownloadDropdown: FC<any> = ({
       downloadProps?.toggleIsDownloadDropdownOpen();
     } else {
       dispatch({
-        type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
+        type: 'UPDATE_GENERATION_RESULTS_STATE',
         payload: { isDownloadDropdownOpen: true },
       });
     }
@@ -63,7 +60,7 @@ const DownloadDropdown: FC<any> = ({
       downloadProps?.toggleIsDownloadDropdownOpen();
     } else {
       dispatch({
-        type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
+        type: 'UPDATE_GENERATION_RESULTS_STATE',
         payload: { isDownloadDropdownOpen: false },
       });
     }
@@ -113,7 +110,7 @@ const DownloadDropdown: FC<any> = ({
     handleCloseDownload();
   };
 
-  const shouldDisable = (content: CoverLetterData) => {
+  const shouldDisable = (content: any) => {
     if (contentData?.contentHtml) {
       return false;
     } else {

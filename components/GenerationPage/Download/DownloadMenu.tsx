@@ -4,18 +4,12 @@ import Divider from '@mui/material/Divider';
 import { SaveNameInput, DownloadDropdown } from './components';
 import { Container } from './DownloadMenu.styles';
 
-import {
-  CoverLetterData,
-  SaveProps,
-  DownloadProps,
-} from '@/Types/GenerationContext.types';
-
-import { Snackbar } from '@/Types/AuthContext.types';
+import { Snackbar } from '@/Types/Auth.types';
 
 interface Props {
-  coverLetterData: CoverLetterData;
-  saveProps: SaveProps;
-  downloadProps: DownloadProps;
+  coverLetterData: any;
+  saveProps: any;
+  downloadProps: any;
   snackbar: Snackbar;
 }
 

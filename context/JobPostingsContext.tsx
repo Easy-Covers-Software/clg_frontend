@@ -4,12 +4,13 @@ import { addPTags, addDivTag } from '@/Utils/utils';
 
 const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
 
-const JobPostingsContext = createContext<any>({
-  state: {},
-  dispatch: () => null,
-});
+import {
+  JobPostingListObject,
+  // JobPostingsContext,
+  JobPostingsInitialState,
+} from '@/Types/JobPostingsSection.types';
 
-const initialState = {
+const JobPostingsContext = createContext<any>({
   listState: {
     listItems: [],
     filteredListItems: [],
@@ -19,13 +20,13 @@ const initialState = {
     refresh: false,
     updateListItems: (list: any): void => {},
     updateFilteredListItems: (list: any): void => {},
-    updateSelected: (id: string): void => {},
+    updateSelected: (id: any): void => {},
     updateSearch: (search: string): void => {},
     updateLoading: (loading: boolean): void => {},
     toggleRefresh: (): void => {},
   },
-  selectedListItemFullDetails: null,
-  selectedItemBodyDisplayState: {
+  selectedListItem: null,
+  bodyState: {
     mode: 'overview', // overview, candidate
     selectionSummaryState: {
       id: '',
@@ -43,7 +44,7 @@ const initialState = {
       listFilter: 'weighted', // weighted, total
       refreshCandidates: true,
     },
-    currentlyCalculatingInOverviewMode: null,
+    currentlyCalculating: null,
     selectedCandidateScoreDetailsState: {
       selectedCandidateMode: 'overview', // overview, phoneCall, generation
       generationPanelMode: 'overview', // overview, emailSelection, coverLetterSelection
@@ -71,7 +72,76 @@ const initialState = {
     updateMode: (mode: string): void => {},
     updateSelectionSummaryState: (field, state: any): void => {},
     updateCandidateRankingsState: (field, state: any): void => {},
-    updateCurrentlyCalculatingInOverviewMode: (candidateId: any): void => {},
+    updateCurrentlyCalculating: (candidateId: any): void => {},
+    updateSelectedCandidateScoreDetailsState: (field, state: any): void => {},
+    updateGenerationResultsState: (field, state: any): void => {},
+  },
+  dispatch: () => null,
+});
+
+const initialState: any = {
+  listState: {
+    listItems: [],
+    filteredListItems: [],
+    selected: null,
+    search: '',
+    loading: false,
+    refresh: false,
+    updateListItems: (list: any): void => {},
+    updateFilteredListItems: (list: any): void => {},
+    updateSelected: (id: JobPostingListObject | null): void => {},
+    updateSearch: (search: string): void => {},
+    updateLoading: (loading: boolean): void => {},
+    toggleRefresh: (): void => {},
+  },
+  selectedListItem: null,
+  bodyState: {
+    mode: 'overview', // overview, candidate
+    selectionSummaryState: {
+      id: '',
+      mainTitle: 'Job Title',
+      secondaryTitle: 'Company Name',
+      supplementaryInfo: '',
+      loading: false,
+    },
+    candidateRankingsState: {
+      allCandidates: [],
+      selectedCandidate: null,
+      rankings: [],
+      unscoredCandidates: [],
+      scoreFilter: 'rankings', // rankings, all, unscored
+      listFilter: 'weighted', // weighted, total
+      refreshCandidates: true,
+    },
+    currentlyCalculating: null,
+    selectedCandidateScoreDetailsState: {
+      selectedCandidateMode: 'overview', // overview, phoneCall, generation
+      generationPanelMode: 'overview', // overview, emailSelection, coverLetterSelection
+      callPanelMode: 'overview', // overview, followUpSelection
+      selectedGeneration: null,
+      selectedCall: null,
+      loading: false,
+      resumeUrl: '',
+      refreshCandidates: true,
+    },
+    generationResultsState: {
+      id: '',
+      content: null,
+      contentHtml: '',
+      editedContent: null,
+      editedContentHtml: '',
+      saveName: '',
+      loading: false,
+      isSavedDropdownOpen: false,
+      disableSavedButton: true,
+      isDownloadDropdownOpen: false,
+      disableDownloads: true,
+    },
+
+    updateMode: (mode: string): void => {},
+    updateSelectionSummaryState: (field, state: any): void => {},
+    updateCandidateRankingsState: (field, state: any): void => {},
+    updateCurrentlyCalculating: (candidateId: any): void => {},
     updateSelectedCandidateScoreDetailsState: (field, state: any): void => {},
     updateGenerationResultsState: (field, state: any): void => {},
   },
@@ -138,30 +208,30 @@ const jobPostingsReducer = (state: any, action: any) => {
     case 'SET_SELECTED_JOB_POSTING_FULL_DETAILS':
       return {
         ...state,
-        selectedListItemFullDetails: action.payload,
+        selectedListItem: action.payload,
       };
 
     //=== Selected Item Body Display State ===//
     case 'SET_SELECTED_JOB_POSTING_BODY_DISPLAY_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: action.payload,
+        bodyState: action.payload,
       };
     case 'UPDATE_JOB_POSTING_BODY_DISPLAY_MODE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           mode: action.payload,
         },
       };
     case 'UPDATE_JOB_POSTING_SELECTION_SUMMARY_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           selectionSummaryState: {
-            ...state.selectedItemBodyDisplayState.selectionSummaryState,
+            ...state.bodyState.selectionSummaryState,
             ...action.payload,
           },
         },
@@ -169,10 +239,10 @@ const jobPostingsReducer = (state: any, action: any) => {
     case 'UPDATE_JOB_POSTING_SELECTION_CANDIDATE_RANKINGS_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           candidateRankingsState: {
-            ...state.selectedItemBodyDisplayState.candidateRankingsState,
+            ...state.bodyState.candidateRankingsState,
             ...action.payload,
           },
         },
@@ -180,19 +250,18 @@ const jobPostingsReducer = (state: any, action: any) => {
     case 'UPDATE_CURRENTLY_CALCULATING_CANDIDATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
-          currentlyCalculatingInOverviewMode: action.payload,
+        bodyState: {
+          ...state.bodyState,
+          currentlyCalculating: action.payload,
         },
       };
     case 'UPDATE_SELECTED_CANDIDATE_SCORE_DETAILS':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           selectedCandidateScoreDetailsState: {
-            ...state.selectedItemBodyDisplayState
-              .selectedCandidateScoreDetailsState,
+            ...state.bodyState.selectedCandidateScoreDetailsState,
             ...action.payload,
           },
         },
@@ -200,10 +269,10 @@ const jobPostingsReducer = (state: any, action: any) => {
     case 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           generationResultsState: {
-            ...state.selectedItemBodyDisplayState.generationResultsState,
+            ...state.bodyState.generationResultsState,
             ...action.payload,
           },
         },
@@ -219,17 +288,17 @@ export const JobPostingsContextProvider = ({ children }) => {
 
   //-- update selection summary --//
   useEffect(() => {
-    if (state.selectedListItemFullDetails) {
+    if (state.selectedListItem) {
       dispatch({
         type: 'UPDATE_JOB_POSTING_SELECTION_SUMMARY_STATE',
         payload: {
-          mainTitle: state.selectedListItemFullDetails.job_title,
-          secondaryTitle: state.selectedListItemFullDetails.company_name,
-          supplementaryInfo: state.selectedListItemFullDetails.created_at,
+          mainTitle: state.selectedListItem.job_title,
+          secondaryTitle: state.selectedListItem.company_name,
+          supplementaryInfo: state.selectedListItem.created_at,
         },
       });
     }
-  }, [state.selectedListItemFullDetails]);
+  }, [state.selectedListItem]);
 
   //== List State ==//
   useEffect(() => {
@@ -288,19 +357,13 @@ export const JobPostingsContextProvider = ({ children }) => {
     dispatch({
       type: 'SET_SELECTED_JOB_POSTING_BODY_DISPLAY_STATE',
       payload: {
-        mode: initialState.selectedItemBodyDisplayState.mode,
-        selectionSummaryState:
-          initialState.selectedItemBodyDisplayState.selectionSummaryState,
-        candidateRankingsState:
-          initialState.selectedItemBodyDisplayState.candidateRankingsState,
-        currentlyCalculatingInOverviewMode:
-          initialState.selectedItemBodyDisplayState
-            .currentlyCalculatingInOverviewMode,
+        mode: initialState.bodyState.mode,
+        selectionSummaryState: initialState.bodyState.selectionSummaryState,
+        candidateRankingsState: initialState.bodyState.candidateRankingsState,
+        currentlyCalculating: initialState.bodyState.currentlyCalculating,
         selectedCandidateScoreDetailsState:
-          initialState.selectedItemBodyDisplayState
-            .selectedCandidateScoreDetailsState,
-        generationResultsState:
-          initialState.selectedItemBodyDisplayState.generationResultsState,
+          initialState.bodyState.selectedCandidateScoreDetailsState,
+        generationResultsState: initialState.bodyState.generationResultsState,
         updateMode: (mode: string) => {
           dispatch({
             type: 'UPDATE_JOB_POSTING_BODY_DISPLAY_MODE',
@@ -319,7 +382,7 @@ export const JobPostingsContextProvider = ({ children }) => {
             payload: { [field]: state },
           });
         },
-        updateCurrentlyCalculatingInOverviewMode: (candidateId: any) => {
+        updatecurrentlyCalculating: (candidateId: any) => {
           dispatch({
             type: 'UPDATE_CURRENTLY_CALCULATING_CANDIDATE',
             payload: candidateId,
@@ -344,8 +407,7 @@ export const JobPostingsContextProvider = ({ children }) => {
   //== Generation selection ==//
   useEffect(() => {
     if (
-      !state.selectedItemBodyDisplayState.selectedCandidateScoreDetailsState
-        ?.selectedGeneration
+      !state.bodyState.selectedCandidateScoreDetailsState?.selectedGeneration
     ) {
       return;
     }
@@ -353,16 +415,16 @@ export const JobPostingsContextProvider = ({ children }) => {
     dispatch({
       type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
       payload: {
-        id: state.selectedItemBodyDisplayState
-          .selectedCandidateScoreDetailsState.selectedGeneration?.id,
+        id: state.bodyState.selectedCandidateScoreDetailsState
+          .selectedGeneration?.id,
       },
     });
     dispatch({
       type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
       payload: {
         content:
-          state.selectedItemBodyDisplayState.selectedCandidateScoreDetailsState
-            .selectedGeneration?.content,
+          state.bodyState.selectedCandidateScoreDetailsState.selectedGeneration
+            ?.content,
       },
     });
     dispatch({
@@ -370,23 +432,19 @@ export const JobPostingsContextProvider = ({ children }) => {
       payload: {
         contentHtml: addDivTag(
           addPTags(
-            state.selectedItemBodyDisplayState
-              .selectedCandidateScoreDetailsState.selectedGeneration?.content
+            state.bodyState.selectedCandidateScoreDetailsState
+              .selectedGeneration?.content
           )
         ),
       },
     });
-  }, [
-    state.selectedItemBodyDisplayState.selectedCandidateScoreDetailsState
-      .selectedGeneration,
-  ]);
+  }, [state.bodyState.selectedCandidateScoreDetailsState.selectedGeneration]);
 
   //== Resume Path ==//
   useEffect(() => {
     const updateResumeUrl = async () => {
       const filePath =
-        state.selectedItemBodyDisplayState.candidateRankingsState
-          .selectedCandidate.resume.file;
+        state.bodyState.candidateRankingsState.selectedCandidate.resume.file;
       const fullPath = `${DOMAIN}/${filePath}`;
 
       dispatch({
@@ -395,21 +453,16 @@ export const JobPostingsContextProvider = ({ children }) => {
       });
     };
 
-    if (
-      state.selectedItemBodyDisplayState.candidateRankingsState
-        ?.selectedCandidate?.resume
-    ) {
+    if (state.bodyState.candidateRankingsState?.selectedCandidate?.resume) {
       updateResumeUrl();
     }
-  }, [
-    state.selectedItemBodyDisplayState.candidateRankingsState.selectedCandidate,
-  ]);
+  }, [state.bodyState.candidateRankingsState.selectedCandidate]);
 
   //== Candidate Rankings ==//
   useEffect(() => {
     const updateRankings = async () => {
       const filteredCandidates =
-        state.selectedItemBodyDisplayState.candidateRankingsState.allCandidates.filter(
+        state.bodyState.candidateRankingsState.allCandidates.filter(
           (candidate) => candidate.match_score !== null
         );
 
@@ -426,7 +479,7 @@ export const JobPostingsContextProvider = ({ children }) => {
 
     const updateUnscoredCandidates = async () => {
       const filteredCandidates =
-        state.selectedItemBodyDisplayState.candidateRankingsState.allCandidates.filter(
+        state.bodyState.candidateRankingsState.allCandidates.filter(
           (candidate) => candidate.match_score === null
         );
 
@@ -436,14 +489,11 @@ export const JobPostingsContextProvider = ({ children }) => {
       });
     };
 
-    if (
-      state.selectedItemBodyDisplayState.candidateRankingsState.allCandidates
-        ?.length > 0
-    ) {
+    if (state.bodyState.candidateRankingsState.allCandidates?.length > 0) {
       updateRankings();
       updateUnscoredCandidates();
     }
-  }, [state.selectedItemBodyDisplayState.candidateRankingsState.allCandidates]);
+  }, [state.bodyState.candidateRankingsState.allCandidates]);
 
   const value = { state, dispatch };
   console.log('job postings state', state);

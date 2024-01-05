@@ -8,25 +8,23 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 
-const CandidateProfessionalDetails = ({
-  yearsOfExperience,
-  skills,
-  linkedinUrl,
-  portfolioUrl,
-  currentTitle,
-  currentEmployer,
-  educationLevel,
-  educationField,
-  educationInstitution,
-}) => {
-  console.log('skills', skills);
-  // console.log('linkedInUrl', linkedInUrl);
+import { CandidateListItem } from '@/Types/CandidatesSection.types';
 
-  const skillChips = skills?.split(',')
+interface Props {
+  selectedCandidate: CandidateListItem;
+}
+
+const CandidateProfessionalDetails: React.FC<Props> = ({
+  selectedCandidate,
+}) => {
+  //== skill chips ==//
+  const skillChips = selectedCandidate.skills
+    ?.split(',')
     .map((skill, index) => (
       <Chip key={index} label={skill.trim()} style={{ margin: '2px' }} />
     ));
 
+  //== For linked in and portfolio website ==//
   const openInNewTab = (url) => {
     if (url) {
       window.open(url, '_blank', 'noopener,noreferrer');
@@ -38,71 +36,80 @@ const CandidateProfessionalDetails = ({
   return (
     <Grid2
       p={2}
-      display='flex'
-      flexDirection='column'
-      justifyContent='space-between'
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
       height={'100%'}
       width={'100%'}
-      position='relative'
+      position="relative"
       pb={0}
       mb={0}
       pl={1}
       pr={1}
       pt={1}
     >
-      <Box position='absolute' top={0} right={2} pb={0}>
+      <Box position="absolute" top={0} right={2} pb={0}>
         <IconButton
-          aria-label='linkedin'
+          aria-label="linkedin"
           // href={linkedinUrl}
           // target='_blank'
-          disabled={linkedinUrl === ''}
+          disabled={selectedCandidate.linkedin_profile === ''}
           style={{
-            color: linkedinUrl === '' ? 'grey' : 'blue',
+            color: selectedCandidate.linkedin_profile === '' ? 'grey' : 'blue',
           }}
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
-            openInNewTab(linkedinUrl);
+            openInNewTab(selectedCandidate.linkedin_profile);
           }}
         >
-          <LinkedInIcon fontSize='large' />
+          <LinkedInIcon fontSize="large" />
         </IconButton>
         <IconButton
-          aria-label='website'
-          href={portfolioUrl}
-          target='_blank'
-          disabled={portfolioUrl === ''}
+          aria-label="website"
+          href={selectedCandidate.portfolio_website}
+          target="_blank"
+          disabled={selectedCandidate.portfolio_website === ''}
           style={{
-            color: portfolioUrl === '' ? 'grey' : '#FFD966',
+            color:
+              selectedCandidate.portfolio_website === '' ? 'grey' : '#FFD966',
           }}
           onClick={() => {
-            openInNewTab(portfolioUrl);
+            openInNewTab(selectedCandidate.portfolio_website);
           }}
         >
-          <FolderSharedIcon fontSize='large' />
+          <FolderSharedIcon fontSize="large" />
         </IconButton>
       </Box>
       <Box flexGrow={1} width={'100%'}>
         <Grid container spacing={2} width={'78%'}>
           <Grid item xs={12}>
             <Typography fontSize={'1.3rem'}>
-              {currentTitle} at {currentEmployer}
+              {selectedCandidate.current_title} at{' '}
+              {selectedCandidate.current_employer}
             </Typography>
             <Typography fontSize={'1rem'}>
-              {educationLevel} in {educationField}
+              {selectedCandidate.education_level} in{' '}
+              {selectedCandidate.education_field}
             </Typography>
-            <Typography fontSize={'1rem'}>{educationInstitution}</Typography>
             <Typography fontSize={'1rem'}>
-              Years of Experience: {yearsOfExperience || 'N/A'}
+              {selectedCandidate.education_institution}
+            </Typography>
+            <Typography fontSize={'1rem'}>
+              Years of Experience:{' '}
+              {selectedCandidate.years_of_experience || 'N/A'}
             </Typography>
           </Grid>
         </Grid>
       </Box>
-      <Box sx={{
-        overflowY: 'scroll'
-      }} pb={1}>
-        <Typography variant='body2'>Skills:</Typography>
-        <Box display='flex' flexWrap='nowrap' mt={0}>
+      <Box
+        sx={{
+          overflowY: 'scroll',
+        }}
+        pb={1}
+      >
+        <Typography variant="body2">Skills:</Typography>
+        <Box display="flex" flexWrap="nowrap" mt={0}>
           {skillChips?.length > 0 ? skillChips : 'N/A'}
         </Box>
       </Box>

@@ -21,9 +21,7 @@ interface CandidateSelectionProps {
 const CandidateProfileSelectionDataGrid: any = ({
   candidates,
   selected,
-  search,
   handleSelectionChange,
-  updateSearch,
 }) => {
   const [selectedCandidateId, setSelectedCandidateId] = useState<number | null>(
     selected?.id || null

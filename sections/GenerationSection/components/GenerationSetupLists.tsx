@@ -144,6 +144,24 @@ export default function GenerationSetupLists() {
     }
   };
 
+  const getCandidateProfiles = async (): Promise<void> => {
+    try {
+      const response = await fetchCandidateProfiles();
+      console.log('response ======*****', response);
+      if (response.data) {
+        dispatch({
+          type: 'UPDATE_CANDIDATE_SELECTION_STATE',
+          payload: {
+            candidates: response.data,
+            filteredCandidates: response.data,
+          },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleJobPostingSelection = (jobPosting) => {
     generationSetupState.updateJobPostingSelectionState(
       'selectedJobPosting',
@@ -161,34 +179,6 @@ export default function GenerationSetupLists() {
     //   type: 'UPDATE_JOB_POSTING_SEARCH',
     //   payload: event.target.value,
     // });
-  };
-
-  const getCandidateProfiles = async (): Promise<void> => {
-    const response = await fetchCandidateProfiles();
-    if (response) {
-      generationSetupState.updateCandidateSelectionState(
-        'candidates',
-        response.data
-      );
-      generationSetupState.updateCandidateSelectionState(
-        'filteredCandidates',
-        response.data
-      );
-      // dispatch({
-      //   type: 'UPDATE_CANDIDATES',
-      //   payload: response.data,
-      // });
-      // dispatch({
-      //   type: 'UPDATE_FILTERED_CANDIDATES',
-      //   payload: response.data,
-      // });
-    } else {
-      snackbar.updateSnackbar(
-        true,
-        'Error fetching candidate profiles',
-        'error'
-      );
-    }
   };
 
   const handleCandidateProfileSelection = (candidateProfile) => {
@@ -269,11 +259,6 @@ export default function GenerationSetupLists() {
       );
     }
   };
-
-  useEffect(() => {
-    getJobPostings();
-    getCandidateProfiles();
-  }, []);
 
   useEffect(() => {
     if (loggedInProps.user) {
@@ -413,11 +398,7 @@ export default function GenerationSetupLists() {
                 generationSetupState.candidateSelectionState?.selectedCandidate
                   ?.id
               }
-              search={
-                generationSetupState.candidateSelectionState?.candidateSearch
-              }
               handleSelectionChange={handleCandidateProfileSelection}
-              updateSearch={updateCandidateProfileSearch}
             />
           </AccordionDetails>
         </Accordion>

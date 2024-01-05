@@ -17,6 +17,10 @@ import { SubContainer } from './SavedList.styles';
 
 import styled from '@emotion/styled';
 
+import { CandidateListItem } from '@/Types/CandidatesSection.types';
+import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
+import { PhoneCall } from '@/Types/TranscriptionSection.types';
+
 const EmptyListGrid = styled(Grid)`
   text-align: center;
   padding: 1%;
@@ -24,28 +28,34 @@ const EmptyListGrid = styled(Grid)`
 `;
 
 interface SavedListProps {
-  savedItems: any[];
+  listType: string;
+  items: CandidateListItem[] | JobPostingListObject[] | PhoneCall[];
   search: string;
   loading: boolean;
-  selected: any;
-  listType: string;
-  handleToggle: (selectedItem: any) => () => void;
-  handleSearchChange: (e: any) => void;
+  selected: CandidateListItem | JobPostingListObject | PhoneCall;
+  handleNewSelection: (
+    item: CandidateListItem | JobPostingListObject | PhoneCall
+  ) => () => void;
+  handleSearchChange: (searchValue: string) => void;
+  handleDelete: (id: string) => void;
 }
 
 const SavedList: FC<SavedListProps> = ({
-  savedItems,
+  listType,
+  items,
   search,
   loading,
   selected,
-  listType,
-  handleToggle,
+  handleNewSelection,
   handleSearchChange,
+  handleDelete,
 }) => {
+  //== Auth State ==//
   const { state: authState } = useAuth();
-  const { loggedInProps, trackers, snackbar, confirmDialog } = authState;
+  const { loggedInProps, confirmDialog } = authState;
 
-  const handleDelete = () => {
+  //== Helper Functions ==//
+  const openDeleteDialog = () => {
     confirmDialog.openAlertDialogConfirm(
       true,
       'Delete Cover Letter',
@@ -54,13 +64,31 @@ const SavedList: FC<SavedListProps> = ({
     );
   };
 
+  const determineListHeader = () => {
+    if (listType === 'coverLetters') {
+      return 'Saved Cover Letters';
+    } else if (listType === 'profiles') {
+      return 'Saved Profiles';
+    } else if (listType === 'phoneCalls') {
+      return 'Saved Phone Calls';
+    } else if (listType === 'candidates') {
+      return 'Saved Candidates';
+    }
+  };
+
+  //== Hooks ==//
   useEffect(() => {
     if (confirmDialog.didConfirmAlert) {
-      confirmDialog.confirmDelete();
+      handleDelete(selected?.id);
+      confirmDialog.updateDidConfirmAlert(false);
     }
   }, [confirmDialog.didConfirmAlert]);
 
-  const renderCoverLetterItem = (item, i) => {
+  //== Render Functions ==//
+  const renderListItems = (
+    item: CandidateListItem | JobPostingListObject | PhoneCall,
+    i: number
+  ) => {
     const labelId = `radio-list-label-${item.save_name}-${i}`;
 
     return (
@@ -74,7 +102,7 @@ const SavedList: FC<SavedListProps> = ({
               aria-label="comments"
               onClick={(e) => {
                 e.stopPropagation();
-                handleDelete();
+                openDeleteDialog();
               }}
             >
               <DeleteForeverOutlinedIcon />
@@ -82,7 +110,7 @@ const SavedList: FC<SavedListProps> = ({
           )
         }
         disablePadding
-        onClick={handleToggle(item)}
+        onClick={handleNewSelection(item)}
       >
         <IconButton disableRipple>
           <Radio
@@ -98,8 +126,6 @@ const SavedList: FC<SavedListProps> = ({
           id={item.id}
           primary={item.save_name}
           secondary={item.company_name}
-          // primary={item.save_name?.substring(0, 84) + '...'}
-          // secondary={item.company_name && item.company_name?.substring(0, 24)}
         />
       </ListItem>
     );
@@ -125,7 +151,7 @@ const SavedList: FC<SavedListProps> = ({
     // Empty list
     if (
       // filteredItems?.length === 0 &&
-      savedItems?.length === 0 &&
+      items?.length === 0 &&
       search === ''
     ) {
       return (
@@ -140,7 +166,7 @@ const SavedList: FC<SavedListProps> = ({
     }
 
     // Empty search
-    if (savedItems?.length === 0 && search !== '') {
+    if (items?.length === 0 && search !== '') {
       return (
         <List className="saved-letters-list">
           <EmptyListGrid>
@@ -155,32 +181,19 @@ const SavedList: FC<SavedListProps> = ({
     return false;
   };
 
-  const determineListHeader = () => {
-    if (listType === 'coverLetters') {
-      return 'Saved Cover Letters';
-    } else if (listType === 'profiles') {
-      return 'Saved Profiles';
-    } else if (listType === 'phoneCalls') {
-      return 'Saved Phone Calls';
-    } else if (listType === 'candidates') {
-      return 'Saved Candidates';
-    }
-  };
-
   const emptyDisplay = renderEmptyListDisplay();
+
   if (emptyDisplay) return emptyDisplay;
 
   return (
     <SubContainer>
       <Typography className="saved-header">{determineListHeader()}</Typography>
       <SearchAndFilter
+        type={'full'}
         search={search}
         handleSearchChange={handleSearchChange}
-        type={'full'}
       />
-      <List className="saved-letters-list">
-        {savedItems?.map(renderCoverLetterItem)}
-      </List>
+      <List className="saved-letters-list">{items?.map(renderListItems)}</List>
     </SubContainer>
   );
 };

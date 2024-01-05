@@ -21,12 +21,11 @@ import {
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import { UnSelectedButton } from '@/components/Global/Global';
 
-import { Snackbar } from '@/Types/AuthContext.types';
-import { CoverLetterData, SaveProps } from '@/Types/GenerationContext.types';
+import { Snackbar } from '@/Types/Auth.types';
 
 interface Props {
-  coverLetterData: CoverLetterData;
-  saveProps: SaveProps;
+  coverLetterData: any;
+  saveProps: any;
   snackbar: Snackbar;
 }
 

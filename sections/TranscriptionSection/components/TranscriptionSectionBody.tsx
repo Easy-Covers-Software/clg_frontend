@@ -136,8 +136,8 @@ export default function TranscriptionSectionBody() {
     checked,
 
     listState,
-    selectedItemFullDetails,
-    selectedItemBodyDisplayState,
+    selectedListItem,
+    bodyState,
   } = state;
 
   // const [checked, setChecked] = useState(true);
@@ -322,16 +322,14 @@ export default function TranscriptionSectionBody() {
   }, []);
 
   const renderPhoneCallComponent = () => {
-    switch (selectedItemBodyDisplayState.callModeState.status) {
+    switch (bodyState.callModeState.status) {
       case 'new':
         return (
           <CallsContainer>
             <NewCall
               handleInitiatePhoneCall={handleInitiatePhoneCall}
               updateNewCallForm={updateNewCallForm}
-              jobPostings={
-                selectedItemBodyDisplayState.callModeState.availableJobPostings
-              }
+              jobPostings={bodyState.callModeState.availableJobPostings}
             />
             ;
           </CallsContainer>
@@ -386,18 +384,12 @@ export default function TranscriptionSectionBody() {
         return (
           <CallsContainer>
             <CallCompleteFrame
-              candidateId={
-                selectedItemBodyDisplayState.callModeState.newCallCandidateId
-              }
-              candidateName={
-                selectedItemBodyDisplayState.callModeState.newCallForm
-                  .candidate_name
-              }
+              candidateId={bodyState.callModeState.newCallCandidateId}
+              candidateName={bodyState.callModeState.newCallForm.candidate_name}
               candidateNumber={
-                selectedItemBodyDisplayState.callModeState.newCallForm
-                  .candidate_number
+                bodyState.callModeState.newCallForm.candidate_number
               }
-              jobPosting={selectedItemBodyDisplayState.callModeState.newCallId}
+              jobPosting={bodyState.callModeState.newCallId}
               updateSaveForm={updateSaveForm}
               handleSaveCandidate={saveCandidateProfile}
               reset={handleDontSave}
@@ -411,9 +403,7 @@ export default function TranscriptionSectionBody() {
             <NewCall
               handleInitiatePhoneCall={handleInitiatePhoneCall}
               updateNewCallForm={updateNewCallForm}
-              jobPostings={
-                selectedItemBodyDisplayState.callModeState.availableJobPostings
-              }
+              jobPostings={bodyState.callModeState.availableJobPostings}
             />
             ;
           </CallsContainer>
@@ -423,7 +413,7 @@ export default function TranscriptionSectionBody() {
   };
 
   const renderTranscriptionNotesComponent = () => {
-    switch (selectedItemFullDetails?.transcription_status) {
+    switch (selectedListItem?.transcription_status) {
       case 'awaiting':
         return (
           <NotesContainer>
@@ -455,7 +445,7 @@ export default function TranscriptionSectionBody() {
         return (
           <NotesProcessingContainer>
             <TranscriptionProgress
-              step={selectedItemFullDetails?.transcription_status_step}
+              step={selectedListItem?.transcription_status_step}
             />
           </NotesProcessingContainer>
         );
@@ -489,7 +479,7 @@ export default function TranscriptionSectionBody() {
         return (
           <TranscriptionNotes
             page={'transcription'}
-            transcriptionNotes={selectedItemFullDetails?.transcription?.notes}
+            transcriptionNotes={selectedListItem?.transcription?.notes}
           />
         );
       default:
@@ -517,8 +507,8 @@ export default function TranscriptionSectionBody() {
   return (
     <Container>
       <SelectionSummary
-        summaryDetails={selectedItemBodyDisplayState.selectionSummaryState}
-        checked={selectedItemBodyDisplayState.mode === 'Notes' ? false : true}
+        summaryDetails={bodyState.selectionSummaryState}
+        checked={bodyState.mode === 'Notes' ? false : true}
         handleChange={handleChange}
       />
       {/* <SubContainer
@@ -538,7 +528,7 @@ export default function TranscriptionSectionBody() {
               : '',
         }}
       > */}
-      {selectedItemBodyDisplayState.mode === 'Notes' ? (
+      {bodyState.mode === 'Notes' ? (
         <>
           {renderTranscriptionNotesComponent()}
           {/* {transcriptionState?.transcriptionNotes?.length > 0 ? (

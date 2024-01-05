@@ -354,9 +354,8 @@ const FullCandidateJobProfile = ({
                       );
                       console.log('phoneCall');
                       console.log(introCall);
+
                       handleCallSelection(introCall);
-                      // TODO: TEST
-                      // handleCallSelection(introCall);
                     }}
                     disabled={introCall?.transcription === null}
                   >

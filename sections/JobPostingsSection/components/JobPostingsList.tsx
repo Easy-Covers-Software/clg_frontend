@@ -28,7 +28,7 @@ const JobPostingsList: FC = () => {
   const { state, dispatch } = useJobPostingsContext();
   const {
     listState,
-    selectedItemBodyDisplayState,
+    bodyState,
     savedJobPostingsListState,
     selectedJobPostingState,
   } = state;
@@ -139,7 +139,7 @@ const JobPostingsList: FC = () => {
   // TODO: create hook to delete job posting upon confirmation
   useEffect(() => {
     getAllCandidatesAssociatedToJobPosting(listState?.selected?.id);
-  }, [selectedItemBodyDisplayState.candidateRankingsState.refreshCandidates]);
+  }, [bodyState.candidateRankingsState.refreshCandidates]);
 
   return (
     <Container>

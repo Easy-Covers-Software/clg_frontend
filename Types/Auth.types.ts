@@ -1,3 +1,16 @@
+
+
+export type User = {
+  id: string;
+  email: string;
+  phone_number: string;
+  is_active: boolean;
+};
+
+
+
+
+
 export type AccountAuthProps = {
   email: string;
   password: string;

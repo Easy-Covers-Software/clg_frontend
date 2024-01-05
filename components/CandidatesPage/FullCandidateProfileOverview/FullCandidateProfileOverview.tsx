@@ -9,70 +9,31 @@ import CandidatePersonalDetails from './components/CandidatePersonalDetails';
 import { useCandidatesContext } from '@/context/CandidatesContext';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'; // Import the upload icon
 
+import {
+  Container,
+  ProfessionDetailsGrid,
+  JobPostingsListGrid,
+  ResumePanelGrid,
+  PersonalDetailsGrid,
+  StyledPaper,
+  ResumePanelPaper,
+} from './FullCandidateProfileOverview.styles';
 
-const Container = styled(Grid)`
-  height: 100%;
-  padding: 1%;
+import { CandidateListItem } from '@/Types/CandidatesSection.types';
+import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
 
-  height: 100%;
-  width: 100%;
-  // padding: 2%;
-  display: flex;
-  // flex-direction: column;
-  align-content: center;
-  justify-content: center;
-  margin: auto;
-  flex-wrap: nowrap;
-  white-space: nowrap;
-`;
+interface Props {
+  selectedCandidate: CandidateListItem;
+  jobPostings: JobPostingListObject[];
+  jobLoadingId: string | null;
+  resumeUrl: string;
+  updateSelectedJobPosting: (jobPosting: JobPostingListObject) => void;
+  updateSelectedCandidateMode: (mode: string) => void;
+  handleCalculate: (jobPostingId: string) => void;
+  handleFileChange: (file: File) => void;
+}
 
-const ProfessionDetailsGrid = styled(Grid)`
-  height: 28vh;
-  min-height: 200px;
-`;
-
-const JobPostingsListGrid = styled(Grid)`
-  // height: 41.7vh;
-  // height: fit-content;
-  flex-grow: 1;
-  height: 40%;
-  min-height: 220px;
-  // overflow: scroll;
-  white-space: nowrap;
-  flex-wrap: nowrap;
-`;
-
-const ResumePanelGrid = styled(Grid)`
-  height: 16vh;
-  min-height: 100px;
-`;
-
-const PersonalDetailsGrid = styled(Grid)`
-  // height: 56vh;
-  // height: fit-content;
-  flex: 1;
-  min-height: 320px;
-`;
-
-const StyledPaper = styled(Paper)`
-  height: 100%;
-  width: 100%;
-  border: 3px solid #13d0b7;
-  overflow: scroll;
-`;
-
-const ResumePanelPaper = styled(StyledPaper)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    cursor: pointer;
-    background-color: #f5f5f5;
-  }
-`;
-
-const FullCandidateProfileOverview = ({
+const FullCandidateProfileOverview: React.FC<Props> = ({
   selectedCandidate,
   jobPostings,
   jobLoadingId,
@@ -80,30 +41,47 @@ const FullCandidateProfileOverview = ({
   updateSelectedCandidateMode,
   handleCalculate,
   resumeUrl,
-  handleFileChange
+  handleFileChange,
 }) => {
-  // const { state, dispatch } = useCandidatesContext();
-  // const { selectedCandidateProfile } = state;
   const fileInputRef = useRef(null);
-
-  console.log('resume URL')
-  console.log(resumeUrl)
-
-  console.log('Selected Candidate ===*');
-  console.log(selectedCandidate);
-
-  const onSelectJobPosting = (jobPosting) => {
-    console.log('Selected Job Posting:', jobPosting);
-  };
-
 
   const handleResumeClick = () => {
     if (resumeUrl === '') {
       fileInputRef.current.click();
     } else {
-      // existing logic for non-empty resumeUrl
-      console.log('Resume Panel Clicked');
       updateSelectedCandidateMode('resume');
+    }
+  };
+
+  const renderResumePanel = (
+    resumeUrl,
+    handleResumeClick,
+    fileInputRef,
+    handleFileChange
+  ) => {
+    // Using an if-else statement for conditional rendering
+    if (resumeUrl === '') {
+      return (
+        <ResumePanelPaper elevation={3} onClick={handleResumeClick}>
+          <div style={{ textAlign: 'center' }}>
+            <Typography variant="h6">Upload Resume</Typography>
+            <CloudUploadIcon style={{ fontSize: '48px', color: '#13d0b7' }} />
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={(e) => handleFileChange(e.target.files[0])}
+              accept=".pdf" // Modify as needed for other file types
+            />
+          </div>
+        </ResumePanelPaper>
+      );
+    } else {
+      return (
+        <ResumePanelPaper elevation={3} onClick={handleResumeClick}>
+          <Typography variant="h4">Resume</Typography>
+        </ResumePanelPaper>
+      );
     }
   };
 
@@ -114,7 +92,7 @@ const FullCandidateProfileOverview = ({
         xs={12}
         md={7}
         container
-        direction='column'
+        direction="column"
         spacing={2}
         height={'100%'}
         // flexWrap={'nowrap'}
@@ -130,15 +108,7 @@ const FullCandidateProfileOverview = ({
             }}
           >
             <CandidateProfessionalDetails
-              yearsOfExperience={selectedCandidate?.years_of_experience}
-              skills={selectedCandidate?.skills}
-              linkedinUrl={selectedCandidate?.linkedin_profile}
-              portfolioUrl={selectedCandidate?.portfolio_website}
-              currentTitle={selectedCandidate?.current_title}
-              currentEmployer={selectedCandidate?.current_employer}
-              educationLevel={selectedCandidate?.education_level}
-              educationField={selectedCandidate?.education_field}
-              educationInstitution={selectedCandidate?.education_institution}
+              selectedCandidate={selectedCandidate}
             />
           </StyledPaper>
         </ProfessionDetailsGrid>
@@ -146,7 +116,6 @@ const FullCandidateProfileOverview = ({
         {/* 2. Job Postings List - Bottom Left */}
         <JobPostingsListGrid xs={12}>
           <StyledPaper elevation={3}>
-            {/* <Grid>Job Postings</Grid> */}
             <CandidateJobsList
               jobPostings={jobPostings && jobPostings}
               loadingId={jobLoadingId}
@@ -162,51 +131,26 @@ const FullCandidateProfileOverview = ({
         xs={12}
         md={5}
         container
-        direction='column'
+        direction="column"
         spacing={2}
         height={'100%'}
         mr={'0.1%'}
         flexWrap={'nowrap'}
       >
-      
         {/* 3. Resume Panel - Top Right */}
         <ResumePanelGrid xs={12}>
-          <ResumePanelPaper
-            elevation={3}
-            onClick={handleResumeClick}
-          >
-            {resumeUrl === '' ? (
-              <div style={{ textAlign: 'center' }}>
-                <Typography variant='h6'>Upload Resume</Typography>
-                <CloudUploadIcon style={{ fontSize: '48px', color: "#13d0b7" }} />
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  style={{ display: 'none' }}
-                  onChange={handleFileChange}
-                  accept=".pdf" // you can change this to accept other file types
-                />
-              </div>
-            ) : (
-              <Typography variant='h4'>Resume</Typography>
-            )}
-          </ResumePanelPaper>
+          {renderResumePanel(
+            resumeUrl,
+            handleResumeClick,
+            fileInputRef,
+            handleFileChange
+          )}
         </ResumePanelGrid>
 
         {/* 4. Personal Details Panel - Bottom Right (fills remaining space) */}
         <PersonalDetailsGrid xs={12}>
           <StyledPaper elevation={3}>
-            <CandidatePersonalDetails
-              name={selectedCandidate?.name}
-              phoneNumber={selectedCandidate?.phone_number}
-              email={selectedCandidate?.email}
-              city={selectedCandidate?.city}
-              state={selectedCandidate?.state}
-              country={selectedCandidate?.country}
-              zipCode={selectedCandidate?.zip_code}
-              age={selectedCandidate?.age}
-            />
-            {/* <Grid>Personal</Grid> */}
+            <CandidatePersonalDetails selectedCandidate={selectedCandidate} />
           </StyledPaper>
         </PersonalDetailsGrid>
       </Grid>

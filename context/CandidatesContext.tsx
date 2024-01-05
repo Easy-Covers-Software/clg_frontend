@@ -1,6 +1,13 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import { addPTags, addDivTag } from '@/Utils/utils';
 
+import { fetchCandidateProfiles } from '@/api/CandidateProfileMethods';
+
+import {
+  CandidateContext,
+  CandidateContextInitialState,
+} from '@/Types/CandidatesSection.types';
+
 const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
 
 const CandidatesContext = createContext<any>({
@@ -8,7 +15,7 @@ const CandidatesContext = createContext<any>({
   dispatch: () => null,
 });
 
-const initialState = {
+const initialState: any = {
   listState: {
     listItems: [],
     filteredListItems: [],
@@ -18,13 +25,14 @@ const initialState = {
     refresh: false,
     updateListItems: (list: any): void => {},
     updateFilteredListItems: (list: any): void => {},
-    updateSelected: (id: string): void => {},
+    updateSelected: (selected: any): void => {},
     updateSearch: (search: string): void => {},
     updateLoading: (loading: boolean): void => {},
     toggleRefresh: (): void => {},
+    updateFullCandidateProfile: (candidate: any): void => {},
   },
-  selectedListItemFullDetails: null,
-  selectedItemBodyDisplayState: {
+  selectedListItem: null,
+  bodyState: {
     mode: 'overview', // overview, candidate
     selectionSummaryState: {
       id: '',
@@ -74,21 +82,30 @@ const initialState = {
 
     updateMode: (mode: string): void => {},
     updateSelectionSummaryState: (field, state: any): void => {},
-    updateCandidateRankingsState: (field, state: any): void => {},
+    updateCandidateJobPostingsListState: (field, state: any): void => {},
     updateCurrentlyCalculating: (candidateId: any): void => {},
     updateSelectedCandidateScoreDetailsState: (field, state: any): void => {},
-    updateGenerationResultsState: (field, state: any): void => {},
+    setFullCandidateProfile: (field, state: any): void => {},
   },
 };
 
 const candidatesReducer = (state: any, action: any) => {
   switch (action.type) {
     //=== List State --//
-    case 'SET_SAVED_CANDIDATES_LIST_STATE':
+    case 'SET_CANDIDATE_LIST_STATE':
       return {
         ...state,
         listState: action.payload,
       };
+    case 'UPDATE_CANDIDATE_LIST_STATE':
+      return {
+        ...state,
+        listState: {
+          ...state.listState,
+          ...action.payload,
+        },
+      };
+
     case 'UPDATE_SAVED_CANDIDATES_LIST':
       return {
         ...state,
@@ -142,30 +159,30 @@ const candidatesReducer = (state: any, action: any) => {
     case 'SET_SELECTED_CANDIDATE_PROFILE':
       return {
         ...state,
-        selectedListItemFullDetails: action.payload,
+        selectedListItem: action.payload,
       };
 
     //=== Selected Item Body Display State --//
     case 'SET_SELECTED_ITEM_BODY_DISPLAY_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: action.payload,
+        bodyState: action.payload,
       };
     case 'UPDATE_CANDIDATE_BODY_DISPLAY_MODE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           mode: action.payload,
         },
       };
     case 'UPDATE_CANDIDATE_SELECTION_SUMMARY_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           selectionSummaryState: {
-            ...state.selectedItemBodyDisplayState.selectionSummaryState,
+            ...state.bodyState.selectionSummaryState,
             ...action.payload,
           },
         },
@@ -173,10 +190,10 @@ const candidatesReducer = (state: any, action: any) => {
     case 'UPDATE_CANDIDATE_JOB_POSTINGS_LIST_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           candidateJobPostingsListState: {
-            ...state.selectedItemBodyDisplayState.candidateJobPostingsListState,
+            ...state.bodyState.candidateJobPostingsListState,
             ...action.payload,
           },
         },
@@ -184,30 +201,29 @@ const candidatesReducer = (state: any, action: any) => {
     case 'UPDATE_CURRENTLY_CALCULATING':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           currentlyCalculating: action.payload,
         },
       };
     case 'UPDATE_SELECTED_CANDIDATE_SCORE_DETAILS_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           selectedCandidateScoreDetailsState: {
-            ...state.selectedItemBodyDisplayState
-              .selectedCandidateScoreDetailsState,
+            ...state.bodyState.selectedCandidateScoreDetailsState,
             ...action.payload,
           },
         },
       };
-    case 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE':
+    case 'UPDATE_GENERATION_RESULTS_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           generationResultsState: {
-            ...state.selectedItemBodyDisplayState.generationResultsState,
+            ...state.bodyState.generationResultsState,
             ...action.payload,
           },
         },
@@ -221,24 +237,54 @@ const candidatesReducer = (state: any, action: any) => {
 export const CandidatesContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(candidatesReducer, initialState);
 
+  const getCandidateProfiles = async (): Promise<void> => {
+    try {
+      const response = await fetchCandidateProfiles();
+      if (response) {
+        // dispatch({
+        //   type: 'UPDATE_SAVED_CANDIDATES_LIST',
+        //   payload: response.data,
+        // });
+        // dispatch({
+        //   type: 'UPDATE_FILTERED_SAVED_CANDIDATES_LIST',
+        //   payload: response.data,
+        // });
+
+        dispatch({
+          type: 'UPDATE_CANDIDATE_LIST_STATE',
+          payload: {
+            listItems: response.data,
+            filteredListItems: response.data,
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getCandidateProfiles();
+  }, []);
+
   //=== Selection Summary State ===//
   useEffect(() => {
-    if (state.selectedListItemFullDetails) {
+    if (state.selectedListItem) {
       dispatch({
         type: 'UPDATE_CANDIDATE_SELECTION_SUMMARY_STATE',
         payload: {
-          mainTitle: state.selectedListItemFullDetails.name,
-          secondaryTitle: state.selectedListItemFullDetails.current_title,
-          supplementaryInfo: state.selectedListItemFullDetails.updated_at,
+          mainTitle: state.selectedListItem.name,
+          secondaryTitle: state.selectedListItem.current_title,
+          supplementaryInfo: state.selectedListItem.updated_at,
         },
       });
     }
-  }, [state.selectedListItemFullDetails]);
+  }, [state.selectedListItem]);
 
   //== Resume Path ==//
   useEffect(() => {
     const updateResumeUrl = async () => {
-      const filePath = state.selectedListItemFullDetails.resume.file;
+      const filePath = state.selectedListItem.resume.file;
       const fullPath = `${DOMAIN}/${filePath}`;
 
       dispatch({
@@ -252,10 +298,10 @@ export const CandidatesContextProvider = ({ children }) => {
       });
     };
 
-    if (state.selectedListItemFullDetails?.resume?.file) {
+    if (state.selectedListItem?.resume?.file) {
       updateResumeUrl();
     }
-  }, [state.selectedListItemFullDetails]);
+  }, [state.selectedListItem]);
 
   //== Generation Results State ==//
   // useEffect(() => {
@@ -340,37 +386,33 @@ export const CandidatesContextProvider = ({ children }) => {
   // }, []);
   useEffect(() => {
     if (
-      !state.selectedItemBodyDisplayState.selectedCandidateScoreDetailsState
-        ?.selectedGeneration
+      !state.bodyState.selectedCandidateScoreDetailsState?.selectedGeneration
     ) {
       return;
     }
 
     dispatch({
-      type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
+      type: 'UPDATE_GENERATION_RESULTS_STATE',
       payload: {
-        id: state.selectedItemBodyDisplayState
-          .selectedCandidateScoreDetailsState.selectedGeneration?.id,
+        id: state.bodyState.selectedCandidateScoreDetailsState
+          .selectedGeneration?.id,
         content:
-          state.selectedItemBodyDisplayState.selectedCandidateScoreDetailsState
-            .selectedGeneration?.content,
+          state.bodyState.selectedCandidateScoreDetailsState.selectedGeneration
+            ?.content,
         contentHtml: addDivTag(
           addPTags(
-            state.selectedItemBodyDisplayState
-              .selectedCandidateScoreDetailsState.selectedGeneration?.content
+            state.bodyState.selectedCandidateScoreDetailsState
+              .selectedGeneration?.content
           )
         ),
       },
     });
-  }, [
-    state.selectedItemBodyDisplayState.selectedCandidateScoreDetailsState
-      .selectedGeneration,
-  ]);
+  }, [state.bodyState.selectedCandidateScoreDetailsState.selectedGeneration]);
 
   //== List State ==//
   useEffect(() => {
     dispatch({
-      type: 'SET_SAVED_CANDIDATES_LIST_STATE',
+      type: 'SET_CANDIDATE_LIST_STATE',
       payload: {
         listItems: [],
         filteredListItems: [],
@@ -381,36 +423,43 @@ export const CandidatesContextProvider = ({ children }) => {
         updateListItems: (list: any): void => {
           dispatch({
             type: 'UPDATE_SAVED_CANDIDATES_LIST',
-            payload: list,
+            payload: { listItems: list },
           });
         },
         updateFilteredListItems: (list: any): void => {
           dispatch({
-            type: 'UPDATE_FILTERED_SAVED_CANDIDATES_LIST',
-            payload: list,
+            type: 'UPDATE_CANDIDATE_LIST_STATE',
+            payload: { filteredListItems: list },
           });
         },
         updateSelected: (id: string): void => {
           dispatch({
-            type: 'UPDATE_SELECTED',
-            payload: id,
+            type: 'UPDATE_CANDIDATE_LIST_STATE',
+            payload: { selected: id },
           });
         },
         updateSearch: (search: string): void => {
           dispatch({
-            type: 'UPDATE_SEARCH_VALUE',
-            payload: search,
+            type: 'UPDATE_CANDIDATE_LIST_STATE',
+            payload: { search: search },
           });
         },
-        updateLoading: (loading: boolean): void => {
+        updateLoading: (loading: any): void => {
           dispatch({
-            type: 'UPDATE_LOADING',
-            payload: loading,
+            type: 'UPDATE_CANDIDATE_LIST_STATE',
+            payload: { loading: loading },
           });
         },
         toggleRefresh: (): void => {
           dispatch({
-            type: 'REFRESH_CANDIDATES_LIST',
+            type: 'UPDATE_CANDIDATE_LIST_STATE',
+            payload: { refresh: !state.listState.refresh },
+          });
+        },
+        setFullCandidateProfile: (candidate: any): void => {
+          dispatch({
+            type: 'SET_SELECTED_CANDIDATE_PROFILE',
+            payload: candidate,
           });
         },
       },
@@ -422,19 +471,14 @@ export const CandidatesContextProvider = ({ children }) => {
     dispatch({
       type: 'SET_SELECTED_ITEM_BODY_DISPLAY_STATE',
       payload: {
-        mode: initialState.selectedItemBodyDisplayState.mode,
-        selectionSummaryState:
-          initialState.selectedItemBodyDisplayState.selectionSummaryState,
+        mode: initialState.bodyState.mode,
+        selectionSummaryState: initialState.bodyState.selectionSummaryState,
         candidateJobPostingsListState:
-          initialState.selectedItemBodyDisplayState
-            .candidateJobPostingsListState,
-        currentlyCalculating:
-          initialState.selectedItemBodyDisplayState.currentlyCalculating,
+          initialState.bodyState.candidateJobPostingsListState,
+        currentlyCalculating: initialState.bodyState.currentlyCalculating,
         selectedCandidateScoreDetailsState:
-          initialState.selectedItemBodyDisplayState
-            .selectedCandidateScoreDetailsState,
-        generationResultsState:
-          initialState.selectedItemBodyDisplayState.generationResultsState,
+          initialState.bodyState.selectedCandidateScoreDetailsState,
+        generationResultsState: initialState.bodyState.generationResultsState,
         updateMode: (mode: string): void => {
           dispatch({
             type: 'UPDATE_CANDIDATE_BODY_DISPLAY_MODE',
@@ -447,7 +491,7 @@ export const CandidatesContextProvider = ({ children }) => {
             payload: { [field]: state },
           });
         },
-        updateCandidateRankingsState: (field, state: any): void => {
+        updateCandidateJobPostingsListState: (field, state: any): void => {
           dispatch({
             type: 'UPDATE_CANDIDATE_JOB_POSTINGS_LIST_STATE',
             payload: { [field]: state },
@@ -467,7 +511,7 @@ export const CandidatesContextProvider = ({ children }) => {
         },
         updateGenerationResultsState: (field, state: any): void => {
           dispatch({
-            type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
+            type: 'UPDATE_GENERATION_RESULTS_STATE',
             payload: { [field]: state },
           });
         },

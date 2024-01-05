@@ -20,16 +20,10 @@ import DownloadMenu from '../Download/DownloadMenu';
 
 import { parseSectionsFromHTML, addDivTag } from '@/Utils/utils';
 
-import {
-  CoverLetterData,
-  SaveProps,
-  DownloadProps,
-} from '@/Types/GenerationContext.types';
-
 interface Props {
-  coverLetterData: CoverLetterData;
-  saveProps: SaveProps;
-  downloadProps: DownloadProps;
+  coverLetterData: any;
+  saveProps: any;
+  downloadProps: any;
 }
 
 const Container = styled(Grid)`

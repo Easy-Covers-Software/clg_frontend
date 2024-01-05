@@ -12,14 +12,10 @@ import { determineGenerationHtml } from '@/Utils/utils';
 import { makeAdjustment } from '@/api/GenerationMethods';
 
 import { APIResponse, AdjustmentApiResponse } from '@/Types/ApiResponse.types';
-import {
-  IntermediateAdjustmentProps,
-  CoverLetterData,
-} from '@/Types/GenerationContext.types';
 
 interface Props {
-  coverLetterData: CoverLetterData;
-  intermediateAdjustmentProps: IntermediateAdjustmentProps;
+  coverLetterData: any;
+  intermediateAdjustmentProps: any;
 }
 
 const IntermediateAdjustments: FC<any> = ({
@@ -82,9 +78,7 @@ const IntermediateAdjustments: FC<any> = ({
     }
   };
 
-  const shouldDisable = (
-    intermediateAdjustmentProps: IntermediateAdjustmentProps
-  ): boolean => {
+  const shouldDisable = (intermediateAdjustmentProps: any): boolean => {
     if (intermediateAdjustmentProps?.intermediateType) {
       return true;
     } else {

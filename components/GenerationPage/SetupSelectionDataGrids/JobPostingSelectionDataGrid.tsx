@@ -25,6 +25,8 @@ const JobPostingSelectionDataGrid: any = ({
   handleSelectionChange,
   updateSearch,
 }) => {
+  console.log('jobPostings', jobPostings);
+
   const [selectedJobPostingId, setSelectedJobPostingId] = useState<
     number | null
   >(selected?.id || null);

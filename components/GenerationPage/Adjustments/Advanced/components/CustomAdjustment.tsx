@@ -13,11 +13,6 @@ const { Container, SubContainer, CustomReQueryField, SubmitButton } =
 
 import { makeAdjustment } from '@/api/GenerationMethods';
 
-import {
-  CoverLetterData,
-  CustomAdjustmentProps,
-} from '@/Types/GenerationContext.types';
-
 interface Props {
   coverLetterData: CoverLetterData;
   customAdjustmentProps: CustomAdjustmentProps;

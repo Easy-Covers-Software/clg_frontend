@@ -9,18 +9,17 @@ import Tooltip from '@mui/material/Tooltip';
 import { useGenerationContext } from '@/context/GenerationContext';
 
 import { IntermediateAdjustmentInputStyledComponents } from '../AdvancedAdjustments.styles';
-import { IntermediateAdjustmentProps } from '@/Types/GenerationContext.types';
 const { Container, FormInput, QuestionContainer, InputField } =
   IntermediateAdjustmentInputStyledComponents;
 
 interface Props {
   label: string;
   inputValue: string;
-  intermediateAdjustmentProps: IntermediateAdjustmentProps;
+  intermediateAdjustmentProps: any;
   disabled: boolean;
 }
 
-const IntermediateAdjustmentInput: FC<Props> = ({
+const IntermediateAdjustmentInput: FC<any> = ({
   label,
   inputValue,
   intermediateAdjustmentProps,
@@ -72,32 +71,32 @@ const IntermediateAdjustmentInput: FC<Props> = ({
 
   return (
     <Container>
-      <FormInput variant='outlined'>
+      <FormInput variant="outlined">
         <QuestionContainer>
-          <Typography className='medium-requery-label'>{label}</Typography>
+          <Typography className="medium-requery-label">{label}</Typography>
 
-          <Tooltip title='Delete' placement='top'>
-            <InfoOutlinedIcon fontSize='small' sx={{ opacity: '40%' }} />
+          <Tooltip title="Delete" placement="top">
+            <InfoOutlinedIcon fontSize="small" sx={{ opacity: '40%' }} />
           </Tooltip>
         </QuestionContainer>
 
         <InputField
           disabled={disabled}
-          id='email-input'
-          variant='outlined'
+          id="email-input"
+          variant="outlined"
           placeholder={getPlaceholderForLabel(label)}
-          size='small'
+          size="small"
           value={inputValue}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             handleChange(event);
           }}
           InputProps={{
             endAdornment: (
-              <InputAdornment position='end'>
+              <InputAdornment position="end">
                 <IconButton
-                  aria-label='toggle password visibility'
+                  aria-label="toggle password visibility"
                   onClick={clearInput}
-                  edge='end'
+                  edge="end"
                   sx={{ opacity: '30%' }}
                 >
                   <HighlightOffIcon />

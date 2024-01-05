@@ -1,5 +1,3 @@
-import { CoverLetterData } from '@/Types/GenerationContext.types';
-
 //=== Api Payloads Helper ===//
 export const createPayload = (values: Object) => {
   const formData = new FormData();

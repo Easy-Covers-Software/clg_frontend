@@ -99,8 +99,8 @@ export default function SavedPhoneCallsList() {
     checked,
 
     listState,
-    selectedItemFullDetails,
-    selectedItemBodyDisplayState,
+    selectedListItem,
+    bodyState,
   } = state;
 
   const [test, setTest] = useState<string>('');
@@ -198,7 +198,7 @@ export default function SavedPhoneCallsList() {
       const data = JSON.parse(event.data);
 
       if (data.phone_call) {
-        if (selectedItemFullDetails?.id === data.phone_call.id)
+        if (selectedListItem?.id === data.phone_call.id)
           dispatch({
             type: 'SET_SELECTED_PHONE_CALL',
             payload: data.phone_call,
@@ -249,10 +249,10 @@ export default function SavedPhoneCallsList() {
 
   useEffect(() => {
     const getTranscriptionInstance = async () => {
-      if (selectedItemFullDetails?.transcription) {
+      if (selectedListItem?.transcription) {
         try {
           const response = await fetchTranscription(
-            selectedItemFullDetails?.transcription.id
+            selectedListItem?.transcription.id
           );
           if (response) {
             dispatch({
@@ -268,10 +268,10 @@ export default function SavedPhoneCallsList() {
     };
 
     const getCandidateInstance = async () => {
-      if (selectedItemFullDetails?.candidate) {
+      if (selectedListItem?.candidate) {
         try {
           const response = await fetchFullCandidateProfile(
-            selectedItemFullDetails?.candidate.id
+            selectedListItem?.candidate.id
           );
           if (response) {
             dispatch({
@@ -288,18 +288,14 @@ export default function SavedPhoneCallsList() {
 
     getCandidateInstance();
     getTranscriptionInstance();
-  }, [selectedItemFullDetails]);
+  }, [selectedListItem]);
 
   useEffect(() => {
     const getTranscriptionNotes = () => {
       const notes =
-        selectedItemBodyDisplayState.transcriptionModeState
-          ?.selectedTranscription.notes;
+        bodyState.transcriptionModeState?.selectedTranscription.notes;
 
-      if (
-        !selectedItemBodyDisplayState.transcriptionModeState
-          ?.selectedTranscription?.notes
-      ) {
+      if (!bodyState.transcriptionModeState?.selectedTranscription?.notes) {
         return;
       }
 
@@ -315,21 +311,17 @@ export default function SavedPhoneCallsList() {
       });
     };
 
-    if (
-      selectedItemBodyDisplayState.transcriptionModeState?.selectedTranscription
-    ) {
+    if (bodyState.transcriptionModeState?.selectedTranscription) {
       getTranscriptionNotes();
     }
 
-    if (selectedItemFullDetails?.transcription_status === 'processing') {
+    if (selectedListItem?.transcription_status === 'processing') {
       dispatch({
         type: 'UPDATE_TRANSCRIPTION_STATUS',
-        payload: selectedItemFullDetails?.transcription_status_step,
+        payload: selectedListItem?.transcription_status_step,
       });
     }
-  }, [
-    selectedItemBodyDisplayState.transcriptionModeState.selectedTranscription,
-  ]);
+  }, [bodyState.transcriptionModeState.selectedTranscription]);
 
   useEffect(() => {
     getSavedPhoneCalls();
@@ -339,7 +331,7 @@ export default function SavedPhoneCallsList() {
 
   const isTranscribeDisabled =
     !listState?.selected ||
-    selectedItemFullDetails?.transcription_status !== 'awaiting';
+    selectedListItem?.transcription_status !== 'awaiting';
 
   return (
     <Container>

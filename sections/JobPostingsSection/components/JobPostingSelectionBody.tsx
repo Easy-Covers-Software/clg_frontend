@@ -60,25 +60,9 @@ const JobPostingSelectionBody: FC = () => {
   const { snackbar } = authState;
 
   const { state, dispatch } = useJobPostingsContext();
-  const {
-    selectedJobPosting,
-    selectionSummary,
-    selectedJobPostingState,
-    selectedJobPostingMode,
-    generationResultsState,
-    saveProps,
-    downloadProps,
-
-    listState,
-    selectedListItemFullDetails,
-    selectedItemBodyDisplayState,
-  } = state;
+  const { selectedListItem, bodyState } = state;
 
   const updateSelectedJobPostingMode = (mode: string) => {
-    // dispatch({
-    //   type: 'SET_SELECTED_JOB_POSTING_MODE',
-    //   payload: mode,
-    // });
     dispatch({
       type: 'UPDATE_JOB_POSTING_BODY_DISPLAY_MODE',
       payload: mode,
@@ -120,10 +104,7 @@ const JobPostingSelectionBody: FC = () => {
       type: 'UPDATE_JOB_POSTING_SELECTION_CANDIDATE_RANKINGS_STATE',
       payload: { selectedCandidate: candidate },
     });
-    // dispatch({
-    //   type: 'SET_SELECTED_JOB_POSTING_MODE',
-    //   payload: 'candidate',
-    // });
+
     dispatch({
       type: 'UPDATE_JOB_POSTING_BODY_DISPLAY_MODE',
       payload: 'candidate',
@@ -159,7 +140,7 @@ const JobPostingSelectionBody: FC = () => {
     });
 
     const response = await calculateMatchScore(
-      selectedItemBodyDisplayState.candidateJobPostingsListState?.id,
+      bodyState.candidateJobPostingsListState?.id,
       candidateId
     );
 
@@ -174,8 +155,7 @@ const JobPostingSelectionBody: FC = () => {
         type: 'UPDATE_SELECTED_CANDIDATE_SCORE_DETAILS',
         payload: {
           refreshCandidate:
-            !selectedItemBodyDisplayState.selectedCandidateScoreDetailsState
-              .refreshCandidate,
+            !bodyState.selectedCandidateScoreDetailsState.refreshCandidate,
         },
       });
     } else {
@@ -189,7 +169,7 @@ const JobPostingSelectionBody: FC = () => {
 
   const getIntroCall = () => {
     return (
-      selectedListItemFullDetails?.selectedCandidate?.phone_calls.find(
+      bodyState.candidateRankingsState?.selectedCandidate?.phone_calls.find(
         (phoneCall) => phoneCall.call_type === 'intro'
       ) || null
     );
@@ -197,17 +177,14 @@ const JobPostingSelectionBody: FC = () => {
 
   const getFollowUpCalls = () => {
     return (
-      selectedListItemFullDetails?.selectedCandidate?.phone_calls.filter(
+      bodyState.candidateRankingsState?.selectedCandidate?.phone_calls.filter(
         (phoneCall) => phoneCall.call_type !== 'intro'
       ) || null
     );
   };
 
   const isCurrentlyCalculating = () => {
-    return selectedItemBodyDisplayState?.currentlyCalculatingInOverviewMode !==
-      null
-      ? true
-      : false;
+    return bodyState?.currentlyCalculating !== null ? true : false;
   };
 
   const handleListFilterChange = (event) => {
@@ -225,48 +202,38 @@ const JobPostingSelectionBody: FC = () => {
   };
 
   const getCandidatesList = () => {
-    switch (selectedItemBodyDisplayState.candidateRankingsState.listFilter) {
+    switch (bodyState.candidateRankingsState.listFilter) {
       case 'rankings':
-        return selectedItemBodyDisplayState.candidateRankingsState.rankings;
+        return bodyState.candidateRankingsState.rankings;
       case 'all':
-        return selectedItemBodyDisplayState.candidateRankingsState
-          .allCandidates;
+        return bodyState.candidateRankingsState.allCandidates;
       case 'unscored':
-        return selectedItemBodyDisplayState.candidateRankingsState
-          .unscoredCandidates;
+        return bodyState.candidateRankingsState.unscoredCandidates;
       default:
-        return selectedItemBodyDisplayState.candidateRankingsState.rankings;
+        return bodyState.candidateRankingsState.rankings;
     }
   };
 
   useEffect(() => {
-    if (selectedListItemFullDetails?.selectedCandidate) {
-      const updatedCandidate = selectedListItemFullDetails?.allCandidates.find(
-        (candidate) =>
-          candidate.id === selectedListItemFullDetails?.selectedCandidate?.id
+    if (selectedListItem?.selectedCandidate) {
+      const updatedCandidate = selectedListItem?.allCandidates.find(
+        (candidate) => candidate.id === selectedListItem?.selectedCandidate?.id
       );
-
-      // dispatch({
-      //   type: 'UPDATE_SELECTED_CANDIDATE',
-      //   payload: updatedCandidate,
-      // });
       dispatch({
         type: 'UPDATE_JOB_POSTING_SELECTION_CANDIDATE_RANKINGS_STATE',
         payload: { selectedCandidate: updatedCandidate },
       });
     }
-  }, [selectedListItemFullDetails?.allCandidates]);
+  }, [selectedListItem?.allCandidates]);
 
   const renderCurrentJobPostingModeSection = () => {
-    switch (selectedItemBodyDisplayState.mode) {
+    switch (bodyState.mode) {
       case 'overview':
         return (
           <FullJobPostingsOverview
-            selectedJobPosting={selectedListItemFullDetails}
+            selectedJobPosting={selectedListItem}
             candidatesList={getCandidatesList()}
-            loadingId={
-              selectedListItemFullDetails.currentlyCalculatingInOverviewMode
-            }
+            loadingId={selectedListItem.currentlyCalculating}
             updateSelectedCandidate={updateSelectedCandidate}
             handleCalculate={handleCalculate}
             handleListFilterChange={handleListFilterChange}
@@ -275,8 +242,7 @@ const JobPostingSelectionBody: FC = () => {
         );
       case 'candidate':
         switch (
-          selectedItemBodyDisplayState.selectedCandidateScoreDetailsState
-            .selectedCandidateMode
+          bodyState.selectedCandidateScoreDetailsState.selectedCandidateMode
         ) {
           case 'overview':
             return (
@@ -286,32 +252,30 @@ const JobPostingSelectionBody: FC = () => {
               >
                 <FullCandidateJobProfile
                   page={'jobPosting'}
-                  selectedJobPosting={selectedListItemFullDetails}
+                  selectedJobPosting={selectedListItem}
                   selectedCandidate={
-                    selectedItemBodyDisplayState.candidateRankingsState
-                      .selectedCandidate
+                    bodyState.candidateRankingsState.selectedCandidate
                   }
                   phoneCalls={
-                    selectedItemBodyDisplayState.candidateRankingsState
-                      ?.selectedCandidate?.phone_calls
+                    bodyState.candidateRankingsState?.selectedCandidate
+                      ?.phone_calls
                   }
                   introCall={getIntroCall()}
                   followUpCalls={getFollowUpCalls()}
                   generations={
-                    selectedItemBodyDisplayState.candidateRankingsState
-                      ?.selectedCandidate?.generations
+                    bodyState.candidateRankingsState?.selectedCandidate
+                      ?.generations
                   }
                   genMode={
-                    selectedItemBodyDisplayState
-                      .selectedCandidateScoreDetailsState.generationPanelMode
+                    bodyState.selectedCandidateScoreDetailsState
+                      .generationPanelMode
                   }
                   callMode={
-                    selectedItemBodyDisplayState
-                      .selectedCandidateScoreDetailsState.callPanelMode
+                    bodyState.selectedCandidateScoreDetailsState.callPanelMode
                   }
                   matchScore={
-                    selectedItemBodyDisplayState.candidateRankingsState
-                      .selectedCandidate?.match_score
+                    bodyState.candidateRankingsState.selectedCandidate
+                      ?.match_score
                   }
                   loading={isCurrentlyCalculating()}
                   updateSubSectionMode={updateCandidateViewMode}
@@ -330,12 +294,8 @@ const JobPostingSelectionBody: FC = () => {
                 onClose={resetCandidateViewMode}
               >
                 <GenerationEditor
-                  contentData={
-                    selectedItemBodyDisplayState.generationResultsState
-                  }
+                  contentData={bodyState.generationResultsState}
                   dispatch={dispatch}
-                  saveProps={saveProps}
-                  downloadProps={downloadProps}
                 />
               </SubSectionFrame>
             );
@@ -348,8 +308,7 @@ const JobPostingSelectionBody: FC = () => {
                 <TranscriptionNotes
                   page={'jobPosting'}
                   transcriptionNotes={
-                    selectedItemBodyDisplayState
-                      .selectedCandidateScoreDetailsState?.selectedCall
+                    bodyState.selectedCandidateScoreDetailsState?.selectedCall
                       ?.transcription?.notes
                   }
                 />
@@ -364,8 +323,7 @@ const JobPostingSelectionBody: FC = () => {
               >
                 <ResumeIframe
                   resumeUrl={
-                    selectedItemBodyDisplayState
-                      .selectedCandidateScoreDetailsState?.resumeUrl
+                    bodyState.selectedCandidateScoreDetailsState?.resumeUrl
                   }
                 />
               </SubSectionFrame>
@@ -384,13 +342,12 @@ const JobPostingSelectionBody: FC = () => {
   return (
     <Container>
       <SelectionSummary
-        summaryDetails={selectedItemBodyDisplayState.selectionSummaryState}
+        summaryDetails={bodyState.selectionSummaryState}
         checked={null}
         handleChange={null}
       />
       <SubContainer>
-        {selectedListItemFullDetails !== null &&
-          renderCurrentJobPostingModeSection()}
+        {selectedListItem !== null && renderCurrentJobPostingModeSection()}
       </SubContainer>
     </Container>
   );

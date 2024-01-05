@@ -7,6 +7,7 @@ import {
 } from '../Types/ApiResponse.types';
 
 import { createPayload } from '@/Utils/utils';
+import { Resume } from '@/Types/CandidatesSection.types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 
@@ -114,7 +115,7 @@ export const fetchCandidatesResume = async (resumeId) => {
 export const uploadResume = async (
   resume: File,
   candidateProfileId: string 
-): Promise<APIResponse<ResumeUploadApiResponse>> => {
+): Promise<APIResponse<Resume>> => {
   const url = `${API_BASE}/candidate_profiles/resume/upload/`;
 
   const data = {
@@ -125,7 +126,7 @@ export const uploadResume = async (
   const payload: FormData = createPayload(data);
 
   try {
-    const response = await axios.post<ResumeUploadApiResponse>(url, payload, {
+    const response = await axios.post<Resume>(url, payload, {
       withCredentials: true,
       headers: {
         'Content-Type': 'multipart/form-data',

@@ -13,7 +13,7 @@ import { determineGenerationHtml } from '@/Utils/utils';
 import { makeAdjustment } from '@/api/GenerationMethods';
 
 import { APIResponse, AdjustmentApiResponse } from '@/Types/ApiResponse.types';
-import { Snackbar } from '@/Types/AuthContext.types';
+import { Snackbar } from '@/Types/Auth.types';
 
 import {
   SimpleAdjustmentsStyledComponents,
@@ -32,16 +32,10 @@ import DownloadMenu from '@/components/GenerationPage/Download/DownloadMenu';
 
 import { useAuth } from '@/context/AuthContext';
 
-import {
-  SimpleAdjustmentProps,
-  AdjustmentSectionProps,
-  CoverLetterData,
-} from '@/Types/GenerationContext.types';
-
 interface Props {
   generationData: any;
-  simpleAdjustmentProps: SimpleAdjustmentProps;
-  adjustmentSection: AdjustmentSectionProps;
+  simpleAdjustmentProps: any;
+  adjustmentSection: any;
   reset: () => void;
 }
 
@@ -62,7 +56,7 @@ const SimpleAdjustments: FC<any> = ({
   ): Promise<void> => {
     generationData?.toggleLoadingCoverLetter();
 
-    const response: APIResponse<AdjustmentApiResponse> = await makeAdjustment(
+    const response: APIResponse<any> = await makeAdjustment(
       'simple',
       buttonLabel,
       'decrease',
@@ -89,7 +83,7 @@ const SimpleAdjustments: FC<any> = ({
   ): Promise<void> => {
     generationData?.toggleLoadingCoverLetter();
 
-    const response: APIResponse<AdjustmentApiResponse> = await makeAdjustment(
+    const response: APIResponse<any> = await makeAdjustment(
       'simple',
       buttonLabel,
       'increase',
@@ -111,7 +105,7 @@ const SimpleAdjustments: FC<any> = ({
     }
   };
 
-  const shouldDisable = (coverLetterData: CoverLetterData) => {
+  const shouldDisable = (coverLetterData: any) => {
     if (!coverLetterData?.loading && coverLetterData?.coverLetterHtml !== '') {
       return false;
     } else {

@@ -16,10 +16,6 @@ import {
   DeleteCoverLetterApiResponse,
 } from '../Types/ApiResponse.types';
 
-import {
-  AdditionalDetails,
-  CoverLetterData,
-} from '@/Types/GenerationContext.types';
 
 import {
   PhoneCall,
@@ -28,6 +24,7 @@ import {
 } from '@/Types/TranscriptionPage.types';
 
 import { createPayload, replaceSpecialCharactersInArray } from '@/Utils/utils';
+import { MatchScore } from '@/Types/CandidatesSection.types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -103,7 +100,7 @@ export const makeAdjustment = async (
 export const calculateMatchScore = async (
   job_posting: string,
   candidate: string
-): Promise<APIResponse<any>> => {
+): Promise<APIResponse<MatchScore>> => {
   const url = `${API_BASE}/generation/calculate_match_score/`;
 
   const data = {
@@ -114,7 +111,7 @@ export const calculateMatchScore = async (
   const payload: FormData = createPayload(data);
 
   try {
-      const response = await axios.post<any>(url, payload, {
+      const response = await axios.post<MatchScore>(url, payload, {
       withCredentials: true,
       headers: {
           'Content-Type': 'multipart/form-data',

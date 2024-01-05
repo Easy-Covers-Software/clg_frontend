@@ -53,8 +53,8 @@ const NewCall: FC<Props> = ({
   const { snackbar } = authState;
 
   const { state, dispatch } = useTranscriptionContext();
-  const { callModeState } = state;
-  const { newCallForm } = callModeState;
+  const { callModeState, bodyState } = state;
+  const { newCallForm } = bodyState.callModeState;
 
   useEffect(() => {
     updateNewCallForm(formData);

@@ -20,8 +20,8 @@ const initialState = {
     updateLoading: (loading: boolean): void => {},
     toggleRefresh: (): void => {},
   },
-  selectedItemFullDetails: null,
-  selectedItemBodyDisplayState: {
+  selectedListItem: null,
+  bodyState: {
     mode: 'Notes',
     selectionSummaryState: {
       id: '',
@@ -125,30 +125,30 @@ function reducer(state, action) {
     case 'SET_SELECTED_PHONE_CALL':
       return {
         ...state,
-        selectedItemFullDetails: action.payload,
+        selectedListItem: action.payload,
       };
 
     //=== Selected Item Body Display State ===//
     case 'SET_SELECTED_ITEM_BODY_DISPLAY_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: action.payload,
+        bodyState: action.payload,
       };
     case 'UPDATE_CALL_OR_NOTE_MODE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           mode: action.payload,
         },
       };
     case 'UPDATE_CALL_SELECTION_SUMMARY_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           selectionSummaryState: {
-            ...state.selectedItemBodyDisplayState.selectionSummaryState,
+            ...state.bodyState.selectionSummaryState,
             ...action.payload,
           },
         },
@@ -156,10 +156,10 @@ function reducer(state, action) {
     case 'UPDATE_CALL_MODE_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           callModeState: {
-            ...state.selectedItemBodyDisplayState.callModeState,
+            ...state.bodyState.callModeState,
             ...action.payload,
           },
         },
@@ -167,10 +167,10 @@ function reducer(state, action) {
     case 'UPDATE_TRANSCRIPTION_MODE_STATE':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           transcriptionModeState: {
-            ...state.selectedItemBodyDisplayState.transcriptionModeState,
+            ...state.bodyState.transcriptionModeState,
             ...action.payload,
           },
         },
@@ -178,12 +178,12 @@ function reducer(state, action) {
     case 'UPDATE_NEW_CALL_FORM':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           callModeState: {
-            ...state.selectedItemBodyDisplayState.callModeState,
+            ...state.bodyState.callModeState,
             newCallForm: {
-              ...state.selectedItemBodyDisplayState.callModeState.newCallForm,
+              ...state.bodyState.callModeState.newCallForm,
               ...action.payload,
             },
           },
@@ -192,13 +192,12 @@ function reducer(state, action) {
     case 'UPDATE_CALL_COMPLETE_FORM':
       return {
         ...state,
-        selectedItemBodyDisplayState: {
-          ...state.selectedItemBodyDisplayState,
+        bodyState: {
+          ...state.bodyState,
           callModeState: {
-            ...state.selectedItemBodyDisplayState.callModeState,
+            ...state.bodyState.callModeState,
             callCompleteForm: {
-              ...state.selectedItemBodyDisplayState.callModeState
-                .callCompleteForm,
+              ...state.bodyState.callModeState.callCompleteForm,
               ...action.payload,
             },
           },
@@ -228,48 +227,35 @@ export default function TranscriptionPageContext({ children }) {
     dispatch({
       type: 'UPDATE_CALL_COMPLETE_FORM',
       payload: {
-        name: state.selectedItemBodyDisplayState.callModeState.newCallForm
-          .candidate_name,
-        phone_number:
-          state.selectedItemBodyDisplayState.callModeState.candidate_number,
-        job_posting:
-          state.selectedItemBodyDisplayState.callModeState.newCallForm
-            .job_posting,
+        name: state.bodyState.callModeState.newCallForm.candidate_name,
+        phone_number: state.bodyState.callModeState.candidate_number,
+        job_posting: state.bodyState.callModeState.newCallForm.job_posting,
       },
     });
   }, [
-    state.selectedItemBodyDisplayState.callModeState.newCallForm?.job_posting,
-    state.selectedItemBodyDisplayState.callModeState.newCallForm
-      ?.candidate_name,
-    state.selectedItemBodyDisplayState.callModeState.newCallForm
-      ?.candidate_number,
+    state.bodyState.callModeState.newCallForm?.job_posting,
+    state.bodyState.callModeState.newCallForm?.candidate_name,
+    state.bodyState.callModeState.newCallForm?.candidate_number,
   ]);
 
   //-- update selection summary --//
   useEffect(() => {
-    if (
-      state.selectedItemBodyDisplayState.transcriptionModeState
-        ?.selectedCandidate
-    ) {
+    if (state.bodyState.transcriptionModeState?.selectedCandidate) {
       dispatch({
         type: 'UPDATE_CALL_SELECTION_SUMMARY_STATE',
         payload: {
           mainTitle:
-            state.selectedItemBodyDisplayState.transcriptionModeState
-              ?.selectedCandidate.name,
+            state.bodyState.transcriptionModeState?.selectedCandidate.name,
           secondaryTitle:
-            state.selectedItemBodyDisplayState.transcriptionModeState
-              ?.selectedCandidate.current_title,
+            state.bodyState.transcriptionModeState?.selectedCandidate
+              .current_title,
           supplementaryInfo:
-            state.selectedItemBodyDisplayState.transcriptionModeState
-              ?.selectedCandidate.created_at,
+            state.bodyState.transcriptionModeState?.selectedCandidate
+              .created_at,
         },
       });
     }
-  }, [
-    state.selectedItemBodyDisplayState.transcriptionModeState
-      ?.selectedCandidate,
-  ]);
+  }, [state.bodyState.transcriptionModeState?.selectedCandidate]);
 
   console.log('trans/call state', state);
 

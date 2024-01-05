@@ -16,10 +16,6 @@ import {
   DeleteCoverLetterApiResponse,
 } from '../Types/ApiResponse.types';
 
-import {
-  AdditionalDetails,
-  CoverLetterData,
-} from '@/Types/GenerationContext.types';
 
 import {
   PhoneCall,

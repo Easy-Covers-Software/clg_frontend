@@ -21,12 +21,6 @@ import { AdvancedAdjustmentsStyledComponents } from './AdvancedAdjustments.style
 const { Container, MediumOptionsContainer, SubmitButton } =
   AdvancedAdjustmentsStyledComponents;
 
-import {
-  IntermediateAdjustmentProps,
-  CustomAdjustmentProps,
-  CoverLetterData,
-} from '@/Types/GenerationContext.types';
-
 interface Props {
   coverLetterData: CoverLetterData;
   intermediateAdjustmentProps: IntermediateAdjustmentProps;
