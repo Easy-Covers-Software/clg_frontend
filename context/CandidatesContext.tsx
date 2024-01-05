@@ -24,7 +24,7 @@ const initialState: CandidateContextState = {
     updateSearch: (search: string): void => {},
     updateLoading: (loading: boolean): void => {},
     toggleRefresh: (): void => {},
-    updateFullCandidateProfile: (candidate: any): void => {},
+    setFullCandidateProfile: (candidate: any): void => {},
   },
   selectedListItem: null,
   bodyState: {
