@@ -24,9 +24,14 @@ import {
 } from '@/api/CandidateProfileMethods';
 
 import { APIResponse } from '@/Types/Api.types';
-import { Resume, MatchScore } from '@/Types/CandidatesSection.types';
+import {
+  Resume,
+  MatchScore,
+  CandidateJobPostingsWithScore,
+} from '@/Types/CandidatesSection.types';
 import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
-import { get } from 'http';
+import { Generation } from '@/Types/Generation.types';
+import { PhoneCall } from '@/Types/TranscriptionSection.types';
 
 // const Container = styled(Grid)`
 const Container = styled.div`
@@ -71,7 +76,7 @@ const CandidateSelectionBody: FC = () => {
   const { state: authState } = useAuth();
   const { snackbar } = authState;
 
-  const { state, dispatch } = useCandidatesContext();
+  const { state } = useCandidatesContext();
   const { listState, selectedListItem, bodyState } = state;
 
   //=== Helpers ===//
@@ -140,7 +145,7 @@ const CandidateSelectionBody: FC = () => {
     }
   };
 
-  const handleGenerationSelection = (generation: any) => {
+  const handleGenerationSelection = (generation: Generation) => {
     bodyState.updateSelectedCandidateScoreDetailsState(
       'selectedGeneration',
       generation
@@ -148,7 +153,7 @@ const CandidateSelectionBody: FC = () => {
     updateJobPostingMode('generation');
   };
 
-  const handleCallSelection = (call: any) => {
+  const handleCallSelection = (call: PhoneCall) => {
     bodyState.updateSelectedCandidateScoreDetailsState('selectedCall', call);
     updateJobPostingMode('phoneCall');
   };
@@ -236,12 +241,13 @@ const CandidateSelectionBody: FC = () => {
   //==* The following 2 are used to update the job postings list once a calculation is complete *==//
   useEffect(() => {
     const getAllJobPostingsAssociatedWithCandidate = async (id: any) => {
-      const response = await fetchJobPostingsAssociatedWithCandidate(id);
+      const response: APIResponse<CandidateJobPostingsWithScore> =
+        await fetchJobPostingsAssociatedWithCandidate(id);
       if (response) {
-        dispatch({
-          type: 'UPDATE_CANDIDATE_JOB_POSTINGS_LIST_STATE',
-          payload: { jobPostings: response.data },
-        });
+        bodyState.updateCandidateJobPostingsListState(
+          'jobPostings',
+          response.data
+        );
       } else {
         snackbar.updateSnackbar(
           true,
@@ -262,10 +268,10 @@ const CandidateSelectionBody: FC = () => {
             bodyState.candidateJobPostingsListState?.selectedJobPosting?.id
         );
 
-      dispatch({
-        type: 'UPDATE_CANDIDATE_JOB_POSTINGS_LIST_STATE',
-        payload: { selectedJobPosting: updatedJobPosting },
-      });
+      bodyState.updateCandidateJobPostingsListState(
+        'selectedJobPosting',
+        updatedJobPosting
+      );
     }
   }, [bodyState.candidateJobPostingsListState.jobPostings]);
 
