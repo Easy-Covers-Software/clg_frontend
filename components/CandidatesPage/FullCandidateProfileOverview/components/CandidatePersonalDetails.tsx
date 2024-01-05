@@ -9,7 +9,7 @@ interface Props {
   selectedCandidate: CandidateListItem;
 }
 
-const CandidatePersonalDetails = ({ selectedCandidate }) => {
+const CandidatePersonalDetails: React.FC<Props> = ({ selectedCandidate }) => {
   return (
     <Box p={2}>
       <Typography fontSize={'1.7rem'} gutterBottom>
