@@ -2,6 +2,8 @@ import { createContext, useContext, useReducer, useEffect, use } from 'react';
 
 import { addPTags, addDivTag } from '@/Utils/utils';
 
+import { fetchJobPostings } from '@/api/JobPostingsMethods';
+
 const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
 
 import {
@@ -9,73 +11,10 @@ import {
   // JobPostingsContext,
   JobPostingsInitialState,
 } from '@/Types/JobPostingsSection.types';
+import { list } from 'postcss';
 
 const JobPostingsContext = createContext<any>({
-  listState: {
-    listItems: [],
-    filteredListItems: [],
-    selected: null,
-    search: '',
-    loading: false,
-    refresh: false,
-    updateListItems: (list: any): void => {},
-    updateFilteredListItems: (list: any): void => {},
-    updateSelected: (id: any): void => {},
-    updateSearch: (search: string): void => {},
-    updateLoading: (loading: boolean): void => {},
-    toggleRefresh: (): void => {},
-  },
-  selectedListItem: null,
-  bodyState: {
-    mode: 'overview', // overview, candidate
-    selectionSummaryState: {
-      id: '',
-      mainTitle: 'Job Title',
-      secondaryTitle: 'Company Name',
-      supplementaryInfo: '',
-      loading: false,
-    },
-    candidateRankingsState: {
-      allCandidates: [],
-      selectedCandidate: null,
-      rankings: [],
-      unscoredCandidates: [],
-      scoreFilter: 'rankings', // rankings, all, unscored
-      listFilter: 'weighted', // weighted, total
-      refreshCandidates: true,
-    },
-    currentlyCalculating: null,
-    selectedCandidateScoreDetailsState: {
-      selectedCandidateMode: 'overview', // overview, phoneCall, generation
-      generationPanelMode: 'overview', // overview, emailSelection, coverLetterSelection
-      callPanelMode: 'overview', // overview, followUpSelection
-      selectedGeneration: null,
-      selectedCall: null,
-      loading: false,
-      resumeUrl: '',
-      refreshCandidates: true,
-    },
-    generationResultsState: {
-      id: '',
-      content: null,
-      contentHtml: '',
-      editedContent: null,
-      editedContentHtml: '',
-      saveName: '',
-      loading: false,
-      isSavedDropdownOpen: false,
-      disableSavedButton: true,
-      isDownloadDropdownOpen: false,
-      disableDownloads: true,
-    },
-
-    updateMode: (mode: string): void => {},
-    updateSelectionSummaryState: (field, state: any): void => {},
-    updateCandidateRankingsState: (field, state: any): void => {},
-    updateCurrentlyCalculating: (candidateId: any): void => {},
-    updateSelectedCandidateScoreDetailsState: (field, state: any): void => {},
-    updateGenerationResultsState: (field, state: any): void => {},
-  },
+  state: {},
   dispatch: () => null,
 });
 
@@ -89,10 +28,11 @@ const initialState: any = {
     refresh: false,
     updateListItems: (list: any): void => {},
     updateFilteredListItems: (list: any): void => {},
-    updateSelected: (id: JobPostingListObject | null): void => {},
+    updateSelected: (id: any): void => {},
     updateSearch: (search: string): void => {},
     updateLoading: (loading: boolean): void => {},
     toggleRefresh: (): void => {},
+    setFullJobPostingDetails: (jobPosting: any): void => {},
   },
   selectedListItem: null,
   bodyState: {
@@ -150,11 +90,20 @@ const initialState: any = {
 const jobPostingsReducer = (state: any, action: any) => {
   switch (action.type) {
     //=== List State ===//
-    case 'SET_SAVED_JOB_POSTINGS_LIST_STATE':
+    case 'SET_JOB_POSTINGS_LIST_STATE':
       return {
         ...state,
         listState: action.payload,
       };
+    case 'UPDATE_SAVED_JOB_POSTINGS_LIST_STATE':
+      return {
+        ...state,
+        listState: {
+          ...state.listState,
+          ...action.payload,
+        },
+      };
+
     case 'UPDATE_JOB_POSTINGS_LIST':
       return {
         ...state,
@@ -286,6 +235,28 @@ const jobPostingsReducer = (state: any, action: any) => {
 export const JobPostingsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(jobPostingsReducer, initialState);
 
+  const getJobPostings = async (): Promise<void> => {
+    const response = await fetchJobPostings();
+    if (response) {
+      state.listState.updateListItems(response.data);
+      state.listState.updateFilteredListItems(response.data);
+      // dispatch({
+      //   type: 'UPDATE_JOB_POSTINGS_LIST',
+      //   payload: response.data,
+      // });
+      // dispatch({
+      //   type: 'UPDATE_FILTERED_JOB_POSTINGS_LIST',
+      //   payload: response.data,
+      // });
+    } else {
+      console.error('Error fetching job postings');
+    }
+  };
+
+  useEffect(() => {
+    getJobPostings();
+  }, []);
+
   //-- update selection summary --//
   useEffect(() => {
     if (state.selectedListItem) {
@@ -303,7 +274,7 @@ export const JobPostingsContextProvider = ({ children }) => {
   //== List State ==//
   useEffect(() => {
     dispatch({
-      type: 'SET_SAVED_JOB_POSTINGS_LIST_STATE',
+      type: 'SET_JOB_POSTINGS_LIST_STATE',
       payload: {
         listItems: initialState.listState.listItems,
         filteredListItems: initialState.listState.filteredListItems,
@@ -314,38 +285,44 @@ export const JobPostingsContextProvider = ({ children }) => {
 
         updateListItems: (list: any) => {
           dispatch({
-            type: 'UPDATE_JOB_POSTINGS_LIST',
-            payload: list,
+            type: 'UPDATE_SAVED_JOB_POSTINGS_LIST_STATE',
+            payload: { listItems: list },
           });
         },
         updateFilteredListItems: (list: any) => {
           dispatch({
-            type: 'UPDATE_FILTERED_JOB_POSTINGS_LIST',
-            payload: list,
+            type: 'UPDATE_SAVED_JOB_POSTINGS_LIST_STATE',
+            payload: { filteredListItems: list },
           });
         },
         updateSelected: (id: string) => {
           dispatch({
-            type: 'UPDATE_SELECTED_JOB_POSTING_LIST_STATE',
-            payload: id,
+            type: 'UPDATE_SAVED_JOB_POSTINGS_LIST_STATE',
+            payload: { selected: id },
           });
         },
         updateSearch: (search: string) => {
           dispatch({
-            type: 'UPDATE_JOB_POSTINGS_LIST_SEARCH',
-            payload: search,
+            type: 'UPDATE_SAVED_JOB_POSTINGS_LIST_STATE',
+            payload: { search: search },
           });
         },
-        updateLoading: (loading: boolean) => {
+        updateLoading: (tof: boolean) => {
           dispatch({
-            type: 'UPDATE_LOADING_JOB_POSTINGS_LIST_LOADING',
-            payload: loading,
+            type: 'UPDATE_SAVED_JOB_POSTINGS_LIST_STATE',
+            payload: { loading: tof },
           });
         },
         toggleRefresh: () => {
           dispatch({
             type: 'REFRESH_JOB_POSTINGS_LIST',
             payload: !state.listState.refresh,
+          });
+        },
+        setFullJobPostingDetails: (jobPosting: any) => {
+          dispatch({
+            type: 'SET_SELECTED_JOB_POSTING_FULL_DETAILS',
+            payload: jobPosting,
           });
         },
       },

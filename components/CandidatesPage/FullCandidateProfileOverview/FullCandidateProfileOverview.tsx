@@ -28,7 +28,7 @@ interface Props {
   jobLoadingId: string | null;
   resumeUrl: string;
   updateSelectedJobPosting: (jobPosting: JobPostingListObject) => void;
-  updateScoreDetailsMode: (mode: string) => void;
+  updateMode: (mode: string) => void;
   handleCalculate: (jobPostingId: string) => void;
   handleFileChange: (file: File) => void;
 }
@@ -38,7 +38,7 @@ const FullCandidateProfileOverview: React.FC<Props> = ({
   jobPostings,
   jobLoadingId,
   updateSelectedJobPosting,
-  updateScoreDetailsMode,
+  updateMode,
   handleCalculate,
   resumeUrl,
   handleFileChange,
@@ -49,7 +49,7 @@ const FullCandidateProfileOverview: React.FC<Props> = ({
     if (resumeUrl === '') {
       fileInputRef.current.click();
     } else {
-      updateScoreDetailsMode('resume');
+      updateMode('resume');
     }
   };
 

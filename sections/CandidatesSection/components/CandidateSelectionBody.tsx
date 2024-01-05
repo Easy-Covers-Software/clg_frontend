@@ -80,31 +80,23 @@ const CandidateSelectionBody: FC = () => {
   const { listState, selectedListItem, bodyState } = state;
 
   //=== Helpers ===//
-  const updateScoreDetailsMode = (mode: string) => {
+  const updateMode = (mode: string) => {
     bodyState.updateMode(mode);
   };
 
-  const resetSelectedCandidateMode = () => {
-    updateScoreDetailsMode('overview');
+  const resetMainMode = () => {
+    updateMode('overview');
   };
 
-  const updateJobPostingMode = (mode: string) => {
+  const updateScoreDetailsMode = (mode: string) => {
     bodyState.updateSelectedCandidateScoreDetailsState(
       'selectedCandidateMode',
       mode
     );
   };
 
-  const resetJobPostingMode = () => {
-    updateJobPostingMode('overview');
-  };
-
-  const updateSelectedJobPosting = (jobPosting: JobPostingListObject) => {
-    updateScoreDetailsMode('jobPosting');
-    bodyState.updateCandidateJobPostingsListState(
-      'selectedJobPosting',
-      jobPosting
-    );
+  const resetScoreDetailsMode = () => {
+    updateScoreDetailsMode('overview');
   };
 
   const updateGenerationsPanelMode = (mode: string) => {
@@ -116,6 +108,14 @@ const CandidateSelectionBody: FC = () => {
 
   const updateCallsPanelMode = (mode: string) => {
     bodyState.updateSelectedCandidateScoreDetailsState('callPanelMode', mode);
+  };
+
+  const updateSelectedJobPosting = (jobPosting: JobPostingListObject) => {
+    bodyState.updateCandidateJobPostingsListState(
+      'selectedJobPosting',
+      jobPosting
+    );
+    updateMode('jobPosting');
   };
 
   const handleFileChange = async (file: File) => {
@@ -150,12 +150,12 @@ const CandidateSelectionBody: FC = () => {
       'selectedGeneration',
       generation
     );
-    updateJobPostingMode('generation');
+    updateScoreDetailsMode('generation');
   };
 
   const handleCallSelection = (call: PhoneCall) => {
     bodyState.updateSelectedCandidateScoreDetailsState('selectedCall', call);
-    updateJobPostingMode('phoneCall');
+    updateScoreDetailsMode('phoneCall');
   };
 
   const checkPhoneCalls = () => {
@@ -286,7 +286,7 @@ const CandidateSelectionBody: FC = () => {
             jobLoadingId={bodyState?.currentlyCalculating}
             resumeUrl={bodyState.selectedCandidateScoreDetailsState?.resumeUrl}
             updateSelectedJobPosting={updateSelectedJobPosting}
-            updateScoreDetailsMode={updateScoreDetailsMode}
+            updateMode={updateMode}
             handleCalculate={handleCalculate}
             handleFileChange={handleFileChange}
           />
@@ -295,7 +295,7 @@ const CandidateSelectionBody: FC = () => {
         return (
           <SubSectionFrame
             subSectionHeader={'Résumé Viewer'}
-            onClose={resetSelectedCandidateMode}
+            onClose={resetMainMode}
           >
             <ResumeIframe resumeUrl={getResumeUrl()} />
           </SubSectionFrame>
@@ -306,7 +306,7 @@ const CandidateSelectionBody: FC = () => {
             return (
               <SubSectionFrame
                 subSectionHeader={'Candidate Score Details'}
-                onClose={resetSelectedCandidateMode}
+                onClose={resetMainMode}
               >
                 <FullCandidateJobProfile
                   page={'candidate'}
@@ -320,7 +320,7 @@ const CandidateSelectionBody: FC = () => {
                   callMode={getCallPanelMode()}
                   matchScore={getMatchScore()}
                   loading={isCurrentlyCalculating()}
-                  updateSubSectionMode={updateJobPostingMode}
+                  updateSubSectionMode={updateScoreDetailsMode}
                   updateGenerationsPanelMode={updateGenerationsPanelMode}
                   updateCallsPanelMode={updateCallsPanelMode}
                   handleCalculate={handleCalculate}
@@ -333,7 +333,7 @@ const CandidateSelectionBody: FC = () => {
             return (
               <SubSectionFrame
                 subSectionHeader={'Generation'}
-                onClose={resetJobPostingMode}
+                onClose={resetScoreDetailsMode}
               >
                 <GenerationEditor
                   contentData={bodyState.generationResultsState}
@@ -344,7 +344,7 @@ const CandidateSelectionBody: FC = () => {
             return (
               <SubSectionFrame
                 subSectionHeader={'Call Notes'}
-                onClose={resetJobPostingMode}
+                onClose={resetScoreDetailsMode}
               >
                 <TranscriptionNotes
                   page={'candidate'}
@@ -357,7 +357,7 @@ const CandidateSelectionBody: FC = () => {
             return (
               <SubSectionFrame
                 subSectionHeader={'Résumé Viewer'}
-                onClose={resetJobPostingMode}
+                onClose={resetScoreDetailsMode}
               >
                 <ResumeIframe resumeUrl={getResumeUrl()} />
               </SubSectionFrame>
