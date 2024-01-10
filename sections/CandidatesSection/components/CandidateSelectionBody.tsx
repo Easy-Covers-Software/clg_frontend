@@ -215,7 +215,7 @@ const CandidateSelectionBody: FC = () => {
   };
 
   const getTranscriptionNotes = () => {
-    bodyState.selectedCandidateScoreDetailsState?.selectedCall?.transcription
+    return bodyState.selectedCandidateScoreDetailsState?.selectedCall?.transcription
       ?.notes;
   };
 
