@@ -93,11 +93,6 @@ export default function SavedPhoneCallsList() {
   const { state, dispatch } = useTranscriptionContext();
   console.log(state);
   const {
-    phoneCallListState,
-    selectedPhoneCall,
-    transcriptionModeState,
-    checked,
-
     listState,
     selectedListItem,
     bodyState,
@@ -219,9 +214,6 @@ export default function SavedPhoneCallsList() {
     return ws;
   };
 
-  useEffect(() => {
-    getSavedPhoneCalls();
-  }, []);
 
   useEffect(() => {
     if (loggedInProps.user) {
@@ -327,8 +319,6 @@ export default function SavedPhoneCallsList() {
     getSavedPhoneCalls();
   }, [listState.refresh]);
 
-  // TODO: update filteredItems value base on search value
-
   const isTranscribeDisabled =
     !listState?.selected ||
     selectedListItem?.transcription_status !== 'awaiting';
@@ -336,13 +326,14 @@ export default function SavedPhoneCallsList() {
   return (
     <Container>
       <SavedList
-        savedItems={listState?.filteredItems}
+        listType="phoneCalls"
+        items={listState?.filteredItems}
         search={listState?.search}
         loading={listState?.loading}
         selected={listState?.selected}
-        listType="phoneCalls"
-        handleToggle={handleToggle}
+        handleNewSelection={handleToggle}
         handleSearchChange={handleSearchChange}
+        handleDelete={() => {}}
       />
       <TranscribeButton
         disabled={isTranscribeDisabled}

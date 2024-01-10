@@ -11,7 +11,6 @@ import { useTranscriptionContext } from '@/context/TranscriptionContext';
 
 import { Typography } from '@mui/material';
 
-import CoverLetterSummary from '@/components/CoverLetterSummay/CoverLetterSummary';
 
 import TranscriptionNote from '@/components/CallsPage/Transcription/TranscriptionNote/TranscriptionNote';
 import NewCall from '@/components/CallsPage/PhoneCallComponents/NewCall/NewCall';

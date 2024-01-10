@@ -1,4 +1,5 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
+import { fetchPhoneCalls } from '@/api/TranscriptionMethods';
 
 const TranscriptionContext = createContext<any>({
   state: {},
@@ -212,6 +213,30 @@ function reducer(state, action) {
 export default function TranscriptionPageContext({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const getSavedPhoneCalls = async (): Promise<void> => {
+    const response = await fetchPhoneCalls();
+    if (response.data) {
+      console.log('response.data', response.data);
+
+      dispatch({
+        type: 'UPDATE_SAVED_PHONE_CALLS',
+        payload: response.data,
+      });
+
+      dispatch({
+        type: 'UPDATE_SEARCHED_PHONE_CALLS',
+        payload: response.data,
+      });
+    } else {
+      // snackbar.updateSnackbar(true, 'error', 'Error Fetching Phone Calls');
+    }
+  };
+
+  useEffect(() => {
+    getSavedPhoneCalls();
+  }, []);
+
+
   useEffect(() => {
     dispatch({
       type: 'UPDATE_CALL_COMPLETE_FORM',
@@ -256,6 +281,107 @@ export default function TranscriptionPageContext({ children }) {
       });
     }
   }, [state.bodyState.transcriptionModeState?.selectedCandidate]);
+
+  //== List State ==//
+  useEffect(() => {
+    dispatch({
+      type: 'SET_PHONE_CALL_LIST_STATE',
+      payload: {
+        savedItems: state.listState.savedItems,
+        filteredItems: state.listState.filteredItems,
+        selected: state.listState.selected,
+        search: state.listState.search,
+        loading: state.listState.loading,
+        refresh: state.listState.refresh,
+        updateListItems: (list: any): void => {
+          dispatch({
+            type: 'UPDATE_SAVED_PHONE_CALLS',
+            payload: list,
+          });
+        },
+        updateFilteredListItems: (list: any): void => {
+          dispatch({
+            type: 'UPDATE_SEARCHED_PHONE_CALLS',
+            payload: list,
+          });
+        },
+        updateSelected: (id: string): void => {
+          dispatch({
+            type: 'UPDATE_SELECTED_PHONE_CALL',
+            payload: id,
+          });
+        },
+        updateSearch: (search: string): void => {
+          dispatch({
+            type: 'UPDATE_LIST_SEARCH',
+            payload: search,
+          });
+        },
+        updateLoading: (loading: boolean): void => {
+          dispatch({
+            type: 'UPDATE_LIST_LOADING',
+            payload: loading,
+          });
+        },
+        toggleRefresh: (): void => {
+          dispatch({
+            type: 'REFRESH_PHONE_CALLS_LIST',
+          });
+        },
+      },
+    });
+  }, [state.listState]);
+
+  //== Body State ==//
+  useEffect(() => {
+    dispatch({
+      type: 'SET_SELECTED_ITEM_BODY_DISPLAY_STATE',
+      payload: {
+        mode: state.bodyState.mode,
+        selectionSummaryState: state.bodyState.selectionSummaryState,
+        callModeState: state.bodyState.callModeState,
+        transcriptionModeState: state.bodyState.transcriptionModeState,
+        updateMode: (mode: string) => {
+          dispatch({
+            type: 'UPDATE_CALL_OR_NOTE_MODE',
+            payload: mode,
+          });
+        },
+        updateSelectionSummaryState: (field: any, state: any) => {
+          dispatch({
+            type: 'UPDATE_CALL_SELECTION_SUMMARY_STATE',
+            payload: { [field]: state },
+          });
+        },
+        updateCallModeState: (field: any, state: any) => {
+          dispatch({
+            type: 'UPDATE_CALL_MODE_STATE',
+            payload: { [field]: state },
+          });
+        },
+        updateTranscriptionModeState: (field: any, state: any) => {
+          dispatch({
+            type: 'UPDATE_TRANSCRIPTION_MODE_STATE',
+            payload: { [field]: state },
+          });
+        },
+        updateNewCallForm: (field: any, state: any) => {
+          dispatch({
+            type: 'UPDATE_NEW_CALL_FORM',
+            payload: { [field]: state },
+          });
+        },
+        updateCallCompleteForm: (field: any, state: any) => {
+          dispatch({
+            type: 'UPDATE_CALL_COMPLETE_FORM',
+            payload: { [field]: state },
+          });
+        },
+      },
+    });
+  }, []);
+
+
 
   console.log('trans/call state', state);
 
