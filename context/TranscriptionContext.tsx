@@ -8,8 +8,8 @@ const TranscriptionContext = createContext<any>({
 
 const initialState = {
   listState: {
-    savedItems: [],
-    filteredItems: [],
+    listItems: [],
+    filteredListItems: [],
     selected: null,
     search: '',
     loading: false,
@@ -20,6 +20,7 @@ const initialState = {
     updateSearch: (search: string): void => {},
     updateLoading: (loading: boolean): void => {},
     toggleRefresh: (): void => {},
+    updateSelectedPhoneCall: (id: string): void => {},
   },
   selectedListItem: null,
   bodyState: {
@@ -62,6 +63,12 @@ const initialState = {
       status: '',
       loading: false,
     },
+    updateMode: (mode: string) => {},
+    updateSelectionSummaryState: (field: any, state: any) => {},
+    updateCallModeState: (field: any, state: any) => {},
+    updateTranscriptionModeState: (field: any, state: any) => {},
+    updateNewCallForm: (field: any, state: any) => {},
+    updateCallCompleteForm: (field: any, state: any) => {},
   },
 };
 
@@ -73,7 +80,17 @@ function reducer(state, action) {
         ...state,
         listState: action.payload,
       };
-    case 'UPDATE_SAVED_PHONE_CALLS':
+    case 'UPDATE_PHONE_CALL_LIST_STATE':
+      return {
+        ...state,
+        listState: {
+          ...state.listState,
+          ...action.payload,
+        },
+      };
+    
+    
+      case 'UPDATE_SAVED_PHONE_CALLS':
       return {
         ...state,
         listState: {
@@ -217,16 +234,14 @@ export default function TranscriptionPageContext({ children }) {
     const response = await fetchPhoneCalls();
     if (response.data) {
       console.log('response.data', response.data);
-
       dispatch({
-        type: 'UPDATE_SAVED_PHONE_CALLS',
-        payload: response.data,
+        type: 'UPDATE_PHONE_CALL_LIST_STATE',
+        payload: {
+          listItems: response.data,
+          filteredListItems: response.data,
+        }
       });
 
-      dispatch({
-        type: 'UPDATE_SEARCHED_PHONE_CALLS',
-        payload: response.data,
-      });
     } else {
       // snackbar.updateSnackbar(true, 'error', 'Error Fetching Phone Calls');
     }
@@ -235,7 +250,6 @@ export default function TranscriptionPageContext({ children }) {
   useEffect(() => {
     getSavedPhoneCalls();
   }, []);
-
 
   useEffect(() => {
     dispatch({
@@ -287,60 +301,67 @@ export default function TranscriptionPageContext({ children }) {
     dispatch({
       type: 'SET_PHONE_CALL_LIST_STATE',
       payload: {
-        savedItems: state.listState.savedItems,
-        filteredItems: state.listState.filteredItems,
-        selected: state.listState.selected,
-        search: state.listState.search,
-        loading: state.listState.loading,
-        refresh: state.listState.refresh,
+        listItems: initialState.listState.listItems,
+        filteredListItems: initialState.listState.filteredListItems,
+        selected: initialState.listState.selected,
+        search: initialState.listState.search,
+        loading: initialState.listState.loading,
+        refresh: initialState.listState.refresh,
         updateListItems: (list: any): void => {
           dispatch({
-            type: 'UPDATE_SAVED_PHONE_CALLS',
-            payload: list,
+            type: 'UPDATE_PHONE_CALL_LIST_STATE',
+            payload: { listItems: list },
           });
         },
         updateFilteredListItems: (list: any): void => {
           dispatch({
-            type: 'UPDATE_SEARCHED_PHONE_CALLS',
-            payload: list,
+            type: 'UPDATE_PHONE_CALL_LIST_STATE',
+            payload: { filteredListItems: list },
           });
         },
         updateSelected: (id: string): void => {
           dispatch({
-            type: 'UPDATE_SELECTED_PHONE_CALL',
-            payload: id,
+            type: 'UPDATE_PHONE_CALL_LIST_STATE',
+            payload: { selected: id },
           });
         },
         updateSearch: (search: string): void => {
           dispatch({
-            type: 'UPDATE_LIST_SEARCH',
-            payload: search,
+            type: 'UPDATE_PHONE_CALL_LIST_STATE',
+            payload: { search: search },
           });
         },
         updateLoading: (loading: boolean): void => {
           dispatch({
-            type: 'UPDATE_LIST_LOADING',
-            payload: loading,
+            type: 'UPDATE_PHONE_CALL_LIST_STATE',
+            payload: { loading: loading },
           });
         },
         toggleRefresh: (): void => {
           dispatch({
-            type: 'REFRESH_PHONE_CALLS_LIST',
+            type: 'UPDATE_PHONE_CALL_LIST_STATE',
+            payload: { refresh: !state.listState.refresh },
           });
         },
+        updateSelectedPhoneCall: (id: string): void => {
+          dispatch({
+            type: 'SET_SELECTED_PHONE_CALL',
+            payload: id,
+          });
+        },        
       },
     });
-  }, [state.listState]);
+  }, []);
 
   //== Body State ==//
   useEffect(() => {
     dispatch({
       type: 'SET_SELECTED_ITEM_BODY_DISPLAY_STATE',
       payload: {
-        mode: state.bodyState.mode,
-        selectionSummaryState: state.bodyState.selectionSummaryState,
-        callModeState: state.bodyState.callModeState,
-        transcriptionModeState: state.bodyState.transcriptionModeState,
+        mode: initialState.bodyState.mode,
+        selectionSummaryState: initialState.bodyState.selectionSummaryState,
+        callModeState: initialState.bodyState.callModeState,
+        transcriptionModeState: initialState.bodyState.transcriptionModeState,
         updateMode: (mode: string) => {
           dispatch({
             type: 'UPDATE_CALL_OR_NOTE_MODE',

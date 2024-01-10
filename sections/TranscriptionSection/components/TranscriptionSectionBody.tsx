@@ -121,19 +121,6 @@ export default function TranscriptionSectionBody() {
   const { snackbar } = authState;
   const { state, dispatch } = useTranscriptionContext();
   const {
-    phoneCallListState,
-    selectedPhoneCall,
-    notesHeaderSummaryState,
-    transcriptionModeState,
-    callModeState,
-    currentMode,
-    jobPostings,
-    newCallForm,
-    candidateSaveForm,
-    newCandidateId,
-    phoneCallJobPostingId,
-    checked,
-
     listState,
     selectedListItem,
     bodyState,
@@ -144,15 +131,17 @@ export default function TranscriptionSectionBody() {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      dispatch({
-        type: 'UPDATE_CALL_OR_NOTE_MODE',
-        payload: 'Call',
-      });
+      // dispatch({
+      //   type: 'UPDATE_CALL_OR_NOTE_MODE',
+      //   payload: 'Call',
+      // });
+      bodyState.updateMode('Call')
     } else {
-      dispatch({
-        type: 'UPDATE_CALL_OR_NOTE_MODE',
-        payload: 'Notes',
-      });
+      bodyState.updateMode('Notes')
+      // dispatch({
+      //   type: 'UPDATE_CALL_OR_NOTE_MODE',
+      //   payload: 'Notes',
+      // });
     }
 
     // if (checked) {
@@ -175,27 +164,31 @@ export default function TranscriptionSectionBody() {
     jobPosting: string
   ) => {
     event.preventDefault(); // This line prevents the default form submission action
+    bodyState.updateCallModeState('callStatus', 'initiated')
 
-    dispatch({
-      type: 'UPDATE_CALL_MODE_STATUS',
-      payload: 'initiated',
-    });
+    // dispatch({
+    //   type: 'UPDATE_CALL_MODE_STATUS',
+    //   payload: 'initiated',
+    // });
 
     const response = await initiatePhoneCall(candidateName, phone, jobPosting);
 
     if (response) {
-      console.log('init response');
-      console.log(response.data);
-      console.log(response.data.candidate_profile);
-      dispatch({
-        type: 'SET_NEW_CANDIDATE_ID',
-        payload: response.data.candidate_profile.id,
-      });
+      // console.log('init response');
+      // console.log(response.data);
+      // console.log(response.data.candidate_profile);
+      bodyState.updateCallModeState('newCallCandidateId', response.data.candidate_profile.id)
+      bodyState.updateCallModeState('newCallJobPostingId', response.data.job_posting_id)
 
-      dispatch({
-        type: 'SET_CALL_JOB_POSTING_ID',
-        payload: response.data.job_posting_id,
-      });
+      // dispatch({
+      //   type: 'SET_NEW_CANDIDATE_ID',
+      //   payload: response.data.candidate_profile.id,
+      // });
+
+      // dispatch({
+      //   type: 'SET_CALL_JOB_POSTING_ID',
+      //   payload: response.data.job_posting_id,
+      // });
 
       snackbar.updateSnackbar(true, 'success', 'Phone Call Initiated.');
       handleWebSocketConnection();
@@ -219,23 +212,26 @@ export default function TranscriptionSectionBody() {
     );
 
     ws.addEventListener('message', (event) => {
-      console.log('Web socket');
+      // console.log('Web socket');
       const data = JSON.parse(event.data);
-      console.log(data);
+      // console.log(data);
 
       if (data.call_status) {
-        dispatch({
-          type: 'UPDATE_CALL_MODE_STATUS',
-          payload: data.call_status,
-        });
+        bodyState.updateCallModeState('callStatus', data.call_status)
+
+        // dispatch({
+        //   type: 'UPDATE_CALL_MODE_STATUS',
+        //   payload: data.call_status,
+        // });
       }
       // Check for the 'completed' status and close the connection
       if (data.call_status === 'completed') {
         console.log('Closing the connection');
         // refresh list of calls
-        dispatch({
-          type: 'REFRESH_PHONE_CALLS_LIST',
-        });
+        // dispatch({
+        //   type: 'REFRESH_PHONE_CALLS_LIST',
+        // });
+        listState.toggleRefresh();
         ws.close();
       }
     });
@@ -246,17 +242,19 @@ export default function TranscriptionSectionBody() {
   };
 
   const updateNewCallForm = (formData) => {
-    dispatch({
-      type: 'UPDATE_NEW_CALL_FORM',
-      payload: formData,
-    });
+    // dispatch({
+    //   type: 'UPDATE_NEW_CALL_FORM',
+    //   payload: formData,
+    // });
+    bodyState.updateCallModeState('newCallForm', formData)
   };
 
   const updateSaveForm = (formData) => {
-    dispatch({
-      type: 'UPDATE_CALL_COMPLETE_FORM',
-      payload: formData,
-    });
+    bodyState.updateCallModeState('callCompleteForm', formData)
+    // dispatch({
+    //   type: 'UPDATE_CALL_COMPLETE_FORM',
+    //   payload: formData,
+    // });
   };
 
   const saveCandidateProfile = async (candidateId, data) => {
@@ -270,10 +268,11 @@ export default function TranscriptionSectionBody() {
   };
 
   const resetCallMode = () => {
-    dispatch({
-      type: 'UPDATE_CALL_MODE_STATUS',
-      payload: 'new',
-    });
+    bodyState.updateCallModeState('callStatus', 'new')
+    // dispatch({
+    //   type: 'UPDATE_CALL_MODE_STATUS',
+    //   payload: 'new',
+    // });
   };
 
   const handleDontSave = async (candidateId) => {
@@ -297,21 +296,24 @@ export default function TranscriptionSectionBody() {
   }, [socket]);
 
   // TODO: is this doing anything?
-  useEffect(() => {
-    dispatch({
-      type: 'UPDATE_TRANSCRIPTION_STATE_PHONE_CALL',
-      payload: listState?.selected,
-    });
-  }, [listState.selected]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'UPDATE_TRANSCRIPTION_STATE_PHONE_CALL',
+  //     payload: listState?.selected,
+  //   });
+  // }, [listState.selected]);
 
   useEffect(() => {
     const getJobPostings = async (): Promise<void> => {
       const response = await fetchJobPostings();
       if (response) {
-        dispatch({
-          type: 'SET_JOB_POSTINGS',
-          payload: response.data,
-        });
+
+        bodyState.updateCallModeState('availableJobPostings', response.data)
+        
+        // dispatch({
+        //   type: 'SET_JOB_POSTINGS',
+        //   payload: response.data,
+        // });
       } else {
         snackbar.updateSnackbar(true, 'Error fetching job postings', 'error');
       }
@@ -321,7 +323,7 @@ export default function TranscriptionSectionBody() {
   }, []);
 
   const renderPhoneCallComponent = () => {
-    switch (bodyState.callModeState.status) {
+    switch (bodyState.callModeState.callStatus) {
       case 'new':
         return (
           <CallsContainer>
@@ -510,44 +512,14 @@ export default function TranscriptionSectionBody() {
         checked={bodyState.mode === 'Notes' ? false : true}
         handleChange={handleChange}
       />
-      {/* <SubContainer
-        style={{
-          display:
-            currentMode === 'Notes' &&
-            selectedPhoneCall?.transcription_status === 'complete' &&
-            transcriptionModeState.transcriptionNotes !== null
-              ? 'grid'
-              : 'flex',
-          gridTemplateColumns: currentMode === 'Notes' ? '1fr 1fr' : '',
-          gap: currentMode === 'Notes' ? '12px' : '4px',
-          width:
-            phoneCallListState.selected ||
-            selectedPhoneCall?.transcription_status === 'processing'
-              ? '98%'
-              : '',
-        }}
-      > */}
+
       {bodyState.mode === 'Notes' ? (
         <>
           {renderTranscriptionNotesComponent()}
-          {/* {transcriptionState?.transcriptionNotes?.length > 0 ? (
-              transcriptionState?.transcriptionNotes?.map((note) => (
-                <TranscriptionNote
-                  key={note.id || note.noteHeader} // Added a key prop for uniqueness
-                  noteHeader={note?.noteHeader}
-                  noteContent={note?.noteContent}
-                />
-              ))
-            ) : (
-              <Grid width={'100%'} display={'flex'} justifyContent={'center'}>
-                <h1>Select a phone call to see notes</h1>
-              </Grid>
-            )} */}
         </>
       ) : (
         <>{renderPhoneCallComponent()}</>
       )}
-      {/* </SubContainer> */}
     </Container>
   );
 }

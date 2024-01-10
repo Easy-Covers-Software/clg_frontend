@@ -103,56 +103,6 @@ const jobPostingsReducer = (state: any, action: any) => {
           ...action.payload,
         },
       };
-
-    case 'UPDATE_JOB_POSTINGS_LIST':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          listItems: action.payload,
-        },
-      };
-    case 'UPDATE_FILTERED_JOB_POSTINGS_LIST':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          filteredListItems: action.payload,
-        },
-      };
-    case 'UPDATE_SELECTED_JOB_POSTING_LIST_STATE':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          selected: action.payload,
-        },
-      };
-    case 'UPDATE_JOB_POSTINGS_LIST_SEARCH':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          search: action.payload,
-        },
-      };
-    case 'UPDATE_LOADING_JOB_POSTINGS_LIST_LOADING':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          loading: action.payload,
-        },
-      };
-    case 'REFRESH_JOB_POSTINGS_LIST':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          refresh: !state.listState.refresh,
-        },
-      };
-
     //=== Selected Full Details ===//
     case 'SET_SELECTED_JOB_POSTING_FULL_DETAILS':
       return {
@@ -312,8 +262,8 @@ export const JobPostingsContextProvider = ({ children }) => {
         },
         toggleRefresh: () => {
           dispatch({
-            type: 'REFRESH_JOB_POSTINGS_LIST',
-            payload: !state.listState.refresh,
+            type: 'UPDATE_JOB_POSTINGS_LIST_STATE',
+            payload: { refresh: !state.listState.refresh },
           });
         },
         setFullJobPostingDetails: (jobPosting: any) => {

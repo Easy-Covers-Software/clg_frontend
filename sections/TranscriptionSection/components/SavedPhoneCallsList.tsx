@@ -90,15 +90,12 @@ export default function SavedPhoneCallsList() {
   const { state: authState } = useAuth();
   const { loggedInProps, snackbar } = authState;
 
-  const { state, dispatch } = useTranscriptionContext();
-  console.log(state);
+  const { state } = useTranscriptionContext();
   const {
     listState,
     selectedListItem,
     bodyState,
   } = state;
-
-  const [test, setTest] = useState<string>('');
 
   const [socket, setSocket] = useState<ReconnectingWebSocket | null>(null);
 
@@ -107,70 +104,33 @@ export default function SavedPhoneCallsList() {
     const response = await fetchPhoneCalls();
     if (response.data) {
       console.log('response.data', response.data);
-
-      dispatch({
-        type: 'UPDATE_SAVED_PHONE_CALLS',
-        payload: response.data,
-      });
-
-      dispatch({
-        type: 'UPDATE_SEARCHED_PHONE_CALLS',
-        payload: response.data,
-      });
+      listState.updateListItems(response.data);
+      listState.updateFilteredListItems(response.data);
     } else {
       // snackbar.updateSnackbar(true, 'error', 'Error Fetching Phone Calls');
     }
   };
 
   const handleToggle = (selected: any) => () => {
-    dispatch({
-      type: 'UPDATE_SELECTED_PHONE_CALL',
-      payload: selected,
-    });
-    dispatch({
-      type: 'SET_CURRENT_MODE',
-      payload: 'Notes',
-    });
-
-    dispatch({
-      type: 'SET_CHECKED',
-      payload: false,
-    });
+    listState.updateSelected(selected);
+    bodyState.updateMode('Notes');
   };
 
   //-- IMPORTANT --//
-  // TODO: create function to delete phone call from db
-
-  const handleSearchChange = (event) => {
-    dispatch({ type: 'UPDATE_LIST_SEARCH', payload: event.target.value });
+  const handleSearchChange = (searchValue) => {
+    listState.updateSearch(searchValue);
   };
 
   const handleTranscribe = async () => {
-    dispatch({
-      type: 'UPDATE_TRANSCRIPTION_LOADING',
-      payload: true,
-    });
+    bodyState.updateTranscriptionModeState('loading', true);
     const response = await performTranscription(listState?.selected?.id);
     if (response) {
-      dispatch({
-        type: 'SET_CURRENT_MODE',
-        payload: 'Notes',
-      });
-      dispatch({
-        type: 'SET_SELECTED_PHONE_CALL',
-        payload: response.data.phone_call,
-      });
+      bodyState.updateMode('Notes');
+      listState.updateSelectedPhoneCall(response.data.phone_call);
       handleWebSocketConnection();
-      dispatch({
-        type: 'UPDATE_TRANSCRIPTION_LOADING',
-        payload: false,
-      });
+      bodyState.updateTranscriptionModeState('loading', false);
     } else {
-      dispatch({
-        type: 'UPDATE_TRANSCRIPTION_LOADING',
-        payload: false,
-      });
-      // snackbar.updateSnackbar(true, 'error', 'Error Transcribing Phone Call');
+      bodyState.updateTranscriptionModeState('loading', false);
     }
   };
 
@@ -194,10 +154,9 @@ export default function SavedPhoneCallsList() {
 
       if (data.phone_call) {
         if (selectedListItem?.id === data.phone_call.id)
-          dispatch({
-            type: 'SET_SELECTED_PHONE_CALL',
-            payload: data.phone_call,
-          });
+          listState.updateSelectedPhoneCall(data.phone_call);
+
+        // IMPORTANT TODO: no longer using 1-5 steps
         if (data.phone_call.transcription_status_step === '5') {
           console.log('Closing the connection');
           ws.close();
@@ -205,12 +164,9 @@ export default function SavedPhoneCallsList() {
       } else {
         console.log('No uuid or status');
       }
-
-      // Check for the 'completed' status and close the connection
     });
 
     setSocket(ws);
-
     return ws;
   };
 
@@ -221,15 +177,13 @@ export default function SavedPhoneCallsList() {
     }
   }, [loggedInProps.user]);
 
+
   useEffect(() => {
     const getSelectedPhoneCallInstance = async () => {
       try {
         const response = await fetchPhoneCall(listState?.selected?.id);
         if (response) {
-          dispatch({
-            type: 'SET_SELECTED_PHONE_CALL',
-            payload: response.data,
-          });
+          listState.updateSelectedPhoneCall(response.data);
         } else {
         }
       } catch (error) {
@@ -239,6 +193,8 @@ export default function SavedPhoneCallsList() {
     getSelectedPhoneCallInstance();
   }, [listState?.selected]);
 
+
+  // TODO: want to get rid of this code
   useEffect(() => {
     const getTranscriptionInstance = async () => {
       if (selectedListItem?.transcription) {
@@ -247,10 +203,7 @@ export default function SavedPhoneCallsList() {
             selectedListItem?.transcription.id
           );
           if (response) {
-            dispatch({
-              type: 'UPDATE_SELECTED_TRANSCRIPTION',
-              payload: response.data,
-            });
+            bodyState.updateTranscriptionModeState('selectedTranscription', response.data);
           } else {
           }
         } catch (error) {
@@ -266,10 +219,7 @@ export default function SavedPhoneCallsList() {
             selectedListItem?.candidate.id
           );
           if (response) {
-            dispatch({
-              type: 'UPDATE_TRANSCRIPTION_MODE_STATE',
-              payload: { selectedCandidate: response.data },
-            });
+            bodyState.updateTranscriptionModeState('selectedCandidate', response.data);
           } else {
           }
         } catch (error) {
@@ -279,9 +229,11 @@ export default function SavedPhoneCallsList() {
     };
 
     getCandidateInstance();
-    getTranscriptionInstance();
+    // getTranscriptionInstance();
   }, [selectedListItem]);
 
+
+  // TODO: i think this is how i am refreshing the notes once the async transcription is completed -- need to update this to new loading structure
   useEffect(() => {
     const getTranscriptionNotes = () => {
       const notes =
@@ -296,22 +248,23 @@ export default function SavedPhoneCallsList() {
         const currNote = { noteHeader: key, noteContent: value };
         temp.push(currNote);
       });
-
-      dispatch({
-        type: 'UPDATE_SELECTED_TRANSCRIPTION_NOTES',
-        payload: temp,
-      });
+      
+      bodyState.updateTranscriptionModeState('selectedTranscriptionNotes', temp);
+      // dispatch({
+      //   type: 'UPDATE_SELECTED_TRANSCRIPTION_NOTES',
+      //   payload: temp,
+      // });
     };
 
     if (bodyState.transcriptionModeState?.selectedTranscription) {
-      getTranscriptionNotes();
+      // getTranscriptionNotes();
     }
 
     if (selectedListItem?.transcription_status === 'processing') {
-      dispatch({
-        type: 'UPDATE_TRANSCRIPTION_STATUS',
-        payload: selectedListItem?.transcription_status_step,
-      });
+      // dispatch({
+      //   type: 'UPDATE_TRANSCRIPTION_STATUS',
+      //   payload: selectedListItem?.transcription_status_step,
+      // });
     }
   }, [bodyState.transcriptionModeState.selectedTranscription]);
 
@@ -327,7 +280,7 @@ export default function SavedPhoneCallsList() {
     <Container>
       <SavedList
         listType="phoneCalls"
-        items={listState?.filteredItems}
+        items={listState?.filteredListItems}
         search={listState?.search}
         loading={listState?.loading}
         selected={listState?.selected}
