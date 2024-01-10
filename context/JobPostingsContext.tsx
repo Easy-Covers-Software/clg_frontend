@@ -95,7 +95,7 @@ const jobPostingsReducer = (state: any, action: any) => {
         ...state,
         listState: action.payload,
       };
-    case 'UPDATE_SAVED_JOB_POSTINGS_LIST_STATE':
+    case 'UPDATE_JOB_POSTINGS_LIST_STATE':
       return {
         ...state,
         listState: {
@@ -238,16 +238,13 @@ export const JobPostingsContextProvider = ({ children }) => {
   const getJobPostings = async (): Promise<void> => {
     const response = await fetchJobPostings();
     if (response) {
-      state.listState.updateListItems(response.data);
-      state.listState.updateFilteredListItems(response.data);
-      // dispatch({
-      //   type: 'UPDATE_JOB_POSTINGS_LIST',
-      //   payload: response.data,
-      // });
-      // dispatch({
-      //   type: 'UPDATE_FILTERED_JOB_POSTINGS_LIST',
-      //   payload: response.data,
-      // });
+      dispatch({
+        type: 'UPDATE_JOB_POSTINGS_LIST_STATE',
+        payload: {
+          listItems: response.data,
+          filteredListItems: response.data,
+        }
+      });
     } else {
       console.error('Error fetching job postings');
     }
@@ -285,31 +282,31 @@ export const JobPostingsContextProvider = ({ children }) => {
 
         updateListItems: (list: any) => {
           dispatch({
-            type: 'UPDATE_SAVED_JOB_POSTINGS_LIST_STATE',
+            type: 'UPDATE_JOB_POSTINGS_LIST_STATE',
             payload: { listItems: list },
           });
         },
         updateFilteredListItems: (list: any) => {
           dispatch({
-            type: 'UPDATE_SAVED_JOB_POSTINGS_LIST_STATE',
+            type: 'UPDATE_JOB_POSTINGS_LIST_STATE',
             payload: { filteredListItems: list },
           });
         },
         updateSelected: (id: string) => {
           dispatch({
-            type: 'UPDATE_SAVED_JOB_POSTINGS_LIST_STATE',
+            type: 'UPDATE_JOB_POSTINGS_LIST_STATE',
             payload: { selected: id },
           });
         },
         updateSearch: (search: string) => {
           dispatch({
-            type: 'UPDATE_SAVED_JOB_POSTINGS_LIST_STATE',
+            type: 'UPDATE_JOB_POSTINGS_LIST_STATE',
             payload: { search: search },
           });
         },
         updateLoading: (tof: boolean) => {
           dispatch({
-            type: 'UPDATE_SAVED_JOB_POSTINGS_LIST_STATE',
+            type: 'UPDATE_JOB_POSTINGS_LIST_STATE',
             payload: { loading: tof },
           });
         },

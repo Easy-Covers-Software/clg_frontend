@@ -133,9 +133,10 @@ const JobPostingSelectionBody: FC = () => {
   };
 
   const checkPhoneCalls = () => {
+    bodyState.candidateRankingsState?.selectedCandidate?.phone_calls;
     if (
-      !selectedListItem?.phone_calls ||
-      selectedListItem.phone_calls.length === 0
+      !bodyState.candidateRankingsState?.selectedCandidate?.phone_calls ||
+      bodyState.candidateRankingsState?.selectedCandidate?.phone_calls.length === 0
     ) {
       return false;
     } else {
@@ -146,7 +147,7 @@ const JobPostingSelectionBody: FC = () => {
   const getIntroCall = () => {
     if (!checkPhoneCalls()) return null;
 
-    return selectedListItem?.phone_calls.find(
+    return bodyState.candidateRankingsState?.selectedCandidate?.phone_calls.find(
       (phoneCall) => phoneCall.call_type === 'intro'
     );
   };
@@ -154,8 +155,8 @@ const JobPostingSelectionBody: FC = () => {
   const getFollowUpCalls = () => {
     if (!checkPhoneCalls()) return null;
 
-    return selectedListItem?.phone_calls.filter(
-      (phoneCall) => phoneCall.call_type !== 'intro'
+    return bodyState.candidateRankingsState?.selectedCandidate?.phone_calls.find(
+      (phoneCall) => phoneCall?.call_type === 'follow_up' || null
     );
   };
 

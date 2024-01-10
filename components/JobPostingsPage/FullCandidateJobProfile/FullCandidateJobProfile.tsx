@@ -249,7 +249,7 @@ const FullCandidateJobProfile = ({
   };
 
   console.log('selectedJobPosting ====***');
-  console.log(loading);
+  console.log(followUpCalls);
 
   return (
     <Container container spacing={2}>
@@ -336,7 +336,7 @@ const FullCandidateJobProfile = ({
                 listType={'Follow Up Calls'}
                 generations={followUpCalls}
                 resetGenerationPanelMode={resetCallPanelMode}
-                handleSelection={handleCallSelection}
+                handleSelection={handleGenerationSelection}
               />
             ) : (
               <>
@@ -349,15 +349,9 @@ const FullCandidateJobProfile = ({
                 >
                   <PanelButton
                     onClick={() => {
-                      const phoneCall = phoneCalls.find(
-                        (item) => item.call_type === 'intro'
-                      );
-                      console.log('phoneCall');
-                      console.log(introCall);
-
                       handleCallSelection(introCall);
                     }}
-                    disabled={introCall?.transcription === null}
+                    disabled={!introCall}
                   >
                     Intro
                   </PanelButton>
@@ -365,7 +359,7 @@ const FullCandidateJobProfile = ({
                   <PanelButton
                     onClick={() => {
                       if (followUpCalls) {
-                        if (followUpCalls.length === 1) {
+                        if (followUpCalls?.length === 1) {
                           handleCallSelection(followUpCalls[0]);
                         } else {
                           setCallPanelModeToFollowSelection();
@@ -373,7 +367,7 @@ const FullCandidateJobProfile = ({
                       }
                     }}
                     disabled={
-                      followUpCalls === null || followUpCalls.length === 0
+                      !followUpCalls || followUpCalls?.length === 0
                     }
                   >
                     Follow <br /> Up
