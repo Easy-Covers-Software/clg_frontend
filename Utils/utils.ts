@@ -9,6 +9,10 @@ export const createPayload = (values: Object) => {
   return formData;
 };
 
+export const getErrorMessage = (error: any) => {
+  return error.response.data 
+}
+
 //=== Ensure Download is functional by: ===//
 export const replaceSpecialCharactersInArray = (strings) => {
   const replacements = {
