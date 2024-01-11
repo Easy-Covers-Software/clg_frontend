@@ -10,15 +10,15 @@ import { useAuth } from '@/context/AuthContext';
 import { Container, MainContent, ExtraInfo } from './SelectionSummary.styles';
 
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { SummaryHeaderProps } from '@/Types/Common.types';
+// import { SummaryHeaderProps } from '@/Types/Common.types';
 import { alpha, styled } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 
 import { GreenSwitch } from '@/components/Global/components/GreenSwitch';
 
 interface Props {
-  summaryDetails: SummaryHeaderProps;
-  checked: boolean | null;
+  summaryDetails: any;
+  checked: boolean | null | any;
   handleChange: null | ((event: React.ChangeEvent<HTMLInputElement>) => void);
 }
 
@@ -113,7 +113,7 @@ const SelectionSummary: FC<Props> = ({
               Email
             </Typography>
             <GreenSwitch
-              checked={checked}
+              checked={checked === 'email' ? false : true}
               onChange={handleChange}
               inputProps={{ 'aria-label': 'controlled' }}
             />

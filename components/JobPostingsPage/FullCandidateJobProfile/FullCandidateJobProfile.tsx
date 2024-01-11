@@ -339,7 +339,13 @@ const FullCandidateJobProfile = ({
         {/* Resume Panel */}
         <SubPanelContainer xs={12} height={'20vh'}>
           <Typography variant="h6">&nbsp;</Typography>
-          <ResumePanelPaper elevation={3} onClick={setModeToResume}>
+          <ResumePanelPaper
+            elevation={3}
+            onClick={setModeToResume}
+            style={{
+              cursor: 'pointer',
+            }}
+          >
             <Typography variant="h4">Résumé</Typography>
           </ResumePanelPaper>
         </SubPanelContainer>

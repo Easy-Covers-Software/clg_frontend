@@ -83,7 +83,7 @@ export default function GenerationSectionBody() {
     <Container>
       <SelectionSummary
         summaryDetails={bodyState.selectionSummaryState}
-        checked={generationSetupState.generationMode}
+        checked={generationSetupState.mode}
         handleChange={toggleGenerationMode}
       />
 

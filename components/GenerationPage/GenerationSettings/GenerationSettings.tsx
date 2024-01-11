@@ -12,7 +12,8 @@ const GenerationSettings = ({ mode, toggleMode }) => {
       <Box display="flex" alignItems="center" justifyContent="center" mt={'1%'}>
         <Typography>Email</Typography>
         <GreenSwitch
-          checked={typeof mode === 'boolean' ? mode : false}
+          // checked={typeof mode === 'boolean' ? mode : false}
+          checked={mode === 'email' ? false : true}
           onChange={toggleMode}
           inputProps={{ 'aria-label': 'controlled' }}
         />
