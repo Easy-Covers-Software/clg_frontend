@@ -21,19 +21,17 @@ import {
   performTranscription,
 } from '@/api/TranscriptionMethods';
 
-import { ListContainer, TranscribeButton } from '../TranscriptionSection.styles';
-
+import {
+  ListContainer,
+  TranscribeButton,
+} from '../TranscriptionSection.styles';
 
 export default function SavedPhoneCallsList() {
   const { state: authState } = useAuth();
   const { loggedInProps, snackbar } = authState;
 
   const { state } = useTranscriptionContext();
-  const {
-    listState,
-    selectedListItem,
-    bodyState,
-  } = state;
+  const { listState, selectedListItem, bodyState } = state;
 
   const [socket, setSocket] = useState<ReconnectingWebSocket | null>(null);
 
@@ -54,7 +52,6 @@ export default function SavedPhoneCallsList() {
     bodyState.updateMode('Notes');
   };
 
-  //-- IMPORTANT --//
   const handleSearchChange = (searchValue) => {
     listState.updateSearch(searchValue);
   };
@@ -108,13 +105,11 @@ export default function SavedPhoneCallsList() {
     return ws;
   };
 
-
   useEffect(() => {
     if (loggedInProps.user) {
       getSavedPhoneCalls();
     }
   }, [loggedInProps.user]);
-
 
   useEffect(() => {
     const getSelectedPhoneCallInstance = async () => {
@@ -131,7 +126,6 @@ export default function SavedPhoneCallsList() {
     getSelectedPhoneCallInstance();
   }, [listState?.selected]);
 
-
   // TODO: want to get rid of this code
   useEffect(() => {
     const getTranscriptionInstance = async () => {
@@ -141,7 +135,10 @@ export default function SavedPhoneCallsList() {
             selectedListItem?.transcription.id
           );
           if (response) {
-            bodyState.updateTranscriptionModeState('selectedTranscription', response.data);
+            bodyState.updateTranscriptionModeState(
+              'selectedTranscription',
+              response.data
+            );
           } else {
           }
         } catch (error) {
@@ -157,7 +154,10 @@ export default function SavedPhoneCallsList() {
             selectedListItem?.candidate.id
           );
           if (response) {
-            bodyState.updateTranscriptionModeState('selectedCandidate', response.data);
+            bodyState.updateTranscriptionModeState(
+              'selectedCandidate',
+              response.data
+            );
           } else {
           }
         } catch (error) {
@@ -169,7 +169,6 @@ export default function SavedPhoneCallsList() {
     getCandidateInstance();
     // getTranscriptionInstance();
   }, [selectedListItem]);
-
 
   // TODO: i think this is how i am refreshing the notes once the async transcription is completed -- need to update this to new loading structure
   useEffect(() => {
@@ -186,8 +185,11 @@ export default function SavedPhoneCallsList() {
         const currNote = { noteHeader: key, noteContent: value };
         temp.push(currNote);
       });
-      
-      bodyState.updateTranscriptionModeState('selectedTranscriptionNotes', temp);
+
+      bodyState.updateTranscriptionModeState(
+        'selectedTranscriptionNotes',
+        temp
+      );
       // dispatch({
       //   type: 'UPDATE_SELECTED_TRANSCRIPTION_NOTES',
       //   payload: temp,
