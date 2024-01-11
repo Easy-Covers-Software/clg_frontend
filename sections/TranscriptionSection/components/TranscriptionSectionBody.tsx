@@ -119,42 +119,21 @@ const NotesCompleteContainer = styled(NotesContainer)`
 export default function TranscriptionSectionBody() {
   const { state: authState } = useAuth();
   const { snackbar } = authState;
-  const { state, dispatch } = useTranscriptionContext();
+  const { state } = useTranscriptionContext();
   const {
     listState,
     selectedListItem,
     bodyState,
   } = state;
 
-  // const [checked, setChecked] = useState(true);
   const [socket, setSocket] = useState<ReconnectingWebSocket | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      // dispatch({
-      //   type: 'UPDATE_CALL_OR_NOTE_MODE',
-      //   payload: 'Call',
-      // });
       bodyState.updateMode('Call')
     } else {
       bodyState.updateMode('Notes')
-      // dispatch({
-      //   type: 'UPDATE_CALL_OR_NOTE_MODE',
-      //   payload: 'Notes',
-      // });
     }
-
-    // if (checked) {
-    //   dispatch({
-    //     type: 'SET_CURRENT_MODE',
-    //     payload: 'Notes',
-    //   });
-    // } else {
-    //   dispatch({
-    //     type: 'SET_CURRENT_MODE',
-    //     payload: 'Call',
-    //   });
-    // }
   };
 
   const handleInitiatePhoneCall = async (
@@ -165,31 +144,11 @@ export default function TranscriptionSectionBody() {
   ) => {
     event.preventDefault(); // This line prevents the default form submission action
     bodyState.updateCallModeState('callStatus', 'initiated')
-
-    // dispatch({
-    //   type: 'UPDATE_CALL_MODE_STATUS',
-    //   payload: 'initiated',
-    // });
-
     const response = await initiatePhoneCall(candidateName, phone, jobPosting);
 
     if (response) {
-      // console.log('init response');
-      // console.log(response.data);
-      // console.log(response.data.candidate_profile);
       bodyState.updateCallModeState('newCallCandidateId', response.data.candidate_profile.id)
       bodyState.updateCallModeState('newCallJobPostingId', response.data.job_posting_id)
-
-      // dispatch({
-      //   type: 'SET_NEW_CANDIDATE_ID',
-      //   payload: response.data.candidate_profile.id,
-      // });
-
-      // dispatch({
-      //   type: 'SET_CALL_JOB_POSTING_ID',
-      //   payload: response.data.job_posting_id,
-      // });
-
       snackbar.updateSnackbar(true, 'success', 'Phone Call Initiated.');
       handleWebSocketConnection();
     } else {
@@ -212,49 +171,26 @@ export default function TranscriptionSectionBody() {
     );
 
     ws.addEventListener('message', (event) => {
-      // console.log('Web socket');
       const data = JSON.parse(event.data);
-      // console.log(data);
-
       if (data.call_status) {
         bodyState.updateCallModeState('callStatus', data.call_status)
-
-        // dispatch({
-        //   type: 'UPDATE_CALL_MODE_STATUS',
-        //   payload: data.call_status,
-        // });
       }
-      // Check for the 'completed' status and close the connection
       if (data.call_status === 'completed') {
         console.log('Closing the connection');
-        // refresh list of calls
-        // dispatch({
-        //   type: 'REFRESH_PHONE_CALLS_LIST',
-        // });
         listState.toggleRefresh();
         ws.close();
       }
     });
-
     setSocket(ws);
-
     return ws;
   };
 
   const updateNewCallForm = (formData) => {
-    // dispatch({
-    //   type: 'UPDATE_NEW_CALL_FORM',
-    //   payload: formData,
-    // });
     bodyState.updateCallModeState('newCallForm', formData)
   };
 
   const updateSaveForm = (formData) => {
     bodyState.updateCallModeState('callCompleteForm', formData)
-    // dispatch({
-    //   type: 'UPDATE_CALL_COMPLETE_FORM',
-    //   payload: formData,
-    // });
   };
 
   const saveCandidateProfile = async (candidateId, data) => {
@@ -269,21 +205,12 @@ export default function TranscriptionSectionBody() {
 
   const resetCallMode = () => {
     bodyState.updateCallModeState('callStatus', 'new')
-    // dispatch({
-    //   type: 'UPDATE_CALL_MODE_STATUS',
-    //   payload: 'new',
-    // });
   };
 
   const handleDontSave = async (candidateId) => {
     const response = await deleteCandidate(candidateId);
     snackbar.updateSnackbar(true, 'success', 'Candidate profile deleted');
     resetCallMode();
-    // if (response) {
-
-    // } else {
-    //   snackbar.updateSnackbar(true, 'error', `Error: ${response.error}}`);
-    // }
   };
 
   useEffect(() => {
@@ -294,33 +221,6 @@ export default function TranscriptionSectionBody() {
       }
     };
   }, [socket]);
-
-  // TODO: is this doing anything?
-  // useEffect(() => {
-  //   dispatch({
-  //     type: 'UPDATE_TRANSCRIPTION_STATE_PHONE_CALL',
-  //     payload: listState?.selected,
-  //   });
-  // }, [listState.selected]);
-
-  useEffect(() => {
-    const getJobPostings = async (): Promise<void> => {
-      const response = await fetchJobPostings();
-      if (response) {
-
-        bodyState.updateCallModeState('availableJobPostings', response.data)
-        
-        // dispatch({
-        //   type: 'SET_JOB_POSTINGS',
-        //   payload: response.data,
-        // });
-      } else {
-        snackbar.updateSnackbar(true, 'Error fetching job postings', 'error');
-      }
-    };
-
-    getJobPostings();
-  }, []);
 
   const renderPhoneCallComponent = () => {
     switch (bodyState.callModeState.callStatus) {
@@ -409,7 +309,6 @@ export default function TranscriptionSectionBody() {
             ;
           </CallsContainer>
         );
-      // return <NewCall handleInitiatePhoneCall={handleInitiatePhoneCall} />;
     }
   };
 

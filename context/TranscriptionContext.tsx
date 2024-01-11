@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import { fetchPhoneCalls } from '@/api/TranscriptionMethods';
+import { fetchJobPostings } from '@/api/JobPostingsMethods';
 
 const TranscriptionContext = createContext<any>({
   state: {},
@@ -89,56 +90,6 @@ function reducer(state, action) {
         },
       };
     
-    
-      case 'UPDATE_SAVED_PHONE_CALLS':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          savedItems: action.payload,
-        },
-      };
-    case 'UPDATE_SEARCHED_PHONE_CALLS':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          filteredItems: action.payload,
-        },
-      };
-    case 'UPDATE_SELECTED_PHONE_CALL':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          selected: action.payload,
-        },
-      };
-    case 'UPDATE_LIST_SEARCH':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          search: action.payload,
-        },
-      };
-    case 'UPDATE_LIST_LOADING':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          loading: action.payload,
-        },
-      };
-    case 'REFRESH_PHONE_CALLS_LIST':
-      return {
-        ...state,
-        listState: {
-          ...state.listState,
-          refresh: !state.listState.refresh,
-        },
-      };
-
     //== Selected Phone Call ==//
     case 'SET_SELECTED_PHONE_CALL':
       return {
@@ -400,6 +351,23 @@ export default function TranscriptionPageContext({ children }) {
         },
       },
     });
+  }, []);
+
+  //== Get Job Postings for call init ==//
+  useEffect(() => {
+    const getJobPostings = async (): Promise<void> => {
+      const response = await fetchJobPostings();
+      if (response) {
+        dispatch({
+          type: 'UPDATE_CALL_MODE_STATE',
+          payload: { availableJobPostings: response.data },
+        });
+      } else {
+        // snackbar.updateSnackbar(true, 'Error fetching job postings', 'error');
+      }
+    };
+
+    getJobPostings();
   }, []);
 
 
