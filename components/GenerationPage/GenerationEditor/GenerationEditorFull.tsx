@@ -34,8 +34,6 @@ interface Props {
   simpleAdjustmentProps: any;
   intermediateAdjustmentProps: any;
   customAdjustmentProps: any;
-  saveProps: any;
-  downloadProps: any;
 }
 
 const GenerationEditorFull: FC<any> = ({
@@ -45,8 +43,6 @@ const GenerationEditorFull: FC<any> = ({
   simpleAdjustmentProps,
   intermediateAdjustmentProps,
   customAdjustmentProps,
-  saveProps,
-  downloadProps,
   dispatch,
   toggleAdjustmentsSection,
   updateSimpleAdjustmentState,

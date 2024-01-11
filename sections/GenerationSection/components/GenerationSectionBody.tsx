@@ -20,7 +20,6 @@ const Container = styled(Grid)`
   min-height: calc(100vh - 98px);
   display: flex;
   flex-direction: column;
-  // justify-content: space-between;
   margin-left: 0.3%;
   padding-bottom: 2%;
 
@@ -47,23 +46,7 @@ const SubContainer = styled(Grid)`
 
 export default function GenerationSectionBody() {
   const { state, dispatch } = useGenerationContext();
-  const {
-    //== NEW ==//
-    generationMode,
-
-    //== OLD ==//
-    coverLetterData,
-    jobDetailsProps,
-    simpleAdjustmentProps,
-    intermediateAdjustmentProps,
-    customAdjustmentProps,
-    saveProps,
-    downloadProps,
-    adjustmentSection,
-
-    generationSetupState,
-    bodyState,
-  } = state;
+  const { generationSetupState, bodyState } = state;
 
   const [checked, setChecked] = useState(false);
 
@@ -108,8 +91,6 @@ export default function GenerationSectionBody() {
         customAdjustmentProps={
           bodyState.generationAdjustmentsState?.customAdjustmentState
         }
-        saveProps={saveProps}
-        downloadProps={downloadProps}
         adjustmentSection={isAdjustmentsSectionExpanded}
         toggleAdjustmentsSection={toggleAdjustmentsSection}
         dispatch={dispatch}
