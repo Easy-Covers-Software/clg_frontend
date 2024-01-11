@@ -29,6 +29,7 @@ import { BodyContainer } from '../TranscriptionSection.styles';
 import SelectCall from '@/components/CallsPage/Transcription/SelectCall/SelectCall';
 
 export default function TranscriptionSectionBody() {
+  //=== Context ===//
   const { state: authState } = useAuth();
   const { snackbar } = authState;
   const { state } = useTranscriptionContext();
@@ -36,6 +37,7 @@ export default function TranscriptionSectionBody() {
 
   const [socket, setSocket] = useState<ReconnectingWebSocket | null>(null);
 
+  //=== Helpers ===//
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       bodyState.updateMode('Call');
@@ -44,6 +46,19 @@ export default function TranscriptionSectionBody() {
     }
   };
 
+  const updateNewCallForm = (formData) => {
+    bodyState.updateCallModeState('newCallForm', formData);
+  };
+
+  const updateSaveForm = (formData) => {
+    bodyState.updateCallModeState('callCompleteForm', formData);
+  };
+
+  const resetCallMode = () => {
+    bodyState.updateCallModeState('callStatus', 'new');
+  };
+
+  //=== API Methods ===//
   const handleInitiatePhoneCall = async (
     event,
     candidateName: string,
@@ -71,6 +86,23 @@ export default function TranscriptionSectionBody() {
     }
   };
 
+  const saveCandidateProfile = async (candidateId, data) => {
+    const response = await updateCandidate(candidateId, data);
+    if (response.data) {
+      snackbar.updateSnackbar(true, 'success', 'Candidate profile saved');
+      resetCallMode();
+    } else {
+      snackbar.updateSnackbar(true, 'error', `Error: ${response.error}}`);
+    }
+  };
+
+  const handleDontSave = async (candidateId) => {
+    const response = await deleteCandidate(candidateId);
+    snackbar.updateSnackbar(true, 'success', 'Candidate profile deleted');
+    resetCallMode();
+  };
+
+  //=== WebSocket ===//
   const handleWebSocketConnection = () => {
     const wsOptions = {
       WebSocket: WebSocket,
@@ -99,34 +131,6 @@ export default function TranscriptionSectionBody() {
     return ws;
   };
 
-  const updateNewCallForm = (formData) => {
-    bodyState.updateCallModeState('newCallForm', formData);
-  };
-
-  const updateSaveForm = (formData) => {
-    bodyState.updateCallModeState('callCompleteForm', formData);
-  };
-
-  const saveCandidateProfile = async (candidateId, data) => {
-    const response = await updateCandidate(candidateId, data);
-    if (response.data) {
-      snackbar.updateSnackbar(true, 'success', 'Candidate profile saved');
-      resetCallMode();
-    } else {
-      snackbar.updateSnackbar(true, 'error', `Error: ${response.error}}`);
-    }
-  };
-
-  const resetCallMode = () => {
-    bodyState.updateCallModeState('callStatus', 'new');
-  };
-
-  const handleDontSave = async (candidateId) => {
-    const response = await deleteCandidate(candidateId);
-    snackbar.updateSnackbar(true, 'success', 'Candidate profile deleted');
-    resetCallMode();
-  };
-
   useEffect(() => {
     // Close the WebSocket connection when the component unmounts.
     return () => {
@@ -136,6 +140,7 @@ export default function TranscriptionSectionBody() {
     };
   }, [socket]);
 
+  //=== Render Methods ===//
   const renderPhoneCallComponent = () => {
     switch (bodyState.callModeState.callStatus) {
       case 'new':
@@ -172,7 +177,6 @@ export default function TranscriptionSectionBody() {
         return <CallNoAnswer />;
       case 'failed':
         return <CallFailed />;
-
       default:
         return <h1>Error</h1>;
     }
