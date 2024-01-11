@@ -97,7 +97,7 @@ export default function GenerationSetupLists() {
   // Component State
   const [expanded, setExpanded] = useState<string | false>('panel1');
 
-  // Panel change handler
+  //=== Helpers ===//
   const handleChange =
     (panel: string, nextPanel: string | false, tracker: string) =>
     (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -120,65 +120,11 @@ export default function GenerationSetupLists() {
       }
     };
 
-  const getJobPostings = async (): Promise<void> => {
-    const response = await fetchJobPostings();
-    if (response) {
-      generationSetupState.updateJobPostingSelectionState(
-        'jobPostings',
-        response.data
-      );
-      generationSetupState.updateJobPostingSelectionState(
-        'filteredJobPostings',
-        response.data
-      );
-      // dispatch({
-      //   type: 'UPDATE_JOB_POSTINGS',
-      //   payload: response.data,
-      // });
-      // dispatch({
-      //   type: 'UPDATE_FILTERED_JOB_POSTINGS',
-      //   payload: response.data,
-      // });
-    } else {
-      snackbar.updateSnackbar(true, 'Error fetching job postings', 'error');
-    }
-  };
-
-  const getCandidateProfiles = async (): Promise<void> => {
-    try {
-      const response = await fetchCandidateProfiles();
-      console.log('response ======*****', response);
-      if (response.data) {
-        dispatch({
-          type: 'UPDATE_CANDIDATE_SELECTION_STATE',
-          payload: {
-            candidates: response.data,
-            filteredCandidates: response.data,
-          },
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleJobPostingSelection = (jobPosting) => {
     generationSetupState.updateJobPostingSelectionState(
       'selectedJobPosting',
       jobPosting
     );
-    // dispatch({
-    //   type: 'UPDATE_SELECTED_JOB_POSTING',
-    //   payload: jobPosting,
-    // });
-  };
-
-  //== DELETE //
-  const updateJobPostingSearch = (event) => {
-    // dispatch({
-    //   type: 'UPDATE_JOB_POSTING_SEARCH',
-    //   payload: event.target.value,
-    // });
   };
 
   const handleCandidateProfileSelection = (candidateProfile) => {
@@ -186,18 +132,6 @@ export default function GenerationSetupLists() {
       'selectedCandidate',
       candidateProfile
     );
-    // dispatch({
-    //   type: 'UPDATE_SELECTED_CANDIDATE',
-    //   payload: candidateProfile,
-    // });
-  };
-
-  //== DELETE //
-  const updateCandidateProfileSearch = (event) => {
-    // dispatch({
-    //   type: 'UPDATE_CANDIDATE_SEARCH',
-    //   payload: event.target.value,
-    // });
   };
 
   const toggleGenerationMode = () => {
@@ -206,40 +140,67 @@ export default function GenerationSetupLists() {
     } else {
       generationSetupState.updateGenerationMode('email');
     }
-    // dispatch({
-    //   type: 'TOGGLE_GENERATION_MODE',
-    //   payload: true,
-    // });
+  };
+
+  //=== API Methods ===//
+  const getJobPostings = async (): Promise<void> => {
+    const response = await fetchJobPostings();
+    if (response.data) {
+      generationSetupState.updateJobPostingSelectionState(
+        'jobPostings',
+        response.data
+      );
+      generationSetupState.updateJobPostingSelectionState(
+        'filteredJobPostings',
+        response.data
+      );
+    } else {
+      snackbar.updateSnackbar(
+        true,
+        'Error fetching job postings',
+        'Error! Could not find fetch job postings.'
+      );
+    }
+  };
+
+  const getCandidateProfiles = async (): Promise<void> => {
+    const response = await fetchCandidateProfiles();
+    if (response.data) {
+      generationSetupState.updateCandidateSelectionState(
+        'candidates',
+        response.data
+      );
+      generationSetupState.updateCandidateSelectionState(
+        'filteredCandidates',
+        response.data
+      );
+    } else {
+      snackbar.updateSnackbar(
+        true,
+        'Error fetching candidates',
+        'Error! Could not find fetch candidates.'
+      );
+    }
   };
 
   const handleGenerate = async (): Promise<void> => {
+    // 1. toggle loading to true
     bodyState.updateGenerationResultsState('loading', true);
-    // coverLetterData.toggleLoadingCoverLetter();
-    // generationResultsState.toggleLoading();
 
-    console.log('generationSetupState', generationSetupState);
-
+    // 2. set job posting and candidate id for post request
     const jobPosting =
       generationSetupState.jobPostingSelectionState?.selectedJobPosting;
     const candidate =
       generationSetupState.candidateSelectionState?.selectedCandidate;
 
-    console.log('jobPosting =====2', jobPosting);
-    console.log('candidate ======2', candidate);
-
+    // 3. make post request
     const response = await generate(
       generationSetupState.mode,
       jobPosting.id,
       candidate.id
     );
-    // const response = await generate(
-    //   generationSetupState.mode,
-    //   generationSetupState?.selectedJobPosting?.id,
-    //   generationSetupState?.selectedCandidate?.id
-    // );
 
-    if (response) {
-      console.log('response2', response);
+    if (response.data) {
       bodyState.updateGenerationResultsState('id', response.data.id);
       bodyState.updateGenerationResultsState('content', response.data.content);
       bodyState.updateGenerationResultsState('loading', false);
@@ -250,12 +211,12 @@ export default function GenerationSetupLists() {
         'Success! Cover letter generated.'
       );
     } else {
-      console.error(response);
+      console.error(response.error.response.data);
       bodyState.updateGenerationResultsState('loading', false);
       snackbar.updateSnackbar(
         true,
         'error',
-        'Error generating cover letter. Please try again. If the problem persists, please contact us.'
+        `Error! ${response.error.response.data}`
       );
     }
   };
@@ -323,9 +284,6 @@ export default function GenerationSetupLists() {
 
           <AccordionDetails>
             <JobPostingSelectionDataGrid
-              // jobPostings={generationSetupState?.filteredJobPostings}
-              // selected={generationSetupProps?.selectedJobPosting?.id}
-              // search={generationSetupProps?.jobPostingSearch}
               jobPostings={
                 generationSetupState.jobPostingSelectionState
                   ?.filteredJobPostings
@@ -334,11 +292,7 @@ export default function GenerationSetupLists() {
                 generationSetupState.jobPostingSelectionState
                   ?.selectedJobPosting?.id
               }
-              search={
-                generationSetupState.jobPostingSelectionState?.jobPostingSearch
-              }
               handleSelectionChange={handleJobPostingSelection}
-              updateSearch={updateJobPostingSearch}
             />
           </AccordionDetails>
         </Accordion>

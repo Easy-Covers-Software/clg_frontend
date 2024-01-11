@@ -56,20 +56,27 @@ export default function GenerationSectionBody() {
     } else {
       generationSetupState.updateGenerationMode('email');
     }
-    // dispatch({
-    //   type: 'TOGGLE_GENERATION_MODE',
-    //   payload: true,
-    // });
   };
 
   const toggleAdjustmentsSection = () => {
-    dispatch({
-      type: 'TOGGLE_IS_ADJUSTMENTS_SECTION_EXPANDED',
-    });
+    bodyState.toggleIsAdjustmentsSectionExpanded();
   };
 
-  let isAdjustmentsSectionExpanded =
-    bodyState.generationAdjustmentsState?.isAdjustmentsSectionExpanded;
+  const getIsAdjustmentsSectionExpanded = () => {
+    return bodyState.generationAdjustmentsState?.isAdjustmentsSectionExpanded;
+  };
+
+  const getSimpleAdjustmentState = () => {
+    return bodyState.generationAdjustmentsState?.simpleAdjustmentState;
+  };
+
+  const getIntermediateAdjustmentState = () => {
+    return bodyState.generationAdjustmentsState?.intermediateAdjustmentState;
+  };
+
+  const getCustomAdjustmentState = () => {
+    return bodyState.generationAdjustmentsState?.customAdjustmentState;
+  };
 
   return (
     <Container>
@@ -78,20 +85,14 @@ export default function GenerationSectionBody() {
         checked={generationSetupState.generationMode}
         handleChange={toggleGenerationMode}
       />
-      {/* <SubContainer> */}
+
       <GenerationEditorFull
         generationData={bodyState.generationResultsState}
         updateGenerationResultsState={bodyState.updateGenerationResultsState}
-        simpleAdjustmentProps={
-          bodyState.generationAdjustmentsState?.simpleAdjustmentState
-        }
-        intermediateAdjustmentProps={
-          bodyState.generationAdjustmentsState?.intermediateAdjustmentState
-        }
-        customAdjustmentProps={
-          bodyState.generationAdjustmentsState?.customAdjustmentState
-        }
-        adjustmentSection={isAdjustmentsSectionExpanded}
+        simpleAdjustmentProps={getSimpleAdjustmentState()}
+        intermediateAdjustmentProps={getIntermediateAdjustmentState()}
+        customAdjustmentProps={getCustomAdjustmentState()}
+        adjustmentSection={getIsAdjustmentsSectionExpanded()}
         toggleAdjustmentsSection={toggleAdjustmentsSection}
         dispatch={dispatch}
         updateSimpleAdjustmentState={bodyState.updateSimpleAdjustmentState}
@@ -100,7 +101,6 @@ export default function GenerationSectionBody() {
         }
         updateCustomAdjustmentsState={bodyState.updateCustomAdjustmentState}
       />
-      {/* </SubContainer> */}
     </Container>
   );
 }

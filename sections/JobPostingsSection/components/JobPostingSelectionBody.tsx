@@ -136,7 +136,8 @@ const JobPostingSelectionBody: FC = () => {
     bodyState.candidateRankingsState?.selectedCandidate?.phone_calls;
     if (
       !bodyState.candidateRankingsState?.selectedCandidate?.phone_calls ||
-      bodyState.candidateRankingsState?.selectedCandidate?.phone_calls.length === 0
+      bodyState.candidateRankingsState?.selectedCandidate?.phone_calls
+        .length === 0
     ) {
       return false;
     } else {

@@ -1,8 +1,9 @@
 import { User } from "./Auth.types";
+import { AxiosError } from "axios";
 
 export type APIResponse<T> = {
   data: T;
-  error: string | null;
+  error: string | AxiosError | null;
 };
 
 export type ForgotPasswordSuccessApiResponse = {

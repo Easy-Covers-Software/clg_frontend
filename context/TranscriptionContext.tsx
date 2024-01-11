@@ -89,7 +89,7 @@ function reducer(state, action) {
           ...action.payload,
         },
       };
-    
+
     //== Selected Phone Call ==//
     case 'SET_SELECTED_PHONE_CALL':
       return {
@@ -190,9 +190,8 @@ export default function TranscriptionPageContext({ children }) {
         payload: {
           listItems: response.data,
           filteredListItems: response.data,
-        }
+        },
       });
-
     } else {
       // snackbar.updateSnackbar(true, 'error', 'Error Fetching Phone Calls');
     }
@@ -299,7 +298,7 @@ export default function TranscriptionPageContext({ children }) {
             type: 'SET_SELECTED_PHONE_CALL',
             payload: id,
           });
-        },        
+        },
       },
     });
   }, []);
@@ -369,8 +368,6 @@ export default function TranscriptionPageContext({ children }) {
 
     getJobPostings();
   }, []);
-
-
 
   console.log('trans/call state', state);
 

@@ -21,9 +21,7 @@ interface JobPostingSelectionProps {
 const JobPostingSelectionDataGrid: any = ({
   jobPostings,
   selected,
-  search,
   handleSelectionChange,
-  updateSearch,
 }) => {
   console.log('jobPostings', jobPostings);
 

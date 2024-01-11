@@ -215,8 +215,8 @@ const CandidateSelectionBody: FC = () => {
   };
 
   const getTranscriptionNotes = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.selectedCall?.transcription
-      ?.notes;
+    return bodyState.selectedCandidateScoreDetailsState?.selectedCall
+      ?.transcription?.notes;
   };
 
   //=== API Methods ===//
@@ -228,11 +228,17 @@ const CandidateSelectionBody: FC = () => {
       selectedListItem?.id
     );
 
-    if (response) {
+    if (response.data) {
       bodyState.updateCurrentlyCalculating(null);
       listState.toggleRefresh();
     } else {
-      snackbar.updateSnackbar(true, 'error', 'Error calculating match score');
+      console.log('response');
+      console.log(response);
+      snackbar.updateSnackbar(
+        true,
+        'error',
+        `Error: ${response.error.response.data}`
+      );
       bodyState.updateCurrentlyCalculating(null);
     }
   };
