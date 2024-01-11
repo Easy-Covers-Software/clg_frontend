@@ -114,12 +114,12 @@ const JobPostingSelectionBody: FC = () => {
   const handleCalculate = async (candidateId) => {
     bodyState.updateCurrentlyCalculating(candidateId);
 
-    const response = await calculateMatchScore(
+    const response: any = await calculateMatchScore(
       bodyState.candidateJobPostingsListState?.id,
       candidateId
     );
 
-    if (response) {
+    if (response.data) {
       console.log('response', response);
       bodyState.updateCurrentlyCalculating(null);
       bodyState.updateSelectedCandidateScoreDetailsState(
@@ -127,7 +127,11 @@ const JobPostingSelectionBody: FC = () => {
         !bodyState.selectedCandidateScoreDetailsState.refreshCandidate
       );
     } else {
-      snackbar.updateSnackbar(true, 'error', 'Error calculating match score');
+      snackbar.updateSnackbar(
+        true,
+        'error',
+        `Error! ${response.error.response.data}`
+      );
       bodyState.updateCurrentlyCalculating(null);
     }
   };

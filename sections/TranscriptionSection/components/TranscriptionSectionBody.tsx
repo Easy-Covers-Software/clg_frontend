@@ -67,9 +67,13 @@ export default function TranscriptionSectionBody() {
   ) => {
     event.preventDefault(); // This line prevents the default form submission action
     bodyState.updateCallModeState('callStatus', 'initiated');
-    const response = await initiatePhoneCall(candidateName, phone, jobPosting);
+    const response: any = await initiatePhoneCall(
+      candidateName,
+      phone,
+      jobPosting
+    );
 
-    if (response) {
+    if (response.data) {
       bodyState.updateCallModeState(
         'newCallCandidateId',
         response.data.candidate_profile.id
@@ -82,7 +86,11 @@ export default function TranscriptionSectionBody() {
       handleWebSocketConnection();
     } else {
       console.log('Error initiating phone call');
-      snackbar.updateSnackbar(true, 'error', 'Error initiating phone call');
+      snackbar.updateSnackbar(
+        true,
+        'error',
+        `Error! ${response.error.response.data}`
+      );
     }
   };
 
@@ -92,7 +100,11 @@ export default function TranscriptionSectionBody() {
       snackbar.updateSnackbar(true, 'success', 'Candidate profile saved');
       resetCallMode();
     } else {
-      snackbar.updateSnackbar(true, 'error', `Error: ${response.error}}`);
+      snackbar.updateSnackbar(
+        true,
+        'error',
+        `Error: ${response.error.response.data}}`
+      );
     }
   };
 

@@ -49,7 +49,7 @@ const SavedCandidatesList: FC = () => {
   //= DELETE CANDIDATE PROFILE =//
   const handleDelete = async (id: string): Promise<void> => {
     const response = await deleteCandidateProfile(id);
-    if (response) {
+    if (response.data) {
       listState.updateSelected(null);
       await getCandidateProfiles();
       snackbar.updateSnackbar(true, 'Candidate profile deleted', 'success');
@@ -57,7 +57,7 @@ const SavedCandidatesList: FC = () => {
       snackbar.updateSnackbar(
         true,
         'Error deleting candidate profile',
-        'error'
+        `Error! ${response.error.response.data}`
       );
     }
   };
@@ -75,7 +75,7 @@ const SavedCandidatesList: FC = () => {
       snackbar.updateSnackbar(
         true,
         'Error fetching candidate profiles',
-        'error'
+        'Error! Could not fetch candidate profiles'
       );
     }
   };
@@ -83,19 +83,19 @@ const SavedCandidatesList: FC = () => {
   //= GET ALL JOB POSTINGS ASSOCIATED WITH CANDIDATE =//
   const getAllJobPostingsAssociatedWithCandidate = async (id: string) => {
     if (!id) return console.error('No candidate id provided');
-    try {
-      const response: APIResponse<CandidateJobPostingsWithScore> =
-        await fetchJobPostingsAssociatedWithCandidate(id);
+    const response: APIResponse<CandidateJobPostingsWithScore> =
+      await fetchJobPostingsAssociatedWithCandidate(id);
 
+    if (response.data) {
       bodyState.updateCandidateJobPostingsListState(
         'jobPostings',
         response.data
       );
-    } catch (err) {
+    } else {
       snackbar.updateSnackbar(
         true,
         'Error fetching job postings associated with candidate',
-        'error'
+        `Error! ${response.error.response.data}`
       );
     }
   };

@@ -37,13 +37,17 @@ export default function SavedPhoneCallsList() {
 
   // fetch saved phone calls
   const getSavedPhoneCalls = async (): Promise<void> => {
-    const response = await fetchPhoneCalls();
+    const response: any = await fetchPhoneCalls();
     if (response.data) {
       console.log('response.data', response.data);
       listState.updateListItems(response.data);
       listState.updateFilteredListItems(response.data);
     } else {
-      snackbar.updateSnackbar(true, 'error', 'Error Fetching Phone Calls');
+      snackbar.updateSnackbar(
+        true,
+        'error',
+        `Error! ${response.error.response.data}`
+      );
     }
   };
 
@@ -58,14 +62,19 @@ export default function SavedPhoneCallsList() {
 
   const handleTranscribe = async () => {
     bodyState.updateTranscriptionModeState('loading', true);
-    const response = await performTranscription(listState?.selected?.id);
-    if (response) {
+    const response: any = await performTranscription(listState?.selected?.id);
+    if (response.data) {
       bodyState.updateMode('Notes');
       listState.updateSelectedPhoneCall(response.data.phone_call);
       handleWebSocketConnection();
       bodyState.updateTranscriptionModeState('loading', false);
     } else {
       bodyState.updateTranscriptionModeState('loading', false);
+      snackbar.updateSnackbar(
+        true,
+        'error',
+        `Error! ${response.error.response.data}`
+      );
     }
   };
 
@@ -114,10 +123,15 @@ export default function SavedPhoneCallsList() {
   useEffect(() => {
     const getSelectedPhoneCallInstance = async () => {
       try {
-        const response = await fetchPhoneCall(listState?.selected?.id);
-        if (response) {
+        const response: any = await fetchPhoneCall(listState?.selected?.id);
+        if (response.data) {
           listState.updateSelectedPhoneCall(response.data);
         } else {
+          snackbar.updateSnackbar(
+            true,
+            'error',
+            `Error! ${response.error.response.data}`
+          );
         }
       } catch (error) {
         console.log(error);
@@ -150,15 +164,20 @@ export default function SavedPhoneCallsList() {
     const getCandidateInstance = async () => {
       if (selectedListItem?.candidate) {
         try {
-          const response = await fetchFullCandidateProfile(
+          const response: any = await fetchFullCandidateProfile(
             selectedListItem?.candidate.id
           );
-          if (response) {
+          if (response.data) {
             bodyState.updateTranscriptionModeState(
               'selectedCandidate',
               response.data
             );
           } else {
+            snackbar.updateSnackbar(
+              true,
+              'error',
+              `Error! ${response.error.response.data}`
+            );
           }
         } catch (error) {
           console.log(error);

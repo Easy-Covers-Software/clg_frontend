@@ -194,7 +194,7 @@ export default function GenerationSetupLists() {
       generationSetupState.candidateSelectionState?.selectedCandidate;
 
     // 3. make post request
-    const response = await generate(
+    const response: any = await generate(
       generationSetupState.mode,
       jobPosting.id,
       candidate.id

@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 
 export type APIResponse<T> = {
   data: T;
-  error: string | AxiosError | null;
+  error: string | AxiosError | any;
 };
 
 export type ForgotPasswordSuccessApiResponse = {

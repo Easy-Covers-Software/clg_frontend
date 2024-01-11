@@ -270,16 +270,7 @@ export function GenerationContext({ children }) {
     const getCandidateProfiles = async (): Promise<void> => {
       try {
         const response = await fetchCandidateProfiles();
-        console.log('response ======*****', response);
         if (response.data) {
-          // generationSetupState.updateCandidateSelectionState(
-          //   'candidates',
-          //   response.data
-          // );
-          // generationSetupState.updateCandidateSelectionState(
-          //   'filteredCandidates',
-          //   response.data
-          // );
           dispatch({
             type: 'UPDATE_CANDIDATE_SELECTION_STATE',
             payload: {

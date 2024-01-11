@@ -50,6 +50,7 @@ export default function GenerationSectionBody() {
 
   const [checked, setChecked] = useState(false);
 
+  //=== Helpers ===//
   const toggleGenerationMode = () => {
     if (generationSetupState.mode === 'email') {
       generationSetupState.updateGenerationMode('cover_letter');

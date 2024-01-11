@@ -40,17 +40,21 @@ const JobPostingsList: FC = () => {
   //=== API Methods ===//
   const getJobPostings = async (): Promise<void> => {
     const response = await fetchJobPostings();
-    if (response) {
+    if (response.data) {
       listState.updateListItems(response.data);
       listState.updateFilteredListItems(response.data);
     } else {
-      snackbar.updateSnackbar(true, 'Error fetching job postings', 'error');
+      snackbar.updateSnackbar(
+        true,
+        'Error fetching job postings',
+        `Error! ${response.error.response.data}`
+      );
     }
   };
 
   const handleDelete = async () => {
     const response = await deleteJobPosting(listState.selected);
-    if (response) {
+    if (response.data) {
       listState.updateSelected(null);
       await getJobPostings();
       snackbar.updateSnackbar(
@@ -59,19 +63,23 @@ const JobPostingsList: FC = () => {
         'success'
       );
     } else {
-      snackbar.updateSnackbar(true, 'Error deleting job posting', 'error');
+      snackbar.updateSnackbar(
+        true,
+        'Error deleting job posting',
+        `Error! ${response.error.response.data}`
+      );
     }
   };
 
   const getAllCandidatesAssociatedToJobPosting = async (id) => {
     const response = await fetchCandidatesAssociatedWithJobPosting(id);
-    if (response) {
+    if (response.data) {
       bodyState.updateCandidateRankingsState('allCandidates', response.data);
     } else {
       snackbar.updateSnackbar(
         true,
         'Error fetching candidates associated to job posting',
-        'error'
+        `Error! ${response.error.response.data}`
       );
     }
   };
@@ -87,14 +95,14 @@ const JobPostingsList: FC = () => {
     if (!listState.selected) return console.error('No job posting selected');
 
     const getFullJobPosting = async () => {
-      const response = await fetchFullJobPosting(listState.selected.id);
-      if (response) {
+      const response: any = await fetchFullJobPosting(listState.selected.id);
+      if (response.data) {
         listState.setFullJobPostingDetails(response.data);
       } else {
         snackbar.updateSnackbar(
           true,
           'Error fetching full job posting',
-          'error'
+          `Error! ${response.error.response.data}`
         );
       }
     };
