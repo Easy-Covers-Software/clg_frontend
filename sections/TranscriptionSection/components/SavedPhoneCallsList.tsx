@@ -26,6 +26,7 @@ import {
   ListContainer,
   TranscribeButton,
 } from '../TranscriptionSection.styles';
+import { get } from 'http';
 
 export default function SavedPhoneCallsList() {
   const { state: authState } = useAuth();
@@ -82,7 +83,7 @@ export default function SavedPhoneCallsList() {
   };
 
   //==== Web Socket ===//
-  const handleWebSocketConnection = () => {
+  const handleWebSocketConnection = async () => {
     const wsOptions = {
       WebSocket: WebSocket,
       connectionTimeout: 1000,
@@ -101,13 +102,18 @@ export default function SavedPhoneCallsList() {
       const data = JSON.parse(event.data);
 
       if (data.phone_call) {
-        if (selectedListItem?.id === data.phone_call.id)
-          listState.updateSelectedPhoneCall(data.phone_call);
-
         // IMPORTANT TODO: no longer using 1-5 steps
-        if (data.phone_call.transcription_status_step === '5') {
+        if (data.phone_call.transcription_status === 'complete') {
+          if (selectedListItem?.id === data.phone_call.id) {
+            listState.updateSelected(data.phone_call);
+          }
           console.log('Closing the connection');
+          console.log(data.phone_call);
           ws.close();
+        } else {
+          if (selectedListItem?.id === data.phone_call.id) {
+            listState.updateSelected(data.phone_call);
+          }
         }
       } else {
         console.log('No uuid or status');
@@ -126,6 +132,24 @@ export default function SavedPhoneCallsList() {
   }, [loggedInProps.user]);
 
   useEffect(() => {
+    const getTranscriptionInstance = async () => {
+      if (selectedListItem?.transcription) {
+        try {
+          const response = await fetchTranscription(listState?.selected.id);
+          if (response.data) {
+            console.log('transcription instnace', response.data);
+            bodyState.updateTranscriptionModeState(
+              'selectedTranscription',
+              response.data
+            );
+          } else {
+          }
+        } catch (error) {
+          console.log('Error getting transcription instance:', error);
+        }
+      }
+    };
+
     const getSelectedPhoneCallInstance = async () => {
       try {
         const response: any = await fetchPhoneCall(listState?.selected?.id);
@@ -144,29 +168,11 @@ export default function SavedPhoneCallsList() {
       }
     };
     getSelectedPhoneCallInstance();
+    getTranscriptionInstance();
   }, [listState?.selected]);
 
   // TODO: want to get rid of this code
   useEffect(() => {
-    const getTranscriptionInstance = async () => {
-      if (selectedListItem?.transcription) {
-        try {
-          const response = await fetchTranscription(
-            selectedListItem?.transcription.id
-          );
-          if (response) {
-            bodyState.updateTranscriptionModeState(
-              'selectedTranscription',
-              response.data
-            );
-          } else {
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    };
-
     const getCandidateInstance = async () => {
       if (selectedListItem?.candidate) {
         try {
@@ -237,6 +243,15 @@ export default function SavedPhoneCallsList() {
   useEffect(() => {
     getSavedPhoneCalls();
   }, [listState.refresh]);
+
+  useEffect(() => {
+    // Close the WebSocket connection when the component unmounts.
+    return () => {
+      if (socket) {
+        socket.close();
+      }
+    };
+  }, [socket]);
 
   const isTranscribeDisabled =
     !listState?.selected ||
