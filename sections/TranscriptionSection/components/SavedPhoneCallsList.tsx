@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 // Context
 import { useAuth } from '@/context/AuthContext';
 import { useTranscriptionContext } from '@/context/TranscriptionContext';
+import { getErrorMessage } from '@/Utils/utils';
 
 // Components (global)
 import SavedList from '@/components/PageStructure/SavedList/SavedList';
@@ -35,22 +36,7 @@ export default function SavedPhoneCallsList() {
 
   const [socket, setSocket] = useState<ReconnectingWebSocket | null>(null);
 
-  // fetch saved phone calls
-  const getSavedPhoneCalls = async (): Promise<void> => {
-    const response: any = await fetchPhoneCalls();
-    if (response.data) {
-      console.log('response.data', response.data);
-      listState.updateListItems(response.data);
-      listState.updateFilteredListItems(response.data);
-    } else {
-      snackbar.updateSnackbar(
-        true,
-        'error',
-        `Error! ${response.error.response.data}`
-      );
-    }
-  };
-
+  //=== Helpers ===//
   const handleToggle = (selected: any) => () => {
     listState.updateSelected(selected);
     bodyState.updateMode('Notes');
@@ -60,6 +46,7 @@ export default function SavedPhoneCallsList() {
     listState.updateSearch(searchValue);
   };
 
+  //=== API Methods ===//
   const handleTranscribe = async () => {
     bodyState.updateTranscriptionModeState('loading', true);
     const response: any = await performTranscription(listState?.selected?.id);
@@ -73,11 +60,28 @@ export default function SavedPhoneCallsList() {
       snackbar.updateSnackbar(
         true,
         'error',
-        `Error! ${response.error.response.data}`
+        `Error! ${getErrorMessage(response.error)}`
       );
     }
   };
 
+  const getSavedPhoneCalls = async (): Promise<void> => {
+    const response: any = await fetchPhoneCalls();
+    if (response.data) {
+      console.log('response.data', response.data);
+      listState.updateListItems(response.data);
+      listState.updateFilteredListItems(response.data);
+    } else {
+      console.error(`Error! ${getErrorMessage(response.error)}`);
+      // snackbar.updateSnackbar(
+      //   true,
+      //   'error',
+      //   `Error! ${response.error.response.data}`
+      // );
+    }
+  };
+
+  //==== Web Socket ===//
   const handleWebSocketConnection = () => {
     const wsOptions = {
       WebSocket: WebSocket,
@@ -114,6 +118,7 @@ export default function SavedPhoneCallsList() {
     return ws;
   };
 
+  //=== Hooks ===//
   useEffect(() => {
     if (loggedInProps.user) {
       getSavedPhoneCalls();
@@ -127,11 +132,12 @@ export default function SavedPhoneCallsList() {
         if (response.data) {
           listState.updateSelectedPhoneCall(response.data);
         } else {
-          snackbar.updateSnackbar(
-            true,
-            'error',
-            `Error! ${response.error.response.data}`
-          );
+          console.error(`Error! ${getErrorMessage(response.error)}`);
+          // snackbar.updateSnackbar(
+          //   true,
+          //   'error',
+          //   `Error! ${response.error.response.data}`
+          // );
         }
       } catch (error) {
         console.log(error);
@@ -173,11 +179,12 @@ export default function SavedPhoneCallsList() {
               response.data
             );
           } else {
-            snackbar.updateSnackbar(
-              true,
-              'error',
-              `Error! ${response.error.response.data}`
-            );
+            console.error(`Error! ${getErrorMessage(response.error)}`);
+            // snackbar.updateSnackbar(
+            //   true,
+            //   'error',
+            //   `Error! ${getErrorMessage(response.error)}`
+            // );
           }
         } catch (error) {
           console.log(error);
