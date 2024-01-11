@@ -13,6 +13,8 @@ import { useAuth } from '@/context/AuthContext';
 import { useTranscriptionContext } from '@/context/TranscriptionContext';
 import { PrimaryButton } from '../../../Global/Global';
 
+import { CallsContainer } from '@/sections/TranscriptionSection/TranscriptionSection.styles';
+
 import {
   FormContainer,
   StatusContainer,
@@ -61,85 +63,87 @@ const NewCall: FC<Props> = ({
   }, [formData]);
 
   return (
-    <StatusContainer
-      style={{
-        width: '60%',
-        height: '72%',
-        marginBottom: '10%',
-        padding: '0 3%',
-        backgroundColor: 'white',
-      }}
-    >
-      <Header>New Call</Header>
+    <CallsContainer>
+      <StatusContainer
+        style={{
+          width: '60%',
+          height: '72%',
+          marginBottom: '10%',
+          padding: '0 3%',
+          backgroundColor: 'white',
+        }}
+      >
+        <Header>New Call</Header>
 
-      <Box component="form" noValidate autoComplete="off">
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputField
-                name="candidate_name"
-                label="Candidate Name"
-                value={formData.candidate_name}
-                onChange={handleChange}
-                required
-              />
-            </FormControl>
+        <Box component="form" noValidate autoComplete="off">
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputField
+                  name="candidate_name"
+                  label="Candidate Name"
+                  value={formData.candidate_name}
+                  onChange={handleChange}
+                  required
+                />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputField
+                  name="candidate_number"
+                  label="Phone Number"
+                  value={formData.candidate_number}
+                  onChange={handleChange}
+                  required
+                />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel>Job Posting</InputLabel>
+                <Select
+                  name="job_posting"
+                  value={formData.job_posting}
+                  onChange={handleChange}
+                  required
+                >
+                  {/* map job postings into menu items */}
+                  {jobPostings?.map((jobPosting) => (
+                    <MenuItem value={jobPosting.id} key={jobPosting.id}>
+                      {jobPosting.job_title}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
           </Grid>
 
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputField
-                name="candidate_number"
-                label="Phone Number"
-                value={formData.candidate_number}
-                onChange={handleChange}
-                required
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel>Job Posting</InputLabel>
-              <Select
-                name="job_posting"
-                value={formData.job_posting}
-                onChange={handleChange}
-                required
-              >
-                {/* map job postings into menu items */}
-                {jobPostings?.map((jobPosting) => (
-                  <MenuItem value={jobPosting.id} key={jobPosting.id}>
-                    {jobPosting.job_title}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-
-        <Box display="flex" justifyContent="flex-end" mt={2}>
-          <PrimaryButton
-            type="submit"
-            style={{
-              marginTop: '16px',
-              textAlign: 'end',
-              width: '16vw',
-            }}
-            onClick={(e) =>
-              handleInitiatePhoneCall(
-                e,
-                formData.candidate_name,
-                formData.candidate_number,
-                formData.job_posting
-              )
-            }
-          >
-            Start Call
-          </PrimaryButton>
+          <Box display="flex" justifyContent="flex-end" mt={2}>
+            <PrimaryButton
+              type="submit"
+              style={{
+                marginTop: '16px',
+                textAlign: 'end',
+                width: '16vw',
+              }}
+              onClick={(e) =>
+                handleInitiatePhoneCall(
+                  e,
+                  formData.candidate_name,
+                  formData.candidate_number,
+                  formData.job_posting
+                )
+              }
+            >
+              Start Call
+            </PrimaryButton>
+          </Box>
         </Box>
-      </Box>
-    </StatusContainer>
+      </StatusContainer>
+    </CallsContainer>
   );
 };
 

@@ -4,11 +4,11 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box'; // Using Box as a container
 import { NotesContainer } from '@/sections/TranscriptionSection/TranscriptionSection.styles';
 
-const AwaitingTranscription = () => {
+const SelectCall = () => {
   return (
     <NotesContainer>
       <Paper
-        sx={{
+        style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -19,18 +19,10 @@ const AwaitingTranscription = () => {
           border: '3px solid #13d0b7',
         }}
       >
-        <Typography
-          sx={{
-            textAlign: 'center',
-            fontSize: '1.5rem',
-          }}
-        >
-          This phone call has not been transcribed yet. Please click the
-          transcribe button to take notes on your phone call
-        </Typography>
+        <Typography fontSize={'2.2rem'}>Select a Phone Call</Typography>
       </Paper>
     </NotesContainer>
   );
 };
 
-export default AwaitingTranscription;
+export default SelectCall;

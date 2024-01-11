@@ -21,70 +21,8 @@ import {
   performTranscription,
 } from '@/api/TranscriptionMethods';
 
-const Container = styled(Grid)`
-  height: calc(100vh - 98px);
-  width: 100%;
-  min-width: 25vw;
+import { ListContainer, TranscribeButton } from '../TranscriptionSection.styles';
 
-  overflow: hidden;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1%;
-
-  flex: 1;
-  margin: 0 0.2%;
-  padding: 0.3%;
-
-  background-color: white;
-
-  border: 1px solid #13d0b7;
-  border-radius: 4px;
-`;
-
-const SubContainer = styled(Grid)`
-  height: calc(100vh - 104px);
-  width: 100%;
-
-  overflow: hidden;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1%;
-
-  flex: 1;
-  margin: 0 0.2%;
-  padding: 2%;
-
-  background-color: #f8f8ff;
-
-  border: 1px solid #13d0b7;
-  border-radius: 4px;
-`;
-
-export const TranscribeButton = styled(UnSelectedButton)`
-  // height: 88%;
-  width: 98%;
-  margin: auto;
-
-  background-color: #bacbba;
-  color: white;
-  font-size: 0.95rem;
-  letter-spacing: 1px;
-  white-space: nowrap;
-
-  &:hover {
-    background-color: #a5b4a5;
-    color: white;
-  }
-  &:disabled {
-    background-color: #e9e9e9;
-    color: lightgray;
-    border: 1px solid lightgray;
-  }
-`;
 
 export default function SavedPhoneCallsList() {
   const { state: authState } = useAuth();
@@ -107,7 +45,7 @@ export default function SavedPhoneCallsList() {
       listState.updateListItems(response.data);
       listState.updateFilteredListItems(response.data);
     } else {
-      // snackbar.updateSnackbar(true, 'error', 'Error Fetching Phone Calls');
+      snackbar.updateSnackbar(true, 'error', 'Error Fetching Phone Calls');
     }
   };
 
@@ -277,7 +215,7 @@ export default function SavedPhoneCallsList() {
     selectedListItem?.transcription_status !== 'awaiting';
 
   return (
-    <Container>
+    <ListContainer>
       <SavedList
         listType="phoneCalls"
         items={listState?.filteredListItems}
@@ -294,6 +232,6 @@ export default function SavedPhoneCallsList() {
       >
         Transcribe
       </TranscribeButton>
-    </Container>
+    </ListContainer>
   );
 }

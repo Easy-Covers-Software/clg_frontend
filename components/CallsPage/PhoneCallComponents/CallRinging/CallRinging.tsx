@@ -12,6 +12,8 @@ import Box from '@mui/material/Box';
 import { useAuth } from '@/context/AuthContext';
 import { PrimaryButton } from '../../../Global/Global';
 
+import { CallsContainer } from '@/sections/TranscriptionSection/TranscriptionSection.styles';
+
 import {
   StatusContainer,
   Header,
@@ -23,13 +25,15 @@ interface Props {}
 const CallRinging: FC<Props> = () => {
   const { state } = useAuth();
   return (
-    <StatusContainer
-      style={{
-        backgroundColor: 'white',
-      }}
-    >
-      <Header>Ringing...</Header>
-    </StatusContainer>
+    <CallsContainer>
+      <StatusContainer
+        style={{
+          backgroundColor: 'white',
+        }}
+      >
+        <Header>Ringing...</Header>
+      </StatusContainer>
+    </CallsContainer>
   );
 };
 

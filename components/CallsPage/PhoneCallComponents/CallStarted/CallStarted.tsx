@@ -18,18 +18,22 @@ import {
   InputField,
 } from '../PhoneCallComponents.styles';
 
+import { CallsContainer } from '@/sections/TranscriptionSection/TranscriptionSection.styles';
+
 interface Props {}
 
 const CallStarted: FC<Props> = () => {
   const { state } = useAuth();
   return (
-    <StatusContainer
-      style={{
-        backgroundColor: 'white',
-      }}
-    >
-      <Header>Call Initiated...</Header>
-    </StatusContainer>
+    <CallsContainer>
+      <StatusContainer
+        style={{
+          backgroundColor: 'white',
+        }}
+      >
+        <Header>Call Initiated...</Header>
+      </StatusContainer>
+    </CallsContainer>
   );
 };
 

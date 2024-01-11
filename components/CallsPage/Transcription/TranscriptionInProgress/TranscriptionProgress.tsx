@@ -13,6 +13,8 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Typography } from '@mui/material';
 import { Paper } from '@mui/material';
 
+import { NotesProcessingContainer } from '@/sections/TranscriptionSection/TranscriptionSection.styles';
+
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
   borderRadius: 5,
@@ -31,7 +33,7 @@ function LoadingCircle(props: CircularProgressProps) {
   return (
     <Box sx={{ position: 'relative' }}>
       <CircularProgress
-        variant='determinate'
+        variant="determinate"
         sx={{
           color: (theme) =>
             theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
@@ -42,7 +44,7 @@ function LoadingCircle(props: CircularProgressProps) {
         value={100}
       />
       <CircularProgress
-        variant='indeterminate'
+        variant="indeterminate"
         disableShrink
         sx={{
           color: '#13d0b7',
@@ -61,7 +63,7 @@ function LoadingCircle(props: CircularProgressProps) {
   );
 }
 
-export default function TranscriptionProgress({ step }) {
+export default function TranscriptionProgress() {
   const determineProgressBarValue = (step) => {
     switch (step) {
       case '0':
@@ -80,37 +82,39 @@ export default function TranscriptionProgress({ step }) {
   };
 
   return (
-    <Paper
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-        height: '30%',
-        width: '60%',
-        padding: '2%',
-        marginBottom: '10%',
-        margin: 'auto',
-        marginTop: '10%'
-      }}
-    >
-      <Grid
-        display={'flex'}
-        flexDirection={'column'}
-        justifyContent={'space-evenly'}
-        alignItems={'center'}
+    <NotesProcessingContainer>
+      <Paper
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-around',
+          height: '30%',
+          width: '60%',
+          padding: '2%',
+          marginBottom: '10%',
+          margin: 'auto',
+          marginTop: '10%',
+        }}
       >
-        <Typography fontSize={'1.8rem'}>
-          Transcription in progress...
-        </Typography>
-        <LoadingCircle />
-      </Grid>
-      {/* <br />
+        <Grid
+          display={'flex'}
+          flexDirection={'column'}
+          justifyContent={'space-evenly'}
+          alignItems={'center'}
+        >
+          <Typography fontSize={'1.8rem'}>
+            Transcription in progress...
+          </Typography>
+          <LoadingCircle />
+        </Grid>
+        {/* <br />
       <Grid width={'86%'} m={'auto'}>
         <BorderLinearProgress
           variant='determinate'
           value={determineProgressBarValue(step)}
         />
       </Grid> */}
-    </Paper>
+      </Paper>
+    </NotesProcessingContainer>
   );
 }

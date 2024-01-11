@@ -12,6 +12,7 @@ import Box from '@mui/material/Box';
 import { useAuth } from '@/context/AuthContext';
 import { PrimaryButton } from '../../../Global/Global';
 import Timer from '@/components/Global/components/Timer';
+import { CallsContainer } from '@/sections/TranscriptionSection/TranscriptionSection.styles';
 
 import {
   StatusContainer,
@@ -24,10 +25,12 @@ interface Props {}
 const CallInProgress: FC<Props> = () => {
   const { state } = useAuth();
   return (
-    <StatusContainer>
-      <Header>Call In Progress...</Header>
-      <Timer />
-    </StatusContainer>
+    <CallsContainer>
+      <StatusContainer>
+        <Header>Call In Progress...</Header>
+        <Timer />
+      </StatusContainer>
+    </CallsContainer>
   );
 };
 

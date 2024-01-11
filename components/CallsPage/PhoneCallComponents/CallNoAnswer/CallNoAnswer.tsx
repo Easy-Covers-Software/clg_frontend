@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 
 import { useAuth } from '@/context/AuthContext';
 import { PrimaryButton } from '../../../Global/Global';
+import { CallsContainer } from '@/sections/TranscriptionSection/TranscriptionSection.styles';
 
 import {
   FormContainer,
@@ -23,9 +24,11 @@ interface Props {}
 const CallNoAnswer: FC<Props> = () => {
   const { state } = useAuth();
   return (
-    <FormContainer>
-      <Header>No Answer</Header>
-    </FormContainer>
+    <CallsContainer>
+      <FormContainer>
+        <Header>No Answer</Header>
+      </FormContainer>
+    </CallsContainer>
   );
 };
 

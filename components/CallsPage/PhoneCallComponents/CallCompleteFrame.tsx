@@ -12,6 +12,8 @@ import CurrentEmploymentForm from './NewForms/CurrentEmploymentForm';
 import AdditionalInfoForm from './NewForms/AdditionalInfoForm';
 import { Typography } from '@mui/material';
 
+import { CallsContainer } from '@/sections/TranscriptionSection/TranscriptionSection.styles';
+
 const steps = [
   'Basic Information',
   'Current Employment',
@@ -184,8 +186,7 @@ export default function CallCompleteFrame({
   }, [formData]);
 
   return (
-    // <Grid container direction={'column'} height={'100%'} width={'100%'}>
-    <>
+    <CallsContainer>
       <Grid
         container
         direction={'column'}
@@ -222,6 +223,6 @@ export default function CallCompleteFrame({
           )
         )}
       </FrameComp>
-    </>
+    </CallsContainer>
   );
 }

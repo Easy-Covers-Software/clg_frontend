@@ -12,6 +12,8 @@ import Box from '@mui/material/Box';
 import { useAuth } from '@/context/AuthContext';
 import { PrimaryButton } from '../../../Global/Global';
 
+import { CallsContainer } from '@/sections/TranscriptionSection/TranscriptionSection.styles';
+
 import {
   FormContainer,
   Header,
@@ -23,9 +25,11 @@ interface Props {}
 const CallBusy: FC<Props> = () => {
   const { state } = useAuth();
   return (
-    <FormContainer>
-      <Header>Call Busy</Header>
-    </FormContainer>
+    <CallsContainer>
+      <FormContainer>
+        <Header>Call Busy</Header>
+      </FormContainer>
+    </CallsContainer>
   );
 };
 
