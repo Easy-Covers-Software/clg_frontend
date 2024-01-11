@@ -57,12 +57,14 @@ const SubContainer = styled(Grid)`
 `;
 
 const JobPostingSelectionBody: FC = () => {
+  //=== Context ===//
   const { state: authState } = useAuth();
   const { snackbar } = authState;
 
   const { state, dispatch } = useJobPostingsContext();
-  const { listState, selectedListItem, bodyState } = state;
+  const { selectedListItem, bodyState } = state;
 
+  //=== Helpers ===//
   const updateMode = (mode: string) => {
     bodyState.updateMode(mode);
   };
@@ -111,6 +113,72 @@ const JobPostingSelectionBody: FC = () => {
     bodyState.updateSelectedCandidateScoreDetailsState('selectedCall', call);
   };
 
+  //= candidate rankings state =//
+  const getPhoneCalls = () => {
+    return bodyState.candidateRankingsState?.selectedCandidate?.phone_calls;
+  };
+
+  const getGenerations = () => {
+    return bodyState.candidateRankingsState?.selectedCandidate?.generations;
+  };
+
+  const getScoreDetailsMode = () => {
+    return bodyState.selectedCandidateScoreDetailsState?.selectedCandidateMode;
+  };
+
+  const getMatchScore = () => {
+    return bodyState.candidateRankingsState?.selectedCandidate?.match_score;
+  };
+
+  const isCurrentlyCalculating = () => {
+    return bodyState?.currentlyCalculating !== null ? true : false;
+  };
+
+  const getSelectedCandidate = () => {
+    return bodyState.candidateRankingsState.selectedCandidate;
+  };
+
+  //= candidate score details state =//
+  const getResumeUrl = () => {
+    return bodyState.selectedCandidateScoreDetailsState?.resumeUrl;
+  };
+
+  const getCallPanelMode = () => {
+    return bodyState.selectedCandidateScoreDetailsState?.callPanelMode;
+  };
+
+  const getGenerationPanelMode = () => {
+    return bodyState.selectedCandidateScoreDetailsState?.generationPanelMode;
+  };
+
+  //= phone call mode =//
+  const getSelectedCallNotes = () => {
+    return bodyState.selectedCandidateScoreDetailsState?.selectedCall
+      ?.transcription?.notes;
+  };
+
+  const handleListFilterChange = (event) => {
+    bodyState.updateCandidateRankingsState('listFilter', event.target.value);
+  };
+
+  const handleScoreFilterChange = (event) => {
+    bodyState.updateCandidateRankingsState('scoreFilter', event.target.value);
+  };
+
+  const getCandidatesList = () => {
+    switch (bodyState.candidateRankingsState.listFilter) {
+      case 'rankings':
+        return bodyState.candidateRankingsState.rankings;
+      case 'all':
+        return bodyState.candidateRankingsState.allCandidates;
+      case 'unscored':
+        return bodyState.candidateRankingsState.unscoredCandidates;
+      default:
+        return bodyState.candidateRankingsState.rankings;
+    }
+  };
+
+  //=== API Methods ===//
   const handleCalculate = async (candidateId) => {
     bodyState.updateCurrentlyCalculating(candidateId);
 
@@ -136,97 +204,7 @@ const JobPostingSelectionBody: FC = () => {
     }
   };
 
-  const checkPhoneCalls = () => {
-    bodyState.candidateRankingsState?.selectedCandidate?.phone_calls;
-    if (
-      !bodyState.candidateRankingsState?.selectedCandidate?.phone_calls ||
-      bodyState.candidateRankingsState?.selectedCandidate?.phone_calls
-        .length === 0
-    ) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
-  const getIntroCall = () => {
-    if (!checkPhoneCalls()) return null;
-
-    return bodyState.candidateRankingsState?.selectedCandidate?.phone_calls.find(
-      (phoneCall) => phoneCall.call_type === 'intro'
-    );
-  };
-
-  const getFollowUpCalls = () => {
-    if (!checkPhoneCalls()) return null;
-
-    return bodyState.candidateRankingsState?.selectedCandidate?.phone_calls.find(
-      (phoneCall) => phoneCall?.call_type === 'follow_up' || null
-    );
-  };
-
-  const isCurrentlyCalculating = () => {
-    return bodyState?.currentlyCalculating !== null ? true : false;
-  };
-
-  const getSelectedCandidate = () => {
-    return bodyState.candidateRankingsState.selectedCandidate;
-  };
-
-  const getGenerations = () => {
-    return bodyState.candidateRankingsState?.selectedCandidate?.generations;
-  };
-
-  const getCallPanelMode = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.callPanelMode;
-  };
-
-  const getGenerationPanelMode = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.generationPanelMode;
-  };
-
-  const getMatchScore = () => {
-    return bodyState.candidateRankingsState?.selectedCandidate?.match_score;
-  };
-
-  const getResumeUrl = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.resumeUrl;
-  };
-
-  const getScoreDetailsMode = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.selectedCandidateMode;
-  };
-
-  const getTranscriptionNotes = () => {
-    bodyState.selectedCandidateScoreDetailsState?.selectedCall?.transcription
-      ?.notes;
-  };
-
-  const getPhoneCalls = () => {
-    return bodyState.candidateRankingsState?.selectedCandidate?.phone_calls;
-  };
-
-  const handleListFilterChange = (event) => {
-    bodyState.updateCandidateRankingsState('listFilter', event.target.value);
-  };
-
-  const handleScoreFilterChange = (event) => {
-    bodyState.updateCandidateRankingsState('scoreFilter', event.target.value);
-  };
-
-  const getCandidatesList = () => {
-    switch (bodyState.candidateRankingsState.listFilter) {
-      case 'rankings':
-        return bodyState.candidateRankingsState.rankings;
-      case 'all':
-        return bodyState.candidateRankingsState.allCandidates;
-      case 'unscored':
-        return bodyState.candidateRankingsState.unscoredCandidates;
-      default:
-        return bodyState.candidateRankingsState.rankings;
-    }
-  };
-
+  //=== Hooks ===//
   useEffect(() => {
     if (selectedListItem?.selectedCandidate) {
       const updatedCandidate = selectedListItem?.allCandidates.find(
@@ -266,13 +244,11 @@ const JobPostingSelectionBody: FC = () => {
                   selectedJobPosting={selectedListItem}
                   selectedCandidate={getSelectedCandidate()}
                   phoneCalls={getPhoneCalls()}
-                  introCall={getIntroCall()}
-                  followUpCalls={getFollowUpCalls()}
                   generations={getGenerations()}
-                  genMode={getGenerationPanelMode()}
-                  callMode={getCallPanelMode()}
-                  matchScore={getMatchScore()}
                   loading={isCurrentlyCalculating()}
+                  callMode={getCallPanelMode()}
+                  genMode={getGenerationPanelMode()}
+                  matchScore={getMatchScore()}
                   updateSubSectionMode={updateScoreDetailsMode}
                   updateGenerationsPanelMode={updateGenerationsPanelMode}
                   updateCallsPanelMode={updateCallsPanelMode}
@@ -302,10 +278,7 @@ const JobPostingSelectionBody: FC = () => {
               >
                 <TranscriptionNotes
                   page={'jobPosting'}
-                  transcriptionNotes={
-                    bodyState.selectedCandidateScoreDetailsState?.selectedCall
-                      ?.transcription?.notes
-                  }
+                  transcriptionNotes={getSelectedCallNotes()}
                 />
               </SubSectionFrame>
             );
@@ -316,11 +289,7 @@ const JobPostingSelectionBody: FC = () => {
                 subSectionHeader={'Résumé Viewer'}
                 onClose={resetScoreDetailsMode}
               >
-                <ResumeIframe
-                  resumeUrl={
-                    bodyState.selectedCandidateScoreDetailsState?.resumeUrl
-                  }
-                />
+                <ResumeIframe resumeUrl={getResumeUrl()} />
               </SubSectionFrame>
             );
 

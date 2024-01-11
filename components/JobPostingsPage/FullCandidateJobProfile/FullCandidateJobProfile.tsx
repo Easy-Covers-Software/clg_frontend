@@ -182,8 +182,6 @@ const FullCandidateJobProfile = ({
   selectedJobPosting,
   selectedCandidate,
   phoneCalls,
-  introCall,
-  followUpCalls,
   generations,
   genMode,
   callMode,
@@ -202,6 +200,18 @@ const FullCandidateJobProfile = ({
 
   const coverLetterGenerations = generations?.filter(
     (item) => item?.generation_type === 'cover_letter'
+  );
+
+  console.log('phone calls', phoneCalls);
+
+  const introPhoneCall = phoneCalls?.filter(
+    (item) => item?.call_type === 'intro'
+  )[0];
+
+  console.log('intro phone call', phoneCalls);
+
+  const followUpPhoneCalls = phoneCalls?.filter(
+    (item) => item?.call_type === 'follow_up'
   );
 
   const setModeToIntroCall = () => {
@@ -240,16 +250,12 @@ const FullCandidateJobProfile = ({
     updateGenerationsPanelMode('coverLettersSelection');
   };
 
-  const setModeToCallsSelection = () => {
-    updateGenerationsPanelMode('coverLettersSelection');
-  };
-
   const setModeToResume = () => {
     updateSubSectionMode('resume');
   };
 
   console.log('selectedJobPosting ====***');
-  console.log(followUpCalls);
+  console.log(followUpPhoneCalls);
 
   return (
     <Container container spacing={2}>
@@ -334,7 +340,7 @@ const FullCandidateJobProfile = ({
             {callMode === 'callsSelection' ? (
               <GenerationsList
                 listType={'Follow Up Calls'}
-                generations={followUpCalls}
+                generations={followUpPhoneCalls}
                 resetGenerationPanelMode={resetCallPanelMode}
                 handleSelection={handleGenerationSelection}
               />
@@ -349,25 +355,25 @@ const FullCandidateJobProfile = ({
                 >
                   <PanelButton
                     onClick={() => {
-                      handleCallSelection(introCall);
+                      handleCallSelection(introPhoneCall);
                     }}
-                    disabled={!introCall}
+                    disabled={!introPhoneCall}
                   >
                     Intro
                   </PanelButton>
 
                   <PanelButton
                     onClick={() => {
-                      if (followUpCalls) {
-                        if (followUpCalls?.length === 1) {
-                          handleCallSelection(followUpCalls[0]);
+                      if (followUpPhoneCalls) {
+                        if (followUpPhoneCalls?.length === 1) {
+                          handleCallSelection(followUpPhoneCalls[0]);
                         } else {
                           setCallPanelModeToFollowSelection();
                         }
                       }
                     }}
                     disabled={
-                      !followUpCalls || followUpCalls?.length === 0
+                      !followUpPhoneCalls || followUpPhoneCalls?.length === 0
                     }
                   >
                     Follow <br /> Up

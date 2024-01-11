@@ -4,6 +4,7 @@ import { FC, useEffect } from 'react';
 import styled from '@emotion/styled';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Container } from '@/components/PageStructure/SavedList/SavedList.styles';
+import { getErrorMessage } from '@/Utils/utils';
 
 //-- import context --//
 import { useAuth } from '@/context/AuthContext';
@@ -44,11 +45,14 @@ const JobPostingsList: FC = () => {
       listState.updateListItems(response.data);
       listState.updateFilteredListItems(response.data);
     } else {
-      snackbar.updateSnackbar(
-        true,
-        'Error fetching job postings',
-        `Error! ${response.error.response.data}`
+      console.error(
+        `Error getting job postings: ${getErrorMessage(response.error)}`
       );
+      // snackbar.updateSnackbar(
+      //   true,
+      //   'Error fetching job postings',
+      //   `Error! ${response.error.response.data}`
+      // );
     }
   };
 
@@ -65,7 +69,7 @@ const JobPostingsList: FC = () => {
     } else {
       snackbar.updateSnackbar(
         true,
-        'Error deleting job posting',
+        'error',
         `Error! ${response.error.response.data}`
       );
     }
@@ -76,11 +80,14 @@ const JobPostingsList: FC = () => {
     if (response.data) {
       bodyState.updateCandidateRankingsState('allCandidates', response.data);
     } else {
-      snackbar.updateSnackbar(
-        true,
-        'Error fetching candidates associated to job posting',
-        `Error! ${response.error.response.data}`
+      console.error(
+        `Error getting candidates: ${getErrorMessage(response.error)}`
       );
+      // snackbar.updateSnackbar(
+      //   true,
+      //   'error',
+      //   `Error! ${getErrorMessage(response.error)}`
+      // );
     }
   };
 
