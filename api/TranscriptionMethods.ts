@@ -17,11 +17,11 @@ import {
 } from '../Types/ApiResponse.types';
 
 
-import {
-  PhoneCall,
-  PhoneCallListState,
-  InitateCallResponse,
-} from '@/Types/TranscriptionPage.types';
+// import {
+//   PhoneCall,
+//   PhoneCallListState,
+//   InitateCallResponse,
+// } from '@/Types/TranscriptionPage.types';
 
 import { createPayload } from '@/Utils/utils';
 
@@ -31,12 +31,12 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
   //-- Get Phone Calls Associated with Users Phone Number --//
   // TODO: need to add a type for the response
   export const fetchPhoneCalls = async (): Promise<
-    APIResponse<PhoneCall[]>
+    APIResponse<any[]>
   > => {
     const url = `${API_BASE}/phone_calls/get_phone_calls/`;
 
     try {
-      const response = await axios.get<PhoneCall[]>(url, {
+      const response = await axios.get<any[]>(url, {
         withCredentials: true,
       });
 

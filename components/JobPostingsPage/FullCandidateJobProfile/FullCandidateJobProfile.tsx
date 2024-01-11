@@ -53,6 +53,8 @@ const CallsPaper = styled(StyledPaper)`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  gap: 3%;
+  overflow: hidden;
 `;
 
 const GenerationsPaper = styled(StyledPaper)`
@@ -60,7 +62,8 @@ const GenerationsPaper = styled(StyledPaper)`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  gap: 3%;
+  overflow: hidden;
 `;
 
 const ResumePanelPaper = styled(StyledPaper)`
@@ -76,7 +79,7 @@ const ButtonGroupContainer = styled(ButtonGroup)`
 
 const PanelButton = styled(UnSelectedButton)`
   border: 1px solid #13d0b7 !important;
-  height: 10vh;
+  height: 13vh;
   color: #006d4b !important;
   background-color: #f5f5ff !important;
 
@@ -333,6 +336,14 @@ const FullCandidateJobProfile = ({
         flexWrap={'nowrap'}
         // justifyContent={'end'}
       >
+        {/* Resume Panel */}
+        <SubPanelContainer xs={12} height={'20vh'}>
+          <Typography variant="h6">&nbsp;</Typography>
+          <ResumePanelPaper elevation={3} onClick={setModeToResume}>
+            <Typography variant="h4">Résumé</Typography>
+          </ResumePanelPaper>
+        </SubPanelContainer>
+
         {/* Calls Panel */}
         <SubPanelContainer xs={12}>
           <Typography variant="h6">&nbsp;</Typography>
@@ -404,7 +415,9 @@ const FullCandidateJobProfile = ({
               />
             ) : (
               <>
-                <Typography variant="h5">Generations</Typography>
+                <Typography variant="h5" textAlign={'center'} marginTop={'1%'}>
+                  Generations
+                </Typography>
                 <ButtonGroupContainer
                   variant="text"
                   aria-label="text button group"
@@ -426,14 +439,6 @@ const FullCandidateJobProfile = ({
               </>
             )}
           </GenerationsPaper>
-        </SubPanelContainer>
-
-        {/* Resume Panel */}
-        <SubPanelContainer xs={12} height={'20vh'}>
-          <Typography variant="h6">&nbsp;</Typography>
-          <ResumePanelPaper elevation={3} onClick={setModeToResume}>
-            <Typography variant="h4">Resume</Typography>
-          </ResumePanelPaper>
         </SubPanelContainer>
       </Grid>
     </Container>
