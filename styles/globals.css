@@ -4,7 +4,7 @@ body {
   padding: 0;
   margin: 0;
   background: var(--theme-nav, #f8f8ff);
-  scrollbar-gutter: stable both-edges;
+  overflow: hidden;
 }
 
 /* Hide scrollbar by default */
@@ -60,12 +60,12 @@ body {
 }
 
 .main-content {
-  height: calc(100vh - 100px);
+  height: 99.5%;
   /* width: 100%; */
   display: flex;
-  gap: 20px;
-  flex-shrink: 0;
-  padding: 4px 4px;
+  /* gap: 20px; */
+  /* flex-shrink: 0; */
+  /* padding: 4px; */
   border: 5px solid #13d0b7;
   border-radius: 8px;
   background-color: var(--theme-main, #f5f5f5);
@@ -257,49 +257,6 @@ body {
   height: fit-content !important;
   max-width: 35vw;
   overflow: hidden;
-
-  @media screen and (min-width: 0px) and (max-width: 500px) {
-    font-size: 1.04rem !important;
-    letter-spacing: 0.2rem;
-    overflow-y: scroll;
-  }
-  @media screen and (min-width: 500px) and (max-width: 600px) {
-    font-size: 1.04rem !important;
-    letter-spacing: 0.22rem;
-    overflow-y: scroll;
-  }
-  @media screen and (min-width: 600px) and (max-width: 700px) {
-    font-size: 1.08rem !important;
-    letter-spacing: 0.26rem;
-  }
-  @media screen and (min-width: 700px) and (max-width: 800px) {
-    font-size: 1.12rem !important;
-    letter-spacing: 0.3rem;
-  }
-  @media screen and (min-width: 800px) and (max-width: 900px) {
-    font-size: 1.14rem !important;
-    letter-spacing: 0.28rem;
-  }
-  @media screen and (min-width: 900px) and (max-width: 950px) {
-    font-size: 1.16rem !important;
-    letter-spacing: 0.26rem;
-  }
-  @media screen and (min-width: 950px) and (max-width: 1000px) {
-    font-size: 1.2rem !important;
-    letter-spacing: 0.24rem;
-  }
-  @media screen and (min-width: 1000px) and (max-width: 1100px) {
-    font-size: 1.24rem !important;
-    letter-spacing: 0.22rem;
-  }
-  @media screen and (min-width: 1100px) and (max-width: 1200px) {
-    font-size: 1.28rem !important;
-    letter-spacing: 0.2rem;
-  }
-  @media screen and (min-width: 1200px) and (max-width: 1300px) {
-    font-size: 1.34rem !important;
-    letter-spacing: 0.2rem;
-  }
 }
 
 .job-summary-title::-webkit-scrollbar {
@@ -315,48 +272,6 @@ body {
   white-space: nowrap;
   width: 100%;
 
-  @media screen and (min-width: 0px) and (max-width: 500px) {
-    font-size: 1.1remportant;
-    letter-spacing: 0.22rem;
-  }
-
-  @media screen and (min-width: 500px) and (max-width: 600px) {
-    font-size: 1.1rem !important;
-    letter-spacing: 0.21rem;
-  }
-
-  @media screen and (min-width: 600px) and (max-width: 700px) {
-    font-size: 0.93rem !important;
-    letter-spacing: 0.2rem;
-  }
-  @media screen and (min-width: 700px) and (max-width: 800px) {
-    font-size: 0.94rem !important;
-    letter-spacing: 0.19rem;
-  }
-  @media screen and (min-width: 800px) and (max-width: 900px) {
-    font-size: 0.98rem !important;
-    letter-spacing: 0.18rem;
-  }
-  @media screen and (min-width: 900px) and (max-width: 950px) {
-    font-size: 1rem !important;
-    letter-spacing: 0.17rem;
-  }
-  @media screen and (min-width: 950px) and (max-width: 1000px) {
-    font-size: 1.02rem !important;
-    letter-spacing: 0.16rem;
-  }
-  @media screen and (min-width: 1000px) and (max-width: 1100px) {
-    font-size: 1.04rem !important;
-    letter-spacing: 0.16rem;
-  }
-  @media screen and (min-width: 1100px) and (max-width: 1200px) {
-    font-size: 1.06rem !important;
-    letter-spacing: 0.16rem;
-  }
-  @media screen and (min-width: 1200px) and (max-width: 1300px) {
-    font-size: 1.06rem !important;
-    letter-spacing: 0.16rem;
-  }
 }
 
 .job-summary-company::-webkit-scrollbar {
@@ -371,46 +286,6 @@ body {
   letter-spacing: 0.05rem;
   margin-top: 3%;
   white-space: nowrap;
-
-  @media screen and (min-width: 0px) and (max-width: 500px) {
-    font-size: 0.92rem !important;
-  }
-
-  @media screen and (min-width: 500px) and (max-width: 600px) {
-    font-size: 0.94rem !important;
-  }
-
-  @media screen and (min-width: 600px) and (max-width: 700px) {
-    font-size: 0.96rem !important;
-  }
-
-  @media screen and (min-width: 700px) and (max-width: 800px) {
-    font-size: 0.98rem !important;
-  }
-
-  @media screen and (min-width: 800px) and (max-width: 900px) {
-    font-size: 0.99rem !important;
-  }
-
-  @media screen and (min-width: 900px) and (max-width: 950px) {
-    font-size: 1rem !important;
-  }
-
-  @media screen and (min-width: 950px) and (max-width: 1000px) {
-    font-size: 1.02rem !important;
-  }
-
-  @media screen and (min-width: 1000px) and (max-width: 1100px) {
-    font-size: 1.04rem !important;
-  }
-
-  @media screen and (min-width: 1100px) and (max-width: 1200px) {
-    font-size: 1.06rem !important;
-  }
-
-  @media screen and (min-width: 1200px) and (max-width: 1300px) {
-    font-size: 1.08rem !important;
-  }
 }
 
 .job-summary-match-score {
@@ -461,46 +336,6 @@ body {
 .candidate-date-updated {
   font-size: 1.4rem !important;
   color: #006d4b;
-
-  @media screen and (min-width: 0px) and (max-width: 500px) {
-    font-size: 1.9rem !important;
-  }
-
-  @media screen and (min-width: 500px) and (max-width: 600px) {
-    font-size: 1.92rem !important;
-  }
-
-  @media screen and (min-width: 600px) and (max-width: 700px) {
-    font-size: 1.94rem !important;
-  }
-
-  @media screen and (min-width: 700px) and (max-width: 800px) {
-    font-size: 1.96rem !important;
-  }
-
-  @media screen and (min-width: 800px) and (max-width: 900px) {
-    font-size: 1.98rem !important;
-  }
-
-  @media screen and (min-width: 900px) and (max-width: 950px) {
-    font-size: 2rem !important;
-  }
-
-  @media screen and (min-width: 950px) and (max-width: 1000px) {
-    font-size: 2.02rem !important;
-  }
-
-  @media screen and (min-width: 1000px) and (max-width: 1100px) {
-    font-size: 2.04rem !important;
-  }
-
-  @media screen and (min-width: 1100px) and (max-width: 1200px) {
-    font-size: 2.06rem !important;
-  }
-
-  @media screen and (min-width: 1200px) and (max-width: 1300px) {
-    font-size: 2.08rem !important;
-  }
 }
 
 .accordion-header {
@@ -632,6 +467,7 @@ body {
   font-size: 1.25rem;
   color: #006d4b;
   text-align: center;
+  margin-top: 1%;
 }
 
 .alert-dialog-button {
@@ -673,11 +509,11 @@ body {
 }
 
 .saved-letters-list {
-  width: 94%;
+  width: 100%;
   height: 100%;
-  background-color: white;
+  background-color: #f8f8ff;
   border-radius: 4px;
-  border: 1px solid #006d4b;
+  border-top: 1px solid #006d4b;
   padding: 0 2%;
   overflow: scroll;
 }

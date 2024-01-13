@@ -6,6 +6,7 @@ import CandidateProfessionalDetails from './components/CandidateProfessionalDeta
 import { Typography } from '@mui/material';
 import CandidateJobsList from './components/CandidateJobsList';
 import CandidatePersonalDetails from './components/CandidatePersonalDetails';
+import PersonalDetailsPanel from './components/PersonalDetailsPanel';
 import { useCandidatesContext } from '@/context/CandidatesContext';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'; // Import the upload icon
 
@@ -19,6 +20,7 @@ import {
   ResumePanelPaper,
 } from './FullCandidateProfileOverview.styles';
 
+import ExtraDetailsPanel from './components/ExtraDetailsPanel';
 import { CandidateListItem } from '@/Types/CandidatesSection.types';
 import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
 
@@ -96,7 +98,7 @@ const FullCandidateProfileOverview: React.FC<Props> = ({
         spacing={2}
         height={'100%'}
         // flexWrap={'nowrap'}
-        maxWidth={'35vw'}
+        // maxWidth={'70%'}
       >
         <ProfessionDetailsGrid xs={12}>
           <StyledPaper
@@ -128,31 +130,37 @@ const FullCandidateProfileOverview: React.FC<Props> = ({
 
       {/* Right Column */}
       <Grid
-        xs={12}
-        md={5}
         container
         direction="column"
+        xs={12}
+        md={5}
         spacing={2}
-        height={'100%'}
-        mr={'0.1%'}
-        flexWrap={'nowrap'}
+        // height={'100%'}
+        p={0}
+        m={0}
+        // mr={'0.1%'}
+        // flexWrap={'nowrap'}
       >
         {/* 3. Resume Panel - Top Right */}
-        <ResumePanelGrid xs={12}>
+        <ExtraDetailsPanel updateMode={updateMode} />
+
+        {/* <ResumePanelGrid xs={12}>
           {renderResumePanel(
             resumeUrl,
             handleResumeClick,
             fileInputRef,
             handleFileChange
           )}
-        </ResumePanelGrid>
+        </ResumePanelGrid> */}
 
         {/* 4. Personal Details Panel - Bottom Right (fills remaining space) */}
-        <PersonalDetailsGrid xs={12}>
+        <PersonalDetailsPanel selectedCandidate={selectedCandidate} />
+
+        {/* <PersonalDetailsGrid xs={12}>
           <StyledPaper elevation={3}>
             <CandidatePersonalDetails selectedCandidate={selectedCandidate} />
           </StyledPaper>
-        </PersonalDetailsGrid>
+        </PersonalDetailsGrid> */}
       </Grid>
     </Container>
   );

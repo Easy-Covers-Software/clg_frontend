@@ -43,14 +43,14 @@ const FullJobPostingsOverview = ({
         xs={12}
         md={7}
         container
-        direction='column'
+        direction="column"
         spacing={2}
         height={'100%'}
         flexWrap={'nowrap'}
       >
         <Grid xs={12} height={'94%'} minHeight={'400px'}>
           <Box sx={{ position: 'relative', top: 0, left: 2 }}>
-            <Typography variant='h6'>Job Posting Details</Typography>
+            <Typography variant="h6">Job Posting Details</Typography>
           </Box>
           <StyledPaper elevation={3}>
             <JobInformationAccordion jobPosting={selectedJobPosting} />
@@ -63,7 +63,7 @@ const FullJobPostingsOverview = ({
         xs={12}
         md={5}
         container
-        direction='column'
+        direction="column"
         spacing={2}
         height={'100%'}
         mr={'0.1%'}
@@ -71,7 +71,7 @@ const FullJobPostingsOverview = ({
       >
         <Grid xs={12} height={'94%'}>
           <Box sx={{ position: 'relative', top: 0, left: 2 }}>
-            <Typography variant='h6'>Candidate Rankings</Typography>
+            <Typography variant="h6">Candidate Rankings</Typography>
           </Box>
           <StyledPaper elevation={3}>
             <CandidateRankings

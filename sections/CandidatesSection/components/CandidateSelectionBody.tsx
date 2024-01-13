@@ -36,39 +36,30 @@ import { PhoneCall } from '@/Types/TranscriptionSection.types';
 // const Container = styled(Grid)`
 const Container = styled.div`
   width: 100%;
-  background-color: white;
-  border-radius: 4px;
-  border: 1px solid #006d4b;
-  height: calc(100vh - 98px);
-  max-height: calc(100vh - 98px);
-  min-height: calc(100vh - 98px);
+  padding: 0.2%;
+
   display: flex;
   flex-direction: column;
-  // justify-content: space-between;
-  margin-left: 0.3%;
-  // padding-bottom: 2%;
-  // padding: 2%;
-  background-color: white;
+  gap: 0.2%;
 
-  @media screen and (min-width: 0px) and (max-width: 600px) {
-    width: 100vw;
-    height: calc(100vh - 90px);
-    max-height: calc(100vh - 90px);
-  }
+  border-radius: 4px;
+  border: 1px solid #006d4b;
+  background-color: white;
 `;
 
 // const SubContainer = styled(Grid)`
 const SubContainer = styled.div`
   height: 100%;
-  margin: 0.75%;
-  margin-top: 0;
   background-color: #f8f8ff;
-  overflow: scroll;
-  overflow-x: hidden;
+
   border: 1px solid #006d4b;
   border-radius: 4px;
-  justify-content: center;
-  align-items: center;
+
+  // margin-top: 0;
+  // overflow: scroll;
+  // overflow-x: hidden;
+  // justify-content: center;
+  // align-items: center;
 `;
 
 const CandidateSelectionBody: FC = () => {

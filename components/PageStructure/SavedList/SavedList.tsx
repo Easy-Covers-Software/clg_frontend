@@ -72,7 +72,7 @@ const SavedList: FC<SavedListProps> = ({
     } else if (listType === 'phoneCalls') {
       return 'Saved Phone Calls';
     } else if (listType === 'candidates') {
-      return 'Saved Candidates';
+      return 'All Candidates';
     }
   };
 
@@ -94,7 +94,11 @@ const SavedList: FC<SavedListProps> = ({
     return (
       <ListItem
         key={labelId}
-        style={{ borderBottom: '0.4px solid #006D4B' }}
+        style={{
+          borderBottom: '0.4px solid #006D4B',
+          paddingLeft: '1.5%',
+          backgroundColor: 'white',
+        }}
         secondaryAction={
           selected?.id === item.id && (
             <IconButton

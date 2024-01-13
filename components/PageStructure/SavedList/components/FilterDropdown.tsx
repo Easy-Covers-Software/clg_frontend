@@ -25,12 +25,12 @@ export default function FilterDropdown() {
   // console.log('isFilterDropdownOpen', isFilterDropdownOpen);
 
   return (
-    <Grid>
+    <Grid mr={'2%'}>
       <IconButton onClick={handleClick}>
-        <TuneOutlinedIcon />
+        <TuneOutlinedIcon fontSize="large" />
       </IconButton>
       <Menu
-        id='basic-menu'
+        id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}

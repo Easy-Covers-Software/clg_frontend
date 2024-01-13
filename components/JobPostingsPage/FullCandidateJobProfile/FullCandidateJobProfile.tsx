@@ -1,111 +1,27 @@
 import React from 'react';
 import Grid from '@mui/material/Unstable_Grid2/Grid2'; // Grid2 for the layout
-import Paper from '@mui/material/Paper';
-import styled from '@emotion/styled';
-import { Typography, Box } from '@mui/material';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Button from '@mui/material/Button';
-import { PrimaryButton, UnSelectedButton } from '@/components/Global/Global';
+import { Typography } from '@mui/material';
+import { PrimaryButton } from '@/components/Global/Global';
 import { CircularProgress } from '@mui/material';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
 import ScoreDetails from './components/ScoreDetails';
 
-const Container = styled(Grid)`
-  height: 100%;
-  padding: 1%;
-  padding-top: 0;
-  width: 100%;
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  justify-content: flex-end;
-  margin: auto;
-  flex-wrap: nowrap;
-`;
+import {
+  Container,
+  SubPanelContainer,
+  ScoreDetailsPaper,
+  CallsPaper,
+  GenerationsPaper,
+  ExtraDetailsPanelPaper,
+  ButtonGroupContainer,
+  PanelButton,
+  BackButton,
+  CustomListItem,
+} from './FullCandidateJobProfile.styles';
 
-const SubPanelContainer = styled(Grid)`
-  height: 20vh;
-  min-height: 100px;
-`;
-
-const StyledPaper = styled(Paper)`
-  height: 100%;
-  width: 100%;
-  border: 3px solid #13d0b7;
-  overflow: scroll;
-`;
-
-const ScoreDetailsPaper = styled(StyledPaper)`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  // align-items: center;
-  // overflow: hidden;
-`;
-
-const CallsPaper = styled(StyledPaper)`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 3%;
-  overflow: hidden;
-`;
-
-const GenerationsPaper = styled(StyledPaper)`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 3%;
-  overflow: hidden;
-`;
-
-const ResumePanelPaper = styled(StyledPaper)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ButtonGroupContainer = styled(ButtonGroup)`
-  width: 98%;
-  padding-bottom: 10%;
-`;
-
-const PanelButton = styled(UnSelectedButton)`
-  border: 1px solid #13d0b7 !important;
-  height: 13vh;
-  color: #006d4b !important;
-  background-color: #f5f5ff !important;
-
-  &:hover {
-    background-color: white;
-  }
-
-  &:disabled {
-    background-color: lightgray;
-    color: gray !important;
-    opacity: 0.4;
-  }
-`;
-const BackButton = styled(IconButton)`
-  margin-top: 3%;
-`;
-
-const CustomListItem = styled(ListItem)`
-  border-bottom: 1px solid #13d0b7;
-  background-color: white;
-
-  &:hover {
-    cursor: pointer;
-    background-color: #f5f5ff;
-  }
-`;
+import ExtraDetailsPanel from './components/ExtraDetailsPanel';
 
 const GenerationsList = ({
   listType,
@@ -114,7 +30,6 @@ const GenerationsList = ({
   handleSelection,
 }) => {
   return (
-    // <Grid container>
     <>
       <Grid container justifyContent={'space-between'} width={'100%'}>
         <BackButton onClick={resetGenerationPanelMode}>
@@ -158,7 +73,6 @@ const GenerationsList = ({
         ))}
       </List>
     </>
-    // </Grid>
   );
 };
 
@@ -339,7 +253,7 @@ const FullCandidateJobProfile = ({
         {/* Resume Panel */}
         <SubPanelContainer xs={12} height={'20vh'}>
           <Typography variant="h6">&nbsp;</Typography>
-          <ResumePanelPaper
+          <ExtraDetailsPanelPaper
             elevation={3}
             onClick={setModeToResume}
             style={{
@@ -347,7 +261,7 @@ const FullCandidateJobProfile = ({
             }}
           >
             <Typography variant="h4">Résumé</Typography>
-          </ResumePanelPaper>
+          </ExtraDetailsPanelPaper>
         </SubPanelContainer>
 
         {/* Calls Panel */}

@@ -5,6 +5,7 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 
 import FilterDropdown from './FilterDropdown';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 const Search = muiStyled('div')(({ theme }) => ({
   position: 'relative',
@@ -13,13 +14,10 @@ const Search = muiStyled('div')(({ theme }) => ({
   color: '#006D4B',
   border: '1px solid #006D4B',
   '&:hover': {
-    // backgroundColor: alpha(theme.palette.grey[00], 0.18),
+    backgroundColor: '#ff8c00',
   },
   width: '100%',
-  height: '6vh',
-  [theme.breakpoints.up('sm')]: {
-    // marginLeft: theme.spacing(3),
-  },
+  height: '5.5vh',
 }));
 
 const SearchIconWrapper = muiStyled('div')(({ theme }) => ({
@@ -35,11 +33,11 @@ const SearchIconWrapper = muiStyled('div')(({ theme }) => ({
 
 const StyledInputBase = muiStyled(InputBase)(({ theme }) => ({
   color: '#006D4B',
+  top: '15%',
+  left: '15%',
+  fontSize: '1.2rem',
   '& .MuiInputBase-input': {
-    paddingLeft: '25%',
-    paddingTop: '6%',
     transition: theme.transitions.create('width'),
-    width: '100%',
     color: '#006D4B',
   },
 }));
@@ -56,24 +54,37 @@ const SearchAndFilter: React.FC<Props> = ({
   handleSearchChange,
 }) => {
   return (
-    <Search
-      style={{
-        width: '97.5%',
-        marginBottom: type === 'full' ? '0' : '1%',
-      }}
+    <Grid
+      width={'99%'}
+      container
+      justifyContent={'space-evenly'}
+      flexWrap={'nowrap'}
+      p={0}
+      m={0}
     >
-      <SearchIconWrapper>
-        {' '}
-        <SearchIcon />{' '}
-      </SearchIconWrapper>
-      <StyledInputBase
-        sx={{ color: 'white' }}
-        placeholder="Search…"
-        inputProps={{ 'aria-label': 'search' }}
-        value={search}
-        onChange={(e) => handleSearchChange(e.target.value)}
-      />
-    </Search>
+      {/* Search Bar */}
+      <Search
+        style={{
+          width: '100%',
+        }}
+      >
+        <SearchIconWrapper>
+          {' '}
+          <SearchIcon />{' '}
+        </SearchIconWrapper>
+        <StyledInputBase
+          sx={{ color: 'white' }}
+          placeholder="Search…"
+          inputProps={{ 'aria-label': 'search' }}
+          value={search}
+          onChange={(e) => handleSearchChange(e.target.value)}
+        />
+
+        {/* Filter Dropdown */}
+      </Search>
+
+      <FilterDropdown />
+    </Grid>
   );
 };
 

@@ -1,38 +1,32 @@
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
 
-const Container = styled(Grid)`
-  display: flex;
+export const Container = styled(Grid2)`
   width: 100%;
-  gap: 0.5%;
-  height: 14vh;
+  height: 13vh;
   min-height: 110px;
+  margin: auto;
 
-  overflow: hidden; // Add this line
-  border-radius: 4px 4px 0 0;
-  padding: 0.2% 0.75% 0 0.75%;
-  margin-bottom: 0.25%;
+  display: flex;
+  gap: 0.1%;
+  border-radius: 4px;
 `;
 
-const MainContent = styled(Grid)`
+export const MainContentContainer = styled(Grid2)`
+  width: 100%;
+
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-  width: 100%;
+  justify-content: space-evenly;
+  padding: 1% 0 1% 2%; /* top right bottom left */
+
   border: 1px solid #006d4b;
   border-radius: 4px;
   background-color: #f8f8ff;
-  margin: 0.3% 0;
-  padding: 1.5%;
-  overflow: hidden;
-
-  @media screen and (min-width: 0px) and (max-width: 700px) {
-    padding: 2.25% 3%;
-  }
 `;
 
-const ExtraInfo = styled(Grid)`
+export const SupplementalInfoContainer = styled(Grid2)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,8 +35,7 @@ const ExtraInfo = styled(Grid)`
   border-radius: 4px;
   background-color: #f8f8ff;
   min-width: 12vw;
-  margin: 0.3% 0;
-  padding: 1% @media screen and (min-width: 0px) and (max-width: 500px) {
+  @media screen and (min-width: 0px) and (max-width: 500px) {
     width: 32vw;
   }
 
@@ -82,5 +75,3 @@ const ExtraInfo = styled(Grid)`
     width: 11vw;
   }
 `;
-
-export { Container, MainContent, ExtraInfo };

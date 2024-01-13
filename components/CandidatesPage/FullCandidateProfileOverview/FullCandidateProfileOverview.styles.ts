@@ -4,18 +4,17 @@ import { Paper } from '@mui/material';
 
 const Container = styled(Grid)`
   height: 100%;
-  padding: 1%;
-
-  height: 100%;
   width: 100%;
-  // padding: 2%;
   display: flex;
-  // flex-direction: column;
   align-content: center;
   justify-content: center;
   margin: auto;
+  // padding: 1%;
   flex-wrap: nowrap;
   white-space: nowrap;
+  margin: 0;
+
+  // max-width: 60vw;
 `;
 
 const ProfessionDetailsGrid = styled(Grid)`
@@ -40,10 +39,10 @@ const ResumePanelGrid = styled(Grid)`
 `;
 
 const PersonalDetailsGrid = styled(Grid)`
-  // height: 56vh;
-  // height: fit-content;
+  // height: 45%;
+  // margin-top: 5%;
   flex: 1;
-  min-height: 320px;
+  width: auto !important;
 `;
 
 const StyledPaper = styled(Paper)`

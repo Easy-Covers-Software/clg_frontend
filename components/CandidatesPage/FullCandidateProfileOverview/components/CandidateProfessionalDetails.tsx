@@ -41,18 +41,18 @@ const CandidateProfessionalDetails: React.FC<Props> = ({
       justifyContent="space-between"
       height={'100%'}
       width={'100%'}
+      maxWidth={'35vw'}
       position="relative"
       pb={0}
       mb={0}
       pl={1}
       pr={1}
       pt={1}
+      overflow={'scroll'}
     >
       <Box position="absolute" top={0} right={2} pb={0}>
         <IconButton
           aria-label="linkedin"
-          // href={linkedinUrl}
-          // target='_blank'
           disabled={selectedCandidate.linkedin_profile === ''}
           style={{
             color: selectedCandidate.linkedin_profile === '' ? 'grey' : 'blue',
@@ -104,7 +104,7 @@ const CandidateProfessionalDetails: React.FC<Props> = ({
       </Box>
       <Box
         sx={{
-          overflowY: 'scroll',
+          overflow: 'scroll',
         }}
         pb={1}
       >
