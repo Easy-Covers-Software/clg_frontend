@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 
 export const Header = styled(Typography)`
-  font-size: 1.9rem;
+  font-size: 2rem;
   padding-left: 1.5%;
   padding-top: 1%;
   letter-spacing: 0.18rem;

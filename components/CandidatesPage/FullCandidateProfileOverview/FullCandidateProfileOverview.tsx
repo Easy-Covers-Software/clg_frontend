@@ -3,7 +3,7 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2'; // Importing Grid2
 
 import { Typography } from '@mui/material';
 import CandidateJobsList from './components/CandidateJobsList';
-import PersonalDetailsPanel from './components/PersonalDetailsPanel';
+import PersonalDetailsPanel from './components/PersonalDetailsPanel/PersonalDetailsPanel';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'; // Import the upload icon
 
 import {
@@ -19,7 +19,7 @@ import {
 import ExtraDetailsPanel from './components/ExtraDetailsPanel';
 import { CandidateListItem } from '@/Types/CandidatesSection.types';
 import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
-import ProfessionalDetailsPanel from './components/ProfessionalDetailsPanel';
+import ProfessionalDetailsPanel from './components/ProfessionalDetailsPanel/ProfessionalDetailsPanel';
 
 interface Props {
   selectedCandidate: CandidateListItem;
@@ -70,12 +70,13 @@ const FullCandidateProfileOverview: React.FC<Props> = ({
         <ProfessionalDetailsPanel selectedCandidate={selectedCandidate} />
 
         {/* BOTTOM LEFT */}
-        <CandidateJobsList
+        <PersonalDetailsPanel selectedCandidate={selectedCandidate} />
+        {/* <CandidateJobsList
           jobPostings={jobPostings && jobPostings}
           loadingId={jobLoadingId}
           updateSelectedJobPosting={updateSelectedJobPosting}
           handleCalculate={handleCalculate}
-        />
+        /> */}
       </Grid>
 
       {/*** RIGHT SIDE ***/}
@@ -94,7 +95,13 @@ const FullCandidateProfileOverview: React.FC<Props> = ({
         <ExtraDetailsPanel updateMode={updateMode} />
 
         {/* 4. Personal Details Panel - Bottom Right (fills remaining space) */}
-        <PersonalDetailsPanel selectedCandidate={selectedCandidate} />
+
+        <CandidateJobsList
+          jobPostings={jobPostings && jobPostings}
+          loadingId={jobLoadingId}
+          updateSelectedJobPosting={updateSelectedJobPosting}
+          handleCalculate={handleCalculate}
+        />
       </Grid>
     </Container>
   );

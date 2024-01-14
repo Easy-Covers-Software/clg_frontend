@@ -18,7 +18,7 @@ interface Props {
 const PersonalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => (
   <PersonalDetailsGrid xs={12}>
     <PersonalDetailsPaper elevation={3}>
-      <Header>Personal Information</Header>
+      <Header>Personal Details</Header>
 
       <Divider />
 

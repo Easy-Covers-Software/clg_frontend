@@ -20,7 +20,9 @@ export const Container = styled(Grid)`
 `;
 
 export const ProfessionDetailsGrid = styled(Grid)`
-  height: 32vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding: 0;
   margin: 0;
 `;
