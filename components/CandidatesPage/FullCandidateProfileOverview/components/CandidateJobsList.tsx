@@ -10,6 +10,11 @@ import IconButton from '@mui/material/IconButton';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import { CircularProgress } from '@mui/material';
 
+import {
+  StyledPaper,
+  JobPostingsListGrid,
+} from '../FullCandidateProfileOverview.styles';
+
 // Define a custom Grid that will hold the match score
 const MatchScoreGrid = styled(Grid)(({ theme }) => ({
   width: '90%',
@@ -42,53 +47,55 @@ const CandidateJobsList = ({
   updateSelectedJobPosting,
   handleCalculate,
 }) => {
-  console.log('loadingId');
-  console.log(loadingId);
   return (
-    <Box p={2}>
-      <Grid container borderBottom="0.4px solid #006D4B">
-        <Typography textAlign={'center'}>Current Jobs</Typography>
-      </Grid>
-      <List component="nav">
-        {jobPostings?.map((jobPosting, index) => (
-          <StyledListItem
-            key={index}
-            disabled={loadingId !== null ? true : false}
-            onClick={() => {
-              updateSelectedJobPosting(jobPosting);
-            }}
-          >
-            <ListItemText
-              primary={splitString(jobPosting.job_title)}
-              secondary={jobPosting.company_name}
-            />
-            <MatchScoreGrid xs="auto">
-              {jobPosting.match_score ? (
-                <Typography variant="caption">
-                  {jobPosting.match_score['weighted_score']} / 10
-                </Typography>
-              ) : loadingId !== null && loadingId === jobPosting.id ? (
-                <CircularProgress style={{ color: '#13d0b7' }} />
-              ) : (
-                <IconButton
-                  style={{
-                    border: '1px solid #13d0b7',
-                    backgroundColor: '#f5f5ff',
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    handleCalculate(jobPosting.id);
-                  }}
-                >
-                  <CalculateIcon />
-                </IconButton>
-              )}
-            </MatchScoreGrid>
-          </StyledListItem>
-        ))}
-      </List>
-    </Box>
+    <JobPostingsListGrid xs={12}>
+      <StyledPaper elevation={3}>
+        <Box p={2}>
+          <Grid container borderBottom="0.4px solid #006D4B">
+            <Typography textAlign={'center'}>Current Jobs</Typography>
+          </Grid>
+          <List component="nav">
+            {jobPostings?.map((jobPosting, index) => (
+              <StyledListItem
+                key={index}
+                disabled={loadingId !== null ? true : false}
+                onClick={() => {
+                  updateSelectedJobPosting(jobPosting);
+                }}
+              >
+                <ListItemText
+                  primary={splitString(jobPosting.job_title)}
+                  secondary={jobPosting.company_name}
+                />
+                <MatchScoreGrid xs="auto">
+                  {jobPosting.match_score ? (
+                    <Typography variant="caption">
+                      {jobPosting.match_score['weighted_score']} / 10
+                    </Typography>
+                  ) : loadingId !== null && loadingId === jobPosting.id ? (
+                    <CircularProgress style={{ color: '#13d0b7' }} />
+                  ) : (
+                    <IconButton
+                      style={{
+                        border: '1px solid #13d0b7',
+                        backgroundColor: '#f5f5ff',
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        handleCalculate(jobPosting.id);
+                      }}
+                    >
+                      <CalculateIcon />
+                    </IconButton>
+                  )}
+                </MatchScoreGrid>
+              </StyledListItem>
+            ))}
+          </List>
+        </Box>
+      </StyledPaper>
+    </JobPostingsListGrid>
   );
 };
 

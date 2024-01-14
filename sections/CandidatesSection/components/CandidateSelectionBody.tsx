@@ -54,12 +54,6 @@ const SubContainer = styled.div`
 
   border: 1px solid #006d4b;
   border-radius: 4px;
-
-  // margin-top: 0;
-  // overflow: scroll;
-  // overflow-x: hidden;
-  // justify-content: center;
-  // align-items: center;
 `;
 
 const CandidateSelectionBody: FC = () => {

@@ -1,4 +1,5 @@
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Paper from '@mui/material/Paper';
 import { SubPanelContainer } from '@/components/JobPostingsPage/FullCandidateJobProfile/FullCandidateJobProfile.styles';
 import { ExtraDetailsPanelPaper } from '@/components/JobPostingsPage/FullCandidateJobProfile/FullCandidateJobProfile.styles';
 import styled from '@emotion/styled';
@@ -33,14 +34,14 @@ export const PanelButton = styled(UnSelectedButton)`
 
 const ExtraDetailsPanel = ({ updateMode }) => {
   return (
-    <SubPanelContainer xs={12} height={'14vh'}>
-      <ExtraDetailsPanelPaper>
-        <Grid container height={'100%'} p={0} m={'auto'}>
+    <SubPanelContainer xs={12}>
+      <ExtraDetailsPanelPaper elevation={3}>
+        <Grid container height={'100%'} p={0} m={0}>
           <PanelButton>Résumé</PanelButton>
           <PanelButton>Generations</PanelButton>
         </Grid>
 
-        <Grid container height={'100%'} p={0} m={'auto'}>
+        <Grid container height={'100%'} p={0} m={0}>
           <PanelButton>Feedback</PanelButton>
           <PanelButton>Update Info</PanelButton>
         </Grid>

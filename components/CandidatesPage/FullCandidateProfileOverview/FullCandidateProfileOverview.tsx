@@ -1,13 +1,9 @@
 import React, { useRef } from 'react';
 import Grid from '@mui/material/Unstable_Grid2/Grid2'; // Importing Grid2
-import Paper from '@mui/material/Paper';
-import styled from '@emotion/styled';
-import CandidateProfessionalDetails from './components/CandidateProfessionalDetails';
+
 import { Typography } from '@mui/material';
 import CandidateJobsList from './components/CandidateJobsList';
-import CandidatePersonalDetails from './components/CandidatePersonalDetails';
 import PersonalDetailsPanel from './components/PersonalDetailsPanel';
-import { useCandidatesContext } from '@/context/CandidatesContext';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'; // Import the upload icon
 
 import {
@@ -23,6 +19,7 @@ import {
 import ExtraDetailsPanel from './components/ExtraDetailsPanel';
 import { CandidateListItem } from '@/Types/CandidatesSection.types';
 import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
+import ProfessionalDetailsPanel from './components/ProfessionalDetailsPanel';
 
 interface Props {
   selectedCandidate: CandidateListItem;
@@ -55,112 +52,49 @@ const FullCandidateProfileOverview: React.FC<Props> = ({
     }
   };
 
-  const renderResumePanel = (
-    resumeUrl,
-    handleResumeClick,
-    fileInputRef,
-    handleFileChange
-  ) => {
-    // Using an if-else statement for conditional rendering
-    if (resumeUrl === '') {
-      return (
-        <ResumePanelPaper elevation={3} onClick={handleResumeClick}>
-          <div style={{ textAlign: 'center' }}>
-            <Typography variant="h6">Upload Resume</Typography>
-            <CloudUploadIcon style={{ fontSize: '48px', color: '#13d0b7' }} />
-            <input
-              type="file"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-              onChange={(e) => handleFileChange(e.target.files[0])}
-              accept=".pdf" // Modify as needed for other file types
-            />
-          </div>
-        </ResumePanelPaper>
-      );
-    } else {
-      return (
-        <ResumePanelPaper elevation={3} onClick={handleResumeClick}>
-          <Typography variant="h4">Resume</Typography>
-        </ResumePanelPaper>
-      );
-    }
-  };
-
   return (
-    <Container container spacing={2}>
-      {/* 1. Professional Details Panel - Top Left */}
+    <Container container>
+      {/*** LEFT SIDE ***/}
       <Grid
-        xs={12}
-        md={7}
-        container
-        direction="column"
-        spacing={2}
         height={'100%'}
-        // flexWrap={'nowrap'}
-        // maxWidth={'70%'}
-      >
-        <ProfessionDetailsGrid xs={12}>
-          <StyledPaper
-            elevation={3}
-            style={{
-              paddingBottom: 0,
-              marginBottom: 0,
-              display: 'flex',
-            }}
-          >
-            <CandidateProfessionalDetails
-              selectedCandidate={selectedCandidate}
-            />
-          </StyledPaper>
-        </ProfessionDetailsGrid>
-
-        {/* 2. Job Postings List - Bottom Left */}
-        <JobPostingsListGrid xs={12}>
-          <StyledPaper elevation={3}>
-            <CandidateJobsList
-              jobPostings={jobPostings && jobPostings}
-              loadingId={jobLoadingId}
-              updateSelectedJobPosting={updateSelectedJobPosting}
-              handleCalculate={handleCalculate}
-            />
-          </StyledPaper>
-        </JobPostingsListGrid>
-      </Grid>
-
-      {/* Right Column */}
-      <Grid
-        container
-        direction="column"
+        display={'flex'}
+        gap={'1%'}
+        flexDirection={'column'}
+        justifyContent={'space-between'}
         xs={12}
-        md={5}
-        spacing={2}
-        // height={'100%'}
+        md={8}
         p={0}
         m={0}
-        // mr={'0.1%'}
-        // flexWrap={'nowrap'}
+      >
+        {/* TOP LEFT */}
+        <ProfessionalDetailsPanel selectedCandidate={selectedCandidate} />
+
+        {/* BOTTOM LEFT */}
+        <CandidateJobsList
+          jobPostings={jobPostings && jobPostings}
+          loadingId={jobLoadingId}
+          updateSelectedJobPosting={updateSelectedJobPosting}
+          handleCalculate={handleCalculate}
+        />
+      </Grid>
+
+      {/*** RIGHT SIDE ***/}
+      <Grid
+        height={'100%'}
+        display={'flex'}
+        gap={'1%'}
+        flexDirection={'column'}
+        justifyContent={'space-between'}
+        xs={12}
+        md={4}
+        p={0}
+        m={0}
       >
         {/* 3. Resume Panel - Top Right */}
         <ExtraDetailsPanel updateMode={updateMode} />
 
-        {/* <ResumePanelGrid xs={12}>
-          {renderResumePanel(
-            resumeUrl,
-            handleResumeClick,
-            fileInputRef,
-            handleFileChange
-          )}
-        </ResumePanelGrid> */}
-
         {/* 4. Personal Details Panel - Bottom Right (fills remaining space) */}
         <PersonalDetailsPanel selectedCandidate={selectedCandidate} />
-
-        {/* <PersonalDetailsGrid xs={12}>
-          <StyledPaper elevation={3}>
-            <CandidatePersonalDetails selectedCandidate={selectedCandidate} />
-          </StyledPaper>
-        </PersonalDetailsGrid> */}
       </Grid>
     </Container>
   );

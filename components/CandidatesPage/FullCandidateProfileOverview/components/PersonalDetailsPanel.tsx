@@ -6,8 +6,8 @@ import Grid from '@mui/material/Grid';
 import { CandidateListItem } from '@/Types/CandidatesSection.types';
 
 import { PersonalDetailsGrid } from '../FullCandidateProfileOverview.styles';
-// import { StyledPaper } from '../FullCandidateProfileOverview.styles';
-import { StyledPaper } from '@/components/JobPostingsPage/FullCandidateJobProfile/FullCandidateJobProfile.styles';
+import { StyledPaper } from '../FullCandidateProfileOverview.styles';
+// import { StyledPaper } from '@/components/JobPostingsPage/FullCandidateJobProfile/FullCandidateJobProfile.styles';
 
 interface Props {
   selectedCandidate: CandidateListItem;
@@ -15,15 +15,8 @@ interface Props {
 
 const PersonalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => {
   return (
-    <PersonalDetailsGrid xs={12} p={0}>
-      <StyledPaper
-        elevation={3}
-        style={{
-          overflow: 'hidden',
-          margin: 'auto',
-          width: 'auto',
-        }}
-      >
+    <PersonalDetailsGrid xs={12}>
+      <StyledPaper elevation={3}>
         <Box p={2} width={'100%'}>
           <Typography fontSize={'1.7rem'} gutterBottom>
             Personal Info

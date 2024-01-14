@@ -7,6 +7,8 @@ import { IconButton } from '@mui/material';
 import { UnSelectedButton } from '@/components/Global/Global';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
+import { StyledPaper as StyledPaper2 } from '@/components/CandidatesPage/FullCandidateProfileOverview/FullCandidateProfileOverview.styles';
+
 export const Container = styled(Grid)`
   height: 100%;
   padding: 1%;
@@ -22,7 +24,10 @@ export const Container = styled(Grid)`
 
 export const SubPanelContainer = styled(Grid)`
   height: 20vh;
+  width: 100%;
   min-height: 100px;
+  padding: 0;
+  margin: 0;
 `;
 
 export const StyledPaper = styled(Paper)`
@@ -58,15 +63,14 @@ export const GenerationsPaper = styled(StyledPaper)`
   overflow: hidden;
 `;
 
-export const ExtraDetailsPanelPaper = styled(StyledPaper)`
+export const ExtraDetailsPanelPaper = styled(StyledPaper2)`
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // margin: auto;
   overflow: hidden;
-  padding: 1%;
-  width: auto !important;
+  padding: 0.5%;
 `;
 
 export const ButtonGroupContainer = styled(ButtonGroup)`

@@ -1,6 +1,7 @@
 import Grid from '@mui/material/Unstable_Grid2/Grid2'; // Importing Grid2
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
+// import { Grid } from '@mui/material';
 
 const Container = styled(Grid)`
   height: 100%;
@@ -8,29 +9,29 @@ const Container = styled(Grid)`
   display: flex;
   align-content: center;
   justify-content: center;
+  gap: 0.3%;
+  padding: 0.5%;
   margin: auto;
-  // padding: 1%;
   flex-wrap: nowrap;
   white-space: nowrap;
   margin: 0;
+  padding-bottom: 1%;
 
   // max-width: 60vw;
 `;
 
 const ProfessionDetailsGrid = styled(Grid)`
-  height: 28vh;
-  min-height: 200px;
+  height: 26vh;
+  padding: 0;
+  margin: 0;
 `;
 
 const JobPostingsListGrid = styled(Grid)`
-  // height: 41.7vh;
-  // height: fit-content;
-  flex-grow: 1;
-  height: 40%;
+  width: 100%;
   min-height: 220px;
-  // overflow: scroll;
-  white-space: nowrap;
-  flex-wrap: nowrap;
+  flex: 1;
+  padding: 0;
+  margin: 0;
 `;
 
 const ResumePanelGrid = styled(Grid)`
@@ -39,17 +40,17 @@ const ResumePanelGrid = styled(Grid)`
 `;
 
 const PersonalDetailsGrid = styled(Grid)`
-  // height: 45%;
-  // margin-top: 5%;
+  width: 100%;
   flex: 1;
-  width: auto !important;
+  padding: 0;
+  margin: 0;
 `;
 
 const StyledPaper = styled(Paper)`
   height: 100%;
-  width: 100%;
   border: 3px solid #13d0b7;
-  overflow: scroll;
+  overflow: hidden;
+  flex: 1;
 `;
 
 const ResumePanelPaper = styled(StyledPaper)`
