@@ -19,7 +19,7 @@ import {
 import ExtraDetailsPanel from './components/ExtraDetailsPanel';
 import { CandidateListItem } from '@/Types/CandidatesSection.types';
 import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
-import ProfessionalDetailsPanel from './components/ProfessionalDetailsPanel/ProfessionalDetailsPanel';
+import ProfessionalDetailsPanel from './components/ProfessionalDetailsPanel';
 
 interface Props {
   selectedCandidate: CandidateListItem;
