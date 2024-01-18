@@ -1,25 +1,28 @@
 import React, { useRef } from 'react';
 import Grid from '@mui/material/Unstable_Grid2/Grid2'; // Importing Grid2
+import styled from '@emotion/styled';
 
 import { Typography } from '@mui/material';
 import CandidateJobsList from './components/CandidateJobsList';
 import PersonalDetailsPanel from './components/PersonalDetailsPanel/PersonalDetailsPanel';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'; // Import the upload icon
 
-import {
-  Container,
-  ProfessionDetailsGrid,
-  JobPostingsListGrid,
-  ResumePanelGrid,
-  PersonalDetailsGrid,
-  StyledPaper,
-  ResumePanelPaper,
-} from './FullCandidateProfileOverview.styles';
+import { Container } from './FullCandidateProfileOverview.styles';
 
 import ExtraDetailsPanel from './components/ExtraDetailsPanel';
 import { CandidateListItem } from '@/Types/CandidatesSection.types';
 import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
-import ProfessionalDetailsPanel from './components/ProfessionalDetailsPanel';
+import ProfessionalDetailsPanel from './components/ProfessionalDetailsPanel/ProfessionalDetailsPanel';
+
+const ColumnContainer = styled(Grid)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  gap: 1%;
+`;
 
 interface Props {
   selectedCandidate: CandidateListItem;
@@ -55,54 +58,27 @@ const FullCandidateProfileOverview: React.FC<Props> = ({
   return (
     <Container container>
       {/*** LEFT SIDE ***/}
-      <Grid
-        height={'100%'}
-        display={'flex'}
-        gap={'1%'}
-        flexDirection={'column'}
-        justifyContent={'space-between'}
-        xs={12}
-        md={8}
-        p={0}
-        m={0}
-      >
+      <ColumnContainer xs={12} md={8}>
         {/* TOP LEFT */}
         <ProfessionalDetailsPanel selectedCandidate={selectedCandidate} />
 
         {/* BOTTOM LEFT */}
         <PersonalDetailsPanel selectedCandidate={selectedCandidate} />
-        {/* <CandidateJobsList
-          jobPostings={jobPostings && jobPostings}
-          loadingId={jobLoadingId}
-          updateSelectedJobPosting={updateSelectedJobPosting}
-          handleCalculate={handleCalculate}
-        /> */}
-      </Grid>
+      </ColumnContainer>
 
       {/*** RIGHT SIDE ***/}
-      <Grid
-        height={'100%'}
-        display={'flex'}
-        gap={'1%'}
-        flexDirection={'column'}
-        justifyContent={'space-between'}
-        xs={12}
-        md={4}
-        p={0}
-        m={0}
-      >
+      <ColumnContainer xs={12} md={4}>
         {/* 3. Resume Panel - Top Right */}
         <ExtraDetailsPanel updateMode={updateMode} />
 
         {/* 4. Personal Details Panel - Bottom Right (fills remaining space) */}
-
         <CandidateJobsList
           jobPostings={jobPostings && jobPostings}
           loadingId={jobLoadingId}
           updateSelectedJobPosting={updateSelectedJobPosting}
           handleCalculate={handleCalculate}
         />
-      </Grid>
+      </ColumnContainer>
     </Container>
   );
 };

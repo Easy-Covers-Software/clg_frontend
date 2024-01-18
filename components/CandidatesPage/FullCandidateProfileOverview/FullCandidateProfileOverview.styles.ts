@@ -49,22 +49,6 @@ export const StyledPaper = styled(Paper)`
 `;
 
 
-export const PersonalDetailsGrid = styled(Grid)`
-  width: 100%;
-  // flex: 1;
-  padding: 0;
-  margin: 0;
-`;
-
-export const PersonalDetailsPaper = styled(StyledPaper)`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  flex-wrap: nowrap;
-  // gap: 10%;
-`;
-
 export const ResumePanelPaper = styled(StyledPaper)`
   display: flex;
   justify-content: center;
