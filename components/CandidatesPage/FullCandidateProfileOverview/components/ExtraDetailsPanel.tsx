@@ -17,12 +17,12 @@ export const PanelButton = styled(UnSelectedButton)`
   height: 100%;
 
   color: #006d4b !important;
-  background-color: #f5f5ff !important;
+  background-color: white !important;
 
   border: 1px solid #13d0b7 !important;
 
   &:hover {
-    background-color: white;
+    background-color: #f8f8ff !important;
   }
 
   &:disabled {
@@ -38,12 +38,12 @@ const ExtraDetailsPanel = ({ updateMode }) => {
       <ExtraDetailsPanelPaper elevation={3}>
         <Grid container height={'100%'} p={0} m={0}>
           <PanelButton>Résumé</PanelButton>
-          <PanelButton>Generations</PanelButton>
+          <PanelButton>Calls</PanelButton>
         </Grid>
 
         <Grid container height={'100%'} p={0} m={0}>
           <PanelButton>Feedback</PanelButton>
-          <PanelButton>Update Info</PanelButton>
+          <PanelButton>Update</PanelButton>
         </Grid>
       </ExtraDetailsPanelPaper>
     </SubPanelContainer>

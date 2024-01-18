@@ -48,11 +48,13 @@ export default function CandidatesSection() {
         <CandidateSelectionBody />
       </CandidatesContextProvider>
 
-      <SnackbarAlert
-        open={snackbar.open}
-        type={snackbar.type}
-        message={snackbar.message}
-      />
+      {snackbar && (
+        <SnackbarAlert
+          open={snackbar.open ? snackbar.open : false}
+          type={snackbar.type ? snackbar.type : 'error'}
+          message={snackbar.message ? snackbar.message : ''}
+        />
+      )}
 
       <AlertDialogConfirm
         open={confirmDialog.open}

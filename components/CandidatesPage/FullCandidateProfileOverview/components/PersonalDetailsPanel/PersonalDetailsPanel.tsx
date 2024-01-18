@@ -1,9 +1,9 @@
 import { CandidateListItem } from '@/Types/CandidatesSection.types';
-import { PersonalDetailsGrid } from '../../FullCandidateProfileOverview.styles';
-import { PersonalDetailsPaper } from '../../FullCandidateProfileOverview.styles';
 import Divider from '@mui/material/Divider';
 
 import {
+  PersonalDetailsGrid,
+  PersonalDetailsPaper,
   Header,
   DetailsContainer,
   DetailsColumn,

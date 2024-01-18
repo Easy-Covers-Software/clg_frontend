@@ -1,14 +1,30 @@
 import Grid from '@mui/material/Grid';
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
+import { StyledPaper } from '../../FullCandidateProfileOverview.styles';
+
+export const PersonalDetailsGrid = styled(Grid)`
+  width: 100%;
+  padding: 0;
+  margin: 0;
+`;
+
+export const PersonalDetailsPaper = styled(StyledPaper)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  // gap: 10%;
+`;
 
 export const Header = styled(Typography)`
-  font-size: 2rem;
+  font-size: 1.7rem;
   padding-left: 1.5%;
   padding-top: 1%;
   letter-spacing: 0.18rem;
-  margin: auto 0;
-  line-height: 1.1;
+  // margin: auto 0;
+  line-height: 1;
 `;
 
 export const DetailsContainer = styled(Grid)`

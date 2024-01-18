@@ -72,11 +72,6 @@ const SavedCandidatesList: FC = () => {
       listState.updateFilteredListItems(response.data);
     } catch (err) {
       console.log(err);
-      snackbar.updateSnackbar(
-        true,
-        'Error fetching candidate profiles',
-        'Error! Could not fetch candidate profiles'
-      );
     }
   };
 
@@ -92,11 +87,7 @@ const SavedCandidatesList: FC = () => {
         response.data
       );
     } else {
-      snackbar.updateSnackbar(
-        true,
-        'Error fetching job postings associated with candidate',
-        `Error! ${response.error.response.data}`
-      );
+      console.log(response.error);
     }
   };
 

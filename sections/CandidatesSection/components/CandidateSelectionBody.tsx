@@ -304,8 +304,6 @@ const CandidateSelectionBody: FC = () => {
                   selectedJobPosting={getSelectedJobPosting()}
                   selectedCandidate={selectedListItem}
                   phoneCalls={selectedListItem?.phone_calls}
-                  introCall={getIntroCall()}
-                  followUpCalls={getFollowUpCalls()}
                   generations={selectedListItem?.generations}
                   genMode={getGenerationPanelMode()}
                   callMode={getCallPanelMode()}

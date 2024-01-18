@@ -10,7 +10,7 @@ interface SnackbarProps {
 }
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
-  <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
+  <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 ));
 
 function SnackbarAlert({ type, message, open }: SnackbarProps) {
@@ -23,6 +23,10 @@ function SnackbarAlert({ type, message, open }: SnackbarProps) {
     }
     snackbar.reset();
   };
+
+  if (!type || !message || !open) {
+    return <></>;
+  }
 
   return (
     <Snackbar
