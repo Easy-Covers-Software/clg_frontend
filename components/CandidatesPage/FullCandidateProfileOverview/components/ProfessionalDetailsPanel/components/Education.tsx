@@ -12,14 +12,15 @@ import Tab from '@mui/material/Tab';
 
 import { SectionHeader } from '../ProfessionalDetailsPanel.styles';
 
-const ExperienceHistoryContainer = styled(Grid)`
+const EducationContainer = styled(Grid)`
   width: 100%;
-  height: 45%;
+  height: 32%;
+  // flex: 1;
 
   margin: 0;
-
+  margin-top: 1%;
   // padding: 0;
-  // border: 1px solid black;
+  // border: 1px solid red;
 `;
 
 const TabsBox = styled(Box)`
@@ -67,9 +68,9 @@ const SelectionTab = styled(Tab)`
   }
 `;
 
-const EmploymentHistory = ({ selected, handleChange }) => {
+const Education = ({ selected, handleChange }) => {
   return (
-    <ExperienceHistoryContainer item>
+    <EducationContainer item>
       <Grid
         style={{
           display: 'flex',
@@ -91,14 +92,12 @@ const EmploymentHistory = ({ selected, handleChange }) => {
               },
             }}
           >
-            <SelectionTab value="one" label="Job 1" />
-            <SelectionTab value="two" label="Job 2" />
-            <SelectionTab value="three" label="Job 3" />
-            <SelectionTab value="four" label="Job 4" />
+            <SelectionTab value="one" label="Education 1" />
+            <SelectionTab value="two" label="Education 2" />
           </TabsContainer>
         </TabsBox>
 
-        <SectionHeader>Experience</SectionHeader>
+        <SectionHeader>Education</SectionHeader>
       </Grid>
 
       <Divider
@@ -109,10 +108,9 @@ const EmploymentHistory = ({ selected, handleChange }) => {
           opacity: 0.6,
         }}
       />
-
       <Grid
         style={{
-          height: '83%',
+          height: '76%',
           width: '96.5%',
           display: 'flex',
           alignItems: 'center',
@@ -122,8 +120,8 @@ const EmploymentHistory = ({ selected, handleChange }) => {
           borderRadius: '0 0 4px 4px',
         }}
       ></Grid>
-    </ExperienceHistoryContainer>
+    </EducationContainer>
   );
 };
 
-export default EmploymentHistory;
+export default Education;

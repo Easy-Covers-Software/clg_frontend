@@ -15,11 +15,13 @@ export const ProfessionalDetailsPaper = styled(StyledPaper)`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  // justify-content: space-evenly;
   flex-wrap: nowrap;
   white-space: nowrap;
+  min-height: 300px;
   // overflow: scroll;
   // gap: 10%;
+  overflow-y: scroll;
 `;
 
 export const Header = styled(Typography)`
@@ -28,6 +30,7 @@ export const Header = styled(Typography)`
   padding-top: 1%;
   letter-spacing: 0.18rem;
   line-height: 1.1;
+  color: #006d4b;
 `;
 
 export const MainSections = styled(Grid)`
@@ -35,19 +38,22 @@ export const MainSections = styled(Grid)`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  // justify-content: space-between;
   flex-wrap: nowrap;
   padding: 0;
   margin: 0;
+  gap: 1%;
 `;
 
 export const SectionHeader = styled(Typography)`
   text-align: end;
-  padding-right: 2%;
-  font-size: 1.5rem;
-  font-weight: 600;
+  padding-right: 3%;
+  font-size: 1.6rem;
+  // font-weight: 600;
   padding-top: 1%;
   margin-bottom: -1.5%;
+  color: #006d4b;
+  letter-spacing: 0.2rem;
 `;
 
 export const SubDivider = styled(Divider)`

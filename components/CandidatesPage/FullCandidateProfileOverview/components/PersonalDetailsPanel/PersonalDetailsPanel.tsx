@@ -1,5 +1,10 @@
 import { CandidateListItem } from '@/Types/CandidatesSection.types';
 import Divider from '@mui/material/Divider';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+import Grid from '@mui/material/Grid';
+import { GreenSwitch } from '@/components/Global/components/GreenSwitch';
 
 import {
   PersonalDetailsGrid,
@@ -18,7 +23,27 @@ interface Props {
 const PersonalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => (
   <PersonalDetailsGrid xs={12}>
     <PersonalDetailsPaper elevation={3}>
-      <Header>Personal Details</Header>
+      <Grid
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '0 1.5%',
+        }}
+      >
+        <Header>Personal Details</Header>
+        <FormGroup
+          sx={{
+            marginRight: '1.5%',
+          }}
+        >
+          <FormControlLabel
+            control={<Switch color="success" />}
+            label="Work Preferences"
+            labelPlacement="start"
+          />
+        </FormGroup>
+      </Grid>
 
       <Divider />
 
@@ -40,13 +65,15 @@ const PersonalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => (
           />
         </DetailsColumn>
 
+        <Divider orientation="vertical" flexItem />
+
         <DetailsColumn container spacing={1}>
           <LabelsGrid
             label1={'City:'}
             label2={'State:'}
             label3={'Country:'}
             label4={'Zip Code:'}
-            size={4.5}
+            size={3}
           />
 
           <ValuesGrid

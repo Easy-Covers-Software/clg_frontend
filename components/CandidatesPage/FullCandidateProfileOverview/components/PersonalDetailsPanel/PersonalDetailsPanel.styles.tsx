@@ -34,22 +34,24 @@ export const DetailsContainer = styled(Grid)`
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
-  gap: 8%;
+  // gap: 8%;
 `;
 
 export const DetailsColumn = styled(Grid)`
   max-width: 50%;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
 `;
 
 export const Label = styled(Typography)`
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
+  color: #006d4b;
+  margin-bottom: 1%;
 `;
 
 export const Value = styled(Typography)`
-  font-size: 1.3rem;
+  font-size: 1.22rem;
 `;
 
 export const LabelsGrid = ({ label1, label2, label3, label4, size }) => (

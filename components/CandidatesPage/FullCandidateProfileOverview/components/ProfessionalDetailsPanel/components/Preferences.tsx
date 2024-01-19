@@ -13,12 +13,12 @@ const Container = styled(Grid)`
 `;
 
 const PreferenceContainer = styled(Grid)`
-  width: 100%;
+  width: 96%;
   height: 100%;
   display: flex;
   justify-content: space-evenly;
 
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
 `;
 
@@ -26,6 +26,7 @@ const PreferenceLabel = styled(Typography)`
   text-align: center;
   font-size: 0.9rem;
   font-weight: 600;
+  margin-bottom: -4%;
 `;
 
 // const PreferenceButton = styled(PrimaryButton)`
@@ -54,42 +55,44 @@ const SinglePreferenceContainer = styled(Grid)`
   padding-top: 1%;
 `;
 
-const Preferences = () => (
-  <Container xs={6}>
-    <SectionHeader>Preferences</SectionHeader>
-    <SubDivider />
+const Preferences = () => {
+  return (
+    <Container xs={6}>
+      <SectionHeader>Preferences</SectionHeader>
+      <SubDivider />
 
-    <PreferenceContainer>
-      <SinglePreferenceContainer>
-        <PreferenceLabel>Job Type</PreferenceLabel>
-        <PreferenceButton>
-          Full <br /> Time
-        </PreferenceButton>
-      </SinglePreferenceContainer>
-      <SinglePreferenceContainer>
-        <PreferenceLabel>Relocation</PreferenceLabel>
-        <PreferenceButton>
-          If <br /> Offered
-        </PreferenceButton>
-      </SinglePreferenceContainer>
-      <SinglePreferenceContainer>
-        <PreferenceLabel>Onsite</PreferenceLabel>
-        <PreferenceButton>
-          Remote <br /> Only
-        </PreferenceButton>
-      </SinglePreferenceContainer>
-      <SinglePreferenceContainer>
-        <PreferenceLabel>Travel</PreferenceLabel>
-        <PreferenceButton>
-          Up to <br /> 15%
-        </PreferenceButton>
-      </SinglePreferenceContainer>
-      <SinglePreferenceContainer>
-        <PreferenceLabel>Salary</PreferenceLabel>
-        <PreferenceButton>75k-90k</PreferenceButton>
-      </SinglePreferenceContainer>
-    </PreferenceContainer>
-  </Container>
-);
+      <PreferenceContainer>
+        <SinglePreferenceContainer>
+          <PreferenceLabel>Job Type</PreferenceLabel>
+          <PreferenceButton>
+            Full <br /> Time
+          </PreferenceButton>
+        </SinglePreferenceContainer>
+        <SinglePreferenceContainer>
+          <PreferenceLabel>Relocation</PreferenceLabel>
+          <PreferenceButton>
+            If <br /> Offered
+          </PreferenceButton>
+        </SinglePreferenceContainer>
+        <SinglePreferenceContainer>
+          <PreferenceLabel>Onsite</PreferenceLabel>
+          <PreferenceButton>
+            Remote <br /> Only
+          </PreferenceButton>
+        </SinglePreferenceContainer>
+        <SinglePreferenceContainer>
+          <PreferenceLabel>Travel</PreferenceLabel>
+          <PreferenceButton>
+            Up to <br /> 15%
+          </PreferenceButton>
+        </SinglePreferenceContainer>
+        <SinglePreferenceContainer>
+          <PreferenceLabel>Salary</PreferenceLabel>
+          <PreferenceButton>75k-90k</PreferenceButton>
+        </SinglePreferenceContainer>
+      </PreferenceContainer>
+    </Container>
+  );
+};
 
 export default Preferences;

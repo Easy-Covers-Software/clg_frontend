@@ -1,7 +1,6 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
@@ -10,8 +9,18 @@ import Divider from '@mui/material/Divider';
 import styled from '@emotion/styled';
 import { SectionHeader } from './ProfessionalDetailsPanel.styles';
 import CoreSkills from './components/CoreSkills';
-import Tabs from '@mui/material/Tabs';
+import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import EmploymentHistory from './components/EmploymentHistory';
+import Education from './components/Education';
+
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FolderCopyIcon from '@mui/icons-material/FolderCopy';
+import FacebookIcon from '@mui/icons-material/Facebook';
+// import XIcon from '@mui/icons-material/X';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import RedditIcon from '@mui/icons-material/Reddit';
 
 import {
   ProfessionalDetailsGrid,
@@ -22,30 +31,6 @@ import {
 
 import { CandidateListItem } from '@/Types/CandidatesSection.types';
 import Preferences from './components/Preferences';
-
-const ExperienceHistoryContainer = styled(Grid)`
-  width: 100%;
-  height: 32%;
-
-  margin: 0;
-  // border: 1px solid black;
-`;
-
-const EducationContainer = styled(Grid)`
-  width: 100%;
-  height: 22%;
-
-  margin: 0;
-  // border: 1px solid red;
-`;
-
-const SkillsContainer = styled(Grid)`
-  width: 100%;
-  height: 15%;
-
-  margin: 0;
-  // border: 1px solid black;
-`;
 
 interface Props {
   selectedCandidate: CandidateListItem;
@@ -69,16 +54,52 @@ const ProfessionalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => {
     }
   };
 
-  const [value, setValue] = React.useState('one');
+  const [jobs, setJobs] = React.useState(0);
+  const [edu, setEdu] = React.useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+  const handleJobsChange = (event: React.SyntheticEvent, newValue: number) => {
+    setJobs(newValue);
+  };
+
+  const handleEduChange = (event: React.SyntheticEvent, newValue: number) => {
+    setEdu(newValue);
   };
 
   return (
-    <ProfessionalDetailsGrid xs={12}>
+    <ProfessionalDetailsGrid>
       <ProfessionalDetailsPaper elevation={3}>
-        <Header>Professional Details</Header>
+        <Grid
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '0 1.5%',
+          }}
+        >
+          <Header>Professional Details</Header>
+
+          <Grid>
+            <IconButton>
+              <LinkedInIcon />
+            </IconButton>
+
+            <IconButton>
+              <FolderCopyIcon />
+            </IconButton>
+            <IconButton>
+              <FacebookIcon />
+            </IconButton>
+            <IconButton>
+              <TwitterIcon />
+            </IconButton>
+            <IconButton>
+              <InstagramIcon />
+            </IconButton>
+            <IconButton>
+              <RedditIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
         <Divider
           sx={{
             borderColor: '#13d0b7',
@@ -87,98 +108,13 @@ const ProfessionalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => {
         />
         <MainSections container>
           {/* 1. Experience History */}
-          <ExperienceHistoryContainer item>
-            <Grid
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: 0,
-                margin: 0,
-                // height: '2vh',
-              }}
-            >
-              <Box
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                  position: 'relative',
-                  paddingLeft: '2%',
-                  minHeight: 0,
-                }}
-              >
-                <Box
-                  sx={{
-                    width: '6vw',
-                    height: '4vh',
-                    border: '1px solid #006D4B',
-                  }}
-                ></Box>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  aria-label="wrapped label tabs example"
-                  style={{
-                    height: '100%',
-                  }}
-                >
-                  <Tab
-                    value="one"
-                    label="Item 1"
-                    sx={{
-                      border: '1px solid #006D4B',
-                      minHeight: 0,
-                    }}
-                  />
-                  <Tab
-                    value="two"
-                    label="Item Two"
-                    sx={{
-                      border: '1px solid #006D4B',
-                      // height: '3vh',
-                      minHeight: 0,
-                    }}
-                  />
-                  <Tab
-                    value="three"
-                    label="Item Three"
-                    sx={{
-                      border: '1px solid #006D4B',
-                      minHeight: 0,
-                      padding: '1% 0',
-                    }}
-                  />
-                </Tabs>
-              </Box>
-
-              <SectionHeader>Experience</SectionHeader>
-            </Grid>
-
-            <Divider
-              sx={{
-                width: '96.5%',
-                margin: 'auto',
-                borderColor: '#006D4B',
-                opacity: 0.6,
-              }}
-            />
-          </ExperienceHistoryContainer>
+          <EmploymentHistory selected={jobs} handleChange={handleJobsChange} />
 
           {/* 2. Education */}
-          <EducationContainer item>
-            <SectionHeader>Education</SectionHeader>
-            <Divider
-              sx={{
-                width: '96.5%',
-                margin: 'auto',
-                borderColor: '#006D4B',
-                opacity: 0.6,
-              }}
-            />
-            {/* <Preferences></Preferences> */}
-          </EducationContainer>
+          <Education selected={edu} handleChange={handleEduChange} />
 
           {/* 3. Work Preferences */}
-          <Preferences />
+          {/* <Preferences /> */}
 
           {/* 4. Skills */}
           <CoreSkills />
