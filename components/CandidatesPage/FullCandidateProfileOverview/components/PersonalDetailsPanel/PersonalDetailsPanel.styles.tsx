@@ -25,6 +25,7 @@ export const Header = styled(Typography)`
   letter-spacing: 0.18rem;
   // margin: auto 0;
   line-height: 1;
+  color: #006d4b;
 `;
 
 export const DetailsContainer = styled(Grid)`
@@ -34,7 +35,6 @@ export const DetailsContainer = styled(Grid)`
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
-  // gap: 8%;
 `;
 
 export const DetailsColumn = styled(Grid)`
@@ -52,6 +52,7 @@ export const Label = styled(Typography)`
 
 export const Value = styled(Typography)`
   font-size: 1.22rem;
+  color: #006d4b;
 `;
 
 export const LabelsGrid = ({ label1, label2, label3, label4, size }) => (

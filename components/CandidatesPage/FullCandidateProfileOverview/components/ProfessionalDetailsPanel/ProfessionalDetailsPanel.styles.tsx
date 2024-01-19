@@ -46,8 +46,8 @@ export const MainSections = styled(Grid)`
 `;
 
 export const SectionHeader = styled(Typography)`
-  text-align: end;
-  padding-right: 3%;
+  // text-align: end;
+  padding-left: 3%;
   font-size: 1.6rem;
   // font-weight: 600;
   padding-top: 1%;

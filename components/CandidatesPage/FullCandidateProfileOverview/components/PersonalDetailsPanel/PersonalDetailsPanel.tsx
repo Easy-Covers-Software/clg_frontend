@@ -54,7 +54,7 @@ const PersonalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => (
             label2={'Age:'}
             label3={'Phone:'}
             label4={'Email:'}
-            size={3.2}
+            size={2.5}
           />
 
           <ValuesGrid
@@ -73,7 +73,7 @@ const PersonalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => (
             label2={'State:'}
             label3={'Country:'}
             label4={'Zip Code:'}
-            size={3}
+            size={3.5}
           />
 
           <ValuesGrid

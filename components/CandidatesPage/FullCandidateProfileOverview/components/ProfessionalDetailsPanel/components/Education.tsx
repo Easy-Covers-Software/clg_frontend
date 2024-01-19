@@ -26,7 +26,7 @@ const EducationContainer = styled(Grid)`
 const TabsBox = styled(Box)`
   height: '100%';
   position: 'relative';
-  margin-left: 2%;
+  margin-right: 2%;
   min-height: 0;
   margin-top: 0.5%;
 `;
@@ -80,6 +80,7 @@ const Education = ({ selected, handleChange }) => {
           margin: 0,
         }}
       >
+        <SectionHeader>Education</SectionHeader>
         <TabsBox>
           <TabsContainer
             value={selected}
@@ -96,8 +97,6 @@ const Education = ({ selected, handleChange }) => {
             <SelectionTab value="two" label="Education 2" />
           </TabsContainer>
         </TabsBox>
-
-        <SectionHeader>Education</SectionHeader>
       </Grid>
 
       <Divider

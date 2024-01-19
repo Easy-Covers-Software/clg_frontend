@@ -34,7 +34,7 @@ const StyledListItem = styled(ListItem)`
 `;
 
 const splitString = (inputString) => {
-  if (inputString.length > 32) {
+  if (inputString?.length > 32) {
     return inputString.substring(0, 32) + '...';
   } else {
     return inputString;
@@ -64,8 +64,8 @@ const CandidateJobsList = ({
                 }}
               >
                 <ListItemText
-                  primary={splitString(jobPosting.job_title)}
-                  secondary={jobPosting.company_name}
+                  primary={splitString(jobPosting.job_posting.position_title)}
+                  secondary={jobPosting?.job_posting?.company?.name}
                 />
                 <MatchScoreGrid xs="auto">
                   {jobPosting.match_score ? (

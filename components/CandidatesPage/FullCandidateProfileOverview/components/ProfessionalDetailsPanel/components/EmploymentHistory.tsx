@@ -25,7 +25,7 @@ const ExperienceHistoryContainer = styled(Grid)`
 const TabsBox = styled(Box)`
   height: '100%';
   position: 'relative';
-  margin-left: 2%;
+  margin-right: 2%;
   min-height: 0;
   margin-top: 0.5%;
 `;
@@ -79,6 +79,7 @@ const EmploymentHistory = ({ selected, handleChange }) => {
           margin: 0,
         }}
       >
+        <SectionHeader>Experience</SectionHeader>
         <TabsBox>
           <TabsContainer
             value={selected}
@@ -97,8 +98,6 @@ const EmploymentHistory = ({ selected, handleChange }) => {
             <SelectionTab value="four" label="Job 4" />
           </TabsContainer>
         </TabsBox>
-
-        <SectionHeader>Experience</SectionHeader>
       </Grid>
 
       <Divider
