@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 
 export const Container = styled(Grid2)`
   width: 100%;
-  height: 13vh;
-  min-height: 110px;
+  height: 12vh;
+  min-height: 90px;
   margin: auto;
 
   display: flex;

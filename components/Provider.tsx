@@ -17,9 +17,9 @@ const Provider: FC<Props> = ({ children }) => {
     <AuthProvider>
       <ThemeProvider theme={theme}>
         <div className="layout-grid">
-          <div className="header">
+          {/* <div className="header">
             <Header />
-          </div>
+          </div> */}
 
           <div className="sidebar">
             <Sidebar />

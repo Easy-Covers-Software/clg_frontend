@@ -21,6 +21,8 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 // import XIcon from '@mui/icons-material/X';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import RedditIcon from '@mui/icons-material/Reddit';
+import { FormGroup, FormControlLabel } from '@mui/material';
+import Switch from '@mui/material/Switch';
 
 import {
   ProfessionalDetailsGrid,
@@ -77,29 +79,20 @@ const ProfessionalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => {
           }}
         >
           <Header>Professional Details</Header>
-
-          <Grid>
-            <IconButton>
-              <LinkedInIcon />
-            </IconButton>
-
-            <IconButton>
-              <FolderCopyIcon />
-            </IconButton>
-            <IconButton>
-              <FacebookIcon />
-            </IconButton>
-            <IconButton>
-              <TwitterIcon />
-            </IconButton>
-            <IconButton>
-              <InstagramIcon />
-            </IconButton>
-            <IconButton>
-              <RedditIcon />
-            </IconButton>
-          </Grid>
+          <FormGroup
+            sx={{
+              marginRight: '1.5%',
+            }}
+          >
+            <FormControlLabel
+              control={<Switch color="success" />}
+              label="Work Preferences"
+              labelPlacement="start"
+            />
+          </FormGroup>
         </Grid>
+
+        {/* </Grid> */}
         <Divider
           sx={{
             borderColor: '#13d0b7',

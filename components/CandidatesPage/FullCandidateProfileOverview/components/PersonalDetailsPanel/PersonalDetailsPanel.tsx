@@ -5,6 +5,14 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
 import { GreenSwitch } from '@/components/Global/components/GreenSwitch';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FolderCopyIcon from '@mui/icons-material/FolderCopy';
+import FacebookIcon from '@mui/icons-material/Facebook';
+// import XIcon from '@mui/icons-material/X';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import RedditIcon from '@mui/icons-material/Reddit';
+import { IconButton } from '@mui/material';
 
 import {
   PersonalDetailsGrid,
@@ -32,17 +40,27 @@ const PersonalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => (
         }}
       >
         <Header>Personal Details</Header>
-        <FormGroup
-          sx={{
-            marginRight: '1.5%',
-          }}
-        >
-          <FormControlLabel
-            control={<Switch color="success" />}
-            label="Work Preferences"
-            labelPlacement="start"
-          />
-        </FormGroup>
+        <Grid>
+          <IconButton>
+            <LinkedInIcon />
+          </IconButton>
+
+          <IconButton>
+            <FolderCopyIcon />
+          </IconButton>
+          <IconButton>
+            <FacebookIcon />
+          </IconButton>
+          <IconButton>
+            <TwitterIcon />
+          </IconButton>
+          <IconButton>
+            <InstagramIcon />
+          </IconButton>
+          <IconButton>
+            <RedditIcon />
+          </IconButton>
+        </Grid>
       </Grid>
 
       <Divider />

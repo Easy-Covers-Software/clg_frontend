@@ -22,7 +22,7 @@ export const Header = styled(Typography)`
   font-size: 1.7rem;
   padding-left: 1.5%;
   padding-top: 1%;
-  letter-spacing: 0.18rem;
+  letter-spacing: 0.1rem;
   // margin: auto 0;
   line-height: 1;
   color: #006d4b;

@@ -28,7 +28,7 @@ export const Header = styled(Typography)`
   font-size: 1.7rem;
   padding-left: 1.5%;
   padding-top: 1%;
-  letter-spacing: 0.18rem;
+  letter-spacing: 0.1rem;
   line-height: 1.1;
   color: #006d4b;
 `;
@@ -48,12 +48,12 @@ export const MainSections = styled(Grid)`
 export const SectionHeader = styled(Typography)`
   // text-align: end;
   padding-left: 3%;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   // font-weight: 600;
   padding-top: 1%;
   margin-bottom: -1.5%;
   color: #006d4b;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.1rem;
 `;
 
 export const SubDivider = styled(Divider)`

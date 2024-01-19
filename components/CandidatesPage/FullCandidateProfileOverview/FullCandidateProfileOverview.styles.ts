@@ -43,7 +43,7 @@ export const ResumePanelGrid = styled(Grid)`
 
 export const StyledPaper = styled(Paper)`
   height: 100%;
-  border: 3px solid #13d0b7;
+  border: 1px solid #13d0b7;
   overflow: hidden;
   flex: 1;
 `;

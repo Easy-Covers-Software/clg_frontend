@@ -217,7 +217,7 @@ export const CandidatesContextProvider = ({ children }) => {
         type: 'UPDATE_CANDIDATE_SELECTION_SUMMARY_STATE',
         payload: {
           mainTitle: state.selectedListItem.name,
-          secondaryTitle: state.selectedListItem.current_title,
+          secondaryTitle: `${state.selectedListItem.current_job_title} @${state.selectedListItem.current_employer}`,
           supplementaryInfo: state.selectedListItem.updated_at,
         },
       });

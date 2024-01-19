@@ -27,12 +27,12 @@ body {
 }
 
 .layout-grid {
-  display: grid;
-  grid-template-areas:
+  display: flexbox;
+  /* grid-template-areas:
     'header header'
     'sidebar main';
   grid-template-rows: auto 1fr;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr; */
 }
 
 .sidebar {

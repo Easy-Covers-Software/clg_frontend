@@ -48,7 +48,7 @@ const CoreSkills = () => {
       key={index}
       label={skill.trim()}
       style={{
-        margin: '1% 0',
+        margin: '0.3% 0',
         border: '1px solid #006D4B',
         backgroundColor: '#f8f8ff',
       }}

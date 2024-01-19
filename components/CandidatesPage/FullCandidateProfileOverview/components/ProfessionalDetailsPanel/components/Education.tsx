@@ -18,13 +18,13 @@ const EducationContainer = styled(Grid)`
   // flex: 1;
 
   margin: 0;
-  margin-top: 1%;
+  // margin-top: 1%;
   // padding: 0;
   // border: 1px solid red;
 `;
 
 const TabsBox = styled(Box)`
-  height: '100%';
+  // height: '100%';
   position: 'relative';
   margin-right: 2%;
   min-height: 0;
@@ -52,7 +52,7 @@ const SelectionTab = styled(Tab)`
 
   border: 1px solid #006d4b;
   border-radius: 4px 4px 0 0;
-  padding: 4px 0;
+  padding: 2px 0;
   &.Mui-selected {
     color: #006d4b;
     font-weight: bold;
