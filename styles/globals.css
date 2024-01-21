@@ -10,7 +10,8 @@ body {
 /* Hide scrollbar by default */
 ::-webkit-scrollbar {
   width: 0px;
-  background: transparent; /* make scrollbar transparent */
+  background: transparent;
+  /* make scrollbar transparent */
 }
 
 /* Style for scrollbar thumb (the part that's draggable) */
@@ -23,16 +24,17 @@ body {
 /* When hovering or scrolling, show the scrollbar */
 *:hover::-webkit-scrollbar-thumb,
 *:active::-webkit-scrollbar-thumb {
-  background: #888; /* or any color of your choice */
+  background: #888;
+  /* or any color of your choice */
 }
 
 .layout-grid {
-  display: flexbox;
-  /* grid-template-areas:
+  display: grid;
+  grid-template-areas:
     'header header'
     'sidebar main';
   grid-template-rows: auto 1fr;
-  grid-template-columns: auto 1fr; */
+  grid-template-columns: auto 1fr;
 }
 
 .sidebar {
@@ -291,6 +293,7 @@ body {
   height: 99.5% !important;
   margin: auto !important;
 }
+
 .mantine-1drwy5n {
   height: 100% !important;
   margin: auto !important;

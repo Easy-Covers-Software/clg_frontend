@@ -10,11 +10,11 @@ import styled from '@emotion/styled';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-import { SectionHeader } from '../ProfessionalDetailsPanel.styles';
+import { SectionHeader } from '../../ProfessionalDetailsPanel.styles';
 
 const ExperienceHistoryContainer = styled(Grid)`
   width: 100%;
-  height: 45%;
+  height: 50%;
 
   margin: 0;
 
@@ -67,7 +67,66 @@ const SelectionTab = styled(Tab)`
   }
 `;
 
-const EmploymentHistory = ({ selected, handleChange }) => {
+const MainContentContainer = styled(Grid)`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 5%;
+  padding-left: 0.3%;
+  padding-right: 0.3%;
+`;
+
+const MainContent = styled(Grid)`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+
+  border: 1px solid #006d4b;
+  border-radius: 4px;
+`;
+
+const Top = styled(Grid)`
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0 1%;
+`;
+
+const TopHeader = styled(Typography)`
+  font-size: 1.1rem;
+`;
+
+const Middle = styled(Grid)`
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0 1%;
+`;
+
+const MiddleHeader = styled(Typography)`
+  font-size: 1rem;
+  margin-top: -1%;
+`;
+
+const Summary = styled(Grid)`
+  display: flex;
+  flex-direction: column;
+  white-space: wrap;
+  margin: 0;
+  padding: 0;
+  padding-left: 1%;
+  overflow-y: scroll;
+`;
+
+const SummaryNote = styled(Typography)``;
+
+const Experience = ({ selected, handleChange }) => {
   return (
     <ExperienceHistoryContainer item>
       <Grid
@@ -100,29 +159,43 @@ const EmploymentHistory = ({ selected, handleChange }) => {
         </TabsBox>
       </Grid>
 
-      <Divider
-        sx={{
-          width: '96.5%',
-          margin: 'auto',
-          borderColor: '#006D4B',
-          opacity: 0.6,
-        }}
-      />
+      <MainContentContainer>
+        <MainContent>
+          <Top>
+            <TopHeader>Job Title</TopHeader>
+            <TopHeader>Date</TopHeader>
+          </Top>
 
-      <Grid
-        style={{
-          height: '83%',
-          width: '96.5%',
-          display: 'flex',
-          alignItems: 'center',
-          padding: 0,
-          margin: '0 auto',
-          border: '1px solid #006D4B',
-          borderRadius: '0 0 4px 4px',
-        }}
-      ></Grid>
+          <Middle>
+            <MiddleHeader>Company</MiddleHeader>
+            <MiddleHeader>Industry</MiddleHeader>
+          </Middle>
+
+          <Divider />
+
+          <Summary>
+            {/* map the summary notes */}
+            <SummaryNote>
+              Note information for testing purposes brought in over 800k in
+              contract revenue over the first 25 years
+            </SummaryNote>
+            <SummaryNote>
+              Note information for testing purposes brought in over 800k in
+              contract revenue over the first 25 years
+            </SummaryNote>
+            <SummaryNote>
+              Note information for testing purposes brought in over 800k in
+              contract revenue over the first 25 years
+            </SummaryNote>
+            <SummaryNote>
+              Note information for testing purposes brought in over 800k in
+              contract revenue over the first 25 years
+            </SummaryNote>
+          </Summary>
+        </MainContent>
+      </MainContentContainer>
     </ExperienceHistoryContainer>
   );
 };
 
-export default EmploymentHistory;
+export default Experience;

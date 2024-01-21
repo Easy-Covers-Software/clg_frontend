@@ -11,8 +11,8 @@ import { SectionHeader } from './ProfessionalDetailsPanel.styles';
 import CoreSkills from './components/CoreSkills';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import EmploymentHistory from './components/EmploymentHistory';
-import Education from './components/Education';
+import EmploymentHistory from './components/Experience/Experience';
+import Education from './components/Education/Education';
 
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';

@@ -21,7 +21,8 @@ export const ProfessionalDetailsPaper = styled(StyledPaper)`
   min-height: 300px;
   // overflow: scroll;
   // gap: 10%;
-  overflow-y: scroll;
+  // overflow-y: scroll;
+  max-height: 52vh;
 `;
 
 export const Header = styled(Typography)`
@@ -49,7 +50,7 @@ export const SectionHeader = styled(Typography)`
   // text-align: end;
   padding-left: 3%;
   font-size: 1.4rem;
-  // font-weight: 600;
+  font-weight: bold;
   padding-top: 1%;
   margin-bottom: -1.5%;
   color: #006d4b;
