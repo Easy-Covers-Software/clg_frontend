@@ -188,7 +188,7 @@ const CandidateSelectionBody: FC = () => {
 
   const getMatchScore = () => {
     return bodyState.candidateJobPostingsListState?.selectedJobPosting
-      ?.match_score;
+      ?.match_score[0];
   };
 
   const getResumeUrl = () => {

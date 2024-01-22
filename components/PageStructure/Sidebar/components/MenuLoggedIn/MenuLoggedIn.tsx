@@ -33,7 +33,6 @@ export default function MenuLoggedIn() {
           </GenerationModeTab>
         </Link>
 
-
         <Link href={'/calls'} className={'no_underline'} passHref>
           <GenerationModeTab
             style={{
@@ -60,18 +59,18 @@ export default function MenuLoggedIn() {
           </GenerationModeTab>
         </Link>
 
-          <Link href={'/generate'} className={'no_underline'} passHref>
-            <GenerationModeTab
-              style={{
-                backgroundColor: page === 'generate' ? '#f5faf5' : 'white',
-              }}
-              onClick={() => {
-                trackers?.updatePage('generate');
-              }}
-            >
-              Generate
-            </GenerationModeTab>
-          </Link>
+        <Link href={'/generate'} className={'no_underline'} passHref>
+          <GenerationModeTab
+            style={{
+              backgroundColor: page === 'generate' ? '#f5faf5' : 'white',
+            }}
+            onClick={() => {
+              trackers?.updatePage('generate');
+            }}
+          >
+            Generate
+          </GenerationModeTab>
+        </Link>
       </Tabs>
 
       {/* <Grid> */}

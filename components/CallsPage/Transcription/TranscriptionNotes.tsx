@@ -15,11 +15,13 @@ interface TranscriptionNotesProps {
 }
 
 const Container = styled(Grid)`
+  height: 100%;
+  width: 100%;
   overflow: scroll;
   background-color: #f8f8ff;
-  height: 100%;
-  // width: 100%;
+  max-height: 75vh;
   margin: auto;
+  // flex: 1;
 
   border: 1px solid #006d4b;
   border-radius: 4px;
@@ -28,13 +30,7 @@ const Container = styled(Grid)`
 const TranscriptionNotes: React.FC<any> = ({ page, transcriptionNotes }) => {
   console.log('transcriptionNotes', transcriptionNotes);
   return (
-    <Container
-      container
-      spacing={2}
-      style={{
-        width: page === 'transcription' ? '98%' : '100%',
-      }}
-    >
+    <Container container spacing={2}>
       {transcriptionNotes && (
         <>
           {Object.entries(transcriptionNotes).map(([key, value]) => (

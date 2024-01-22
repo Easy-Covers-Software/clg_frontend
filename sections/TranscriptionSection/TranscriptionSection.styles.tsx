@@ -49,32 +49,27 @@ export const TranscribeButton = styled(UnSelectedButton)`
 export const BodyContainer = styled(Grid)`
   width: 100%;
   height: 100%;
-  background-color: white;
-  border-radius: 4px;
-  border: 1px solid #006d4b;
-  height: calc(100vh - 98px);
-  max-height: calc(100vh - 98px);
-  min-height: calc(100vh - 98px);
+  padding: 0.2%;
+
   display: flex;
   flex-direction: column;
-  margin-left: 0.3%;
-  background-color: white;
+  gap: 0.2%;
+  // overflow: scroll;
 
-  @media screen and (min-width: 0px) and (max-width: 600px) {
-    width: 100vw;
-    height: calc(100vh - 90px);
-    max-height: calc(100vh - 90px);
-  }
+  border-radius: 4px;
+  border: 1px solid #006d4b;
+  background-color: white;
+  margin: 0;
 `;
 
 export const SubContainer = styled(Grid)`
   height: 100%;
-  width: 98.5% !important;
-  margin: 0.75%;
+  width: 100%;
+  // margin: 0.75%;
   margin-top: 0;
   background-color: #f8f8ff;
-  overflow: scroll;
-  overflow-x: hidden;
+  // overflow: scroll;
+  // overflow-x: hidden;
   border: 1px solid #006d4b;
   border-radius: 4px;
   justify-content: center;
@@ -83,21 +78,10 @@ export const SubContainer = styled(Grid)`
 
 export const CallsContainer = styled(Grid)`
   height: 100%;
-  display: flex;
-  margin: 0.75%;
-
-  flex-direction: column;
-  justify-content: space-between;
-  // align-items: space-between;
-
   background-color: #f8f8ff;
-  overflow: scroll;
-  overflow-x: hidden;
+
   border: 1px solid #006d4b;
   border-radius: 4px;
-
-  justify-content: center;
-  align-items: center;
 `;
 
 export const NotesContainer = styled(SubContainer)`
@@ -106,10 +90,12 @@ export const NotesContainer = styled(SubContainer)`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0;
+  margin: 0;
 `;
 
 export const NotesProcessingContainer = styled(SubContainer)`
-  width: 98%;
+  width: 100%;
   gap 12px;
 `;
 

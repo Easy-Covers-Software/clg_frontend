@@ -53,11 +53,23 @@ export default function SignedInDisplay() {
 
       <HorizontalDivider />
 
-      <UnSelectedButton onClick={() => dialogProps?.toggleHelpDialog()}>
+      <UnSelectedButton
+        onClick={() => dialogProps?.toggleHelpDialog()}
+        style={{
+          border: '1px solid #006D4B',
+        }}
+      >
         Help
       </UnSelectedButton>
 
-      <UnSelectedButton onClick={handleLogout}>Logout</UnSelectedButton>
+      <UnSelectedButton
+        onClick={handleLogout}
+        style={{
+          border: '1px solid #006D4B',
+        }}
+      >
+        Logout
+      </UnSelectedButton>
     </Container>
   );
 }

@@ -15,7 +15,7 @@ const AwaitingTranscription = () => {
           marginBottom: '20%',
           height: '30%',
           width: '50%',
-          padding: '1%',
+          // padding: '1%',
           border: '3px solid #13d0b7',
         }}
       >

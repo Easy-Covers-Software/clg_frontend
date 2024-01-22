@@ -23,8 +23,8 @@ const ScoreDetails = ({ matchScoreDetails }) => {
   // Splitting scores into two columns
   const scoreEntries = Object.entries(matchScoreDetails);
   const midIndex = Math.ceil(scoreEntries.length / 2);
-  const leftColumnScores = scoreEntries.slice(0, midIndex - 1);
-  const rightColumnScores = scoreEntries.slice(midIndex - 1);
+  const leftColumnScores = scoreEntries.slice(0, midIndex);
+  const rightColumnScores = scoreEntries.slice(midIndex);
 
   const formatHeader = (header) => {
     if (header === 'long_term_commitment_match_score') {
@@ -53,7 +53,8 @@ const ScoreDetails = ({ matchScoreDetails }) => {
       scoreName === 'candidate' ||
       scoreName === 'job_posting' ||
       scoreName === 'created_at' ||
-      scoreName === 'updated_at'
+      scoreName === 'updated_at' ||
+      scoreName === 'job_status'
     );
   };
 
@@ -76,7 +77,7 @@ const ScoreDetails = ({ matchScoreDetails }) => {
         >
           <Grid container justifyContent={'space-between'}>
             <Typography
-              variant='subtitle1'
+              variant="subtitle1"
               flexWrap={'nowrap'}
               whiteSpace={'nowrap'}
               overflow={'hidden'}
@@ -86,7 +87,7 @@ const ScoreDetails = ({ matchScoreDetails }) => {
             </Typography>
 
             <Typography
-              variant='subtitle1'
+              variant="subtitle1"
               flexWrap={'nowrap'}
               whiteSpace={'nowrap'}
               overflow={'hidden'}
@@ -96,7 +97,7 @@ const ScoreDetails = ({ matchScoreDetails }) => {
             </Typography>
           </Grid>
           <BorderLinearProgress
-            variant='determinate'
+            variant="determinate"
             value={scoreValue * 10}
             sx={{
               height: 10,
@@ -111,10 +112,10 @@ const ScoreDetails = ({ matchScoreDetails }) => {
   return (
     <>
       <Grid container direction={'column'}>
-        <Typography variant='h5' marginLeft={'5%'} marginTop={'3%'}>
+        <Typography variant="h5" marginLeft={'5%'} marginTop={'3%'}>
           Weighted Score: {matchScoreDetails.weighted_score} / 10
         </Typography>
-        <Typography variant='h6' marginLeft={'5%'} marginTop={'1%'}>
+        <Typography variant="h6" marginLeft={'5%'} marginTop={'1%'}>
           Total Score: {matchScoreDetails.total_score} / 100
         </Typography>
       </Grid>

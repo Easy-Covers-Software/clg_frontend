@@ -31,7 +31,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useGenerationContext } from '@/context/GenerationContext';
 
 const Container = styled(Grid)`
-  height: calc(100vh - 98px);
+  // height: calc(100vh - 98px);
   width: 25vw;
   min-width: 25vw;
 

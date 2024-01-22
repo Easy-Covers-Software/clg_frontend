@@ -11,6 +11,7 @@ import { StyledPaper as StyledPaper2 } from '@/components/CandidatesPage/FullCan
 
 export const Container = styled(Grid)`
   height: 100%;
+  max-height: 60vh;
   padding: 1%;
   padding-top: 0;
   width: 100%;
@@ -23,9 +24,10 @@ export const Container = styled(Grid)`
 `;
 
 export const SubPanelContainer = styled(Grid)`
-  height: 20vh;
+  // height: 20vh;
+  height: 20%;
   width: 100%;
-  min-height: 100px;
+  // min-height: 100px;
   padding: 0;
   margin: 0;
 `;
@@ -73,14 +75,25 @@ export const ExtraDetailsPanelPaper = styled(StyledPaper2)`
   padding: 0.5%;
 `;
 
+export const ExtraDetailsPanelPaperScore = styled(StyledPaper2)`
+  height: 13vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 0.5%;
+  border: 3px solid #13d0b7;
+`;
+
 export const ButtonGroupContainer = styled(ButtonGroup)`
   width: 98%;
-  padding-bottom: 10%;
+  padding-bottom: 3%;
 `;
 
 export const PanelButton = styled(UnSelectedButton)`
   border: 1px solid #13d0b7 !important;
-  height: 13vh;
+  height: 14vh;
   color: #006d4b !important;
   background-color: #f5f5ff !important;
 

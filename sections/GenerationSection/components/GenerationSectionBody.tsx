@@ -12,36 +12,23 @@ import { useGenerationContext } from '@/context/GenerationContext';
 
 const Container = styled(Grid)`
   width: 100%;
-  background-color: white;
-  border-radius: 4px;
-  border: 1px solid #006d4b;
-  height: calc(100vh - 98px);
-  max-height: calc(100vh - 98px);
-  min-height: calc(100vh - 98px);
+  padding: 0.2%;
+
   display: flex;
   flex-direction: column;
-  margin-left: 0.3%;
-  padding-bottom: 2%;
+  gap: 0.2%;
 
-  @media screen and (min-width: 0px) and (max-width: 600px) {
-    width: 100vw;
-    height: calc(100vh - 90px);
-    max-height: calc(100vh - 90px);
-  }
+  border-radius: 4px;
+  border: 1px solid #006d4b;
+  background-color: white;
 `;
 
 const SubContainer = styled(Grid)`
   height: 100%;
-  // width: 100%;
-  margin: 0.75%;
-  margin-top: 0;
   background-color: #f8f8ff;
-  overflow: scroll;
-  overflow-x: hidden;
+
   border: 1px solid #006d4b;
   border-radius: 4px;
-  justify-content: center;
-  align-items: center;
 `;
 
 export default function GenerationSectionBody() {
@@ -87,6 +74,7 @@ export default function GenerationSectionBody() {
         handleChange={toggleGenerationMode}
       />
 
+      {/* <SubContainer> */}
       <GenerationEditorFull
         generationData={bodyState.generationResultsState}
         updateGenerationResultsState={bodyState.updateGenerationResultsState}
@@ -102,6 +90,7 @@ export default function GenerationSectionBody() {
         }
         updateCustomAdjustmentsState={bodyState.updateCustomAdjustmentState}
       />
+      {/* </SubContainer> */}
     </Container>
   );
 }

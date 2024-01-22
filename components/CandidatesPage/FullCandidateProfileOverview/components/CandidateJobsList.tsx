@@ -68,9 +68,9 @@ const CandidateJobsList = ({
                   secondary={jobPosting?.job_posting?.company?.name}
                 />
                 <MatchScoreGrid xs="auto">
-                  {jobPosting.match_score ? (
+                  {jobPosting.match_score && jobPosting.match_score[0] ? (
                     <Typography variant="caption">
-                      {jobPosting.match_score['weighted_score']} / 10
+                      {jobPosting.match_score[0]['weighted_score']} / 10
                     </Typography>
                   ) : loadingId !== null && loadingId === jobPosting.id ? (
                     <CircularProgress style={{ color: '#13d0b7' }} />

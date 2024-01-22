@@ -29,6 +29,14 @@ const JobPostingSelectionDataGrid: any = ({
     number | null
   >(selected?.id || null);
 
+  const rows = jobPostings?.map((jobPosting) => {
+    return {
+      id: jobPosting.id,
+      job_title: jobPosting.position_title,
+      company_name: jobPosting.company.name,
+    };
+  });
+
   const columns: GridColDef[] = [
     {
       field: 'id',
@@ -57,7 +65,7 @@ const JobPostingSelectionDataGrid: any = ({
     <Box
       pt={1}
       sx={{
-        width: '94%',
+        width: '100%',
         margin: 'auto',
         overflowY: 'hidden',
         overflowX: 'scroll',
@@ -69,7 +77,7 @@ const JobPostingSelectionDataGrid: any = ({
         type={'small'}
       /> */}
       <DataGrid
-        rows={jobPostings ? jobPostings : []}
+        rows={rows}
         columns={columns}
         autoHeight
         hideFooter

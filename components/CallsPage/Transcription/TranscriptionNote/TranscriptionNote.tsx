@@ -27,7 +27,7 @@ const Header = styled.h3`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: clip;
-  width: 340px; 
+  width: 340px;
 `;
 
 const NoteContent = styled(Grid)`
@@ -51,18 +51,17 @@ interface Props {
 }
 
 const TranscriptionNote: FC<Props> = ({ noteHeader, noteContent }) => {
-  
   const isLessThan40Chars = (noteHeader) => {
     return noteHeader.length < 40;
-  }
-  
+  };
+
   return (
     <Container>
       <Tooltip title={isLessThan40Chars(noteHeader) ? '' : noteHeader}>
         <Header>{noteHeader}</Header>
       </Tooltip>
       <NoteContent>
-          <Typography>{noteContent}</Typography>
+        <Typography>{noteContent}</Typography>
       </NoteContent>
     </Container>
   );

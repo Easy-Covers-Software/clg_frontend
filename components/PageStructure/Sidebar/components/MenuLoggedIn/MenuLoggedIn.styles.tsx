@@ -22,21 +22,11 @@ const Container = styled(Grid)`
 
 const GenerationModeTab = styled(UnSelectedButton)`
   white-space: nowrap;
+  border: 1px solid #006d4b;
 
   &:hover {
     border-bottom: 2px solid #87dbd0;
     background-color: #f5f5f5;
-  }
-  @media screen and (min-width: 0px) and (max-width: 600px) {
-    // padding: 0 2%;
-    width: 90%;
-    margin: auto;
-  }
-  @media (max-width: 1000px) and (min-width: 900px) {
-    font-size: 0.68rem;
-  }
-  @media (max-width: 1100px) and (min-width: 1000px) {
-    font-size: 0.75rem;
   }
 `;
 

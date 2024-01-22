@@ -15,6 +15,7 @@ import {
   CallsPaper,
   GenerationsPaper,
   ExtraDetailsPanelPaper,
+  ExtraDetailsPanelPaperScore,
   ButtonGroupContainer,
   PanelButton,
   BackButton,
@@ -111,6 +112,8 @@ const FullCandidateJobProfile = ({
   handleGenerationSelection,
   handleCallSelection,
 }) => {
+  console.log('selectedJobPosting', selectedJobPosting);
+
   const emailGenerations = generations?.filter(
     (item) => item?.generation_type === 'email'
   );
@@ -175,18 +178,18 @@ const FullCandidateJobProfile = ({
   console.log(followUpPhoneCalls);
 
   return (
-    <Container container spacing={2}>
+    <Container container spacing={1} gap={'3%'}>
       {/* Left Side - Score Details */}
       <Grid
         xs={12}
         md={8}
         container
         direction="column"
-        spacing={2}
+        // spacing={2}
         height={'100%'}
         flexWrap={'nowrap'}
       >
-        <Grid xs={12} height={'60vh'}>
+        <Grid xs={12} height={'62vh'}>
           <Typography variant="h6">Score Details</Typography>
           <ScoreDetailsPaper elevation={3}>
             {matchScore ? (
@@ -218,9 +221,9 @@ const FullCandidateJobProfile = ({
                   variant="contained"
                   onClick={() => {
                     if (page === 'candidate') {
-                      handleCalculate(selectedJobPosting?.id);
+                      handleCalculate(selectedJobPosting?.job_posting?.id);
                     } else {
-                      handleCalculate(selectedCandidate?.id);
+                      handleCalculate(selectedCandidate?.job_posting?.id);
                     }
                   }}
                   style={{
@@ -243,29 +246,31 @@ const FullCandidateJobProfile = ({
       <Grid
         xs={12}
         md={4}
-        container
-        direction="column"
-        spacing={2}
+        // container
+        // direction="column"
+        // spacing={2}
+        // gap={'3%'}
         height={'100%'}
-        flexWrap={'nowrap'}
+        // maxHeight={'25vh'}
+        // flexWrap={'nowrap'}
         // justifyContent={'end'}
       >
         {/* Resume Panel */}
-        <SubPanelContainer xs={12} height={'20vh'}>
+        <SubPanelContainer>
           <Typography variant="h6">&nbsp;</Typography>
-          <ExtraDetailsPanelPaper
+          <ExtraDetailsPanelPaperScore
             elevation={3}
             onClick={setModeToResume}
             style={{
               cursor: 'pointer',
             }}
           >
-            <Typography variant="h4">Résumé</Typography>
-          </ExtraDetailsPanelPaper>
+            <Typography fontSize={'1.8rem'}>Résumé</Typography>
+          </ExtraDetailsPanelPaperScore>
         </SubPanelContainer>
 
         {/* Calls Panel */}
-        <SubPanelContainer xs={12}>
+        <SubPanelContainer>
           <Typography variant="h6">&nbsp;</Typography>
           <CallsPaper elevation={3}>
             {callMode === 'callsSelection' ? (
@@ -277,7 +282,7 @@ const FullCandidateJobProfile = ({
               />
             ) : (
               <>
-                <Typography variant="h5" textAlign={'center'} marginTop={'1%'}>
+                <Typography fontSize={'1.4rem'} textAlign={'center'}>
                   Calls
                 </Typography>
                 <ButtonGroupContainer
@@ -335,7 +340,7 @@ const FullCandidateJobProfile = ({
               />
             ) : (
               <>
-                <Typography variant="h5" textAlign={'center'} marginTop={'1%'}>
+                <Typography textAlign={'center'} fontSize={'1.4rem'}>
                   Generations
                 </Typography>
                 <ButtonGroupContainer

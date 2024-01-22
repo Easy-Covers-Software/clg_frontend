@@ -48,13 +48,13 @@ const CandidateProfileSelectionDataGrid: any = ({
       flex: 1,
       sortable: false,
     },
-    { field: 'name', headerName: 'Name', flex: 5 },
-    { field: 'current_title', headerName: 'Current Title', flex: 5 },
-    { field: 'current_employer', headerName: 'Current Company', flex: 5 },
+    { field: 'name', headerName: 'Name', flex: 3 },
+    { field: 'current_job_title', headerName: 'Current Title', flex: 5 },
+    // { field: 'current_employer', headerName: 'Current Company', flex: 5 },
   ];
 
   return (
-    <Box pt={1} sx={{ width: '94%', margin: 'auto', overflowY: 'hidden' }}>
+    <Box pt={1} sx={{ width: '100%', margin: 'auto', overflowY: 'hidden' }}>
       {/* <SearchAndFilter
         search={search}
         handleSearchChange={updateSearch}

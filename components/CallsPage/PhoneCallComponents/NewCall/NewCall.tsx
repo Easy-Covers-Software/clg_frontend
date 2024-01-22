@@ -69,6 +69,7 @@ const NewCall: FC<Props> = ({
           width: '60%',
           height: '72%',
           marginBottom: '10%',
+          marginTop: '6%',
           padding: '0 3%',
           backgroundColor: 'white',
         }}
@@ -113,7 +114,7 @@ const NewCall: FC<Props> = ({
                   {/* map job postings into menu items */}
                   {jobPostings?.map((jobPosting) => (
                     <MenuItem value={jobPosting.id} key={jobPosting.id}>
-                      {jobPosting.job_title}
+                      {jobPosting.position_title}
                     </MenuItem>
                   ))}
                 </Select>

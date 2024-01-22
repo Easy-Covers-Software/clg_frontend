@@ -5,16 +5,17 @@ const Container = styled(Grid)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 210px);
-  min-height: calc(100vh - 210px);
+  // height: calc(100vh - 210px);
+  // min-height: calc(100vh - 210px);
   background-color: #f8f8ff;
-  margin: 0.75%;
+  // margin: 0.75%;
   margin-top: 0;
-  width: 99%;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
 
   // margin: 0 0.5%;
-  padding-bottom: 2%;
+  // padding-bottom: 2%;
   border-radius: 4px;
   border: 1px solid #006d4b;
 

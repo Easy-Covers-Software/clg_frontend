@@ -65,8 +65,8 @@ const SavedList: FC<SavedListProps> = ({
   };
 
   const determineListHeader = () => {
-    if (listType === 'coverLetters') {
-      return 'Saved Cover Letters';
+    if (listType === 'jobPostings') {
+      return 'All Available Job Postings';
     } else if (listType === 'profiles') {
       return 'Saved Profiles';
     } else if (listType === 'phoneCalls') {
@@ -129,7 +129,7 @@ const SavedList: FC<SavedListProps> = ({
         <ListItemText
           id={item.id}
           primary={item.save_name}
-          secondary={item.company_name}
+          // secondary={item.company_name}
         />
       </ListItem>
     );
