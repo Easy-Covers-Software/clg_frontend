@@ -193,7 +193,7 @@ export const JobPostingsContextProvider = ({ children }) => {
         payload: {
           listItems: response.data,
           filteredListItems: response.data,
-        }
+        },
       });
     } else {
       console.error('Error fetching job postings');
@@ -210,8 +210,8 @@ export const JobPostingsContextProvider = ({ children }) => {
       dispatch({
         type: 'UPDATE_JOB_POSTING_SELECTION_SUMMARY_STATE',
         payload: {
-          mainTitle: state.selectedListItem.job_title,
-          secondaryTitle: state.selectedListItem.company_name,
+          mainTitle: state.selectedListItem.position_title,
+          secondaryTitle: state.selectedListItem.company.name,
           supplementaryInfo: state.selectedListItem.created_at,
         },
       });

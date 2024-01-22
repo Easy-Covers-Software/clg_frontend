@@ -66,9 +66,9 @@ const CandidateRankings = ({
 
   const getScoreBasedOnFilter = (candidate) => {
     if (scoreFilterState === 'weighted') {
-      return candidate.match_score.weighted_score;
+      return candidate.match_score[0].weighted_score;
     } else {
-      return candidate.match_score.total_score;
+      return candidate.match_score[0].total_score;
     }
   };
 
@@ -163,8 +163,9 @@ const CandidateRankings = ({
                   <Typography variant="body1">{index + 1}</Typography>
                 </ListItemIcon>
               )}
+              {console.log('candidate', candidate)}
               <ListItemText
-                primary={candidate.name}
+                primary={candidate.candidate}
                 secondary={candidate.current_title}
               />
               <MatchScoreGrid>

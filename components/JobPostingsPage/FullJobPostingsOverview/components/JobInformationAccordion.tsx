@@ -23,8 +23,10 @@ const capitalizeFirstLetter = (string) => {
 };
 
 const JobInformationAccordion = ({ jobPosting }) => {
+  const companyName = jobPosting.company?.name || 'N/A';
+
   const sections = {
-    General: ['job_title', 'company_name', 'full_details'],
+    General: ['position_title', 'companyName', 'full_details'],
     JobDetails: [
       'urgency',
       'salary',
@@ -33,26 +35,26 @@ const JobInformationAccordion = ({ jobPosting }) => {
       'location',
       'job_type',
       'seniority_level',
-      'specializations',
+      // 'specializations',
       'job_duration',
       'work_hours',
       'shifts',
       'payment_frequency',
     ],
-    CompanyDetails: [
-      'currency',
-      'city_location',
-      'address',
-      'remote',
-      'relocation',
-      'technical_skills',
-      'soft_skills',
-      'certifications',
-      'fields_of_study',
-      'education_institution_requirements',
-      'gpa',
-      'previous_titles',
-    ],
+    // CompanyDetails: [
+    //   'currency',
+    //   'city_location',
+    //   'address',
+    //   'remote',
+    //   'relocation',
+    //   'technical_skills',
+    //   'soft_skills',
+    //   'certifications',
+    //   'fields_of_study',
+    //   'education_institution_requirements',
+    //   'gpa',
+    //   'previous_titles',
+    // ],
     AdditionalDetails: [
       'daily_tasks',
       'team_interaction',
@@ -91,8 +93,14 @@ const JobInformationAccordion = ({ jobPosting }) => {
   const renderDetails = (fields) => {
     const rows = fields.map((field, index) => ({
       id: index,
-      key: capitalizeFirstLetter(field.split('_').join(' ')),
-      value: jobPosting[field] || 'N/A',
+      key:
+        index === 1 && jobPosting === 'General'
+          ? 'Company'
+          : capitalizeFirstLetter(field.split('_').join(' ')),
+      value:
+        index === 1 && jobPosting === 'General'
+          ? companyName
+          : jobPosting[field] || 'N/A',
     }));
 
     const columns: any = [
