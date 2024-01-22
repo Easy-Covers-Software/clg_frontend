@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { Grid } from '@mui/material';
 
 const Container = styled(Grid)`
-  // height: calc(100vh - 98px);
   width: 22vw;
   min-width: 22vw;
 
@@ -15,8 +14,6 @@ const Container = styled(Grid)`
   gap: 1%;
 
   flex: 1;
-  // margin: 0 0.2%;
-  // padding: 0.3%;
   padding: 0.2%;
 
   background-color: white;

@@ -4,9 +4,8 @@ import { UnSelectedButton } from '@/components/Global/Global';
 
 //=== List Components ===//
 export const ListContainer = styled(Grid)`
-  height: calc(100vh - 98px);
-  width: 100%;
-  min-width: 25vw;
+  width: 22vw;
+  min-width: 22vw;
 
   overflow: hidden;
 
@@ -16,8 +15,7 @@ export const ListContainer = styled(Grid)`
   gap: 1%;
 
   flex: 1;
-  margin: 0 0.2%;
-  padding: 0.3%;
+  padding: 0.2%;
 
   background-color: white;
 
@@ -46,7 +44,6 @@ export const TranscribeButton = styled(UnSelectedButton)`
     border: 1px solid lightgray;
   }
 `;
-
 
 //=== Body Components ===//
 export const BodyContainer = styled(Grid)`
