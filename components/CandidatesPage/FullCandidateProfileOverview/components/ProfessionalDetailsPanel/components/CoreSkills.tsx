@@ -29,17 +29,17 @@ const ChipsContainer = styled(Grid)`
   overflow: none;
 `;
 
-const skills = [
-  'Django',
-  'React.js',
-  'Python',
-  'Typescript',
-  'Bash',
-  'PostgreSQL',
-  // 'Linux',
-];
+// const skills = [
+//   'Django',
+//   'React.js',
+//   'Python',
+//   'Typescript',
+//   'Bash',
+//   'PostgreSQL',
+//   // 'Linux',
+// ];
 
-const CoreSkills = () => {
+const CoreSkills = ({ skills }) => {
   const [open, setOpen] = useState(true);
 
   // const skillChips = selectedCandidate.skills

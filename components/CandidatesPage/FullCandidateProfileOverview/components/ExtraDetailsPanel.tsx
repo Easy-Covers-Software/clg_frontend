@@ -37,13 +37,37 @@ const ExtraDetailsPanel = ({ updateMode }) => {
     <SubPanelContainer xs={12}>
       <ExtraDetailsPanelPaper elevation={3}>
         <Grid container height={'100%'} p={0} m={0}>
-          <PanelButton>Résumé</PanelButton>
-          <PanelButton>Calls</PanelButton>
+          <PanelButton
+            onClick={() => {
+              updateMode('resume');
+            }}
+          >
+            Résumé
+          </PanelButton>
+          <PanelButton
+            onClick={() => {
+              updateMode('calls');
+            }}
+          >
+            Calls
+          </PanelButton>
         </Grid>
 
         <Grid container height={'100%'} p={0} m={0}>
-          <PanelButton>Feedback</PanelButton>
-          <PanelButton>Update</PanelButton>
+          <PanelButton
+            onClick={() => {
+              updateMode('feedback');
+            }}
+          >
+            Feedback
+          </PanelButton>
+          <PanelButton
+            onClick={() => {
+              updateMode('update');
+            }}
+          >
+            Update
+          </PanelButton>
         </Grid>
       </ExtraDetailsPanelPaper>
     </SubPanelContainer>

@@ -13,10 +13,11 @@ import Tab from '@mui/material/Tab';
 import { SectionHeader } from '../../ProfessionalDetailsPanel.styles';
 
 const ExperienceHistoryContainer = styled(Grid)`
-  width: 100%;
+  width: 96.5%;
   height: 50%;
 
   margin: 0;
+  margin: auto;
 
   // padding: 0;
   // border: 1px solid black;
@@ -47,14 +48,16 @@ const TabsContainer = styled(Tabs)`
 const SelectionTab = styled(Tab)`
   min-height: 0;
   height: 100%;
-  width: 4vw;
+  width: 7vw;
+  white-space: nowrap;
+  font-size: 0.8rem;
 
   border: 1px solid #006d4b;
   border-radius: 4px 4px 0 0;
   padding: 2px 0;
   &.Mui-selected {
     color: #006d4b;
-    font-weight: bold;
+    // font-weight: bold;
     text-decoration: underline;
     border-bottom: 1px solid #13d0b7;
   }
@@ -100,6 +103,7 @@ const Top = styled(Grid)`
 
 const TopHeader = styled(Typography)`
   font-size: 1.1rem;
+  color: #006d4b;
 `;
 
 const Middle = styled(Grid)`
@@ -111,7 +115,8 @@ const Middle = styled(Grid)`
 
 const MiddleHeader = styled(Typography)`
   font-size: 1rem;
-  margin-top: -1%;
+  // margin-top: -1%;
+  color: #006d4b;
 `;
 
 const Summary = styled(Grid)`
@@ -120,13 +125,31 @@ const Summary = styled(Grid)`
   white-space: wrap;
   margin: 0;
   padding: 0;
-  padding-left: 1%;
+  // padding-left: 1%;
   overflow-y: scroll;
 `;
 
-const SummaryNote = styled(Typography)``;
+// const SummaryNote = styled(Typography)``;
+const SummaryNote = styled.li`
+  padding-left: 3%;
+  color: #006d4b;
+`;
 
-const Experience = ({ selected, handleChange }) => {
+const Experience = ({ experiences, selected, selectedIndex, handleChange }) => {
+  const formatDateRange = (startDate, endDate) => {
+    const start = new Date(startDate).toLocaleDateString('en-US', {
+      month: '2-digit',
+      year: 'numeric',
+    });
+
+    const end = new Date(endDate).toLocaleDateString('en-US', {
+      month: '2-digit',
+      year: 'numeric',
+    });
+
+    return `${start} - ${end}`;
+  };
+
   return (
     <ExperienceHistoryContainer item>
       <Grid
@@ -141,7 +164,7 @@ const Experience = ({ selected, handleChange }) => {
         <SectionHeader>Experience</SectionHeader>
         <TabsBox>
           <TabsContainer
-            value={selected}
+            value={selectedIndex}
             onChange={handleChange}
             variant="scrollable"
             scrollButtons="auto"
@@ -151,10 +174,18 @@ const Experience = ({ selected, handleChange }) => {
               },
             }}
           >
-            <SelectionTab value="one" label="Job 1" />
+            {experiences.map((experience, index) => (
+              <SelectionTab
+                key={index}
+                value={index}
+                label={experience.employer}
+              />
+            ))}
+
+            {/* <SelectionTab value="one" label="Job 1" />
             <SelectionTab value="two" label="Job 2" />
             <SelectionTab value="three" label="Job 3" />
-            <SelectionTab value="four" label="Job 4" />
+            <SelectionTab value="four" label="Job 4" /> */}
           </TabsContainer>
         </TabsBox>
       </Grid>
@@ -162,20 +193,26 @@ const Experience = ({ selected, handleChange }) => {
       <MainContentContainer>
         <MainContent>
           <Top>
-            <TopHeader>Job Title</TopHeader>
-            <TopHeader>Date</TopHeader>
+            <TopHeader>{selected?.job_title}</TopHeader>
+            <TopHeader>
+              {formatDateRange(selected?.start_date, selected?.end_date)}
+            </TopHeader>
           </Top>
 
           <Middle>
-            <MiddleHeader>Company</MiddleHeader>
-            <MiddleHeader>Industry</MiddleHeader>
+            <MiddleHeader>{selected?.employer}</MiddleHeader>
+            <MiddleHeader>{selected?.industry}</MiddleHeader>
           </Middle>
 
           <Divider />
 
           <Summary>
             {/* map the summary notes */}
-            <SummaryNote>
+            {selected?.summary.map((summary_point, index) => (
+              <SummaryNote key={index}>{summary_point}</SummaryNote>
+            ))}
+
+            {/* <SummaryNote>
               Note information for testing purposes brought in over 800k in
               contract revenue over the first 25 years
             </SummaryNote>
@@ -190,7 +227,7 @@ const Experience = ({ selected, handleChange }) => {
             <SummaryNote>
               Note information for testing purposes brought in over 800k in
               contract revenue over the first 25 years
-            </SummaryNote>
+            </SummaryNote> */}
           </Summary>
         </MainContent>
       </MainContentContainer>

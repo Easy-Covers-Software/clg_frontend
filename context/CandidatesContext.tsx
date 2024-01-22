@@ -28,13 +28,19 @@ const initialState: CandidateContextState = {
   },
   selectedListItem: null,
   bodyState: {
-    mode: 'overview', // overview, candidate
+    mode: 'overview', // overview, scoreDetails, resume, calls, feedback, update
     selectionSummaryState: {
       id: '',
       mainTitle: 'Job Title',
       secondaryTitle: 'Company Name',
       supplementaryInfo: '',
       loading: false,
+    },
+
+    // professionalDetailsState
+    professionalDetailsState: {
+      selectedExperience: null,
+      selectedEducation: null,
     },
 
     // jobPostingsAssociatedWithCandidateState
@@ -77,6 +83,7 @@ const initialState: CandidateContextState = {
 
     updateMode: (mode: string): void => {},
     updateSelectionSummaryState: (field, state: any): void => {},
+    updateProfessionalDetailsState: (field, state: any): void => {},
     updateCandidateJobPostingsListState: (field, state: any): void => {},
     updateCurrentlyCalculating: (candidateId: any): void => {},
     updateSelectedCandidateScoreDetailsState: (field, state: any): void => {},
@@ -139,6 +146,19 @@ const candidatesReducer = (state: any, action: any) => {
           },
         },
       };
+
+    case 'UPDATE_PROFESSIONAL_DETAILS_STATE':
+      return {
+        ...state,
+        bodyState: {
+          ...state.bodyState,
+          professionalDetailsState: {
+            ...state.bodyState.professionalDetailsState,
+            ...action.payload,
+          },
+        },
+      };
+
     case 'UPDATE_CANDIDATE_JOB_POSTINGS_LIST_STATE':
       return {
         ...state,
@@ -241,6 +261,26 @@ export const CandidatesContextProvider = ({ children }) => {
       });
     };
 
+    // set selected eduction to first if exists
+    if (state.selectedListItem && state.selectedListItem.education_history) {
+      dispatch({
+        type: 'UPDATE_PROFESSIONAL_DETAILS_STATE',
+        payload: {
+          selectedEducation: state.selectedListItem.education_history[0],
+        },
+      });
+    }
+
+    // set selected experience to first if exists
+    if (state.selectedListItem && state.selectedListItem.employment_history) {
+      dispatch({
+        type: 'UPDATE_PROFESSIONAL_DETAILS_STATE',
+        payload: {
+          selectedExperience: state.selectedListItem.employment_history[0],
+        },
+      });
+    }
+
     if (state.selectedListItem?.resume?.file) {
       updateResumeUrl();
     }
@@ -335,6 +375,8 @@ export const CandidatesContextProvider = ({ children }) => {
       payload: {
         mode: initialState.bodyState.mode,
         selectionSummaryState: initialState.bodyState.selectionSummaryState,
+        professionalDetailsState:
+          initialState.bodyState.professionalDetailsState,
         candidateJobPostingsListState:
           initialState.bodyState.candidateJobPostingsListState,
         currentlyCalculating: initialState.bodyState.currentlyCalculating,
@@ -350,6 +392,12 @@ export const CandidatesContextProvider = ({ children }) => {
         updateSelectionSummaryState: (field, state: any): void => {
           dispatch({
             type: 'UPDATE_CANDIDATE_SELECTION_SUMMARY_STATE',
+            payload: { [field]: state },
+          });
+        },
+        updateProfessionalDetailsState: (field, state: any): void => {
+          dispatch({
+            type: 'UPDATE_PROFESSIONAL_DETAILS_STATE',
             payload: { [field]: state },
           });
         },

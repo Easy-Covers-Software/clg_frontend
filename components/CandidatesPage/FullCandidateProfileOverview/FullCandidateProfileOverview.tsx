@@ -33,9 +33,10 @@ interface Props {
   updateMode: (mode: string) => void;
   handleCalculate: (jobPostingId: string) => void;
   handleFileChange: (file: File) => void;
+  updateProfessionalDetails: (data: any, value) => void;
 }
 
-const FullCandidateProfileOverview: React.FC<Props> = ({
+const FullCandidateProfileOverview: React.FC<any> = ({
   selectedCandidate,
   jobPostings,
   jobLoadingId,
@@ -44,6 +45,8 @@ const FullCandidateProfileOverview: React.FC<Props> = ({
   handleCalculate,
   resumeUrl,
   handleFileChange,
+  professionalDetails,
+  updateProfessionalDetails,
 }) => {
   const fileInputRef = useRef(null);
 
@@ -60,7 +63,11 @@ const FullCandidateProfileOverview: React.FC<Props> = ({
       {/*** LEFT SIDE ***/}
       <ColumnContainer xs={12} md={8}>
         {/* TOP LEFT */}
-        <ProfessionalDetailsPanel selectedCandidate={selectedCandidate} />
+        <ProfessionalDetailsPanel
+          selectedCandidate={selectedCandidate}
+          professionalDetails={professionalDetails}
+          updateProfessionalDetails={updateProfessionalDetails}
+        />
 
         {/* BOTTOM LEFT */}
         <PersonalDetailsPanel selectedCandidate={selectedCandidate} />

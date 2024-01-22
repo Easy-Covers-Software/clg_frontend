@@ -22,7 +22,7 @@ export const ProfessionalDetailsPaper = styled(StyledPaper)`
   // overflow: scroll;
   // gap: 10%;
   // overflow-y: scroll;
-  max-height: 52vh;
+  max-height: 53vh;
 `;
 
 export const Header = styled(Typography)`

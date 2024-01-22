@@ -13,11 +13,12 @@ import Tab from '@mui/material/Tab';
 import { SectionHeader } from '../../ProfessionalDetailsPanel.styles';
 
 const EducationContainer = styled(Grid)`
-  width: 100%;
+  width: 96.5%;
   height: 20%;
+  margin: auto;
   // flex: 1;
 
-  margin: 0;
+  // margin: 0;
   // margin-top: 1%;
   // padding: 0;
   // border: 1px solid red;
@@ -48,14 +49,19 @@ const TabsContainer = styled(Tabs)`
 const SelectionTab = styled(Tab)`
   min-height: 0;
   height: 100%;
-  width: 4vw;
+  width: 8vw;
+  white-space: nowrap;
+  // make overflow ellipsis
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.8rem;
 
   border: 1px solid #006d4b;
   border-radius: 4px 4px 0 0;
   padding: 2px 0;
   &.Mui-selected {
     color: #006d4b;
-    font-weight: bold;
+    // font-weight: bold;
     text-decoration: underline;
     border-bottom: 1px solid #13d0b7;
   }
@@ -94,12 +100,12 @@ const MainContent = styled(Grid)`
 
 const GeneralInfo = styled(Grid)`
   height: 100%;
-  width: 72%;
+  width: 75%;
   display: flex;
   flex-direction: column;
   // justify-content: space-between;
   margin: 0;
-  padding: 0.5% 1% 0 1%;
+  padding: 0 1%;
 
   // border: 1px solid #006d4b;
 `;
@@ -113,6 +119,8 @@ const GeneralTop = styled(Grid)`
 
 const GeneralTopHeader = styled(Typography)`
   font-size: 1.1rem;
+  color: #006d4b;
+  padding-top: 0.5%;
 `;
 
 const GeneralBottom = styled(Grid)`
@@ -122,11 +130,14 @@ const GeneralBottom = styled(Grid)`
   justify-content: space-between;
 `;
 
-const GeneralBottomHeader = styled(Typography)``;
+const GeneralBottomHeader = styled(Typography)`
+  color: #006d4b;
+  font-size: 1.3rem;
+`;
 
 const CompletionInfo = styled(Grid)`
   height: 100%;
-  width: 28%;
+  width: 25%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -137,9 +148,25 @@ const CompletionInfo = styled(Grid)`
   // border: 1px solid #006d4b;
 `;
 
-const CompletionInfoHeader = styled(Typography)``;
+const CompletionInfoHeader = styled(Typography)`
+  color: #006d4b;
+`;
 
-const Education = ({ selected, handleChange }) => {
+const Education = ({ educations, selected, selectedIndex, handleChange }) => {
+  const formatDateRange = (startDate, endDate) => {
+    const start = new Date(startDate).toLocaleDateString('en-US', {
+      month: '2-digit',
+      year: 'numeric',
+    });
+
+    const end = new Date(endDate).toLocaleDateString('en-US', {
+      month: '2-digit',
+      year: 'numeric',
+    });
+
+    return `${start} - ${end}`;
+  };
+
   return (
     <EducationContainer item>
       <Grid
@@ -154,7 +181,7 @@ const Education = ({ selected, handleChange }) => {
         <SectionHeader>Education</SectionHeader>
         <TabsBox>
           <TabsContainer
-            value={selected}
+            value={selectedIndex}
             onChange={handleChange}
             variant="scrollable"
             scrollButtons="auto"
@@ -164,8 +191,14 @@ const Education = ({ selected, handleChange }) => {
               },
             }}
           >
-            <SelectionTab value="one" label="Education 1" />
-            <SelectionTab value="two" label="Education 2" />
+            {educations.map((education, index) => (
+              <SelectionTab
+                key={index}
+                value={index}
+                label={education.education_level}
+                // label={`Education ${index + 1}`}
+              />
+            ))}
           </TabsContainer>
         </TabsBox>
       </Grid>
@@ -174,21 +207,29 @@ const Education = ({ selected, handleChange }) => {
         <MainContent>
           <GeneralInfo>
             <GeneralTop>
-              <GeneralTopHeader>Bachelors of Science</GeneralTopHeader>
-              <GeneralTopHeader>Date</GeneralTopHeader>
+              <GeneralTopHeader>{selected?.education_level}</GeneralTopHeader>
+              <GeneralTopHeader>{selected?.field_of_study}</GeneralTopHeader>
             </GeneralTop>
 
             <GeneralBottom>
-              <GeneralBottomHeader>University of Texas</GeneralBottomHeader>
-              <GeneralBottomHeader>Field of Study</GeneralBottomHeader>
+              <GeneralBottomHeader>{selected?.institution}</GeneralBottomHeader>
+              <GeneralBottomHeader>
+                {formatDateRange(selected?.start_date, selected?.end_date)}
+              </GeneralBottomHeader>
             </GeneralBottom>
           </GeneralInfo>
 
           <Divider orientation="vertical" flexItem />
 
           <CompletionInfo>
-            <CompletionInfoHeader>Completed</CompletionInfoHeader>
-            <CompletionInfoHeader>gpa: 3.5</CompletionInfoHeader>
+            <CompletionInfoHeader>
+              Status:&nbsp;&nbsp; {selected?.status}
+            </CompletionInfoHeader>
+            <CompletionInfoHeader>
+              GPA:
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{' '}
+              {selected?.gpa}
+            </CompletionInfoHeader>
           </CompletionInfo>
         </MainContent>
       </MainContentContainer>

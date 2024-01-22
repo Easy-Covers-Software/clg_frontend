@@ -100,7 +100,7 @@ const CandidateSelectionBody: FC = () => {
       'selectedJobPosting',
       jobPosting
     );
-    updateMode('jobPosting');
+    updateMode('scoreDetails');
   };
 
   const handleFileChange = async (file: File) => {
@@ -192,7 +192,7 @@ const CandidateSelectionBody: FC = () => {
   };
 
   const getResumeUrl = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.resumeUrl;
+    return selectedListItem?.resumes[0]?.file;
   };
 
   const getScoreDetailsMode = () => {
@@ -280,6 +280,8 @@ const CandidateSelectionBody: FC = () => {
             updateMode={updateMode}
             handleCalculate={handleCalculate}
             handleFileChange={handleFileChange}
+            professionalDetails={bodyState.professionalDetailsState}
+            updateProfessionalDetails={bodyState.updateProfessionalDetailsState}
           />
         );
       case 'resume':
@@ -291,7 +293,8 @@ const CandidateSelectionBody: FC = () => {
             <ResumeIframe resumeUrl={getResumeUrl()} />
           </SubSectionFrame>
         );
-      case 'jobPosting':
+
+      case 'scoreDetails':
         switch (getScoreDetailsMode()) {
           case 'overview':
             return (

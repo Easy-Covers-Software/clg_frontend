@@ -5,6 +5,7 @@ body {
   margin: 0;
   background: var(--theme-nav, #f8f8ff);
   overflow: hidden;
+  color: #006d4b;
 }
 
 /* Hide scrollbar by default */

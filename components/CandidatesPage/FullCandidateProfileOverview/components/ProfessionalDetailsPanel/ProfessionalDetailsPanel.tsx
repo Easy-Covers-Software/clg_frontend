@@ -40,30 +40,27 @@ interface Props {
 
 const skills = ['Django', 'React.js', 'Python', 'Typescript', 'Bash'];
 
-const ProfessionalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => {
-  //== skill chips ==//
-  // const skillChips = selectedCandidate.skills
-  const skillChips = skills.map((skill, index) => (
-    <Chip key={index} label={skill.trim()} style={{ margin: '2px' }} />
-  ));
-
-  //== For linked in and portfolio website ==//
-  const openInNewTab = (url) => {
-    if (url) {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    } else {
-      console.log('URL is undefined or empty');
-    }
-  };
-
-  const [jobs, setJobs] = React.useState(0);
+const ProfessionalDetailsPanel: React.FC<any> = ({
+  selectedCandidate,
+  professionalDetails,
+  updateProfessionalDetails,
+}) => {
+  const [job, setJob] = React.useState(0);
   const [edu, setEdu] = React.useState(0);
 
   const handleJobsChange = (event: React.SyntheticEvent, newValue: number) => {
-    setJobs(newValue);
+    setJob(newValue);
+    updateProfessionalDetails(
+      'selectedExperience',
+      selectedCandidate.employment_history[newValue]
+    );
   };
 
   const handleEduChange = (event: React.SyntheticEvent, newValue: number) => {
+    updateProfessionalDetails(
+      'selectedEducation',
+      selectedCandidate.education_history[newValue]
+    );
     setEdu(newValue);
   };
 
@@ -79,7 +76,7 @@ const ProfessionalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => {
           }}
         >
           <Header>Professional Details</Header>
-          <FormGroup
+          {/* <FormGroup
             sx={{
               marginRight: '1.5%',
             }}
@@ -89,7 +86,7 @@ const ProfessionalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => {
               label="Work Preferences"
               labelPlacement="start"
             />
-          </FormGroup>
+          </FormGroup> */}
         </Grid>
 
         {/* </Grid> */}
@@ -101,16 +98,26 @@ const ProfessionalDetailsPanel: React.FC<Props> = ({ selectedCandidate }) => {
         />
         <MainSections container>
           {/* 1. Experience History */}
-          <EmploymentHistory selected={jobs} handleChange={handleJobsChange} />
+          <EmploymentHistory
+            experiences={selectedCandidate.employment_history}
+            selected={professionalDetails.selectedExperience}
+            selectedIndex={job}
+            handleChange={handleJobsChange}
+          />
 
           {/* 2. Education */}
-          <Education selected={edu} handleChange={handleEduChange} />
+          <Education
+            educations={selectedCandidate.education_history}
+            selected={professionalDetails.selectedEducation}
+            selectedIndex={edu}
+            handleChange={handleEduChange}
+          />
 
           {/* 3. Work Preferences */}
           {/* <Preferences /> */}
 
           {/* 4. Skills */}
-          <CoreSkills />
+          <CoreSkills skills={selectedCandidate.core_skills} />
         </MainSections>
       </ProfessionalDetailsPaper>
     </ProfessionalDetailsGrid>
