@@ -7,6 +7,8 @@ import { IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Container = styled(Grid)`
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

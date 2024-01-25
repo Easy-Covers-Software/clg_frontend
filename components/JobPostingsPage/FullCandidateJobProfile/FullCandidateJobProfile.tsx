@@ -1,12 +1,13 @@
 import React from 'react';
 import Grid from '@mui/material/Unstable_Grid2/Grid2'; // Grid2 for the layout
+import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import { PrimaryButton } from '@/components/Global/Global';
 import { CircularProgress } from '@mui/material';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ScoreDetails from './components/ScoreDetails';
+import ScoreDetails from './components/ScoreDetails/ScoreDetails';
 
 import {
   Container,
@@ -23,6 +24,38 @@ import {
 } from './FullCandidateJobProfile.styles';
 
 import ExtraDetailsPanel from './components/ExtraDetailsPanel';
+import ResumeFeedbackPanel from './components/ScoringMaterials/ResumeFeedbackPanel';
+import GenerationsPanel from './components/ScoringMaterials/GenerationsPanel';
+import CallsPanel from './components/ScoringMaterials/CallsPanel';
+
+const LeftSide = styled(Grid)`
+  height: 100%;
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin: 0;
+  padding: 0;
+`;
+
+const RightSide = styled(Grid)`
+  height: 98.8%;
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+`;
+
+const RightSideMain = styled(Grid)`
+  height: 95%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+`;
 
 const GenerationsList = ({
   listType,
@@ -178,85 +211,29 @@ const FullCandidateJobProfile = ({
   console.log(followUpPhoneCalls);
 
   return (
-    <Container container spacing={1} gap={'3%'}>
+    <Container>
       {/* Left Side - Score Details */}
-      <Grid
-        xs={12}
-        md={8}
-        container
-        direction="column"
-        // spacing={2}
-        height={'100%'}
-        flexWrap={'nowrap'}
-      >
-        <Grid xs={12} height={'62vh'}>
-          <Typography variant="h6">Score Details</Typography>
-          <ScoreDetailsPaper elevation={3}>
-            {matchScore ? (
-              <ScoreDetails matchScoreDetails={matchScore} />
-            ) : loading ? (
-              <Grid
-                container
-                direction={'column'}
-                justifyContent={'center'}
-                alignItems={'center'}
-              >
-                <Typography textAlign={'center'}>
-                  Calculating Match Score for {selectedJobPosting?.job_title}
-                </Typography>
-                <CircularProgress style={{ color: '#13d0b7' }} />
-              </Grid>
-            ) : (
-              <Grid
-                height={'100%'}
-                container
-                direction={'column'}
-                justifyContent={'center'}
-                alignItems={'center'}
-              >
-                <Typography variant="h5">
-                  Click Calculate to get the match score
-                </Typography>
-                <PrimaryButton
-                  variant="contained"
-                  onClick={() => {
-                    if (page === 'candidate') {
-                      handleCalculate(selectedJobPosting?.job_posting?.id);
-                    } else {
-                      handleCalculate(selectedCandidate?.job_posting?.id);
-                    }
-                  }}
-                  style={{
-                    height: '8vh',
-                    width: '72%',
-                    marginBottom: '50%',
-                    marginTop: '3%',
-                    fontSize: '1.5rem',
-                  }}
-                >
-                  Calculate
-                </PrimaryButton>
-              </Grid>
-            )}
-          </ScoreDetailsPaper>
-        </Grid>
-      </Grid>
+      <LeftSide>
+        <Typography fontSize={'1.5rem'}>Score Details</Typography>
+        <ScoreDetails
+          page={page}
+          jobPostingId={selectedJobPosting?.job_posting?.id}
+          jobTitle={selectedJobPosting?.job_title}
+          matchScoreDetails={matchScore}
+          loading={loading}
+          handleCalculate={handleCalculate}
+        />
+      </LeftSide>
 
       {/* Right Side - Panels */}
-      <Grid
-        xs={12}
-        md={4}
-        // container
-        // direction="column"
-        // spacing={2}
-        // gap={'3%'}
-        height={'100%'}
-        // maxHeight={'25vh'}
-        // flexWrap={'nowrap'}
-        // justifyContent={'end'}
-      >
-        {/* Resume Panel */}
-        <SubPanelContainer>
+      <RightSide>
+        <Typography fontSize={'1.5rem'}>Status Overview</Typography>
+
+        <RightSideMain>
+          {/* Resume Panel */}
+          <ResumeFeedbackPanel />
+
+          {/* <SubPanelContainer>
           <Typography variant="h6">&nbsp;</Typography>
           <ExtraDetailsPanelPaperScore
             elevation={3}
@@ -267,10 +244,12 @@ const FullCandidateJobProfile = ({
           >
             <Typography fontSize={'1.8rem'}>Résumé</Typography>
           </ExtraDetailsPanelPaperScore>
-        </SubPanelContainer>
+        </SubPanelContainer> */}
 
-        {/* Calls Panel */}
-        <SubPanelContainer>
+          {/* Calls Panel */}
+          <CallsPanel />
+
+          {/* <SubPanelContainer>
           <Typography variant="h6">&nbsp;</Typography>
           <CallsPaper elevation={3}>
             {callMode === 'callsSelection' ? (
@@ -318,10 +297,13 @@ const FullCandidateJobProfile = ({
               </>
             )}
           </CallsPaper>
-        </SubPanelContainer>
+        </SubPanelContainer> */}
 
-        {/* Generations Panel */}
-        <SubPanelContainer xs={12}>
+          {/* Generations Panel */}
+          <GenerationsPanel />
+        </RightSideMain>
+
+        {/* <SubPanelContainer>
           <Typography variant="h6">&nbsp;</Typography>
           <GenerationsPaper elevation={3}>
             {genMode === 'emailsSelection' ? (
@@ -364,8 +346,8 @@ const FullCandidateJobProfile = ({
               </>
             )}
           </GenerationsPaper>
-        </SubPanelContainer>
-      </Grid>
+        </SubPanelContainer> */}
+      </RightSide>
     </Container>
   );
 };

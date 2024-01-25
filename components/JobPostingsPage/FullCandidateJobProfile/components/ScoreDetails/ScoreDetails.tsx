@@ -5,6 +5,10 @@ import { styled } from '@mui/material/styles';
 import LinearProgress, {
   linearProgressClasses,
 } from '@mui/material/LinearProgress';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
+import { ScoreDetailsPaper } from '../../FullCandidateJobProfile.styles';
+import LoadingScore from './components/LoadingScore';
+import AwaitingCalculation from './components/AwaitingCalculation';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -19,7 +23,23 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const ScoreDetails = ({ matchScoreDetails }) => {
+const Container = styled(Grid2)`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+`;
+
+const ScoreDetails = ({
+  page,
+  jobPostingId,
+  jobTitle,
+  matchScoreDetails,
+  loading,
+  handleCalculate,
+}) => {
   // Splitting scores into two columns
   const scoreEntries = Object.entries(matchScoreDetails);
   const midIndex = Math.ceil(scoreEntries.length / 2);
@@ -109,39 +129,52 @@ const ScoreDetails = ({ matchScoreDetails }) => {
       );
     });
 
+  if (!matchScoreDetails) {
+    if (loading) {
+      return <LoadingScore jobTitle={jobTitle} />;
+    } else {
+      return (
+        <AwaitingCalculation
+          page={page}
+          jobPostingId={jobPostingId}
+          handleCalculate={handleCalculate}
+        />
+      );
+    }
+  }
+
   return (
-    <>
-      <Grid container direction={'column'}>
-        <Typography variant="h5" marginLeft={'5%'} marginTop={'3%'}>
-          Weighted Score: {matchScoreDetails.weighted_score} / 10
-        </Typography>
-        <Typography variant="h6" marginLeft={'5%'} marginTop={'1%'}>
-          Total Score: {matchScoreDetails.total_score} / 100
-        </Typography>
-      </Grid>
-      <Grid
-        container
-        justifyContent={'center'}
-        alignItems={'space-between'}
-        spacing={2}
-        m={'0 auto'}
-        sx={{
-          width: '96%',
-          marginLeft: '2%',
-          marginBottom: '2%',
-          overflow: 'scroll',
-          border: '1px solid #13d0b7',
-          borderRadius: '4px',
-        }}
-      >
-        <Grid item xs={6}>
-          {renderScores(leftColumnScores, 'l')}
-        </Grid>
-        <Grid item xs={6}>
-          {renderScores(rightColumnScores, 'r')}
-        </Grid>
-      </Grid>
-    </>
+    <Container>
+      <ScoreDetailsPaper>
+        <Grid2 container direction={'column'}>
+          <Typography variant="h5" marginLeft={'5%'} marginTop={'3%'}>
+            Weighted Score: {matchScoreDetails.weighted_score} / 10
+          </Typography>
+          <Typography variant="h6" marginLeft={'5%'} marginTop={'1%'}>
+            Total Score: {matchScoreDetails.total_score} / 100
+          </Typography>
+        </Grid2>
+
+        <Grid2
+          container
+          justifyContent={'center'}
+          alignItems={'space-between'}
+          spacing={2}
+          m={'0 auto'}
+          sx={{
+            width: '96%',
+            marginLeft: '2%',
+            // marginBottom: '2%',
+            overflow: 'scroll',
+            border: '1px solid #13d0b7',
+            borderRadius: '4px',
+          }}
+        >
+          <Grid2>{renderScores(leftColumnScores, 'l')}</Grid2>
+          <Grid2>{renderScores(rightColumnScores, 'r')}</Grid2>
+        </Grid2>
+      </ScoreDetailsPaper>
+    </Container>
   );
 };
 
