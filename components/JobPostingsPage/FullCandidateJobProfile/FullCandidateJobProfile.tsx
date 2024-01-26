@@ -29,7 +29,7 @@ import GenerationsPanel from './components/ScoringMaterials/GenerationsPanel';
 import CallsPanel from './components/ScoringMaterials/CallsPanel';
 
 const LeftSide = styled(Grid)`
-  height: 100%;
+  // height: 100%;
   width: 75%;
   display: flex;
   flex-direction: column;
@@ -39,8 +39,8 @@ const LeftSide = styled(Grid)`
 `;
 
 const RightSide = styled(Grid)`
-  height: 98.8%;
-  width: 25%;
+  height: 98.4%;
+  width: 30%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

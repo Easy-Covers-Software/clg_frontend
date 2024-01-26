@@ -10,7 +10,7 @@ import { PanelButton } from '../ExtraDetailsPanel';
 import { ButtonGroupContainer } from '../../FullCandidateJobProfile.styles';
 
 const Container = styled(Grid)`
-  height: 25%;
+  height: 30%;
   width: 100%;
   // min-height: 100px;
   padding: 0;

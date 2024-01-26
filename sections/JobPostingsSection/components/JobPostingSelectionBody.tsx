@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 
 //-- import MUI components --//
 import styled from '@emotion/styled';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import Typography from '@mui/material/Typography';
 
 //-- import context --//
@@ -21,8 +21,7 @@ import ResumeIframe from '@/components/CandidatesPage/ResumeIframe';
 //-- import api methods --//
 import { calculateMatchScore } from '@/api/GenerationMethods';
 
-// const Container = styled(Grid)`
-const Container = styled.div`
+const Container = styled(Grid2)`
   height: 100%;
   width: 100%;
   padding: 0.2%;
@@ -34,11 +33,13 @@ const Container = styled.div`
   border-radius: 4px;
   border: 1px solid #006d4b;
   background-color: white;
+  margin: 0;
+  // overflow: scroll;
 `;
 
-// const SubContainer = styled(Grid)`
-const SubContainer = styled.div`
+const SubContainer = styled(Grid2)`
   height: 100%;
+  width: 100%;
   max-height: 75vh;
   background-color: #f8f8ff;
 

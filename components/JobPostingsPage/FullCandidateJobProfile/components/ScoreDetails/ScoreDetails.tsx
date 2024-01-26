@@ -26,10 +26,11 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 const Container = styled(Grid2)`
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
   margin: 0;
   padding: 0;
+  overflow: scroll;
 `;
 
 const ScoreDetails = ({
@@ -144,37 +145,52 @@ const ScoreDetails = ({
   }
 
   return (
-    <Container>
-      <ScoreDetailsPaper>
-        <Grid2 container direction={'column'}>
-          <Typography variant="h5" marginLeft={'5%'} marginTop={'3%'}>
-            Weighted Score: {matchScoreDetails.weighted_score} / 10
-          </Typography>
-          <Typography variant="h6" marginLeft={'5%'} marginTop={'1%'}>
-            Total Score: {matchScoreDetails.total_score} / 100
-          </Typography>
-        </Grid2>
+    // <Container>
+    <ScoreDetailsPaper>
+      <Grid2
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <Typography variant="h5" marginLeft={'5%'} marginTop={'3%'}>
+          Weighted Score: {matchScoreDetails.weighted_score} / 10
+        </Typography>
+        <Typography variant="h6" marginLeft={'5%'} marginTop={'1%'}>
+          Total Score: {matchScoreDetails.total_score} / 100
+        </Typography>
+      </Grid2>
 
+      <Grid2
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+          overflow: 'scroll',
+          border: '1px solid #13d0b7',
+          borderRadius: '4px',
+          paddingTop: '1%',
+        }}
+      >
         <Grid2
-          container
-          justifyContent={'center'}
-          alignItems={'space-between'}
-          spacing={2}
-          m={'0 auto'}
-          sx={{
-            width: '96%',
-            marginLeft: '2%',
-            // marginBottom: '2%',
-            overflow: 'scroll',
-            border: '1px solid #13d0b7',
-            borderRadius: '4px',
+          style={{
+            width: '50%',
+            marginLeft: '3%',
           }}
         >
-          <Grid2>{renderScores(leftColumnScores, 'l')}</Grid2>
-          <Grid2>{renderScores(rightColumnScores, 'r')}</Grid2>
+          {renderScores(leftColumnScores, 'l')}
         </Grid2>
-      </ScoreDetailsPaper>
-    </Container>
+        <Grid2
+          style={{
+            width: '50%',
+            marginLeft: '3%',
+          }}
+        >
+          {renderScores(rightColumnScores, 'r')}
+        </Grid2>
+      </Grid2>
+    </ScoreDetailsPaper>
+    // </Container>
   );
 };
 

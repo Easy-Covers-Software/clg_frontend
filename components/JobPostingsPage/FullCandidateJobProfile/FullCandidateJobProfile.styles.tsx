@@ -10,17 +10,18 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import { StyledPaper as StyledPaper2 } from '@/components/CandidatesPage/FullCandidateProfileOverview/FullCandidateProfileOverview.styles';
 
 export const Container = styled(Grid)`
-  height: 100%;
-  width: 100%;
+  height: 71vh;
+  width: 98.5%;
   max-height: 90vh;
   display: flex;
   align-content: center;
   justify-content: center;
   justify-content: flex-end;
   margin: 0;
-  padding: 1%;
+  padding-left: 0.5%;
   flex-wrap: nowrap;
-  gap: 3%;
+  gap: 1%;
+  // margin-top: 1%;
 `;
 
 export const SubPanelContainer = styled(Grid)`
@@ -45,7 +46,7 @@ export const ScoreDetailsPaper = styled(StyledPaper)`
   flex-direction: column;
   justify-content: space-around;
   // align-items: center;
-  // overflow: hidden;
+  overflow: hidden;
 `;
 
 export const CallsPaper = styled(StyledPaper)`

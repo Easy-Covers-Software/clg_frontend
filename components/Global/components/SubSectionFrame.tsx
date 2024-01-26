@@ -1,17 +1,19 @@
 import React, { FC } from 'react';
 
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
 import { Typography, Button } from '@mui/material';
 import { IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const Container = styled(Grid)`
-  height: 100%;
+const Container = styled(Grid2)`
+  height: 70vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0;
+  padding: 0;
 `;
 
 const BackButton = styled(IconButton)`
@@ -27,12 +29,14 @@ const Title = styled(Typography)`
   font-size: 1.5rem;
 `;
 
-const Body = styled(Grid)`
+const Body = styled(Grid2)`
   width: 100%;
   height: 100%;
   // overflow: scroll;
   padding: 1%;
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 `;
 
 interface Props {

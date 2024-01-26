@@ -16,7 +16,8 @@ export const PanelButton = styled(UnSelectedButton)`
   height: 100%;
 
   color: #006d4b !important;
-  background-color: white !important;
+  // background-color: white !important;
+  background-color: #f8f8ff !important;
 
   border: 1px solid #13d0b7 !important;
 
