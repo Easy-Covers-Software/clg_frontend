@@ -31,7 +31,7 @@ const PanelPaper = styled(StyledPaper)`
   cursor: pointer;
 `;
 
-const ResumeFeedbackPanel = () => (
+const ResumeFeedbackPanel = ({ setResumeMode, setFeedbackMode }) => (
   <Container>
     <PanelPaper>
       <Typography fontSize={'1.4rem'} textAlign={'center'}>
@@ -39,9 +39,9 @@ const ResumeFeedbackPanel = () => (
       </Typography>
 
       <ButtonGroupContainer variant="text">
-        <PanelButton>Résumé</PanelButton>
+        <PanelButton onClick={() => setResumeMode()}>Résumé</PanelButton>
 
-        <PanelButton>Feedback</PanelButton>
+        <PanelButton onClick={() => setFeedbackMode()}>Feedback</PanelButton>
       </ButtonGroupContainer>
     </PanelPaper>
   </Container>

@@ -1,14 +1,11 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import FolderSharedIcon from '@mui/icons-material/FolderShared';
-import Chip from '@mui/material/Chip';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import Divider from '@mui/material/Divider';
 import styled from '@emotion/styled';
 import { SectionHeader } from './ProfessionalDetailsPanel.styles';
-import CoreSkills from './components/CoreSkills';
+import CoreSkills from './components/CoreSkills/CoreSkills';
+import ProfessionalLinks from './components/ProfessionalLinks/ProfessionalLinks';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import EmploymentHistory from './components/Experience/Experience';
@@ -76,17 +73,17 @@ const ProfessionalDetailsPanel: React.FC<any> = ({
           }}
         >
           <Header>Professional Details</Header>
-          {/* <FormGroup
+          <FormGroup
             sx={{
               marginRight: '1.5%',
             }}
           >
             <FormControlLabel
               control={<Switch color="success" />}
-              label="Work Preferences"
+              label="Personal Details"
               labelPlacement="start"
             />
-          </FormGroup> */}
+          </FormGroup>
         </Grid>
 
         {/* </Grid> */}
@@ -117,7 +114,18 @@ const ProfessionalDetailsPanel: React.FC<any> = ({
           {/* <Preferences /> */}
 
           {/* 4. Skills */}
-          <CoreSkills skills={selectedCandidate.core_skills} />
+          <Grid2
+            style={{
+              display: 'flex',
+              width: '100%',
+              margin: '0',
+              padding: '0',
+            }}
+          >
+            <CoreSkills skills={selectedCandidate.core_skills} />
+
+            <ProfessionalLinks />
+          </Grid2>
         </MainSections>
       </ProfessionalDetailsPaper>
     </ProfessionalDetailsGrid>

@@ -207,6 +207,10 @@ const FullCandidateJobProfile = ({
     updateSubSectionMode('resume');
   };
 
+  const setModeToFeedback = () => {
+    updateSubSectionMode('status-feedback');
+  };
+
   console.log('selectedJobPosting ====***');
   console.log(followUpPhoneCalls);
 
@@ -231,7 +235,10 @@ const FullCandidateJobProfile = ({
 
         <RightSideMain>
           {/* Resume Panel */}
-          <ResumeFeedbackPanel />
+          <ResumeFeedbackPanel
+            setResumeMode={setModeToResume}
+            setFeedbackMode={setModeToFeedback}
+          />
 
           {/* <SubPanelContainer>
           <Typography variant="h6">&nbsp;</Typography>

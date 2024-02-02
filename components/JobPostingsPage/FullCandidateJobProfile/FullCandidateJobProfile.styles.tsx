@@ -92,7 +92,7 @@ export const ExtraDetailsPanelPaperScore = styled(StyledPaper2)`
 export const ButtonGroupContainer = styled(ButtonGroup)`
   width: 98%;
   height: 100%;
-  padding-bottom: 3%;
+  padding-bottom: 1%;
 `;
 
 export const PanelButton = styled(UnSelectedButton)`

@@ -15,18 +15,13 @@ export const ProfessionalDetailsPaper = styled(StyledPaper)`
   height: 100%;
   display: flex;
   flex-direction: column;
-  // justify-content: space-evenly;
   flex-wrap: nowrap;
   white-space: nowrap;
   min-height: 300px;
-  // overflow: scroll;
-  // gap: 10%;
-  // overflow-y: scroll;
-  max-height: 53vh;
 `;
 
 export const Header = styled(Typography)`
-  font-size: 1.7rem;
+  font-size: 2rem;
   padding-left: 1.5%;
   padding-top: 1%;
   letter-spacing: 0.1rem;
@@ -48,7 +43,7 @@ export const MainSections = styled(Grid)`
 
 export const SectionHeader = styled(Typography)`
   // text-align: end;
-  padding-left: 3%;
+  padding-left: 1%;
   font-size: 1.4rem;
   font-weight: bold;
   padding-top: 1%;
@@ -58,8 +53,8 @@ export const SectionHeader = styled(Typography)`
 `;
 
 export const SubDivider = styled(Divider)`
-  width: 96.5%;
-  margin: auto;
+  width: 100%;
+  // margin: auto;
   border-color: #006d4b;
   opacity: 0.6;
 `;

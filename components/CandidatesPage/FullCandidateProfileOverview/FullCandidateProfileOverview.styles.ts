@@ -14,7 +14,7 @@ export const Container = styled(Grid)`
   flex-wrap: nowrap;
   white-space: nowrap;
   margin: 0;
-  padding-bottom: 1%;
+  // padding-bottom: 1%;
 
   // max-width: 60vw;
 `;

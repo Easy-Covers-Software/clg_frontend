@@ -1,7 +1,11 @@
 import { useState } from 'react';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
+import { Grid } from '@mui/material';
 import styled from '@emotion/styled';
-import { SectionHeader, SubDivider } from '../ProfessionalDetailsPanel.styles';
+import {
+  SectionHeader,
+  SubDivider,
+} from '../../ProfessionalDetailsPanel.styles';
 import { Typography } from '@mui/material';
 import { PrimaryButton, UnSelectedButton } from '@/components/Global/Global';
 import Chip from '@mui/material/Chip';
@@ -10,34 +14,25 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { IconButton } from '@mui/material';
 
 const Container = styled(Grid)`
-  width: 100%;
+  width: 70%;
   height: 15%;
-  flex: 1;
+  // flex: 1;
   margin-top: 3%;
   margin: 0;
+  padding: 1%;
+  // margin: auto;
   // border: 1px solid black;
 `;
 
 const ChipsContainer = styled(Grid)`
   display: flex;
-  justify-content: end;
+  // justify-content: end;
   align-items: end;
   flex-wrap: wrap;
-  gap: 0.5;
   padding: 0 2%;
   margin: 0;
-  overflow: none;
+  overflow: scroll;
 `;
-
-// const skills = [
-//   'Django',
-//   'React.js',
-//   'Python',
-//   'Typescript',
-//   'Bash',
-//   'PostgreSQL',
-//   // 'Linux',
-// ];
 
 const CoreSkills = ({ skills }) => {
   const [open, setOpen] = useState(true);
@@ -48,7 +43,7 @@ const CoreSkills = ({ skills }) => {
       key={index}
       label={skill.trim()}
       style={{
-        margin: '0.3% 0',
+        margin: '0.8% 0',
         border: '1px solid #006D4B',
         backgroundColor: '#f8f8ff',
       }}
@@ -56,13 +51,12 @@ const CoreSkills = ({ skills }) => {
   ));
 
   return (
-    <Container xs={6}>
+    <Container>
       <SectionHeader>Core Skills</SectionHeader>
 
-      {/* <Grid> */}
       <SubDivider />
-      {open && <ChipsContainer>{skillChips}</ChipsContainer>}
-      {/* </Grid> */}
+
+      <ChipsContainer>{skillChips}</ChipsContainer>
     </Container>
   );
 };

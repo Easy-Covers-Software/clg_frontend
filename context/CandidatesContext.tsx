@@ -43,6 +43,9 @@ const initialState: CandidateContextState = {
       selectedEducation: null,
     },
 
+    // personalDetailsState
+    personalDetailsState: {},
+
     // jobPostingsAssociatedWithCandidateState
     candidateJobPostingsListState: {
       jobPostings: [],

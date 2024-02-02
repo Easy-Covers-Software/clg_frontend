@@ -63,6 +63,20 @@ const FullCandidateProfileOverview: React.FC<any> = ({
       {/*** LEFT SIDE ***/}
       <ColumnContainer xs={12} md={8}>
         {/* TOP LEFT */}
+        {/* {candidateProfileViewMode === 'professional' ? (
+          <ProfessionalDetailsPanel
+            selectedCandidate={selectedCandidate}
+            professionalDetails={professionalDetails}
+            updateProfessionalDetails={updateProfessionalDetails}
+          />
+        ) : (
+          // Else personal details
+          <ProfessionalDetailsPanel
+            selectedCandidate={selectedCandidate}
+            professionalDetails={professionalDetails}
+            updateProfessionalDetails={updateProfessionalDetails}
+          />
+        )} */}
         <ProfessionalDetailsPanel
           selectedCandidate={selectedCandidate}
           professionalDetails={professionalDetails}
@@ -70,7 +84,7 @@ const FullCandidateProfileOverview: React.FC<any> = ({
         />
 
         {/* BOTTOM LEFT */}
-        <PersonalDetailsPanel selectedCandidate={selectedCandidate} />
+        {/* <PersonalDetailsPanel selectedCandidate={selectedCandidate} /> */}
       </ColumnContainer>
 
       {/*** RIGHT SIDE ***/}

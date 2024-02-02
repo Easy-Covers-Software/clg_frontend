@@ -11,129 +11,20 @@ import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
 import { SectionHeader } from '../../ProfessionalDetailsPanel.styles';
-
-const ExperienceHistoryContainer = styled(Grid)`
-  width: 96.5%;
-  height: 50%;
-
-  margin: 0;
-  margin: auto;
-
-  // padding: 0;
-  // border: 1px solid black;
-`;
-
-const TabsBox = styled(Box)`
-  // height: '100%';
-  position: 'relative';
-  margin-right: 2%;
-  min-height: 0;
-  margin-top: 0.5%;
-`;
-
-const TabsContainer = styled(Tabs)`
-  min-height: 0;
-  display: flex;
-  max-width: 28vw;
-
-  .MuiTabs-flexContainer {
-    // justify-content: center;
-  }
-
-  &.MuiTabs-indicator {
-    border-bottom: 1px solid #006d4b;
-  }
-`;
-
-const SelectionTab = styled(Tab)`
-  min-height: 0;
-  height: 100%;
-  width: 7vw;
-  white-space: nowrap;
-  font-size: 0.8rem;
-
-  border: 1px solid #006d4b;
-  border-radius: 4px 4px 0 0;
-  padding: 2px 0;
-  &.Mui-selected {
-    color: #006d4b;
-    // font-weight: bold;
-    text-decoration: underline;
-    border-bottom: 1px solid #13d0b7;
-  }
-  &.MuiTabs-indicator {
-    border-bottom: 1px solid #006d4b;
-  }
-  // MUI tab root
-  &.MuiTab-root {
-    min-width: 100px;
-  }
-`;
-
-const MainContentContainer = styled(Grid)`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  padding-bottom: 5%;
-  padding-left: 0.3%;
-  padding-right: 0.3%;
-`;
-
-const MainContent = styled(Grid)`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-
-  border: 1px solid #006d4b;
-  border-radius: 4px;
-`;
-
-const Top = styled(Grid)`
-  display: flex;
-  justify-content: space-between;
-  margin: 0;
-  padding: 0 1%;
-`;
-
-const TopHeader = styled(Typography)`
-  font-size: 1.1rem;
-  color: #006d4b;
-`;
-
-const Middle = styled(Grid)`
-  display: flex;
-  justify-content: space-between;
-  margin: 0;
-  padding: 0 1%;
-`;
-
-const MiddleHeader = styled(Typography)`
-  font-size: 1rem;
-  // margin-top: -1%;
-  color: #006d4b;
-`;
-
-const Summary = styled(Grid)`
-  display: flex;
-  flex-direction: column;
-  white-space: wrap;
-  margin: 0;
-  padding: 0;
-  // padding-left: 1%;
-  overflow-y: scroll;
-`;
-
-// const SummaryNote = styled(Typography)``;
-const SummaryNote = styled.li`
-  padding-left: 3%;
-  color: #006d4b;
-`;
+import {
+  ExperienceHistoryContainer,
+  TabsBox,
+  TabsContainer,
+  SelectionTab,
+  MainContentContainer,
+  MainContent,
+  Top,
+  TopHeader,
+  Middle,
+  MiddleHeader,
+  Summary,
+  SummaryNote,
+} from './Experience.styles';
 
 const Experience = ({ experiences, selected, selectedIndex, handleChange }) => {
   const formatDateRange = (startDate, endDate) => {
@@ -181,11 +72,6 @@ const Experience = ({ experiences, selected, selectedIndex, handleChange }) => {
                 label={experience.employer}
               />
             ))}
-
-            {/* <SelectionTab value="one" label="Job 1" />
-            <SelectionTab value="two" label="Job 2" />
-            <SelectionTab value="three" label="Job 3" />
-            <SelectionTab value="four" label="Job 4" /> */}
           </TabsContainer>
         </TabsBox>
       </Grid>
@@ -199,10 +85,10 @@ const Experience = ({ experiences, selected, selectedIndex, handleChange }) => {
             </TopHeader>
           </Top>
 
-          <Middle>
+          {/* <Middle>
             <MiddleHeader>{selected?.employer}</MiddleHeader>
             <MiddleHeader>{selected?.industry}</MiddleHeader>
-          </Middle>
+          </Middle> */}
 
           <Divider />
 
