@@ -35,6 +35,29 @@ interface Props {
   selectedCandidate: CandidateListItem;
 }
 
+const HeaderContainer = styled(Grid)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5%;
+`;
+
+const SwitchContainer = styled(FormGroup)`
+  margin-right: 1.5%;
+`;
+
+const StyledDivider = styled(Divider)`
+  border-color: #13d0b7;
+  opacity: 0.4;
+`;
+
+const SkillsContainer = styled(Grid)`
+  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+`;
+
 const skills = ['Django', 'React.js', 'Python', 'Typescript', 'Bash'];
 
 const ProfessionalDetailsPanel: React.FC<any> = ({
@@ -64,35 +87,19 @@ const ProfessionalDetailsPanel: React.FC<any> = ({
   return (
     <ProfessionalDetailsGrid>
       <ProfessionalDetailsPaper elevation={3}>
-        <Grid
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '0 1.5%',
-          }}
-        >
+        {/* <HeaderContainer>
           <Header>Professional Details</Header>
-          <FormGroup
-            sx={{
-              marginRight: '1.5%',
-            }}
-          >
+          <SwitchContainer>
             <FormControlLabel
               control={<Switch color="success" />}
               label="Personal Details"
               labelPlacement="start"
             />
-          </FormGroup>
-        </Grid>
+          </SwitchContainer>
+        </HeaderContainer> */}
 
-        {/* </Grid> */}
-        <Divider
-          sx={{
-            borderColor: '#13d0b7',
-            opacity: 0.4,
-          }}
-        />
+        <StyledDivider />
+
         <MainSections container>
           {/* 1. Experience History */}
           <EmploymentHistory
@@ -110,22 +117,12 @@ const ProfessionalDetailsPanel: React.FC<any> = ({
             handleChange={handleEduChange}
           />
 
-          {/* 3. Work Preferences */}
-          {/* <Preferences /> */}
-
-          {/* 4. Skills */}
-          <Grid2
-            style={{
-              display: 'flex',
-              width: '100%',
-              margin: '0',
-              padding: '0',
-            }}
-          >
+          {/* 3. Skills */}
+          <SkillsContainer>
             <CoreSkills skills={selectedCandidate.core_skills} />
 
             <ProfessionalLinks />
-          </Grid2>
+          </SkillsContainer>
         </MainSections>
       </ProfessionalDetailsPaper>
     </ProfessionalDetailsGrid>

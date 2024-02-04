@@ -43,6 +43,8 @@ const initialState: CandidateContextState = {
       selectedEducation: null,
     },
 
+    candidateDetailsMode: 'professional', // professional, personal
+
     // personalDetailsState
     personalDetailsState: {},
 
@@ -86,6 +88,7 @@ const initialState: CandidateContextState = {
 
     updateMode: (mode: string): void => {},
     updateSelectionSummaryState: (field, state: any): void => {},
+    updateCandidatePanelMode: (mode: string): void => {},
     updateProfessionalDetailsState: (field, state: any): void => {},
     updateCandidateJobPostingsListState: (field, state: any): void => {},
     updateCurrentlyCalculating: (candidateId: any): void => {},
@@ -147,6 +150,15 @@ const candidatesReducer = (state: any, action: any) => {
             ...state.bodyState.selectionSummaryState,
             ...action.payload,
           },
+        },
+      };
+
+    case 'UPDATE_CANDIDATE_PANEL_MODE':
+      return {
+        ...state,
+        bodyState: {
+          ...state.bodyState,
+          candidateDetailsMode: action.payload,
         },
       };
 
@@ -380,6 +392,7 @@ export const CandidatesContextProvider = ({ children }) => {
         selectionSummaryState: initialState.bodyState.selectionSummaryState,
         professionalDetailsState:
           initialState.bodyState.professionalDetailsState,
+        candidateDetailsMode: initialState.bodyState.candidateDetailsMode,
         candidateJobPostingsListState:
           initialState.bodyState.candidateJobPostingsListState,
         currentlyCalculating: initialState.bodyState.currentlyCalculating,
@@ -396,6 +409,12 @@ export const CandidatesContextProvider = ({ children }) => {
           dispatch({
             type: 'UPDATE_CANDIDATE_SELECTION_SUMMARY_STATE',
             payload: { [field]: state },
+          });
+        },
+        updateCandidatePanelMode: (mode: string): void => {
+          dispatch({
+            type: 'UPDATE_CANDIDATE_PANEL_MODE',
+            payload: mode,
           });
         },
         updateProfessionalDetailsState: (field, state: any): void => {

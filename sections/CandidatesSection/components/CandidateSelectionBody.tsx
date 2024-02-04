@@ -282,6 +282,8 @@ const CandidateSelectionBody: FC = () => {
             handleFileChange={handleFileChange}
             professionalDetails={bodyState.professionalDetailsState}
             updateProfessionalDetails={bodyState.updateProfessionalDetailsState}
+            candidatePanelMode={bodyState.candidateDetailsMode}
+            updateCandidatePanelMode={bodyState.updateCandidatePanelMode}
           />
         );
       case 'resume':

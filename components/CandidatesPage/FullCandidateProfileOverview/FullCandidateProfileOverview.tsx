@@ -13,6 +13,8 @@ import ExtraDetailsPanel from './components/ExtraDetailsPanel';
 import { CandidateListItem } from '@/Types/CandidatesSection.types';
 import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
 import ProfessionalDetailsPanel from './components/ProfessionalDetailsPanel/ProfessionalDetailsPanel';
+import { FormGroup, Divider, FormControlLabel, Switch } from '@mui/material';
+import { Header } from './components/ProfessionalDetailsPanel/ProfessionalDetailsPanel.styles';
 
 const ColumnContainer = styled(Grid)`
   height: 100%;
@@ -22,6 +24,22 @@ const ColumnContainer = styled(Grid)`
   padding: 0;
   margin: 0;
   gap: 1%;
+`;
+
+const HeaderContainer = styled(Grid)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5%;
+`;
+
+const SwitchContainer = styled(FormGroup)`
+  margin-right: 1.5%;
+`;
+
+const StyledDivider = styled(Divider)`
+  border-color: #13d0b7;
+  opacity: 0.4;
 `;
 
 interface Props {
@@ -47,8 +65,12 @@ const FullCandidateProfileOverview: React.FC<any> = ({
   handleFileChange,
   professionalDetails,
   updateProfessionalDetails,
+  candidatePanelMode,
+  updateCandidatePanelMode,
 }) => {
   const fileInputRef = useRef(null);
+
+  console.log('candidatePanelMode', candidatePanelMode);
 
   const handleResumeClick = () => {
     if (resumeUrl === '') {
@@ -63,7 +85,30 @@ const FullCandidateProfileOverview: React.FC<any> = ({
       {/*** LEFT SIDE ***/}
       <ColumnContainer xs={12} md={8}>
         {/* TOP LEFT */}
-        {/* {candidateProfileViewMode === 'professional' ? (
+        <HeaderContainer>
+          <Header>Professional Details</Header>
+          <SwitchContainer>
+            <FormControlLabel
+              control={
+                <Switch
+                  color="success"
+                  checked={candidatePanelMode === 'professional' ? false : true}
+                  onChange={() => {
+                    if (candidatePanelMode === 'professional') {
+                      updateCandidatePanelMode('personal');
+                    } else {
+                      updateCandidatePanelMode('professional');
+                    }
+                  }}
+                />
+              }
+              label="Personal Details"
+              labelPlacement="start"
+            />
+          </SwitchContainer>
+        </HeaderContainer>
+
+        {candidatePanelMode === 'professional' ? (
           <ProfessionalDetailsPanel
             selectedCandidate={selectedCandidate}
             professionalDetails={professionalDetails}
@@ -71,17 +116,13 @@ const FullCandidateProfileOverview: React.FC<any> = ({
           />
         ) : (
           // Else personal details
-          <ProfessionalDetailsPanel
-            selectedCandidate={selectedCandidate}
-            professionalDetails={professionalDetails}
-            updateProfessionalDetails={updateProfessionalDetails}
-          />
-        )} */}
-        <ProfessionalDetailsPanel
+          <PersonalDetailsPanel selectedCandidate={selectedCandidate} />
+        )}
+        {/* <ProfessionalDetailsPanel
           selectedCandidate={selectedCandidate}
           professionalDetails={professionalDetails}
           updateProfessionalDetails={updateProfessionalDetails}
-        />
+        /> */}
 
         {/* BOTTOM LEFT */}
         {/* <PersonalDetailsPanel selectedCandidate={selectedCandidate} /> */}
