@@ -1,6 +1,9 @@
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
-import { SectionHeader, SubDivider } from '../ProfessionalDetailsPanel.styles';
+import {
+  SectionHeader,
+  SubDivider,
+} from '../../../ProfessionalDetailsPanel/ProfessionalDetailsPanel.styles';
 import { Typography } from '@mui/material';
 import { PrimaryButton, UnSelectedButton } from '@/components/Global/Global';
 

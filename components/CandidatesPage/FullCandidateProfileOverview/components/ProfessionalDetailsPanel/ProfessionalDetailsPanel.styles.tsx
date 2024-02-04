@@ -12,7 +12,7 @@ export const ProfessionalDetailsGrid = styled(Grid)`
 `;
 
 export const ProfessionalDetailsPaper = styled(StyledPaper)`
-  height: 100%;
+  height: 72vh;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;

@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import Grid from '@mui/material/Unstable_Grid2/Grid2'; // Importing Grid2
 import styled from '@emotion/styled';
 
-import { Typography } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import CandidateJobsList from './components/CandidateJobsList';
 import PersonalDetailsPanel from './components/PersonalDetailsPanel/PersonalDetailsPanel';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'; // Import the upload icon
@@ -54,6 +54,12 @@ interface Props {
   updateProfessionalDetails: (data: any, value) => void;
 }
 
+const PanelBackgroundPaper = styled(Paper)`
+  // height: 100%;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+`;
+
 const FullCandidateProfileOverview: React.FC<any> = ({
   selectedCandidate,
   jobPostings,
@@ -85,47 +91,51 @@ const FullCandidateProfileOverview: React.FC<any> = ({
       {/*** LEFT SIDE ***/}
       <ColumnContainer xs={12} md={8}>
         {/* TOP LEFT */}
-        <HeaderContainer>
-          <Header>Professional Details</Header>
-          <SwitchContainer>
-            <FormControlLabel
-              control={
-                <Switch
-                  color="success"
-                  checked={candidatePanelMode === 'professional' ? false : true}
-                  onChange={() => {
-                    if (candidatePanelMode === 'professional') {
-                      updateCandidatePanelMode('personal');
-                    } else {
-                      updateCandidatePanelMode('professional');
+        <PanelBackgroundPaper>
+          <HeaderContainer>
+            <Header>{candidatePanelMode} Details</Header>
+            <SwitchContainer>
+              <FormControlLabel
+                control={
+                  <Switch
+                    color="success"
+                    checked={
+                      candidatePanelMode === 'Professional' ? false : true
                     }
-                  }}
-                />
-              }
-              label="Personal Details"
-              labelPlacement="start"
-            />
-          </SwitchContainer>
-        </HeaderContainer>
+                    onChange={() => {
+                      if (candidatePanelMode === 'Professional') {
+                        updateCandidatePanelMode('Personal');
+                      } else {
+                        updateCandidatePanelMode('Professional');
+                      }
+                    }}
+                  />
+                }
+                label="Personal Details"
+                labelPlacement="start"
+              />
+            </SwitchContainer>
+          </HeaderContainer>
 
-        {candidatePanelMode === 'professional' ? (
-          <ProfessionalDetailsPanel
-            selectedCandidate={selectedCandidate}
-            professionalDetails={professionalDetails}
-            updateProfessionalDetails={updateProfessionalDetails}
-          />
-        ) : (
-          // Else personal details
-          <PersonalDetailsPanel selectedCandidate={selectedCandidate} />
-        )}
-        {/* <ProfessionalDetailsPanel
+          {candidatePanelMode === 'Professional' ? (
+            <ProfessionalDetailsPanel
+              selectedCandidate={selectedCandidate}
+              professionalDetails={professionalDetails}
+              updateProfessionalDetails={updateProfessionalDetails}
+            />
+          ) : (
+            // Else personal details
+            <PersonalDetailsPanel selectedCandidate={selectedCandidate} />
+          )}
+          {/* <ProfessionalDetailsPanel
           selectedCandidate={selectedCandidate}
           professionalDetails={professionalDetails}
           updateProfessionalDetails={updateProfessionalDetails}
         /> */}
 
-        {/* BOTTOM LEFT */}
-        {/* <PersonalDetailsPanel selectedCandidate={selectedCandidate} /> */}
+          {/* BOTTOM LEFT */}
+          {/* <PersonalDetailsPanel selectedCandidate={selectedCandidate} /> */}
+        </PanelBackgroundPaper>
       </ColumnContainer>
 
       {/*** RIGHT SIDE ***/}

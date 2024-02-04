@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
-import { StyledPaper } from '../../FullCandidateProfileOverview.styles';
+import { StyledPaper } from '../../../../FullCandidateProfileOverview.styles';
 
 export const PersonalDetailsGrid = styled(Grid)`
   width: 100%;
@@ -9,11 +9,11 @@ export const PersonalDetailsGrid = styled(Grid)`
   margin: 0;
 `;
 
-export const PersonalDetailsPaper = styled(StyledPaper)`
-  height: 72vh;
+export const PersonalDetailsContainer = styled(Grid)`
+  height: 100%;
   display: flex;
   flex-direction: column;
-  // justify-content: space-evenly;
+  justify-content: space-evenly;
   flex-wrap: nowrap;
   // gap: 10%;
 `;
