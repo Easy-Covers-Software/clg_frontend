@@ -87,17 +87,6 @@ const ProfessionalDetailsPanel: React.FC<any> = ({
   return (
     <ProfessionalDetailsGrid>
       <ProfessionalDetailsPaper elevation={3}>
-        {/* <HeaderContainer>
-          <Header>Professional Details</Header>
-          <SwitchContainer>
-            <FormControlLabel
-              control={<Switch color="success" />}
-              label="Personal Details"
-              labelPlacement="start"
-            />
-          </SwitchContainer>
-        </HeaderContainer> */}
-
         <StyledDivider />
 
         <MainSections container>
