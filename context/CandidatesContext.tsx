@@ -43,7 +43,7 @@ const initialState: CandidateContextState = {
       selectedEducation: null,
     },
 
-    candidateDetailsMode: 'Personal', // professional, personal
+    candidateDetailsMode: 'Professional', // Professional, Personal
 
     // personalDetailsState
     personalDetailsState: {},

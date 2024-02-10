@@ -13,8 +13,8 @@ export const PersonalDetailsPaper = styled(StyledPaper)`
   height: 72vh;
   display: flex;
   flex-direction: column;
-  // justify-content: space-evenly;
-  flex-wrap: nowrap;
+  justify-content: space-between;
+  // flex-wrap: nowrap;
   // gap: 10%;
 `;
 

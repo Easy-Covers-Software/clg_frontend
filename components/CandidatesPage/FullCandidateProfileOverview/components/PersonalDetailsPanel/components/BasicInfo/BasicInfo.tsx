@@ -3,7 +3,8 @@ import Divider from '@mui/material/Divider';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import Grid from '@mui/material/Grid';
+// import Grid from '@mui/material/Grid';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { GreenSwitch } from '@/components/Global/components/GreenSwitch';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -14,6 +15,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import RedditIcon from '@mui/icons-material/Reddit';
 import { IconButton } from '@mui/material';
+import styled from '@emotion/styled';
 
 import {
   PersonalDetailsContainer,
@@ -32,6 +34,11 @@ interface Props {
   selectedCandidate: CandidateListItem;
 }
 
+const Container = styled(Grid2)`
+  height: 16vh;
+  // display: flex;
+`;
+
 const BasicInfo: React.FC<any> = ({ selectedCandidate }) => {
   //== For linked in and portfolio website ==//
   const openInNewTab = (url) => {
@@ -43,7 +50,7 @@ const BasicInfo: React.FC<any> = ({ selectedCandidate }) => {
   };
 
   return (
-    <Grid>
+    <Container>
       <SectionHeader>Basic Info</SectionHeader>
       <SubDivider />
       <DetailsContainer container>
@@ -83,7 +90,7 @@ const BasicInfo: React.FC<any> = ({ selectedCandidate }) => {
           />
         </DetailsColumn>
       </DetailsContainer>
-    </Grid>
+    </Container>
   );
 };
 

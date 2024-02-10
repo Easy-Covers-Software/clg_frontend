@@ -45,9 +45,8 @@ const PersonalDetailsPanel: React.FC<any> = ({ selectedCandidate }) => {
   return (
     <PersonalDetailsGrid xs={12}>
       <PersonalDetailsPaper>
-        <BasicInfo selectedCandidate={selectedCandidate} />
-
         <Preferences />
+        <BasicInfo selectedCandidate={selectedCandidate} />
       </PersonalDetailsPaper>
     </PersonalDetailsGrid>
   );

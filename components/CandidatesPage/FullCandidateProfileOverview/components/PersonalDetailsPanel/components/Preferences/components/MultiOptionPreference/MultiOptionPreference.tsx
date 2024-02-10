@@ -5,9 +5,9 @@ import React from 'react';
 
 const Container = styled(Grid2)`
   // height: 10vh;
-  // width: 18vw;
-  width: 100%;
-  height: 100%;
+  // width: 16vw;
+  width: 33%;
+  height: 16vh;
   display: flex;
   flex-direction: column;
 `;
@@ -22,16 +22,17 @@ const Header = styled(Typography)`
 `;
 
 const MultiPreferencePaper = styled(Paper)`
-  height: 7vh;
+  height: 100%;
   // width: 18vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border: 1px solid #13d0b7;
 `;
 
 const PreferenceValue = styled(Typography)`
-  font-size: 1.4rem;
+  font-size: 1rem;
 `;
 
 type MultiOptionPreferenceValues = {
@@ -40,7 +41,7 @@ type MultiOptionPreferenceValues = {
 
 interface Props {
   type: string;
-  values: MultiOptionPreferenceValues;
+  values: MultiOptionPreferenceValues | any;
 }
 
 const MultiOptionPreference: React.FC<Props> = ({ type, values }) => {
@@ -48,15 +49,16 @@ const MultiOptionPreference: React.FC<Props> = ({ type, values }) => {
     <Container>
       <Header>{type}</Header>
       <MultiPreferencePaper>
-        {/* Loop through the dictionary of 'values' where the key will be the option value and value will be a true or false value and displaying the ones that are true in a checked off checkbox and the false ones will be slightly opaque  */}
-        {Object.entries(values).map(([key, value]) => (
-          <PreferenceValue
-            key={key}
-            style={{ opacity: value === 'true' ? 1 : 0.5 }}
-          >
-            {key}
-          </PreferenceValue>
-        ))}
+        {values.map((value: any) => {
+          return (
+            <PreferenceValue
+              key={Object.keys(value)[0]}
+              style={{ opacity: Object.values(value)[0] === 'true' ? 1 : 0.5 }}
+            >
+              {Object.keys(value)[0]}: {Object.values(value)[0]}
+            </PreferenceValue>
+          );
+        })}
       </MultiPreferencePaper>
     </Container>
   );
