@@ -5,6 +5,8 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { MainContentContainer } from '../SelectionSummary.styles';
 import styled from '@emotion/styled';
 
+import PersonalDetailsDialog from '@/components/CandidatesPage/FullCandidateProfileOverview/components/PersonalDetailsDialog/PersonalDetailsDialog';
+
 const PrimaryInfo = styled(Typography)`
   font-size: 1.9rem !important;
   color: #006d4b;

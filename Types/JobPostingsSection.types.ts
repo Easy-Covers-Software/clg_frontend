@@ -95,7 +95,7 @@ export type JobPostingBodyUnique = {
   mode: string;
   candidateRankingsState: any;
   currentlyCalculating: null;
-  selectedCandidateScoreDetailsState: any;
+  jobStatusState: any;
   generationResultsState: any;
   updateMode: (mode: string) => void;
   updateCandidateRankingsState: (field, state: any) => void;

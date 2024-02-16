@@ -21,15 +21,16 @@ import BasicInfo from './components/BasicInfo/BasicInfo';
 import {
   PersonalDetailsGrid,
   PersonalDetailsPaper,
-} from './PersonalDetailsPanel.styles';
+} from './WorkPreferencesPanel.styles';
 
 interface Props {
   selectedCandidate: CandidateListItem;
 }
 
-const PersonalDetailsPanel: React.FC<any> = ({
+const WorkPreferencesPanel: React.FC<any> = ({
   selectedCandidate,
   workPreferencesState,
+  handleDropdownPreferenceChange,
 }) => {
   //== For linked in and portfolio website ==//
   const openInNewTab = (url) => {
@@ -44,10 +45,13 @@ const PersonalDetailsPanel: React.FC<any> = ({
     <PersonalDetailsGrid>
       <PersonalDetailsPaper>
         {/* <BasicInfo selectedCandidate={selectedCandidate} /> */}
-        <Preferences workPreferencesState={workPreferencesState} />
+        <Preferences
+          workPreferencesState={workPreferencesState}
+          handleDropdownPreferenceChange={handleDropdownPreferenceChange}
+        />
       </PersonalDetailsPaper>
     </PersonalDetailsGrid>
   );
 };
 
-export default PersonalDetailsPanel;
+export default WorkPreferencesPanel;

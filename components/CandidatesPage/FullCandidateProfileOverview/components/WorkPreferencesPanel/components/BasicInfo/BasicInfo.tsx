@@ -35,8 +35,11 @@ interface Props {
 }
 
 const Container = styled(Grid2)`
-  height: 14vh;
+  // height: 14vh;
   // display: flex;
+  // flex-direction: column;
+  width: 100%;
+  height: 100%;
 `;
 
 const BasicInfo: React.FC<any> = ({ selectedCandidate }) => {
@@ -60,7 +63,7 @@ const BasicInfo: React.FC<any> = ({ selectedCandidate }) => {
             label2={'Age:'}
             label3={'Phone:'}
             label4={'Email:'}
-            size={2.5}
+            size={3}
           />
 
           <ValuesGrid
@@ -79,7 +82,7 @@ const BasicInfo: React.FC<any> = ({ selectedCandidate }) => {
             label2={'State:'}
             label3={'Country:'}
             label4={'Zip Code:'}
-            size={3.5}
+            size={4}
           />
 
           <ValuesGrid

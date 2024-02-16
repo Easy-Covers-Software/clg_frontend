@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 import { Paper, Typography } from '@mui/material';
 import CandidateJobsList from './components/CandidateJobsList';
-import PersonalDetailsPanel from './components/PersonalDetailsPanel/PersonalDetailsPanel';
+import WorkPreferencesPanel from './components/WorkPreferencesPanel/WorkPreferencesPanel';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'; // Import the upload icon
 
 import { Container } from './FullCandidateProfileOverview.styles';
@@ -75,6 +75,7 @@ const FullCandidateProfileOverview: React.FC<any> = ({
   candidatePanelMode,
   updateCandidatePanelMode,
   workPreferencesState,
+  handleDropdownPreferenceChange,
 }) => {
   const fileInputRef = useRef(null);
 
@@ -110,7 +111,7 @@ const FullCandidateProfileOverview: React.FC<any> = ({
                     }
                     onChange={() => {
                       if (candidatePanelMode === 'Professional') {
-                        updateCandidatePanelMode('Personal');
+                        updateCandidatePanelMode('Preferences');
                       } else {
                         updateCandidatePanelMode('Professional');
                       }
@@ -131,9 +132,10 @@ const FullCandidateProfileOverview: React.FC<any> = ({
             />
           ) : (
             // Else personal details
-            <PersonalDetailsPanel
+            <WorkPreferencesPanel
               selectedCandidate={selectedCandidate}
               workPreferencesState={workPreferencesState}
+              handleDropdownPreferenceChange={handleDropdownPreferenceChange}
             />
           )}
         </PanelBackgroundPaper>

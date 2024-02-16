@@ -7,7 +7,6 @@ import { CircularProgress } from '@mui/material';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ScoreDetails from './components/ScoreDetails/ScoreDetails';
 
 import {
   Container,
@@ -27,6 +26,9 @@ import ExtraDetailsPanel from './components/ExtraDetailsPanel';
 import ResumeFeedbackPanel from './components/ScoringMaterials/ResumeFeedbackPanel';
 import GenerationsPanel from './components/ScoringMaterials/GenerationsPanel';
 import CallsPanel from './components/ScoringMaterials/CallsPanel';
+
+import CurrentStatus from './components/CurrentStatus/CurrentStatus';
+import ScoreDetails from './components/ScoreDetails/ScoreDetails';
 
 const LeftSide = styled(Grid)`
   // height: 100%;
@@ -144,6 +146,9 @@ const FullCandidateJobProfile = ({
   handleCalculate,
   handleGenerationSelection,
   handleCallSelection,
+  // new
+  jobStatusState,
+  updateJobStatusState,
 }) => {
   console.log('selectedJobPosting', selectedJobPosting);
 
@@ -211,150 +216,31 @@ const FullCandidateJobProfile = ({
     updateSubSectionMode('status-feedback');
   };
 
+  // new
+  const updateScoreMode = (mode) => {
+    updateJobStatusState('scoreMode', mode);
+  };
+
   console.log('selectedJobPosting ====***');
   console.log(followUpPhoneCalls);
 
   return (
     <Container>
-      {/* Left Side - Score Details */}
-      <LeftSide>
-        <Typography fontSize={'1.5rem'}>Score Details</Typography>
-        <ScoreDetails
-          page={page}
-          jobPostingId={selectedJobPosting?.job_posting?.id}
-          jobTitle={selectedJobPosting?.job_title}
-          matchScoreDetails={matchScore}
-          loading={loading}
-          handleCalculate={handleCalculate}
-        />
-      </LeftSide>
+      {/* CurrentStatus Component */}
+      <CurrentStatus />
 
-      {/* Right Side - Panels */}
-      <RightSide>
-        <Typography fontSize={'1.5rem'}>Status Overview</Typography>
-
-        <RightSideMain>
-          {/* Resume Panel */}
-          <ResumeFeedbackPanel
-            setResumeMode={setModeToResume}
-            setFeedbackMode={setModeToFeedback}
-          />
-
-          {/* <SubPanelContainer>
-          <Typography variant="h6">&nbsp;</Typography>
-          <ExtraDetailsPanelPaperScore
-            elevation={3}
-            onClick={setModeToResume}
-            style={{
-              cursor: 'pointer',
-            }}
-          >
-            <Typography fontSize={'1.8rem'}>Résumé</Typography>
-          </ExtraDetailsPanelPaperScore>
-        </SubPanelContainer> */}
-
-          {/* Calls Panel */}
-          <CallsPanel />
-
-          {/* <SubPanelContainer>
-          <Typography variant="h6">&nbsp;</Typography>
-          <CallsPaper elevation={3}>
-            {callMode === 'callsSelection' ? (
-              <GenerationsList
-                listType={'Follow Up Calls'}
-                generations={followUpPhoneCalls}
-                resetGenerationPanelMode={resetCallPanelMode}
-                handleSelection={handleGenerationSelection}
-              />
-            ) : (
-              <>
-                <Typography fontSize={'1.4rem'} textAlign={'center'}>
-                  Calls
-                </Typography>
-                <ButtonGroupContainer
-                  variant="text"
-                  aria-label="text button group"
-                >
-                  <PanelButton
-                    onClick={() => {
-                      handleCallSelection(introPhoneCall);
-                    }}
-                    disabled={!introPhoneCall}
-                  >
-                    Intro
-                  </PanelButton>
-
-                  <PanelButton
-                    onClick={() => {
-                      if (followUpPhoneCalls) {
-                        if (followUpPhoneCalls?.length === 1) {
-                          handleCallSelection(followUpPhoneCalls[0]);
-                        } else {
-                          setCallPanelModeToFollowSelection();
-                        }
-                      }
-                    }}
-                    disabled={
-                      !followUpPhoneCalls || followUpPhoneCalls?.length === 0
-                    }
-                  >
-                    Follow <br /> Up
-                  </PanelButton>
-                </ButtonGroupContainer>
-              </>
-            )}
-          </CallsPaper>
-        </SubPanelContainer> */}
-
-          {/* Generations Panel */}
-          <GenerationsPanel />
-        </RightSideMain>
-
-        {/* <SubPanelContainer>
-          <Typography variant="h6">&nbsp;</Typography>
-          <GenerationsPaper elevation={3}>
-            {genMode === 'emailsSelection' ? (
-              <GenerationsList
-                listType={'Emails'}
-                generations={emailGenerations}
-                resetGenerationPanelMode={resetGenerationPanelMode}
-                handleSelection={handleGenerationSelection}
-              />
-            ) : genMode === 'coverLettersSelection' ? (
-              <GenerationsList
-                listType={'Cover Letters'}
-                generations={coverLetterGenerations}
-                resetGenerationPanelMode={resetGenerationPanelMode}
-                handleSelection={handleGenerationSelection}
-              />
-            ) : (
-              <>
-                <Typography textAlign={'center'} fontSize={'1.4rem'}>
-                  Generations
-                </Typography>
-                <ButtonGroupContainer
-                  variant="text"
-                  aria-label="text button group"
-                >
-                  <PanelButton
-                    onClick={() => setModeToEmailsSelection()}
-                    disabled={emailGenerations?.length === 0}
-                  >
-                    Emails
-                  </PanelButton>
-
-                  <PanelButton
-                    onClick={() => setModeToCoverLettersSelection()}
-                    disabled={coverLetterGenerations?.length === 0}
-                  >
-                    Cover <br /> Letters
-                  </PanelButton>
-                </ButtonGroupContainer>
-              </>
-            )}
-          </GenerationsPaper>
-        </SubPanelContainer> */}
-      </RightSide>
+      {/* Score Details */}
+      <ScoreDetails
+        page={page}
+        jobPostingId={selectedJobPosting?.job_posting?.id}
+        jobTitle={selectedJobPosting?.job_title}
+        matchScoreDetails={matchScore}
+        loading={loading}
+        handleCalculate={handleCalculate}
+        //new
+        scoreMode={jobStatusState.scoreMode}
+        updateScoreMode={updateScoreMode}
+      />
     </Container>
   );
 };

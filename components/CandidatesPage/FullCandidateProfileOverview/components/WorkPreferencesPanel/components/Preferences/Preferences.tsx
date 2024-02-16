@@ -98,18 +98,6 @@ const DropdownPreferenceGroup = styled(Grid2)`
   padding: 0;
 `;
 
-const DropdownSectionHeader = styled(Typography)`
-  position: relative;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #006d4b;
-  text-align: start;
-  margin: 0;
-  padding: 0;
-  left: -42%;
-  top: 3%;
-`;
-
 const DropdownOptions = styled(Grid2)`
   // height: 100%;
   width: 100%;
@@ -120,12 +108,24 @@ const DropdownOptions = styled(Grid2)`
   padding: 0;
 `;
 
-const WrappedTypography = styled(Typography)`
-  width: 100%;
-  word-break: break-word;
+const DropdownDetailsHeader = styled(Typography)`
+  font-size: 1.2rem;
+  font-weight: bold;
 `;
 
-const Preferences = ({ workPreferencesState }) => {
+const DropdownDetails = styled(Typography)`
+  font-size: 1rem;
+  font-weight: 400;
+`;
+
+const Preferences = ({
+  workPreferencesState,
+  handleDropdownPreferenceChange,
+}) => {
+  const resetPreferenceDropdownSelection = () => {
+    handleDropdownPreferenceChange('');
+  };
+
   return (
     <Container>
       {/* <SectionHeader>Work Preferences</SectionHeader> */}
@@ -166,7 +166,6 @@ const Preferences = ({ workPreferencesState }) => {
               { Small: 'true' },
               { Medium: 'true' },
               { Large: 'false' },
-              // { enterprise: 'false' },
             ]}
           />
         </MultiOptionPreferencesContainer>
@@ -178,51 +177,51 @@ const Preferences = ({ workPreferencesState }) => {
             <DropdownPreferenceGroup>
               <DropdownPreference
                 type="Open To Relocation"
-                details="I will move anywhere in the country besides Illinois. The amount of corn there disturbs me."
                 selected={workPreferencesState.selectedDropdownPreference}
+                handleSelection={handleDropdownPreferenceChange}
+                reset={resetPreferenceDropdownSelection}
               />
               <DropdownPreference
                 type="Sponsorship Required"
-                details="I am from india and will need to get my current sponsor transfered to my new employer. I will facilitate the process."
                 selected={workPreferencesState.selectedDropdownPreference}
+                handleSelection={handleDropdownPreferenceChange}
+                reset={resetPreferenceDropdownSelection}
               />
             </DropdownPreferenceGroup>
             <DropdownPreferenceGroup>
               <DropdownPreference
                 type="Background Check"
-                details="This will be where the details from the background check will be displayed from the new backgrond check model I need to implement."
                 selected={workPreferencesState.selectedDropdownPreference}
+                handleSelection={handleDropdownPreferenceChange}
+                reset={resetPreferenceDropdownSelection}
               />
               <DropdownPreference
                 type="Company Culture"
-                details="I prefer a small startup role environment where i will be able to wear many hats and have a direct impact on the company. I want my voice to be heard and to have a major role in the decision making on the technical side of the business. I am not interested in a large corporate environment."
                 selected={workPreferencesState.selectedDropdownPreference}
+                handleSelection={handleDropdownPreferenceChange}
+                reset={resetPreferenceDropdownSelection}
               />
             </DropdownPreferenceGroup>
             <DropdownPreferenceGroup>
               <DropdownPreference
                 type="Work / Life Balance"
-                details="I am a workaholic at heart and currently do not have a spouse or family to take care of, therefore I do not have any specific interest in a work / life balanced position."
                 selected={workPreferencesState.selectedDropdownPreference}
+                handleSelection={handleDropdownPreferenceChange}
+                reset={resetPreferenceDropdownSelection}
               />
               <DropdownPreference
                 type="Ideal Next Role"
-                details="I would like to get a nice mix of the tech stack i am comfortable with which is django (python) + react.js (javascript/typescript) while also expanding into new places of python that i have not yet worked with like with machine learning or data science. I would also like to work with a team that is open to new ideas and is willing to take risks. I am not interested in a role that is just maintaining a legacy codebase."
                 selected={workPreferencesState.selectedDropdownPreference}
+                handleSelection={handleDropdownPreferenceChange}
+                reset={resetPreferenceDropdownSelection}
               />
             </DropdownPreferenceGroup>
           </DropdownOptions>
           <DetailedPreferencesContainer>
-            {/* TODO: need to update this to be a dynamic context value */}
-            <WrappedTypography>
-              I would like to get a nice mix of the tech stack i am comfortable
-              with which is django (python) + react.js (javascript/typescript)
-              while also expanding into new places of python that i have not yet
-              worked with like with machine learning or data science. I would
-              also like to work with a team that is open to new ideas and is
-              willing to take risks. I am not interested in a role that is just
-              maintaining a legacy codebase.
-            </WrappedTypography>
+            <DropdownDetailsHeader>
+              {workPreferencesState.selectedDropdownPreference} Details
+            </DropdownDetailsHeader>
+            <DropdownDetails></DropdownDetails>
           </DetailedPreferencesContainer>
         </DropdownPreferencesContainer>
 

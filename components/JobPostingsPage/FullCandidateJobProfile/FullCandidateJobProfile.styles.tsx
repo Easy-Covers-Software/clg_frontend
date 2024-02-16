@@ -1,4 +1,4 @@
-// import Grid from '@mui/material/Unstable_Grid2/Grid2'; // Grid2 for the layout
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2'; // Grid2 for the layout
 import { Grid } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import styled from '@emotion/styled';
@@ -9,19 +9,14 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 
 import { StyledPaper as StyledPaper2 } from '@/components/CandidatesPage/FullCandidateProfileOverview/FullCandidateProfileOverview.styles';
 
-export const Container = styled(Grid)`
-  height: 71vh;
-  width: 98.5%;
-  max-height: 90vh;
+export const Container = styled(Grid2)`
+  // height: 100%;
+  width: 100%;
   display: flex;
-  align-content: center;
-  justify-content: center;
-  justify-content: flex-end;
-  margin: 0;
-  padding-left: 0.5%;
-  flex-wrap: nowrap;
-  gap: 1%;
-  // margin-top: 1%;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5%;
+  gap: 5%;
 `;
 
 export const SubPanelContainer = styled(Grid)`

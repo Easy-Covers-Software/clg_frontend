@@ -75,10 +75,7 @@ const CandidateSelectionBody: FC = () => {
   };
 
   const updateScoreDetailsMode = (mode: string) => {
-    bodyState.updateSelectedCandidateScoreDetailsState(
-      'selectedCandidateMode',
-      mode
-    );
+    bodyState.updateJobStatusState('selectedCandidateMode', mode);
   };
 
   const resetScoreDetailsMode = () => {
@@ -86,14 +83,11 @@ const CandidateSelectionBody: FC = () => {
   };
 
   const updateGenerationsPanelMode = (mode: string) => {
-    bodyState.updateSelectedCandidateScoreDetailsState(
-      'generationPanelMode',
-      mode
-    );
+    bodyState.updateJobStatusState('generationPanelMode', mode);
   };
 
   const updateCallsPanelMode = (mode: string) => {
-    bodyState.updateSelectedCandidateScoreDetailsState('callPanelMode', mode);
+    bodyState.updateJobStatusState('callPanelMode', mode);
   };
 
   const updateSelectedJobPosting = (jobPosting: JobPostingListObject) => {
@@ -117,10 +111,7 @@ const CandidateSelectionBody: FC = () => {
 
       // Check if the response includes data and no error
       if (response.data) {
-        bodyState.updateSelectedCandidateScoreDetailsState(
-          'resume',
-          response.data
-        );
+        bodyState.updateJobStatusState('resume', response.data);
       } else {
         console.error('Error uploading resume', response.error);
         snackbar.updateSnackbar(true, 'error', 'Error uploading resume');
@@ -132,15 +123,12 @@ const CandidateSelectionBody: FC = () => {
   };
 
   const handleGenerationSelection = (generation: Generation) => {
-    bodyState.updateSelectedCandidateScoreDetailsState(
-      'selectedGeneration',
-      generation
-    );
+    bodyState.updateJobStatusState('selectedGeneration', generation);
     updateScoreDetailsMode('generation');
   };
 
   const handleCallSelection = (call: PhoneCall) => {
-    bodyState.updateSelectedCandidateScoreDetailsState('selectedCall', call);
+    bodyState.updateJobStatusState('selectedCall', call);
     updateScoreDetailsMode('phoneCall');
   };
 
@@ -180,11 +168,11 @@ const CandidateSelectionBody: FC = () => {
   };
 
   const getCallPanelMode = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.callPanelMode;
+    return bodyState.jobStatusState?.callPanelMode;
   };
 
   const getGenerationPanelMode = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.generationPanelMode;
+    return bodyState.jobStatusState?.generationPanelMode;
   };
 
   const getMatchScore = () => {
@@ -197,12 +185,19 @@ const CandidateSelectionBody: FC = () => {
   };
 
   const getScoreDetailsMode = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.selectedCandidateMode;
+    return bodyState.jobStatusState?.selectedCandidateMode;
   };
 
   const getTranscriptionNotes = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.selectedCall
-      ?.transcription?.notes;
+    return bodyState.jobStatusState?.selectedCall?.transcription?.notes;
+  };
+
+  //=** NEW **=//
+  const handleDropdownPreferenceChange = (selection) => {
+    bodyState.updateWorkPreferencesState(
+      'selectedDropdownPreference',
+      selection
+    );
   };
 
   //=== API Methods ===//
@@ -276,7 +271,7 @@ const CandidateSelectionBody: FC = () => {
             selectedCandidate={selectedListItem}
             jobPostings={bodyState.candidateJobPostingsListState.jobPostings}
             jobLoadingId={bodyState?.currentlyCalculating}
-            resumeUrl={bodyState.selectedCandidateScoreDetailsState?.resumeUrl}
+            resumeUrl={bodyState.jobStatusState?.resumeUrl}
             updateSelectedJobPosting={updateSelectedJobPosting}
             updateMode={updateMode}
             handleCalculate={handleCalculate}
@@ -286,6 +281,7 @@ const CandidateSelectionBody: FC = () => {
             candidatePanelMode={bodyState.candidateDetailsMode}
             updateCandidatePanelMode={bodyState.updateCandidatePanelMode}
             workPreferencesState={bodyState.workPreferencesState}
+            handleDropdownPreferenceChange={handleDropdownPreferenceChange}
           />
         );
       case 'resume':
@@ -303,7 +299,7 @@ const CandidateSelectionBody: FC = () => {
           case 'overview':
             return (
               <SubSectionFrame
-                subSectionHeader={'Candidate Score Details'}
+                subSectionHeader={'Job Status'}
                 onClose={resetMainMode}
               >
                 <FullCandidateJobProfile
@@ -322,6 +318,9 @@ const CandidateSelectionBody: FC = () => {
                   handleCalculate={handleCalculate}
                   handleGenerationSelection={handleGenerationSelection}
                   handleCallSelection={handleCallSelection}
+                  // new
+                  jobStatusState={bodyState.jobStatusState}
+                  updateJobStatusState={bodyState.updateJobStatusState}
                 />
               </SubSectionFrame>
             );

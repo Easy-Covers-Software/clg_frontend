@@ -5,6 +5,8 @@ import { GreenSwitch } from '@/components/Global/components/GreenSwitch';
 import styled from '@emotion/styled';
 import { SupplementalInfoContainer } from '../SelectionSummary.styles';
 
+import PersonalDetailsDialog from '@/components/CandidatesPage/FullCandidateProfileOverview/components/PersonalDetailsDialog/PersonalDetailsDialog';
+
 const Header = styled(Typography)`
   font-size: 1.3rem !important;
   color: #006d4b;
@@ -14,7 +16,7 @@ const Header = styled(Typography)`
 `;
 
 const CandidatesLastUpdated = styled(Typography)`
-  font-size: 2.2rem !important;
+  font-size: 2rem !important;
   color: #006d4b;
 `;
 
@@ -24,7 +26,7 @@ const SupplementalInfo = ({ page, summaryDetails, checked, handleChange }) => {
       case 'jobPostings':
         return 'Date Added';
       case 'candidates':
-        return 'Last Updated';
+        return 'Personal Details';
       case 'generate':
         return 'Mode';
       case 'calls':
@@ -89,7 +91,8 @@ const SupplementalInfo = ({ page, summaryDetails, checked, handleChange }) => {
 
       {page === 'candidates' && (
         <CandidatesLastUpdated>
-          {formatIsoDateToReadable(summaryDetails.supplementaryInfo) || 'N/A'}
+          <PersonalDetailsDialog />
+          {/* {formatIsoDateToReadable(summaryDetails.supplementaryInfo) || 'N/A'} */}
         </CandidatesLastUpdated>
       )}
     </SupplementalInfoContainer>

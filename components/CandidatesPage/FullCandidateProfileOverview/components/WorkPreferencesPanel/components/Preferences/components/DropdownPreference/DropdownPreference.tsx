@@ -32,19 +32,32 @@ const Tab = styled(Paper)`
 
 const SectionHeader = styled(Typography)``;
 
-const DropdownPreference = ({ type, details, selected }) => {
+const DropdownPreference = ({ type, selected, handleSelection, reset }) => {
   return (
     <Container>
       <Tab
         isSelected={selected === type}
         otherSelected={selected !== '' && selected !== type}
+        onClick={() => {
+          if (selected !== '' && selected === type) {
+            reset();
+          } else {
+            handleSelection(type);
+          }
+        }}
       >
         <SectionHeader>{type}</SectionHeader>
 
         {selected === '' ? (
-          <ExpandCircleDownIcon />
+          <IconButton>
+            <ExpandCircleDownIcon />
+          </IconButton>
         ) : (
-          selected === type && <HighlightOffIcon />
+          selected === type && (
+            <IconButton>
+              <HighlightOffIcon />
+            </IconButton>
+          )
         )}
       </Tab>
     </Container>

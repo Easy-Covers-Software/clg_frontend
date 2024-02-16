@@ -54,7 +54,7 @@ const initialState: any = {
       refreshCandidates: true,
     },
     currentlyCalculating: null,
-    selectedCandidateScoreDetailsState: {
+    jobStatusState: {
       selectedCandidateMode: 'overview', // overview, phoneCall, generation
       generationPanelMode: 'overview', // overview, emailSelection, coverLetterSelection
       callPanelMode: 'overview', // overview, followUpSelection
@@ -154,13 +154,13 @@ const jobPostingsReducer = (state: any, action: any) => {
           currentlyCalculating: action.payload,
         },
       };
-    case 'UPDATE_SELECTED_CANDIDATE_SCORE_DETAILS':
+    case 'UPDATE_JOB_STATUS_STATE':
       return {
         ...state,
         bodyState: {
           ...state.bodyState,
-          selectedCandidateScoreDetailsState: {
-            ...state.bodyState.selectedCandidateScoreDetailsState,
+          jobStatusState: {
+            ...state.bodyState.jobStatusState,
             ...action.payload,
           },
         },
@@ -285,8 +285,7 @@ export const JobPostingsContextProvider = ({ children }) => {
         selectionSummaryState: initialState.bodyState.selectionSummaryState,
         candidateRankingsState: initialState.bodyState.candidateRankingsState,
         currentlyCalculating: initialState.bodyState.currentlyCalculating,
-        selectedCandidateScoreDetailsState:
-          initialState.bodyState.selectedCandidateScoreDetailsState,
+        jobStatusState: initialState.bodyState.jobStatusState,
         generationResultsState: initialState.bodyState.generationResultsState,
         updateMode: (mode: string) => {
           dispatch({
@@ -330,39 +329,31 @@ export const JobPostingsContextProvider = ({ children }) => {
 
   //== Generation selection ==//
   useEffect(() => {
-    if (
-      !state.bodyState.selectedCandidateScoreDetailsState?.selectedGeneration
-    ) {
+    if (!state.bodyState.jobStatusState?.selectedGeneration) {
       return;
     }
 
     dispatch({
       type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
       payload: {
-        id: state.bodyState.selectedCandidateScoreDetailsState
-          .selectedGeneration?.id,
+        id: state.bodyState.jobStatusState.selectedGeneration?.id,
       },
     });
     dispatch({
       type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
       payload: {
-        content:
-          state.bodyState.selectedCandidateScoreDetailsState.selectedGeneration
-            ?.content,
+        content: state.bodyState.jobStatusState.selectedGeneration?.content,
       },
     });
     dispatch({
       type: 'UPDATE_SELECTED_CANDIDATE_GENERATION_RESULTS_STATE',
       payload: {
         contentHtml: addDivTag(
-          addPTags(
-            state.bodyState.selectedCandidateScoreDetailsState
-              .selectedGeneration?.content
-          )
+          addPTags(state.bodyState.jobStatusState.selectedGeneration?.content)
         ),
       },
     });
-  }, [state.bodyState.selectedCandidateScoreDetailsState.selectedGeneration]);
+  }, [state.bodyState.jobStatusState.selectedGeneration]);
 
   //== Resume Path ==//
   useEffect(() => {

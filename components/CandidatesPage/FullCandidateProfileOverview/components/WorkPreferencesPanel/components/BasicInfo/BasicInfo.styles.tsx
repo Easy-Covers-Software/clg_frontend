@@ -5,12 +5,14 @@ import { StyledPaper } from '../../../../FullCandidateProfileOverview.styles';
 
 export const PersonalDetailsGrid = styled(Grid)`
   width: 100%;
+  height: 100%;
   padding: 0;
   margin: 0;
 `;
 
 export const PersonalDetailsContainer = styled(Grid)`
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -31,14 +33,17 @@ export const Header = styled(Typography)`
 export const DetailsContainer = styled(Grid)`
   padding: 0;
   margin: 0;
-  margin-top: -1%;
+  // margin-top: -1%;
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
 `;
 
 export const DetailsColumn = styled(Grid)`
-  max-width: 50%;
+  // max-width: 50%;
+  width: 100%;
   padding: 0;
   margin: 0 auto;
 `;
@@ -48,11 +53,13 @@ export const Label = styled(Typography)`
   font-weight: 600;
   color: #006d4b;
   margin-bottom: 1%;
+  white-space: nowrap;
 `;
 
 export const Value = styled(Typography)`
   font-size: 1.22rem;
   color: #006d4b;
+  white-space: nowrap;
 `;
 
 export const LabelsGrid = ({ label1, label2, label3, label4, size }) => (

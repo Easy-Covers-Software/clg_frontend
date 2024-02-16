@@ -114,7 +114,7 @@ const JobPostingSelectionBody: FC = () => {
   };
 
   const getScoreDetailsMode = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.selectedCandidateMode;
+    return bodyState.jobStatusState?.selectedCandidateMode;
   };
 
   const getMatchScore = () => {
@@ -131,21 +131,20 @@ const JobPostingSelectionBody: FC = () => {
 
   //= candidate score details state =//
   const getResumeUrl = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.resumeUrl;
+    return bodyState.jobStatusState?.resumeUrl;
   };
 
   const getCallPanelMode = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.callPanelMode;
+    return bodyState.jobStatusState?.callPanelMode;
   };
 
   const getGenerationPanelMode = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.generationPanelMode;
+    return bodyState.jobStatusState?.generationPanelMode;
   };
 
   //= phone call mode =//
   const getSelectedCallNotes = () => {
-    return bodyState.selectedCandidateScoreDetailsState?.selectedCall
-      ?.transcription?.notes;
+    return bodyState.jobStatusState?.selectedCall?.transcription?.notes;
   };
 
   const handleListFilterChange = (event) => {
@@ -183,7 +182,7 @@ const JobPostingSelectionBody: FC = () => {
       bodyState.updateCurrentlyCalculating(null);
       bodyState.updateSelectedCandidateScoreDetailsState(
         'refreshCandidate',
-        !bodyState.selectedCandidateScoreDetailsState.refreshCandidate
+        !bodyState.jobStatusState.refreshCandidate
       );
     } else {
       snackbar.updateSnackbar(

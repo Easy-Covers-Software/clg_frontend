@@ -1,37 +1,25 @@
 // ScoreDetails.tsx
 import React from 'react';
-import { Box, Typography, Grid } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import LinearProgress, {
-  linearProgressClasses,
-} from '@mui/material/LinearProgress';
-import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
-import { ScoreDetailsPaper } from '../../FullCandidateJobProfile.styles';
+
 import LoadingScore from './components/LoadingScore';
 import AwaitingCalculation from './components/AwaitingCalculation';
+import { ScoreDetailsPaper } from './ScoreDetails.styles';
+import { Divider } from '@mui/material';
+import styled from '@emotion/styled';
+import { Typography } from '@mui/material';
 
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
-  borderRadius: 5,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor:
-      theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
-  },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: '#006D4B',
-  },
-}));
-
-const Container = styled(Grid2)`
-  height: 100%;
-  width: 100%;
-  // display: flex;
-  // flex-direction: column;
-  margin: 0;
-  padding: 0;
-  overflow: scroll;
-`;
+import {
+  Header,
+  ScoreTypeContainer,
+  ScoreHeaderBox,
+  ScoreHeader,
+  ScoreDetailsContainer,
+  ScoreDetailsBox,
+  ScoreBox,
+  ScoreValueBox,
+  ScoreValue,
+  ScoreVisualProgress,
+} from './ScoreDetails.styles';
 
 const ScoreDetails = ({
   page,
@@ -40,6 +28,9 @@ const ScoreDetails = ({
   matchScoreDetails,
   loading,
   handleCalculate,
+  //new
+  scoreMode,
+  updateScoreMode,
 }) => {
   // Splitting scores into two columns
   const scoreEntries = Object.entries(matchScoreDetails);
@@ -85,48 +76,15 @@ const ScoreDetails = ({
         return <div key={lor === 'l' ? i : i + 5}></div>;
 
       return (
-        <Box
-          key={lor === 'l' ? i : i + 5}
-          sx={{
-            width: '86%',
-            margin:
-              scoreName === 'skill_match_score' ||
-              scoreName === 'problem_solving_match_score'
-                ? '0'
-                : '18% 0',
-          }}
-        >
-          <Grid container justifyContent={'space-between'}>
-            <Typography
-              variant="subtitle1"
-              flexWrap={'nowrap'}
-              whiteSpace={'nowrap'}
-              overflow={'hidden'}
-              textOverflow={'ellipsis'}
-            >
-              {formatHeader(scoreName)}
-            </Typography>
+        <ScoreBox key={lor === 'l' ? i : i + 5} scoreName={scoreName}>
+          <ScoreValueBox>
+            <ScoreValue>{formatHeader(scoreName)}</ScoreValue>
 
-            <Typography
-              variant="subtitle1"
-              flexWrap={'nowrap'}
-              whiteSpace={'nowrap'}
-              overflow={'hidden'}
-              textOverflow={'ellipsis'}
-            >
-              {scoreValue}/10
-            </Typography>
-          </Grid>
-          <BorderLinearProgress
-            variant="determinate"
-            value={scoreValue * 10}
-            sx={{
-              height: 10,
-              marginTop: '1%',
-              color: '#13d0b7',
-            }}
-          />
-        </Box>
+            <ScoreValue>{scoreValue}/10</ScoreValue>
+          </ScoreValueBox>
+
+          <ScoreVisualProgress variant="determinate" value={scoreValue * 10} />
+        </ScoreBox>
       );
     });
 
@@ -144,53 +102,54 @@ const ScoreDetails = ({
     }
   }
 
-  return (
-    // <Container>
-    <ScoreDetailsPaper>
-      <Grid2
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Typography variant="h5" marginLeft={'5%'} marginTop={'3%'}>
-          Weighted Score: {matchScoreDetails.weighted_score} / 10
-        </Typography>
-        <Typography variant="h6" marginLeft={'5%'} marginTop={'1%'}>
-          Total Score: {matchScoreDetails.total_score} / 100
-        </Typography>
-      </Grid2>
+  // new
+  const setScoreModeToWeighted = () => {
+    updateScoreMode('weighted');
+  };
 
-      <Grid2
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          width: '100%',
-          overflow: 'scroll',
-          border: '1px solid #13d0b7',
-          borderRadius: '4px',
-          paddingTop: '1%',
-        }}
-      >
-        <Grid2
-          style={{
-            width: '50%',
-            marginLeft: '3%',
+  const setScoreModeToTotal = () => {
+    updateScoreMode('total');
+  };
+
+  return (
+    // <>
+    //   <Header>Score Details</Header>
+
+    <ScoreDetailsPaper>
+      <ScoreTypeContainer>
+        <ScoreHeaderBox
+          isSelected={scoreMode === 'weighted'}
+          onClick={() => {
+            setScoreModeToWeighted();
           }}
         >
-          {renderScores(leftColumnScores, 'l')}
-        </Grid2>
-        <Grid2
-          style={{
-            width: '50%',
-            marginLeft: '3%',
+          <ScoreHeader isSelected={scoreMode === 'weighted'}>
+            Weighted Score: {matchScoreDetails.weighted_score} / 10
+          </ScoreHeader>
+        </ScoreHeaderBox>
+
+        <Divider orientation="vertical" flexItem />
+
+        <ScoreHeaderBox
+          isSelected={scoreMode === 'total'}
+          onClick={() => {
+            setScoreModeToTotal();
           }}
         >
+          <ScoreHeader isSelected={scoreMode === 'total'}>
+            Total Score: {matchScoreDetails.total_score} / 100
+          </ScoreHeader>
+        </ScoreHeaderBox>
+      </ScoreTypeContainer>
+
+      <ScoreDetailsContainer>
+        <ScoreDetailsBox>{renderScores(leftColumnScores, 'l')}</ScoreDetailsBox>
+        <ScoreDetailsBox>
           {renderScores(rightColumnScores, 'r')}
-        </Grid2>
-      </Grid2>
+        </ScoreDetailsBox>
+      </ScoreDetailsContainer>
     </ScoreDetailsPaper>
-    // </Container>
+    // </>
   );
 };
 

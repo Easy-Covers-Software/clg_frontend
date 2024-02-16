@@ -29,7 +29,7 @@ import {
 } from './ProfessionalDetailsPanel.styles';
 
 import { CandidateListItem } from '@/Types/CandidatesSection.types';
-import Preferences from '../PersonalDetailsPanel/components/Preferences/Preferences';
+import Preferences from '../WorkPreferencesPanel/components/Preferences/Preferences';
 
 interface Props {
   selectedCandidate: CandidateListItem;

@@ -10,7 +10,7 @@ import {
 
 const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
 
-const initialState: CandidateContextState = {
+const initialState: any = {
   listState: {
     listItems: [],
     filteredListItems: [],
@@ -43,7 +43,7 @@ const initialState: CandidateContextState = {
       selectedEducation: null,
     },
 
-    candidateDetailsMode: 'Professional', // Professional, Personal
+    candidateDetailsMode: 'Professional', // Professional, Preferences
 
     // workPreferencesState
     workPreferencesState: {
@@ -62,7 +62,7 @@ const initialState: CandidateContextState = {
     currentlyCalculating: null,
 
     // candidateRankingsState
-    selectedCandidateScoreDetailsState: {
+    jobStatusState: {
       selectedCandidateMode: 'overview', // overview, phoneCall, generation
       generationPanelMode: 'overview', // overview, emailSelection, coverLetterSelection
       callPanelMode: 'overview', // overview, followUpSelection
@@ -71,6 +71,9 @@ const initialState: CandidateContextState = {
       loading: false,
       resumeUrl: '',
       refreshJobPostings: true,
+
+      // new
+      scoreMode: 'weighted', // total, weighted
     },
 
     // generationResultsState
@@ -95,7 +98,7 @@ const initialState: CandidateContextState = {
     updateProfessionalDetailsState: (field, state: any): void => {},
     updateCandidateJobPostingsListState: (field, state: any): void => {},
     updateCurrentlyCalculating: (candidateId: any): void => {},
-    updateSelectedCandidateScoreDetailsState: (field, state: any): void => {},
+    updateJobStatusState: (field, state: any): void => {},
     updateGenerationResultsState: (field, state: any): void => {},
     setFullCandidateProfile: (field, state: any): void => {},
   },
@@ -208,13 +211,13 @@ const candidatesReducer = (state: any, action: any) => {
           currentlyCalculating: action.payload,
         },
       };
-    case 'UPDATE_SELECTED_CANDIDATE_SCORE_DETAILS_STATE':
+    case 'UPDATE_JOB_STATUS_STATE':
       return {
         ...state,
         bodyState: {
           ...state.bodyState,
-          selectedCandidateScoreDetailsState: {
-            ...state.bodyState.selectedCandidateScoreDetailsState,
+          jobStatusState: {
+            ...state.bodyState.jobStatusState,
             ...action.payload,
           },
         },
@@ -286,7 +289,7 @@ export const CandidatesContextProvider = ({ children }) => {
       });
 
       dispatch({
-        type: 'UPDATE_SELECTED_CANDIDATE_SCORE_DETAILS_STATE',
+        type: 'UPDATE_JOB_STATUS_STATE',
         payload: { resumeUrl: fullPath },
       });
     };
@@ -317,29 +320,21 @@ export const CandidatesContextProvider = ({ children }) => {
   }, [state.selectedListItem]);
 
   useEffect(() => {
-    if (
-      !state.bodyState.selectedCandidateScoreDetailsState?.selectedGeneration
-    ) {
+    if (!state.bodyState.jobStatusState?.selectedGeneration) {
       return;
     }
 
     dispatch({
       type: 'UPDATE_GENERATION_RESULTS_STATE',
       payload: {
-        id: state.bodyState.selectedCandidateScoreDetailsState
-          .selectedGeneration?.id,
-        content:
-          state.bodyState.selectedCandidateScoreDetailsState.selectedGeneration
-            ?.content,
+        id: state.bodyState.jobStatusState.selectedGeneration?.id,
+        content: state.bodyState.jobStatusState.selectedGeneration?.content,
         contentHtml: addDivTag(
-          addPTags(
-            state.bodyState.selectedCandidateScoreDetailsState
-              .selectedGeneration?.content
-          )
+          addPTags(state.bodyState.jobStatusState.selectedGeneration?.content)
         ),
       },
     });
-  }, [state.bodyState.selectedCandidateScoreDetailsState.selectedGeneration]);
+  }, [state.bodyState.jobStatusState.selectedGeneration]);
 
   //== List State ==//
   useEffect(() => {
@@ -412,8 +407,7 @@ export const CandidatesContextProvider = ({ children }) => {
         candidateJobPostingsListState:
           initialState.bodyState.candidateJobPostingsListState,
         currentlyCalculating: initialState.bodyState.currentlyCalculating,
-        selectedCandidateScoreDetailsState:
-          initialState.bodyState.selectedCandidateScoreDetailsState,
+        jobStatusState: initialState.bodyState.jobStatusState,
         generationResultsState: initialState.bodyState.generationResultsState,
         updateMode: (mode: string): void => {
           dispatch({
@@ -457,9 +451,9 @@ export const CandidatesContextProvider = ({ children }) => {
             payload: candidateId,
           });
         },
-        updateSelectedCandidateScoreDetailsState: (field, state: any): void => {
+        updateJobStatusState: (field, state: any): void => {
           dispatch({
-            type: 'UPDATE_SELECTED_CANDIDATE_SCORE_DETAILS_STATE',
+            type: 'UPDATE_JOB_STATUS_STATE',
             payload: { [field]: state },
           });
         },
