@@ -45,8 +45,10 @@ const initialState: CandidateContextState = {
 
     candidateDetailsMode: 'Professional', // Professional, Personal
 
-    // personalDetailsState
-    personalDetailsState: {},
+    // workPreferencesState
+    workPreferencesState: {
+      selectedDropdownPreference: '',
+    },
 
     // jobPostingsAssociatedWithCandidateState
     candidateJobPostingsListState: {
@@ -89,6 +91,7 @@ const initialState: CandidateContextState = {
     updateMode: (mode: string): void => {},
     updateSelectionSummaryState: (field, state: any): void => {},
     updateCandidatePanelMode: (mode: string): void => {},
+    updateWorkPreferencesState: (field, state: any): void => {},
     updateProfessionalDetailsState: (field, state: any): void => {},
     updateCandidateJobPostingsListState: (field, state: any): void => {},
     updateCurrentlyCalculating: (candidateId: any): void => {},
@@ -159,6 +162,18 @@ const candidatesReducer = (state: any, action: any) => {
         bodyState: {
           ...state.bodyState,
           candidateDetailsMode: action.payload,
+        },
+      };
+
+    case 'UPDATE_WORK_PREFERENCES_STATE':
+      return {
+        ...state,
+        bodyState: {
+          ...state.bodyState,
+          workPreferencesState: {
+            ...state.bodyState.workPreferencesState,
+            ...action.payload,
+          },
         },
       };
 
@@ -393,6 +408,7 @@ export const CandidatesContextProvider = ({ children }) => {
         professionalDetailsState:
           initialState.bodyState.professionalDetailsState,
         candidateDetailsMode: initialState.bodyState.candidateDetailsMode,
+        workPreferencesState: initialState.bodyState.workPreferencesState,
         candidateJobPostingsListState:
           initialState.bodyState.candidateJobPostingsListState,
         currentlyCalculating: initialState.bodyState.currentlyCalculating,
@@ -415,6 +431,12 @@ export const CandidatesContextProvider = ({ children }) => {
           dispatch({
             type: 'UPDATE_CANDIDATE_PANEL_MODE',
             payload: mode,
+          });
+        },
+        updateWorkPreferencesState: (field, state: any): void => {
+          dispatch({
+            type: 'UPDATE_WORK_PREFERENCES_STATE',
+            payload: { [field]: state },
           });
         },
         updateProfessionalDetailsState: (field, state: any): void => {

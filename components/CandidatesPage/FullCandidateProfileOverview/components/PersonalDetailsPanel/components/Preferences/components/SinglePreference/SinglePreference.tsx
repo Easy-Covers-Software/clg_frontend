@@ -22,7 +22,7 @@ const Header = styled(Typography)`
 
 const SimplePreferencePaper = styled(Paper)`
   height: 7vh;
-  // width: 18vw;
+  width: 92%;
   display: flex;
   justify-content: center;
   align-items: center;

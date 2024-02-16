@@ -10,7 +10,7 @@ export const PersonalDetailsGrid = styled(Grid)`
 `;
 
 export const PersonalDetailsPaper = styled(StyledPaper)`
-  height: 72vh;
+  height: 71.5vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

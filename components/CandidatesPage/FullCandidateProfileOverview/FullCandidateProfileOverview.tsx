@@ -18,6 +18,7 @@ import { Header } from './components/ProfessionalDetailsPanel/ProfessionalDetail
 
 const ColumnContainer = styled(Grid)`
   height: 100%;
+  // max-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -73,6 +74,7 @@ const FullCandidateProfileOverview: React.FC<any> = ({
   updateProfessionalDetails,
   candidatePanelMode,
   updateCandidatePanelMode,
+  workPreferencesState,
 }) => {
   const fileInputRef = useRef(null);
 
@@ -93,7 +95,11 @@ const FullCandidateProfileOverview: React.FC<any> = ({
         {/* TOP LEFT */}
         <PanelBackgroundPaper>
           <HeaderContainer>
-            <Header>{candidatePanelMode} Details</Header>
+            {candidatePanelMode === 'Professional' ? (
+              <Header>Professional Details</Header>
+            ) : (
+              <Header>Work Preferences</Header>
+            )}
             <SwitchContainer>
               <FormControlLabel
                 control={
@@ -111,7 +117,7 @@ const FullCandidateProfileOverview: React.FC<any> = ({
                     }}
                   />
                 }
-                label="Personal Details"
+                label="Work Preferences"
                 labelPlacement="start"
               />
             </SwitchContainer>
@@ -125,16 +131,11 @@ const FullCandidateProfileOverview: React.FC<any> = ({
             />
           ) : (
             // Else personal details
-            <PersonalDetailsPanel selectedCandidate={selectedCandidate} />
+            <PersonalDetailsPanel
+              selectedCandidate={selectedCandidate}
+              workPreferencesState={workPreferencesState}
+            />
           )}
-          {/* <ProfessionalDetailsPanel
-          selectedCandidate={selectedCandidate}
-          professionalDetails={professionalDetails}
-          updateProfessionalDetails={updateProfessionalDetails}
-        /> */}
-
-          {/* BOTTOM LEFT */}
-          {/* <PersonalDetailsPanel selectedCandidate={selectedCandidate} /> */}
         </PanelBackgroundPaper>
       </ColumnContainer>
 

@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react';
 
 //-- import MUI components --//
 import styled from '@emotion/styled';
-
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 //-- import context --//
 import { useAuth } from '@/context/AuthContext';
 import { useCandidatesContext } from '@/context/CandidatesContext';
@@ -33,8 +33,8 @@ import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
 import { Generation } from '@/Types/Generation.types';
 import { PhoneCall } from '@/Types/TranscriptionSection.types';
 
-// const Container = styled(Grid)`
-const Container = styled.div`
+// const Container = styled.div`
+const Container = styled(Grid2)`
   width: 100%;
   padding: 0.2%;
 
@@ -47,9 +47,10 @@ const Container = styled.div`
   background-color: white;
 `;
 
-// const SubContainer = styled(Grid)`
-const SubContainer = styled.div`
+// const SubContainer = styled.div`
+const SubContainer = styled(Grid2)`
   height: 100%;
+  max-height: 78vh;
   background-color: #f8f8ff;
 
   border: 1px solid #006d4b;
@@ -284,6 +285,7 @@ const CandidateSelectionBody: FC = () => {
             updateProfessionalDetails={bodyState.updateProfessionalDetailsState}
             candidatePanelMode={bodyState.candidateDetailsMode}
             updateCandidatePanelMode={bodyState.updateCandidatePanelMode}
+            workPreferencesState={bodyState.workPreferencesState}
           />
         );
       case 'resume':

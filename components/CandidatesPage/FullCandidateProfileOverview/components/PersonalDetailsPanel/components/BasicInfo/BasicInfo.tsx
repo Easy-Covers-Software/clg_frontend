@@ -35,7 +35,7 @@ interface Props {
 }
 
 const Container = styled(Grid2)`
-  height: 16vh;
+  height: 14vh;
   // display: flex;
 `;
 
