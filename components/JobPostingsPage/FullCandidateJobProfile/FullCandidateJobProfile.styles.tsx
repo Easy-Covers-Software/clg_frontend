@@ -16,7 +16,7 @@ export const Container = styled(Grid2)`
   flex-direction: column;
   justify-content: space-between;
   padding: 0.5%;
-  gap: 5%;
+  gap: 6%;
 `;
 
 export const SubPanelContainer = styled(Grid)`

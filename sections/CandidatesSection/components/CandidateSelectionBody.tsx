@@ -200,6 +200,10 @@ const CandidateSelectionBody: FC = () => {
     );
   };
 
+  const handleUpdateCandDetailsPanelMode = (mode: string) => {
+    bodyState.updateCandidateState('candidateDetailsMode', mode);
+  };
+
   //=== API Methods ===//
   const handleCalculate = async (jobPostingId: string) => {
     bodyState.updateCurrentlyCalculating(jobPostingId);
@@ -244,23 +248,21 @@ const CandidateSelectionBody: FC = () => {
       }
     };
     getAllJobPostingsAssociatedWithCandidate(listState.selected?.id);
-  }, [bodyState.candidateJobPostingsListState.refreshJobPostings]);
+  }, [bodyState.candidateState.candidateDetailsMode]);
 
   useEffect(() => {
-    if (bodyState.candidateJobPostingsListState?.selectedJobPosting !== null) {
-      const updatedJobPosting =
-        bodyState.candidateJobPostingsListState?.jobPostings.find(
-          (jobPosting) =>
-            jobPosting.id ===
-            bodyState.candidateJobPostingsListState?.selectedJobPosting?.id
-        );
+    if (bodyState.candidateState.currentJobsState.selectedJob !== null) {
+      const updatedJobPosting = bodyState.candidateState?.jobs.find(
+        (job) =>
+          job.id === bodyState.candidateState.currentJobsState.selectedJob?.id
+      );
 
       bodyState.updateCandidateJobPostingsListState(
         'selectedJobPosting',
         updatedJobPosting
       );
     }
-  }, [bodyState.candidateJobPostingsListState.jobPostings]);
+  }, [bodyState.candidateState.currentJobsState.jobs]);
 
   //=== RENDER ===//
   const renderCurrentCandidateProfileModeSection = () => {
@@ -269,8 +271,7 @@ const CandidateSelectionBody: FC = () => {
         return (
           <FullCandidateProfileOverview
             selectedCandidate={selectedListItem}
-            jobPostings={bodyState.candidateJobPostingsListState.jobPostings}
-            jobLoadingId={bodyState?.currentlyCalculating}
+            jobPostings={bodyState.candidateState.jobs}
             resumeUrl={bodyState.jobStatusState?.resumeUrl}
             updateSelectedJobPosting={updateSelectedJobPosting}
             updateMode={updateMode}
@@ -278,10 +279,12 @@ const CandidateSelectionBody: FC = () => {
             handleFileChange={handleFileChange}
             professionalDetails={bodyState.professionalDetailsState}
             updateProfessionalDetails={bodyState.updateProfessionalDetailsState}
-            candidatePanelMode={bodyState.candidateDetailsMode}
-            updateCandidatePanelMode={bodyState.updateCandidatePanelMode}
-            workPreferencesState={bodyState.workPreferencesState}
+            candidatePanelMode={bodyState.candidateState.candidateDetailsMode}
             handleDropdownPreferenceChange={handleDropdownPreferenceChange}
+            jobLoadingId={bodyState?.currentlyCalculating}
+            // NEW
+            candidateState={handleUpdateCandDetailsPanelMode}
+            updateCandDetailsPanelMode={bodyState.updateCandDetailsPanelMode}
           />
         );
       case 'resume':
@@ -293,8 +296,14 @@ const CandidateSelectionBody: FC = () => {
             <ResumeIframe resumeUrl={getResumeUrl()} />
           </SubSectionFrame>
         );
+      case 'calls':
+        return <></>;
+      case 'feedback':
+        return <></>;
+      case 'update':
+        return <></>;
 
-      case 'scoreDetails':
+      case 'jobStatus':
         switch (getScoreDetailsMode()) {
           case 'overview':
             return (

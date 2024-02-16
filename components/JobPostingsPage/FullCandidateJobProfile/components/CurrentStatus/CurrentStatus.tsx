@@ -23,7 +23,7 @@ const Container = styled(Grid2)`
 
 const StatusOverview = styled(Grid2)`
   width: 100%;
-  height: 50%;
+  height: 45%;
   display: flex;
 `;
 
@@ -36,7 +36,7 @@ const OverviewInfo = styled(Grid2)`
 
 const OverviewInfoStatus = styled(Typography)`
   font-size: 2rem !important;
-  letter-spacing: 0.15rem;
+  letter-spacing: 0.05rem;
   color: #006d4b;
   margin-top: 1%;
   margin-left: 1%;
@@ -66,14 +66,38 @@ const IconOptionsRow = styled(Grid2)`
 
 const StatusProgressVisual = styled(Grid2)`
   width: 100%;
-  height: 50%;
+  height: 55%;
 `;
 
 const CirculedIconButton = styled(IconButton)`
   border: 1px solid lightgray;
 `;
 
-const CurrentStatus = () => {
+const CurrentStatus = ({ updateJobStatusState }) => {
+  const setJobStatusModeToResume = () => {
+    updateJobStatusState('mode', 'resume');
+  };
+
+  const setJobStatusModeToCalls = () => {
+    updateJobStatusState('mode', 'calls');
+  };
+
+  const setJobStatusModeToFeedback = () => {
+    updateJobStatusState('mode', 'feedback');
+  };
+
+  const setJobStatusModeToGenerations = () => {
+    updateJobStatusState('mode', 'generations');
+  };
+
+  const setJobStatusModeToUpdateStatus = () => {
+    updateJobStatusState('mode', 'update');
+  };
+
+  const setJobStatusModeToSettings = () => {
+    updateJobStatusState('mode', 'settings');
+  };
+
   return (
     <Container>
       <StatusOverview>
@@ -86,47 +110,47 @@ const CurrentStatus = () => {
           </OverviewInfoSource>
         </OverviewInfo>
 
-        <Divider orientation="vertical" flexItem />
+        <Divider orientation="vertical" flexItem color={'#13d0b7'} />
 
         <OverviewIconOptions>
           <IconOptionsRow>
             <Tooltip title={'Résumé'}>
-              <CirculedIconButton>
-                <DocumentScannerOutlinedIcon />
+              <CirculedIconButton onClick={setJobStatusModeToResume}>
+                <DocumentScannerOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
             <Tooltip title={'Calls'}>
-              <CirculedIconButton>
-                <PermPhoneMsgOutlinedIcon />
+              <CirculedIconButton onClick={setJobStatusModeToCalls}>
+                <PermPhoneMsgOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
             <Tooltip title={'Feedback'}>
-              <CirculedIconButton>
-                <RateReviewOutlinedIcon />
+              <CirculedIconButton onClick={setJobStatusModeToFeedback}>
+                <RateReviewOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
           </IconOptionsRow>
           <IconOptionsRow>
             <Tooltip title={'Generations'}>
-              <CirculedIconButton>
-                <TipsAndUpdatesOutlinedIcon />
+              <CirculedIconButton onClick={setJobStatusModeToGenerations}>
+                <TipsAndUpdatesOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
             <Tooltip title={'Update Status'}>
-              <CirculedIconButton>
-                <CreateOutlinedIcon />
+              <CirculedIconButton onClick={setJobStatusModeToUpdateStatus}>
+                <CreateOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
             <Tooltip title={'Settings'}>
-              <CirculedIconButton>
-                <SettingsOutlinedIcon />
+              <CirculedIconButton onClick={setJobStatusModeToSettings}>
+                <SettingsOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
           </IconOptionsRow>
         </OverviewIconOptions>
       </StatusOverview>
 
-      <Divider />
+      <Divider color={'#13d0b7'} />
 
       <StatusProgressVisual>
         <StatusProgress />

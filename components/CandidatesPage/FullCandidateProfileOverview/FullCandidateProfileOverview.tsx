@@ -62,20 +62,26 @@ const PanelBackgroundPaper = styled(Paper)`
 `;
 
 const FullCandidateProfileOverview: React.FC<any> = ({
-  selectedCandidate,
-  jobPostings,
-  jobLoadingId,
-  updateSelectedJobPosting,
+  // KEEP
   updateMode,
   handleCalculate,
-  resumeUrl,
+  updateSelectedJobPosting,
   handleFileChange,
-  professionalDetails,
-  updateProfessionalDetails,
+
+  // REMOVE
+  jobPostings, // 1.
+  resumeUrl, // 2.
+  jobLoadingId, // 7.
+  updateProfessionalDetails, //
+  selectedCandidate,
   candidatePanelMode,
-  updateCandidatePanelMode,
+
+  // NEW
+  updateCandDetailsPanelMode,
   workPreferencesState,
   handleDropdownPreferenceChange,
+
+  candidateState,
 }) => {
   const fileInputRef = useRef(null);
 
@@ -111,9 +117,9 @@ const FullCandidateProfileOverview: React.FC<any> = ({
                     }
                     onChange={() => {
                       if (candidatePanelMode === 'Professional') {
-                        updateCandidatePanelMode('Preferences');
+                        updateCandDetailsPanelMode('Work Preferences');
                       } else {
-                        updateCandidatePanelMode('Professional');
+                        updateCandDetailsPanelMode('Professional Details');
                       }
                     }}
                   />
@@ -127,14 +133,13 @@ const FullCandidateProfileOverview: React.FC<any> = ({
           {candidatePanelMode === 'Professional' ? (
             <ProfessionalDetailsPanel
               selectedCandidate={selectedCandidate}
-              professionalDetails={professionalDetails}
+              professionalDetails={candidateState.professionalDetailsState}
               updateProfessionalDetails={updateProfessionalDetails}
             />
           ) : (
             // Else personal details
             <WorkPreferencesPanel
               selectedCandidate={selectedCandidate}
-              workPreferencesState={workPreferencesState}
               handleDropdownPreferenceChange={handleDropdownPreferenceChange}
             />
           )}

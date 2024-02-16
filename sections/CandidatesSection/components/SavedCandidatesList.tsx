@@ -82,10 +82,7 @@ const SavedCandidatesList: FC = () => {
       await fetchJobPostingsAssociatedWithCandidate(id);
 
     if (response.data) {
-      bodyState.updateCandidateJobPostingsListState(
-        'jobPostings',
-        response.data
-      );
+      bodyState.updateCurrentJobsState('jobs', response.data);
     } else {
       console.log(response.error);
     }

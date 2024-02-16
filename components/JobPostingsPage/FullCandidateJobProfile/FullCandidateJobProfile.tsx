@@ -227,7 +227,7 @@ const FullCandidateJobProfile = ({
   return (
     <Container>
       {/* CurrentStatus Component */}
-      <CurrentStatus />
+      <CurrentStatus updateJobStatusState={updateJobStatusState} />
 
       {/* Score Details */}
       <ScoreDetails

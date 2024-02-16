@@ -29,7 +29,6 @@ interface Props {
 
 const WorkPreferencesPanel: React.FC<any> = ({
   selectedCandidate,
-  workPreferencesState,
   handleDropdownPreferenceChange,
 }) => {
   //== For linked in and portfolio website ==//
@@ -46,7 +45,7 @@ const WorkPreferencesPanel: React.FC<any> = ({
       <PersonalDetailsPaper>
         {/* <BasicInfo selectedCandidate={selectedCandidate} /> */}
         <Preferences
-          workPreferencesState={workPreferencesState}
+          workPreferencesState={selectedCandidate.workPreferencesState}
           handleDropdownPreferenceChange={handleDropdownPreferenceChange}
         />
       </PersonalDetailsPaper>

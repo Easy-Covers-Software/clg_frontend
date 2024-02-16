@@ -51,9 +51,10 @@ export const ScoreHeader = styled(Typography)`
 `;
 
 export const ScoreDetailsContainer = styled(Grid2)`
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
-  width: 100%;
   // overflow: scroll;
   border: 1px solid #13d0b7;
   border-radius: 4px;
@@ -71,7 +72,7 @@ export const ScoreBox = styled(Box)`
     scoreName === 'skill_match_score' ||
     scoreName === 'problem_solving_match_score'
       ? '0'
-      : '6% 0'};
+      : '7.2% 0'};
 `;
 
 export const ScoreValueBox = styled(Grid)`
@@ -93,10 +94,11 @@ export const ScoreVisualProgress = styled(BorderLinearProgress)`
 `;
 
 export const ScoreDetailsPaper = styled(Paper)`
-  height: 100%;
+  height: 45vh;
   width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   // overflow: hidden;
   border: 1px solid #13d0b7;
 `;

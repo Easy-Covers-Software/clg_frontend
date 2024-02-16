@@ -126,6 +126,8 @@ const Preferences = ({
     handleDropdownPreferenceChange('');
   };
 
+  console.log('WPRF STATE: ', workPreferencesState);
+
   return (
     <Container>
       {/* <SectionHeader>Work Preferences</SectionHeader> */}
