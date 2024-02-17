@@ -31,9 +31,6 @@ const initialState: any = {
     // -2. current body mode
     mode: 'overview', // overview, resume, calls, feedback, update, jobStatus
 
-    // -1. Full Candidate Profile
-    fullCandidateProfile: null,
-
     // 0. Selection Summary State
     selectionSummaryState: {
       id: '',
@@ -47,6 +44,7 @@ const initialState: any = {
     // 1. When a candidate is selected, the first page displays candidate's details are displayed in the body
     candidateState: {
       candidateDetailsMode: 'Professional Details', // 'Professional Details', 'Work Preferences'
+      selectedCandidate: null,
       professionalDetailsState: {
         selectedExperience: null,
         selectedEducation: null,
@@ -127,6 +125,7 @@ const initialState: any = {
     // 7. When a job in the current jobs list is selected, the mode changes to jobStatus and displays the jobStatus overview component
     jobStatusState2: {
       mode: 'overview', // overview, resume, calls, feedback, generations, update, settings
+      selectedJob: null,
       currentStatus: {
         status: '',
         source: '',
@@ -283,14 +282,7 @@ const candidatesReducer = (state: any, action: any) => {
           mode: action.payload,
         },
       };
-    case 'UPDATE_FULL_CANDIDATE_PROFILE':
-      return {
-        ...state,
-        bodyState: {
-          ...state.bodyState,
-          fullCandidateProfile: action.payload,
-        },
-      };
+
     case 'UPDATE_CANDIDATE_SELECTION_SUMMARY_STATE':
       return {
         ...state,
@@ -522,22 +514,24 @@ export const CandidatesContextProvider = ({ children }) => {
 
   //=== Selection Summary State ===//
   useEffect(() => {
-    if (state.selectedListItem) {
+    if (state.bodyState.candidateState.selectedCandidate) {
       dispatch({
         type: 'UPDATE_CANDIDATE_SELECTION_SUMMARY_STATE',
         payload: {
-          mainTitle: state.selectedListItem.name,
-          secondaryTitle: `${state.selectedListItem.current_job_title} @${state.selectedListItem.current_employer}`,
-          supplementaryInfo: state.selectedListItem.updated_at,
+          mainTitle: state.bodyState.candidateState.selectedCandidate.name,
+          secondaryTitle: `${state.bodyState.candidateState.selectedCandidate.current_job_title} @${state.bodyState.candidateState.selectedCandidate.current_employer}`,
+          supplementaryInfo:
+            state.bodyState.candidateState.selectedCandidate.updated_at,
         },
       });
     }
-  }, [state.selectedListItem]);
+  }, [state.bodyState.candidateState.selectedCandidate]);
 
   //== Resume Path ==//
   useEffect(() => {
     const updateResumeUrl = async () => {
-      const filePath = state.selectedListItem.resume.file;
+      const filePath =
+        state.bodyState.candidateState.selectedCandidate.resume.file;
       const fullPath = `${DOMAIN}/${filePath}`;
 
       dispatch({
@@ -552,30 +546,41 @@ export const CandidatesContextProvider = ({ children }) => {
     };
 
     // set selected eduction to first if exists
-    if (state.selectedListItem && state.selectedListItem.education_history) {
+    if (
+      state.bodyState.candidateState.selectedCandidate &&
+      state.bodyState.candidateState.selectedCandidate.education_history
+    ) {
       dispatch({
         type: 'UPDATE_PROFESSIONAL_DETAILS_STATE',
         payload: {
-          selectedEducation: state.selectedListItem.education_history[0],
+          selectedEducation:
+            state.bodyState.candidateState.selectedCandidate
+              .education_history[0],
         },
       });
     }
 
     // set selected experience to first if exists
-    if (state.selectedListItem && state.selectedListItem.employment_history) {
+    if (
+      state.bodyState.candidateState.selectedCandidate &&
+      state.bodyState.candidateState.selectedCandidate.employment_history
+    ) {
       dispatch({
         type: 'UPDATE_PROFESSIONAL_DETAILS_STATE',
         payload: {
-          selectedExperience: state.selectedListItem.employment_history[0],
+          selectedExperience:
+            state.bodyState.candidateState.selectedCandidate
+              .employment_history[0],
         },
       });
     }
 
-    if (state.selectedListItem?.resume?.file) {
+    if (state.bodyState.candidateState.selectedCandidate?.resume?.file) {
       updateResumeUrl();
     }
-  }, [state.selectedListItem]);
+  }, [state.bodyState.candidateState.selectedCandidate]);
 
+  // gen results
   useEffect(() => {
     if (!state.bodyState.jobStatusState?.selectedGeneration) {
       return;
@@ -642,8 +647,8 @@ export const CandidatesContextProvider = ({ children }) => {
         },
         setFullCandidateProfile: (candidate: any): void => {
           dispatch({
-            type: 'SET_SELECTED_CANDIDATE_PROFILE',
-            payload: candidate,
+            type: 'UPDATE_CANDIDATE_STATE',
+            payload: { selectedCandidate: candidate },
           });
         },
       },
@@ -745,6 +750,15 @@ export const CandidatesContextProvider = ({ children }) => {
       },
     });
   }, []);
+
+  useEffect(() => {
+    if (state.listState.selected) {
+      dispatch({
+        type: 'UPDATE_CANDIDATE_STATE',
+        payload: { selectedCandidate: state.listState.selected },
+      });
+    }
+  }, [state.listState.selected]);
 
   console.log('cand state', state);
 

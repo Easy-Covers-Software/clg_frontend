@@ -61,25 +61,24 @@ const SkillsContainer = styled(Grid)`
 const skills = ['Django', 'React.js', 'Python', 'Typescript', 'Bash'];
 
 const ProfessionalDetailsPanel: React.FC<any> = ({
-  selectedCandidate,
-  professionalDetails,
-  updateProfessionalDetails,
+  candidateState,
+  updateProfessionalDetailsState,
 }) => {
   const [job, setJob] = React.useState(0);
   const [edu, setEdu] = React.useState(0);
 
   const handleJobsChange = (event: React.SyntheticEvent, newValue: number) => {
     setJob(newValue);
-    updateProfessionalDetails(
+    updateProfessionalDetailsState(
       'selectedExperience',
-      selectedCandidate.employment_history[newValue]
+      candidateState.selectedCandidate.employment_history[newValue]
     );
   };
 
   const handleEduChange = (event: React.SyntheticEvent, newValue: number) => {
-    updateProfessionalDetails(
+    updateProfessionalDetailsState(
       'selectedEducation',
-      selectedCandidate.education_history[newValue]
+      candidateState.selectedCandidate.education_history[newValue]
     );
     setEdu(newValue);
   };
@@ -92,23 +91,27 @@ const ProfessionalDetailsPanel: React.FC<any> = ({
         <MainSections container>
           {/* 1. Experience History */}
           <EmploymentHistory
-            experiences={selectedCandidate.employment_history}
-            selected={professionalDetails.selectedExperience}
+            experiences={candidateState.selectedCandidate?.employment_history}
+            selected={
+              candidateState.professionalDetailsState?.selectedExperience
+            }
             selectedIndex={job}
             handleChange={handleJobsChange}
           />
 
           {/* 2. Education */}
           <Education
-            educations={selectedCandidate.education_history}
-            selected={professionalDetails.selectedEducation}
+            educations={candidateState.selectedCandidate?.education_history}
+            selected={
+              candidateState.professionalDetailsState?.selectedEducation
+            }
             selectedIndex={edu}
             handleChange={handleEduChange}
           />
 
           {/* 3. Skills */}
           <SkillsContainer>
-            <CoreSkills skills={selectedCandidate.core_skills} />
+            <CoreSkills skills={candidateState.selectedCandidate.core_skills} />
 
             <ProfessionalLinks />
           </SkillsContainer>

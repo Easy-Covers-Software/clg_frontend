@@ -91,10 +91,7 @@ const CandidateSelectionBody: FC = () => {
   };
 
   const updateSelectedJobPosting = (jobPosting: JobPostingListObject) => {
-    bodyState.updateCandidateJobPostingsListState(
-      'selectedJobPosting',
-      jobPosting
-    );
+    bodyState.updateJobStatusState('selectedJob', jobPosting);
     updateMode('scoreDetails');
   };
 
@@ -106,7 +103,7 @@ const CandidateSelectionBody: FC = () => {
     try {
       const response: APIResponse<Resume> = await uploadResume(
         file,
-        selectedListItem?.id
+        bodyState.candidateState.selectedCandidate?.id
       );
 
       // Check if the response includes data and no error
@@ -134,8 +131,8 @@ const CandidateSelectionBody: FC = () => {
 
   const checkPhoneCalls = () => {
     if (
-      !selectedListItem?.phone_calls ||
-      selectedListItem.phone_calls.length === 0
+      !bodyState.candidateState.selectedCandidate?.phone_calls ||
+      bodyState.candidateState.selectedCandidate.phone_calls.length === 0
     ) {
       return false;
     } else {
@@ -146,7 +143,7 @@ const CandidateSelectionBody: FC = () => {
   const getIntroCall = () => {
     if (!checkPhoneCalls()) return null;
 
-    return selectedListItem?.phone_calls.find(
+    return bodyState.candidateState.selectedCandidate?.phone_calls.find(
       (phoneCall) => phoneCall.call_type === 'intro'
     );
   };
@@ -154,7 +151,7 @@ const CandidateSelectionBody: FC = () => {
   const getFollowUpCalls = () => {
     if (!checkPhoneCalls()) return null;
 
-    return selectedListItem?.phone_calls.filter(
+    return bodyState.candidateState.selectedCandidate?.phone_calls.filter(
       (phoneCall) => phoneCall.call_type !== 'intro'
     );
   };
@@ -181,7 +178,7 @@ const CandidateSelectionBody: FC = () => {
   };
 
   const getResumeUrl = () => {
-    return selectedListItem?.resumes[0]?.file;
+    return bodyState.candidateState.selectedCandidate?.resumes[0]?.file;
   };
 
   const getScoreDetailsMode = () => {
@@ -210,7 +207,7 @@ const CandidateSelectionBody: FC = () => {
 
     const response: APIResponse<MatchScore> = await calculateMatchScore(
       jobPostingId,
-      selectedListItem?.id
+      bodyState.candidateState.selectedCandidate?.id
     );
 
     if (response.data) {
@@ -235,10 +232,7 @@ const CandidateSelectionBody: FC = () => {
       const response: APIResponse<CandidateJobPostingsWithScore> =
         await fetchJobPostingsAssociatedWithCandidate(id);
       if (response) {
-        bodyState.updateCandidateJobPostingsListState(
-          'jobPostings',
-          response.data
-        );
+        bodyState.updateCurrentJobsState('jobs', response.data);
       } else {
         snackbar.updateSnackbar(
           true,
@@ -270,21 +264,20 @@ const CandidateSelectionBody: FC = () => {
       case 'overview':
         return (
           <FullCandidateProfileOverview
-            selectedCandidate={selectedListItem}
-            jobPostings={bodyState.candidateState.jobs}
+            // why is this needed? (pretty sure some bug)
             resumeUrl={bodyState.jobStatusState?.resumeUrl}
-            updateSelectedJobPosting={updateSelectedJobPosting}
             updateMode={updateMode}
             handleCalculate={handleCalculate}
             handleFileChange={handleFileChange}
-            professionalDetails={bodyState.professionalDetailsState}
-            updateProfessionalDetails={bodyState.updateProfessionalDetailsState}
-            candidatePanelMode={bodyState.candidateState.candidateDetailsMode}
             handleDropdownPreferenceChange={handleDropdownPreferenceChange}
-            jobLoadingId={bodyState?.currentlyCalculating}
             // NEW
-            candidateState={handleUpdateCandDetailsPanelMode}
-            updateCandDetailsPanelMode={bodyState.updateCandDetailsPanelMode}
+            candidateState={bodyState.candidateState}
+            handleUpdateCandDetailsPanelMode={handleUpdateCandDetailsPanelMode}
+            updateCandDetailsPanelMode={handleUpdateCandDetailsPanelMode}
+            updateSelectedJobPosting={updateSelectedJobPosting}
+            updateProfessionalDetailsState={
+              bodyState.updateProfessionalDetailsState
+            }
           />
         );
       case 'resume':
@@ -314,9 +307,13 @@ const CandidateSelectionBody: FC = () => {
                 <FullCandidateJobProfile
                   page={'candidate'}
                   selectedJobPosting={getSelectedJobPosting()}
-                  selectedCandidate={selectedListItem}
-                  phoneCalls={selectedListItem?.phone_calls}
-                  generations={selectedListItem?.generations}
+                  selectedCandidate={bodyState.candidateState.selectedCandidate}
+                  phoneCalls={
+                    bodyState.candidateState.selectedCandidate?.phone_calls
+                  }
+                  generations={
+                    bodyState.candidateState.selectedCandidate?.generations
+                  }
                   genMode={getGenerationPanelMode()}
                   callMode={getCallPanelMode()}
                   matchScore={getMatchScore()}
@@ -383,7 +380,7 @@ const CandidateSelectionBody: FC = () => {
         handleChange={null}
       />
       <SubContainer>
-        {selectedListItem !== null &&
+        {bodyState.candidateState.selectedCandidate !== null &&
           renderCurrentCandidateProfileModeSection()}
       </SubContainer>
     </Container>

@@ -42,8 +42,7 @@ const splitString = (inputString) => {
 };
 
 const CandidateJobsList = ({
-  jobPostings,
-  loadingId,
+  currentJobs,
   updateSelectedJobPosting,
   handleCalculate,
 }) => {
@@ -55,25 +54,22 @@ const CandidateJobsList = ({
             <Typography textAlign={'center'}>Current Jobs</Typography>
           </Grid>
           <List component="nav">
-            {jobPostings?.map((jobPosting, index) => (
+            {currentJobs?.map((job, index) => (
               <StyledListItem
                 key={index}
-                disabled={loadingId !== null ? true : false}
                 onClick={() => {
-                  updateSelectedJobPosting(jobPosting);
+                  updateSelectedJobPosting(job);
                 }}
               >
                 <ListItemText
-                  primary={splitString(jobPosting.job_posting.position_title)}
-                  secondary={jobPosting?.job_posting?.company?.name}
+                  primary={splitString(job.job_posting.position_title)}
+                  secondary={job?.job_posting?.company?.name}
                 />
                 <MatchScoreGrid xs="auto">
-                  {jobPosting.match_score && jobPosting.match_score[0] ? (
+                  {job.match_score && job.match_score[0] ? (
                     <Typography variant="caption">
-                      {jobPosting.match_score[0]['weighted_score']} / 10
+                      {job.match_score[0]['weighted_score']} / 10
                     </Typography>
-                  ) : loadingId !== null && loadingId === jobPosting.id ? (
-                    <CircularProgress style={{ color: '#13d0b7' }} />
                   ) : (
                     <IconButton
                       style={{
@@ -83,7 +79,7 @@ const CandidateJobsList = ({
                       onClick={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
-                        handleCalculate(jobPosting.id);
+                        handleCalculate(job.id);
                       }}
                     >
                       <CalculateIcon />

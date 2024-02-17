@@ -44,8 +44,6 @@ const StyledDivider = styled(Divider)`
 `;
 
 interface Props {
-  selectedCandidate: CandidateListItem;
-  jobPostings: JobPostingListObject[];
   jobLoadingId: string | null;
   resumeUrl: string;
   updateSelectedJobPosting: (jobPosting: JobPostingListObject) => void;
@@ -63,37 +61,22 @@ const PanelBackgroundPaper = styled(Paper)`
 
 const FullCandidateProfileOverview: React.FC<any> = ({
   // KEEP
-  updateMode,
   handleCalculate,
   updateSelectedJobPosting,
   handleFileChange,
 
   // REMOVE
-  jobPostings, // 1.
-  resumeUrl, // 2.
-  jobLoadingId, // 7.
-  updateProfessionalDetails, //
-  selectedCandidate,
-  candidatePanelMode,
+  resumeUrl,
+  updateProfessionalDetailsState,
 
   // NEW
+  updateMode,
   updateCandDetailsPanelMode,
-  workPreferencesState,
   handleDropdownPreferenceChange,
 
   candidateState,
 }) => {
   const fileInputRef = useRef(null);
-
-  console.log('candidatePanelMode', candidatePanelMode);
-
-  const handleResumeClick = () => {
-    if (resumeUrl === '') {
-      fileInputRef.current.click();
-    } else {
-      updateMode('resume');
-    }
-  };
 
   return (
     <Container container>
@@ -102,21 +85,23 @@ const FullCandidateProfileOverview: React.FC<any> = ({
         {/* TOP LEFT */}
         <PanelBackgroundPaper>
           <HeaderContainer>
-            {candidatePanelMode === 'Professional' ? (
-              <Header>Professional Details</Header>
-            ) : (
-              <Header>Work Preferences</Header>
-            )}
+            <Header>{candidateState.candidateDetailsMode}</Header>
             <SwitchContainer>
               <FormControlLabel
                 control={
                   <Switch
                     color="success"
                     checked={
-                      candidatePanelMode === 'Professional' ? false : true
+                      candidateState.candidateDetailsMode ===
+                      'Professional Details'
+                        ? false
+                        : true
                     }
                     onChange={() => {
-                      if (candidatePanelMode === 'Professional') {
+                      if (
+                        candidateState.candidateDetailsMode ===
+                        'Professional Details'
+                      ) {
                         updateCandDetailsPanelMode('Work Preferences');
                       } else {
                         updateCandDetailsPanelMode('Professional Details');
@@ -130,16 +115,14 @@ const FullCandidateProfileOverview: React.FC<any> = ({
             </SwitchContainer>
           </HeaderContainer>
 
-          {candidatePanelMode === 'Professional' ? (
+          {candidateState.candidateDetailsMode === 'Professional Details' ? (
             <ProfessionalDetailsPanel
-              selectedCandidate={selectedCandidate}
-              professionalDetails={candidateState.professionalDetailsState}
-              updateProfessionalDetails={updateProfessionalDetails}
+              candidateState={candidateState}
+              updateProfessionalDetailsState={updateProfessionalDetailsState}
             />
           ) : (
-            // Else personal details
             <WorkPreferencesPanel
-              selectedCandidate={selectedCandidate}
+              candidateState={candidateState}
               handleDropdownPreferenceChange={handleDropdownPreferenceChange}
             />
           )}
@@ -153,8 +136,7 @@ const FullCandidateProfileOverview: React.FC<any> = ({
 
         {/* 4. Personal Details Panel - Bottom Right (fills remaining space) */}
         <CandidateJobsList
-          jobPostings={jobPostings && jobPostings}
-          loadingId={jobLoadingId}
+          currentJobs={candidateState.currentJobsState.jobs}
           updateSelectedJobPosting={updateSelectedJobPosting}
           handleCalculate={handleCalculate}
         />
