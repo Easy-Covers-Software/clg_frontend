@@ -40,7 +40,7 @@ const initialState: any = {
       loading: false,
     },
 
-    // TODO: implement the following for structure:
+    // TODO: add resumeState, callsState, feedbackState, candUpdateState, personalDetailsState into candidateState
     // 1. When a candidate is selected, the first page displays candidate's details are displayed in the body
     candidateState: {
       candidateDetailsMode: 'Professional Details', // 'Professional Details', 'Work Preferences'
@@ -85,41 +85,33 @@ const initialState: any = {
         selectedJob: null,
         refreshJobs: true,
       },
-    },
-
-    // 2. When the resume tab selected, need all available resumes to be listed and select the most recent and display it as default
-    resumeState: {
-      resumes: [],
-      selectedResume: null,
-      refreshResumes: true,
-    },
-
-    // 3. When the calls tab selected, need all available calls to be listed with none auto-selected
-    callsState: {
-      calls: [],
-      selectedCall: null,
-      refreshCalls: true,
-    },
-
-    // 4. When the feedback tab selected, need all available feedback to be listed with none auto-selected
-    feedbackState: {
-      feedback: [],
-      selectedFeedback: null,
-      refreshFeedback: true,
+      resumeState: {
+        resumes: [], // update the list with the resumeState
+        selectedResume: null,
+        refreshResumes: true,
+      },
+      callsState: {
+        calls: [],
+        selectedCall: null,
+        refreshCalls: true,
+      },
+      feedbackState: {
+        feedback: [],
+        selectedFeedback: null,
+        refreshFeedback: true,
+      },
+      personalDetailsState: {
+        selectedPersonalDetail: null,
+      },
     },
 
     // TODO:
     // 5. When the update tab selected, present the current candidate details in the form components to allow for updating
-    updateState: {
+    candUpdateState: {
       form1: {},
       form2: {},
       form3: {},
       form4: {},
-    },
-
-    // 6. When the personal details dialog button is selected, pass personal detailsState to the dialog
-    personalDetailsState: {
-      selectedPersonalDetail: null,
     },
 
     // 7. When a job in the current jobs list is selected, the mode changes to jobStatus and displays the jobStatus overview component
@@ -131,7 +123,10 @@ const initialState: any = {
         source: '',
         hiringSteps: null,
       },
-      resumeState: null,
+      resumeState: {
+        resumes: [],
+        selectedResume: null,
+      },
       callsState: {
         calls: [],
         selectedCall: null,
@@ -140,8 +135,6 @@ const initialState: any = {
         feedback: [],
         selectedFeedback: null,
       },
-      currentlyCalculating: null,
-      scoreDetails: {},
       generationResultsState: {
         id: '',
         content: null,
@@ -155,16 +148,10 @@ const initialState: any = {
         isDownloadDropdownOpen: false,
         disableDownloads: true,
       },
+      currentlyCalculating: '',
+      scoreDetails: {},
+      scoreMode: 'weighted',
     },
-
-    //**** OLD ****//
-    // 1.
-    // professionalDetailsState: {
-    //   selectedExperience: null,
-    //   selectedEducation: null,
-    // },
-    // 1.
-    // candidateDetailsMode: 'Professional', // Professional, Preferences
 
     // 1.
     workPreferencesState: {
@@ -183,20 +170,20 @@ const initialState: any = {
     currentlyCalculating: null,
 
     // 7.
-    jobStatusState: {
-      mode: 'overview', // 7.
-      selectedCandidateMode: 'overview', // REMOVE
-      generationPanelMode: 'overview', // REMOVE
-      callPanelMode: 'overview', // REMOVE
-      selectedGeneration: null, // replace relative variable
-      selectedCall: null, // replace relative variable
-      loading: false, // REMOVE
-      resumeUrl: '', // 2.
-      refreshJobPostings: true,
+    // jobStatusState: {
+    //   mode: 'overview', // 7.
+    //   selectedCandidateMode: 'overview', // REMOVE
+    //   generationPanelMode: 'overview', // REMOVE
+    //   callPanelMode: 'overview', // REMOVE
+    //   selectedGeneration: null, // replace relative variable
+    //   selectedCall: null, // replace relative variable
+    //   loading: false, // REMOVE
+    //   resumeUrl: '', // 2.
+    //   refreshJobPostings: true,
 
-      // new
-      scoreMode: 'weighted', // total, weighted
-    },
+    //   // new
+    //   scoreMode: 'weighted', // total, weighted
+    // },
 
     // generationResultsState
     generationResultsState: {
@@ -353,9 +340,12 @@ const candidatesReducer = (state: any, action: any) => {
         ...state,
         bodyState: {
           ...state.bodyState,
-          resumeState: {
-            ...state.bodyState.resumeState,
-            ...action.payload,
+          candidateState: {
+            ...state.bodyState.candidateState,
+            resumeState: {
+              ...state.bodyState.candidateState.resumeState,
+              ...action.payload,
+            },
           },
         },
       };
@@ -364,9 +354,12 @@ const candidatesReducer = (state: any, action: any) => {
         ...state,
         bodyState: {
           ...state.bodyState,
-          callsState: {
-            ...state.bodyState.callsState,
-            ...action.payload,
+          candidateState: {
+            ...state.bodyState.candidateState,
+            callsState: {
+              ...state.bodyState.candidateState.callsState,
+              ...action.payload,
+            },
           },
         },
       };
@@ -375,9 +368,12 @@ const candidatesReducer = (state: any, action: any) => {
         ...state,
         bodyState: {
           ...state.bodyState,
-          feedbackState: {
-            ...state.bodyState.feedbackState,
-            ...action.payload,
+          candidateState: {
+            ...state.bodyState.candidateState,
+            feedbackState: {
+              ...state.bodyState.candidateState.feedbackState,
+              ...action.payload,
+            },
           },
         },
       };
@@ -386,8 +382,8 @@ const candidatesReducer = (state: any, action: any) => {
         ...state,
         bodyState: {
           ...state.bodyState,
-          updateState: {
-            ...state.bodyState.updateState,
+          candUpdateState: {
+            ...state.bodyState.candUpdateState,
             ...action.payload,
           },
         },
@@ -397,9 +393,12 @@ const candidatesReducer = (state: any, action: any) => {
         ...state,
         bodyState: {
           ...state.bodyState,
-          personalDetailsState: {
-            ...state.bodyState.personalDetailsState,
-            ...action.payload,
+          candidateState: {
+            ...state.bodyState.candidateState,
+            personalDetailsState: {
+              ...state.bodyState.candidateState.personalDetailsState,
+              ...action.payload,
+            },
           },
         },
       };
@@ -408,8 +407,8 @@ const candidatesReducer = (state: any, action: any) => {
         ...state,
         bodyState: {
           ...state.bodyState,
-          jobStatusState: {
-            ...state.bodyState.jobStatusState,
+          jobStatusState2: {
+            ...state.bodyState.jobStatusState2,
             ...action.payload,
           },
         },
@@ -419,10 +418,10 @@ const candidatesReducer = (state: any, action: any) => {
         ...state,
         bodyState: {
           ...state.bodyState,
-          jobStatusState: {
-            ...state.bodyState.jobStatusState,
+          jobStatusState2: {
+            ...state.bodyState.jobStatusState2,
             generationResultsState: {
-              ...state.bodyState.jobStatusState.generationResultsState,
+              ...state.bodyState.jobStatusState2.generationResultsState,
               ...action.payload,
             },
           },
@@ -430,58 +429,29 @@ const candidatesReducer = (state: any, action: any) => {
       };
 
     //**** OLD ****//
-    case 'UPDATE_WORK_PREFERENCES_STATE':
-      return {
-        ...state,
-        bodyState: {
-          ...state.bodyState,
-          workPreferencesState: {
-            ...state.bodyState.workPreferencesState,
-            ...action.payload,
-          },
-        },
-      };
-    case 'UPDATE_CANDIDATE_JOB_POSTINGS_LIST_STATE':
-      return {
-        ...state,
-        bodyState: {
-          ...state.bodyState,
-          candidateJobPostingsListState: {
-            ...state.bodyState.candidateJobPostingsListState,
-            ...action.payload,
-          },
-        },
-      };
-    case 'UPDATE_CURRENTLY_CALCULATING':
-      return {
-        ...state,
-        bodyState: {
-          ...state.bodyState,
-          currentlyCalculating: action.payload,
-        },
-      };
-    case 'UPDATE_JOB_STATUS_STATE':
-      return {
-        ...state,
-        bodyState: {
-          ...state.bodyState,
-          jobStatusState: {
-            ...state.bodyState.jobStatusState,
-            ...action.payload,
-          },
-        },
-      };
-    case 'UPDATE_GENERATION_RESULTS_STATE':
-      return {
-        ...state,
-        bodyState: {
-          ...state.bodyState,
-          generationResultsState: {
-            ...state.bodyState.generationResultsState,
-            ...action.payload,
-          },
-        },
-      };
+    // case 'UPDATE_WORK_PREFERENCES_STATE':
+    //   return {
+    //     ...state,
+    //     bodyState: {
+    //       ...state.bodyState,
+    //       workPreferencesState: {
+    //         ...state.bodyState.workPreferencesState,
+    //         ...action.payload,
+    //       },
+    //     },
+    //   };
+
+    // case 'UPDATE_GENERATION_RESULTS_STATE':
+    //   return {
+    //     ...state,
+    //     bodyState: {
+    //       ...state.bodyState,
+    //       generationResultsState: {
+    //         ...state.bodyState.generationResultsState,
+    //         ...action.payload,
+    //       },
+    //     },
+    //   };
 
     default:
       return state;
@@ -581,22 +551,22 @@ export const CandidatesContextProvider = ({ children }) => {
   }, [state.bodyState.candidateState.selectedCandidate]);
 
   // gen results
-  useEffect(() => {
-    if (!state.bodyState.jobStatusState?.selectedGeneration) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (!state.bodyState.jobStatusState?.generationResultsState) {
+  //     return;
+  //   }
 
-    dispatch({
-      type: 'UPDATE_GENERATION_RESULTS_STATE',
-      payload: {
-        id: state.bodyState.jobStatusState.selectedGeneration?.id,
-        content: state.bodyState.jobStatusState.selectedGeneration?.content,
-        contentHtml: addDivTag(
-          addPTags(state.bodyState.jobStatusState.selectedGeneration?.content)
-        ),
-      },
-    });
-  }, [state.bodyState.jobStatusState.selectedGeneration]);
+  //   dispatch({
+  //     type: 'UPDATE_GENERATION_RESULTS_STATE',
+  //     payload: {
+  //       id: state.bodyState.jobStatusState.selectedGeneration?.id,
+  //       content: state.bodyState.jobStatusState.selectedGeneration?.content,
+  //       contentHtml: addDivTag(
+  //         addPTags(state.bodyState.jobStatusState.selectedGeneration?.content)
+  //       ),
+  //     },
+  //   });
+  // }, [state.bodyState.jobStatusState.selectedGeneration]);
 
   //== List State ==//
   useEffect(() => {
@@ -663,12 +633,12 @@ export const CandidatesContextProvider = ({ children }) => {
         mode: initialState.bodyState.mode,
         selectionSummaryState: initialState.bodyState.selectionSummaryState,
         candidateState: initialState.bodyState.candidateState,
-        resumeState: initialState.bodyState.resumeState,
         callsState: initialState.bodyState.callsState,
         feedbackState: initialState.bodyState.feedbackState,
-        updateState: initialState.bodyState.updateState,
+        candUpdateState: initialState.bodyState.candUpdateState,
         personalDetailsState: initialState.bodyState.personalDetailsState,
         jobStatusState: initialState.bodyState.jobStatusState,
+        jobStatusState2: initialState.bodyState.jobStatusState2,
         updateMode: (mode: string): void => {
           dispatch({
             type: 'UPDATE_CANDIDATE_BODY_DISPLAY_MODE',
@@ -751,14 +721,48 @@ export const CandidatesContextProvider = ({ children }) => {
     });
   }, []);
 
+  // update selected candidate
   useEffect(() => {
     if (state.listState.selected) {
+      // 1. update the body state with the selected candidate
       dispatch({
         type: 'UPDATE_CANDIDATE_STATE',
         payload: { selectedCandidate: state.listState.selected },
       });
+
+      // 2. update the resumeState with the list of resumes associated with the selected candidate
+      dispatch({
+        type: 'UPDATE_RESUME_STATE',
+        payload: { resumes: state.listState.selected.resumes },
+      });
+
+      // 3. update the callsState with the list of calls associated with the selected candidate
+      dispatch({
+        type: 'UPDATE_CALLS_STATE',
+        payload: { calls: state.listState.selected.phone_calls },
+      });
+
+      // 4. update the feedbackState with the list of feedback associated with the selected candidate
+      // dispatch({
+      //   type: 'UPDATE_FEEDBACK_STATE',
+      //   payload: { feedback: state.listState.selected.feedback },
+      // });
     }
   }, [state.listState.selected]);
+
+  // update job status state when the selected job status changes
+  // also want to update all the sub-component states with the selected job posting so the correct resume/calls are displays in the sub-components.
+  useEffect(() => {
+    if (state.bodyState.candidateState.currentJobsState.selectedJob) {
+      dispatch({
+        type: 'UPDATE_JOB_STATUS_STATE',
+        payload: {
+          selectedJob:
+            state.bodyState.candidateState.currentJobsState.selectedJob,
+        },
+      });
+    }
+  }, [state.bodyState.candidateState.currentJobsState.selectedJob]);
 
   console.log('cand state', state);
 

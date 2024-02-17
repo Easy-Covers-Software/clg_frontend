@@ -63,7 +63,7 @@ const CandidateSelectionBody: FC = () => {
   const { snackbar } = authState;
 
   const { state } = useCandidatesContext();
-  const { listState, selectedListItem, bodyState } = state;
+  const { listState, bodyState } = state;
 
   //=== Helpers ===//
   const updateMode = (mode: string) => {
@@ -74,25 +74,70 @@ const CandidateSelectionBody: FC = () => {
     updateMode('overview');
   };
 
-  const updateScoreDetailsMode = (mode: string) => {
+  const updateJobStatusMode = (mode: string) => {
     bodyState.updateJobStatusState('selectedCandidateMode', mode);
   };
 
-  const resetScoreDetailsMode = () => {
-    updateScoreDetailsMode('overview');
+  const resetJobStatusMode = () => {
+    updateJobStatusMode('overview');
   };
 
-  const updateGenerationsPanelMode = (mode: string) => {
-    bodyState.updateJobStatusState('generationPanelMode', mode);
+  // const handleGenerationSelection = (generation: Generation) => {
+  //   bodyState.updateJobStatusState('selectedGeneration', generation);
+  //   updateScoreDetailsMode('generation');
+  // };
+
+  // const handleCallSelection = (call: PhoneCall) => {
+  //   bodyState.updateJobStatusState('selectedCall', call);
+  //   updateScoreDetailsMode('phoneCall');
+  // };
+
+  const getTranscriptionNotes = () => {
+    return bodyState.jobStatusState?.selectedCall?.transcription?.notes;
   };
 
-  const updateCallsPanelMode = (mode: string) => {
-    bodyState.updateJobStatusState('callPanelMode', mode);
+  // TODO: need to change this
+  const getResumes = (section) => {
+    if (section === 'candidate') {
+      if (
+        bodyState.jobStatusState2.resumeState &&
+        bodyState.jobStatusState2.resumeState.length === 0
+      ) {
+        return false;
+      }
+      return bodyState.jobStatusState2.resumeState[0];
+    } else if (section === 'jobStatus') {
+      if (
+        bodyState.candidateState.resumeState &&
+        bodyState.candidateState.resumeState.length === 0
+      ) {
+        return false;
+      }
+      return bodyState.jobStatusState2.resumeState[0];
+    }
+  };
+
+  const getResumeUrl = () => {
+    if (getResumes()) {
+      return getResumes().file;
+    }
+  };
+
+  //=** NEW **=//
+  const handleDropdownPreferenceChange = (selection) => {
+    bodyState.updateWorkPreferencesState(
+      'selectedDropdownPreference',
+      selection
+    );
+  };
+
+  const handleUpdateCandDetailsPanelMode = (mode: string) => {
+    bodyState.updateCandidateState('candidateDetailsMode', mode);
   };
 
   const updateSelectedJobPosting = (jobPosting: JobPostingListObject) => {
     bodyState.updateJobStatusState('selectedJob', jobPosting);
-    updateMode('scoreDetails');
+    updateMode('jobStatus');
   };
 
   const handleFileChange = async (file: File) => {
@@ -119,91 +164,9 @@ const CandidateSelectionBody: FC = () => {
     }
   };
 
-  const handleGenerationSelection = (generation: Generation) => {
-    bodyState.updateJobStatusState('selectedGeneration', generation);
-    updateScoreDetailsMode('generation');
-  };
-
-  const handleCallSelection = (call: PhoneCall) => {
-    bodyState.updateJobStatusState('selectedCall', call);
-    updateScoreDetailsMode('phoneCall');
-  };
-
-  const checkPhoneCalls = () => {
-    if (
-      !bodyState.candidateState.selectedCandidate?.phone_calls ||
-      bodyState.candidateState.selectedCandidate.phone_calls.length === 0
-    ) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
-  const getIntroCall = () => {
-    if (!checkPhoneCalls()) return null;
-
-    return bodyState.candidateState.selectedCandidate?.phone_calls.find(
-      (phoneCall) => phoneCall.call_type === 'intro'
-    );
-  };
-
-  const getFollowUpCalls = () => {
-    if (!checkPhoneCalls()) return null;
-
-    return bodyState.candidateState.selectedCandidate?.phone_calls.filter(
-      (phoneCall) => phoneCall.call_type !== 'intro'
-    );
-  };
-
-  const isCurrentlyCalculating = () => {
-    return bodyState?.currentlyCalculating !== null ? true : false;
-  };
-
-  const getSelectedJobPosting = () => {
-    return bodyState.candidateJobPostingsListState?.selectedJobPosting;
-  };
-
-  const getCallPanelMode = () => {
-    return bodyState.jobStatusState?.callPanelMode;
-  };
-
-  const getGenerationPanelMode = () => {
-    return bodyState.jobStatusState?.generationPanelMode;
-  };
-
-  const getMatchScore = () => {
-    return bodyState.candidateJobPostingsListState?.selectedJobPosting
-      ?.match_score[0];
-  };
-
-  const getResumeUrl = () => {
-    return bodyState.candidateState.selectedCandidate?.resumes[0]?.file;
-  };
-
-  const getScoreDetailsMode = () => {
-    return bodyState.jobStatusState?.selectedCandidateMode;
-  };
-
-  const getTranscriptionNotes = () => {
-    return bodyState.jobStatusState?.selectedCall?.transcription?.notes;
-  };
-
-  //=** NEW **=//
-  const handleDropdownPreferenceChange = (selection) => {
-    bodyState.updateWorkPreferencesState(
-      'selectedDropdownPreference',
-      selection
-    );
-  };
-
-  const handleUpdateCandDetailsPanelMode = (mode: string) => {
-    bodyState.updateCandidateState('candidateDetailsMode', mode);
-  };
-
   //=== API Methods ===//
   const handleCalculate = async (jobPostingId: string) => {
-    bodyState.updateCurrentlyCalculating(jobPostingId);
+    bodyState.updateJobStatusState('currentlyCalculating', jobPostingId);
 
     const response: APIResponse<MatchScore> = await calculateMatchScore(
       jobPostingId,
@@ -211,7 +174,7 @@ const CandidateSelectionBody: FC = () => {
     );
 
     if (response.data) {
-      bodyState.updateCurrentlyCalculating(null);
+      bodyState.updateJobStatusState('currentlyCalculating', '');
       listState.toggleRefresh();
     } else {
       console.log('response');
@@ -221,7 +184,7 @@ const CandidateSelectionBody: FC = () => {
         'error',
         `Error: ${response.error.response.data}`
       );
-      bodyState.updateCurrentlyCalculating(null);
+      bodyState.updateJobStatusState('currentlyCalculating', '');
     }
   };
 
@@ -266,11 +229,10 @@ const CandidateSelectionBody: FC = () => {
           <FullCandidateProfileOverview
             // why is this needed? (pretty sure some bug)
             resumeUrl={bodyState.jobStatusState?.resumeUrl}
-            updateMode={updateMode}
-            handleCalculate={handleCalculate}
             handleFileChange={handleFileChange}
             handleDropdownPreferenceChange={handleDropdownPreferenceChange}
             // NEW
+            updateMode={updateMode}
             candidateState={bodyState.candidateState}
             handleUpdateCandDetailsPanelMode={handleUpdateCandDetailsPanelMode}
             updateCandDetailsPanelMode={handleUpdateCandDetailsPanelMode}
@@ -278,6 +240,7 @@ const CandidateSelectionBody: FC = () => {
             updateProfessionalDetailsState={
               bodyState.updateProfessionalDetailsState
             }
+            handleCalculate={handleCalculate}
           />
         );
       case 'resume':
@@ -297,7 +260,7 @@ const CandidateSelectionBody: FC = () => {
         return <></>;
 
       case 'jobStatus':
-        switch (getScoreDetailsMode()) {
+        switch (bodyState.jobStatusState2.mode) {
           case 'overview':
             return (
               <SubSectionFrame
@@ -306,27 +269,9 @@ const CandidateSelectionBody: FC = () => {
               >
                 <FullCandidateJobProfile
                   page={'candidate'}
-                  selectedJobPosting={getSelectedJobPosting()}
-                  selectedCandidate={bodyState.candidateState.selectedCandidate}
-                  phoneCalls={
-                    bodyState.candidateState.selectedCandidate?.phone_calls
-                  }
-                  generations={
-                    bodyState.candidateState.selectedCandidate?.generations
-                  }
-                  genMode={getGenerationPanelMode()}
-                  callMode={getCallPanelMode()}
-                  matchScore={getMatchScore()}
-                  loading={isCurrentlyCalculating()}
-                  updateSubSectionMode={updateScoreDetailsMode}
-                  updateGenerationsPanelMode={updateGenerationsPanelMode}
-                  updateCallsPanelMode={updateCallsPanelMode}
-                  handleCalculate={handleCalculate}
-                  handleGenerationSelection={handleGenerationSelection}
-                  handleCallSelection={handleCallSelection}
-                  // new
-                  jobStatusState={bodyState.jobStatusState}
+                  jobStatusState={bodyState.jobStatusState2}
                   updateJobStatusState={bodyState.updateJobStatusState}
+                  handleCalculate={handleCalculate}
                 />
               </SubSectionFrame>
             );
@@ -334,7 +279,7 @@ const CandidateSelectionBody: FC = () => {
             return (
               <SubSectionFrame
                 subSectionHeader={'Generation'}
-                onClose={resetScoreDetailsMode}
+                onClose={resetJobStatusMode}
               >
                 <GenerationEditor
                   contentData={bodyState.generationResultsState}
@@ -345,7 +290,7 @@ const CandidateSelectionBody: FC = () => {
             return (
               <SubSectionFrame
                 subSectionHeader={'Call Notes'}
-                onClose={resetScoreDetailsMode}
+                onClose={resetJobStatusMode}
               >
                 <TranscriptionNotes
                   page={'candidate'}

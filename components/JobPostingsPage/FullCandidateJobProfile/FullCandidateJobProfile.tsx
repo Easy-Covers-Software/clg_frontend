@@ -132,88 +132,12 @@ const PanelButtonGroup = ({
 
 const FullCandidateJobProfile = ({
   page,
-  selectedJobPosting,
-  selectedCandidate,
-  phoneCalls,
-  generations,
-  genMode,
-  callMode,
-  matchScore,
-  loading,
-  updateSubSectionMode,
-  updateGenerationsPanelMode,
-  updateCallsPanelMode,
-  handleCalculate,
-  handleGenerationSelection,
-  handleCallSelection,
-  // new
   jobStatusState,
   updateJobStatusState,
+  handleCalculate,
 }) => {
-  console.log('selectedJobPosting', selectedJobPosting);
-
-  const emailGenerations = generations?.filter(
-    (item) => item?.generation_type === 'email'
-  );
-
-  const coverLetterGenerations = generations?.filter(
-    (item) => item?.generation_type === 'cover_letter'
-  );
-
-  console.log('phone calls', phoneCalls);
-
-  const introPhoneCall = phoneCalls?.filter(
-    (item) => item?.call_type === 'intro'
-  )[0];
-
-  console.log('intro phone call', phoneCalls);
-
-  const followUpPhoneCalls = phoneCalls?.filter(
-    (item) => item?.call_type === 'follow_up'
-  );
-
-  const setModeToIntroCall = () => {
-    updateSubSectionMode('introCall');
-  };
-
-  const setModeToFollowUpCall = () => {
-    updateSubSectionMode('followUpCall');
-  };
-
-  const setModeToEmails = () => {
-    updateSubSectionMode('emails');
-  };
-
-  const setModeToEmailsSelection = () => {
-    updateGenerationsPanelMode('emailsSelection');
-  };
-
-  const resetGenerationPanelMode = () => {
-    updateGenerationsPanelMode('overview');
-  };
-
-  const setCallPanelModeToFollowSelection = () => {
-    updateCallsPanelMode('callsSelection');
-  };
-
-  const resetCallPanelMode = () => {
-    updateCallsPanelMode('overview');
-  };
-
-  const setModeToCoverLetters = () => {
-    updateSubSectionMode('coverLetters');
-  };
-
-  const setModeToCoverLettersSelection = () => {
-    updateGenerationsPanelMode('coverLettersSelection');
-  };
-
-  const setModeToResume = () => {
-    updateSubSectionMode('resume');
-  };
-
-  const setModeToFeedback = () => {
-    updateSubSectionMode('status-feedback');
+  const updateJobStatusMode = (mode: string) => {
+    updateJobStatusState('selectedCandidateMode', mode);
   };
 
   // new
@@ -221,25 +145,20 @@ const FullCandidateJobProfile = ({
     updateJobStatusState('scoreMode', mode);
   };
 
-  console.log('selectedJobPosting ====***');
-  console.log(followUpPhoneCalls);
-
   return (
     <Container>
       {/* CurrentStatus Component */}
-      <CurrentStatus updateJobStatusState={updateJobStatusState} />
+      <CurrentStatus
+        currentStatus={jobStatusState?.currentStatus}
+        updateJobStatusMode={updateJobStatusMode}
+      />
 
       {/* Score Details */}
       <ScoreDetails
         page={page}
-        jobPostingId={selectedJobPosting?.job_posting?.id}
-        jobTitle={selectedJobPosting?.job_title}
-        matchScoreDetails={matchScore}
-        loading={loading}
-        handleCalculate={handleCalculate}
-        //new
-        scoreMode={jobStatusState.scoreMode}
+        jobStatusState={jobStatusState}
         updateScoreMode={updateScoreMode}
+        handleCalculate={handleCalculate}
       />
     </Container>
   );

@@ -53,7 +53,7 @@ const initialState: any = {
       listFilter: 'weighted', // weighted, total
       refreshCandidates: true,
     },
-    currentlyCalculating: null,
+    currentlyCalculating: 'null',
     jobStatusState: {
       selectedCandidateMode: 'overview', // overview, phoneCall, generation
       generationPanelMode: 'overview', // overview, emailSelection, coverLetterSelection

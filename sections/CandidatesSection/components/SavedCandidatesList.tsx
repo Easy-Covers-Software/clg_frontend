@@ -45,6 +45,38 @@ const SavedCandidatesList: FC = () => {
     listState.updateSearch(searchValue);
   };
 
+  // want to add a function that if the jobStatusState2.selectedJob is not null then a switch statement is called to determine which list to be passed to the SavedList component
+  const determineCurrentList = () => {
+    if (bodyState.candidateState.currentJobsState.selectedJob) {
+      // indicating that the user is not in the candidate view
+      if (bodyState.mode === 'jobStatus') {
+        switch (bodyState.jobStatusState2.mode) {
+          case 'calls':
+            return bodyState.candidateState.callsState;
+          case 'feedback':
+            return bodyState.candidateState.currentJobsState.feedback;
+          case 'generations':
+            return bodyState.candidateState.currentJobsState.generations;
+          default:
+            return listState.filteredListItems;
+        }
+      } else {
+        switch (bodyState.mode) {
+          case 'resume':
+            return bodyState.candidateState.resumeState;
+          case 'calls':
+            return bodyState.candidateState.currentJobsState.calls;
+          case 'feedback':
+            return bodyState.candidateState.currentJobsState.feedback;
+          case 'generations':
+            return bodyState.candidateState.currentJobsState.generations;
+          default:
+            return listState.filteredListItems;
+        }
+      }
+    }
+  };
+
   //=== API Methods ===//
   //= DELETE CANDIDATE PROFILE =//
   const handleDelete = async (id: string): Promise<void> => {
@@ -80,6 +112,8 @@ const SavedCandidatesList: FC = () => {
     if (!id) return console.error('No candidate id provided');
     const response: APIResponse<CandidateJobPostingsWithScore> =
       await fetchJobPostingsAssociatedWithCandidate(id);
+
+    console.log('response.data', response.data);
 
     if (response.data) {
       bodyState.updateCurrentJobsState('jobs', response.data);

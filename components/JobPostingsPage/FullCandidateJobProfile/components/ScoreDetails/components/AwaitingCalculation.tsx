@@ -9,6 +9,7 @@ const Container = styled(Grid2)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: white;
 `;
 
 const CalculateHeader = styled(Typography)`

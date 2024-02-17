@@ -73,29 +73,35 @@ const CirculedIconButton = styled(IconButton)`
   border: 1px solid lightgray;
 `;
 
-const CurrentStatus = ({ updateJobStatusState }) => {
-  const setJobStatusModeToResume = () => {
-    updateJobStatusState('mode', 'resume');
+type CurrentStatusState = {
+  currentStatus: string; // is one of many 'choices' from backend model field or ''
+  source: string; // represents the recruiter or team that is responsible for the current status
+  hiringSteps: any; // will be an object for the new hiring steps model
+};
+
+const CurrentStatus = ({ currentStatus, updateJobStatusMode }) => {
+  const setModeToResume = () => {
+    updateJobStatusMode('resume');
   };
 
-  const setJobStatusModeToCalls = () => {
-    updateJobStatusState('mode', 'calls');
+  const setModeToCalls = () => {
+    updateJobStatusMode('calls');
   };
 
-  const setJobStatusModeToFeedback = () => {
-    updateJobStatusState('mode', 'feedback');
+  const setModeToFeedback = () => {
+    updateJobStatusMode('feedback');
   };
 
-  const setJobStatusModeToGenerations = () => {
-    updateJobStatusState('mode', 'generations');
+  const setModeToGenerations = () => {
+    updateJobStatusMode('generations');
   };
 
-  const setJobStatusModeToUpdateStatus = () => {
-    updateJobStatusState('mode', 'update');
+  const setModeToUpdateStatus = () => {
+    updateJobStatusMode('update');
   };
 
-  const setJobStatusModeToSettings = () => {
-    updateJobStatusState('mode', 'settings');
+  const setModeToSettings = () => {
+    updateJobStatusMode('update');
   };
 
   return (
@@ -103,10 +109,10 @@ const CurrentStatus = ({ updateJobStatusState }) => {
       <StatusOverview>
         <OverviewInfo>
           <OverviewInfoStatus>
-            Status: <strong> Phone Screening</strong>
+            Status: <strong> {currentStatus.status}</strong>
           </OverviewInfoStatus>
           <OverviewInfoSource>
-            Recruiter/Team: David Silveira
+            Recruiter/Team: {currentStatus.status}
           </OverviewInfoSource>
         </OverviewInfo>
 
@@ -115,34 +121,34 @@ const CurrentStatus = ({ updateJobStatusState }) => {
         <OverviewIconOptions>
           <IconOptionsRow>
             <Tooltip title={'Résumé'}>
-              <CirculedIconButton onClick={setJobStatusModeToResume}>
+              <CirculedIconButton onClick={setModeToResume}>
                 <DocumentScannerOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
             <Tooltip title={'Calls'}>
-              <CirculedIconButton onClick={setJobStatusModeToCalls}>
+              <CirculedIconButton onClick={setModeToCalls}>
                 <PermPhoneMsgOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
             <Tooltip title={'Feedback'}>
-              <CirculedIconButton onClick={setJobStatusModeToFeedback}>
+              <CirculedIconButton onClick={setModeToFeedback}>
                 <RateReviewOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
           </IconOptionsRow>
           <IconOptionsRow>
             <Tooltip title={'Generations'}>
-              <CirculedIconButton onClick={setJobStatusModeToGenerations}>
+              <CirculedIconButton onClick={setModeToGenerations}>
                 <TipsAndUpdatesOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
             <Tooltip title={'Update Status'}>
-              <CirculedIconButton onClick={setJobStatusModeToUpdateStatus}>
+              <CirculedIconButton onClick={setModeToUpdateStatus}>
                 <CreateOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
             <Tooltip title={'Settings'}>
-              <CirculedIconButton onClick={setJobStatusModeToSettings}>
+              <CirculedIconButton onClick={setModeToSettings}>
                 <SettingsOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
@@ -153,7 +159,10 @@ const CurrentStatus = ({ updateJobStatusState }) => {
       <Divider color={'#13d0b7'} />
 
       <StatusProgressVisual>
-        <StatusProgress />
+        <StatusProgress
+          currentStatus={currentStatus.status}
+          hiringSteps={currentStatus.hiringSteps}
+        />
       </StatusProgressVisual>
     </Container>
   );

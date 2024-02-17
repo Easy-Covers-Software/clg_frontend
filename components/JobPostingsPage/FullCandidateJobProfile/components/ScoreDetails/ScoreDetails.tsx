@@ -1,5 +1,4 @@
-// ScoreDetails.tsx
-import React from 'react';
+import { useEffect, useState } from 'react';
 
 import LoadingScore from './components/LoadingScore';
 import AwaitingCalculation from './components/AwaitingCalculation';
@@ -23,17 +22,22 @@ import {
 
 const ScoreDetails = ({
   page,
-  jobPostingId,
-  jobTitle,
-  matchScoreDetails,
-  loading,
-  handleCalculate,
-  //new
-  scoreMode,
+  jobStatusState,
   updateScoreMode,
+  handleCalculate,
 }) => {
+  const [matchScore, setMatchScore] = useState(null);
+
+  useEffect(() => {
+    if (jobStatusState?.selectedJob?.match_score?.length > 0) {
+      setMatchScore(jobStatusState.selectedJob.match_score[0]);
+    } else {
+      setMatchScore(null);
+    }
+  }, [jobStatusState]);
+
   // Splitting scores into two columns
-  const scoreEntries = Object.entries(matchScoreDetails);
+  const scoreEntries = Object.entries(matchScore || {});
   const midIndex = Math.ceil(scoreEntries.length / 2);
   const leftColumnScores = scoreEntries.slice(0, midIndex);
   const rightColumnScores = scoreEntries.slice(midIndex);
@@ -88,14 +92,14 @@ const ScoreDetails = ({
       );
     });
 
-  if (!matchScoreDetails) {
-    if (loading) {
-      return <LoadingScore jobTitle={jobTitle} />;
+  if (matchScore) {
+    if (jobStatusState?.currentlyCalculating !== '') {
+      return <LoadingScore jobTitle={jobStatusState?.selectedJob?.job_title} />;
     } else {
       return (
         <AwaitingCalculation
           page={page}
-          jobPostingId={jobPostingId}
+          jobPostingId={jobStatusState?.selectedJob?.job_posting?.id}
           handleCalculate={handleCalculate}
         />
       );
@@ -112,32 +116,29 @@ const ScoreDetails = ({
   };
 
   return (
-    // <>
-    //   <Header>Score Details</Header>
-
     <ScoreDetailsPaper>
       <ScoreTypeContainer>
         <ScoreHeaderBox
-          isSelected={scoreMode === 'weighted'}
+          isSelected={jobStatusState.scoreMode === 'weighted'}
           onClick={() => {
             setScoreModeToWeighted();
           }}
         >
-          <ScoreHeader isSelected={scoreMode === 'weighted'}>
-            Weighted Score: {matchScoreDetails.weighted_score} / 10
+          <ScoreHeader isSelected={jobStatusState.scoreMode === 'weighted'}>
+            Weighted Score: {jobStatusState?.selectedJob?.weighted_score} / 10
           </ScoreHeader>
         </ScoreHeaderBox>
 
         <Divider orientation="vertical" flexItem />
 
         <ScoreHeaderBox
-          isSelected={scoreMode === 'total'}
+          isSelected={jobStatusState.scoreMode === 'total'}
           onClick={() => {
             setScoreModeToTotal();
           }}
         >
-          <ScoreHeader isSelected={scoreMode === 'total'}>
-            Total Score: {matchScoreDetails.total_score} / 100
+          <ScoreHeader isSelected={jobStatusState.scoreMode === 'total'}>
+            Total Score: {jobStatusState?.selectedJob?.total_score} / 100
           </ScoreHeader>
         </ScoreHeaderBox>
       </ScoreTypeContainer>
@@ -149,7 +150,6 @@ const ScoreDetails = ({
         </ScoreDetailsBox>
       </ScoreDetailsContainer>
     </ScoreDetailsPaper>
-    // </>
   );
 };
 
