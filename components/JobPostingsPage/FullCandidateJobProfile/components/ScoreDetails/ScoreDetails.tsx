@@ -27,14 +27,19 @@ const ScoreDetails = ({
   handleCalculate,
 }) => {
   const [matchScore, setMatchScore] = useState(null);
+  console.log('matchScore =========sdFD', matchScore);
 
   useEffect(() => {
-    if (jobStatusState?.selectedJob?.match_score?.length > 0) {
+    if (jobStatusState?.selectedJob.match_score.length > 0) {
+      console.log(
+        'jobStatusState?.selectedJob.match_score[0]',
+        jobStatusState?.selectedJob.match_score[0]
+      );
       setMatchScore(jobStatusState.selectedJob.match_score[0]);
     } else {
       setMatchScore(null);
     }
-  }, [jobStatusState]);
+  }, [jobStatusState?.selectedJob.match_score]);
 
   // Splitting scores into two columns
   const scoreEntries = Object.entries(matchScore || {});
@@ -92,7 +97,8 @@ const ScoreDetails = ({
       );
     });
 
-  if (matchScore) {
+  // want to turn this into a callback function
+  if (matchScore === null) {
     if (jobStatusState?.currentlyCalculating !== '') {
       return <LoadingScore jobTitle={jobStatusState?.selectedJob?.job_title} />;
     } else {

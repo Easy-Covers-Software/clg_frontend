@@ -45,18 +45,20 @@ const SavedCandidatesList: FC = () => {
     listState.updateSearch(searchValue);
   };
 
-  // want to add a function that if the jobStatusState2.selectedJob is not null then a switch statement is called to determine which list to be passed to the SavedList component
+  // want to add a function that if the jobStatusState.selectedJob is not null then a switch statement is called to determine which list to be passed to the SavedList component
   const determineCurrentList = () => {
     if (bodyState.candidateState.currentJobsState.selectedJob) {
       // indicating that the user is not in the candidate view
       if (bodyState.mode === 'jobStatus') {
-        switch (bodyState.jobStatusState2.mode) {
+        switch (bodyState.jobStatusState.mode) {
+          case 'resume':
+            return bodyState.jobStatusState.resumeState;
           case 'calls':
-            return bodyState.candidateState.callsState;
+            return bodyState.jobStatusState.callsState;
           case 'feedback':
-            return bodyState.candidateState.currentJobsState.feedback;
+            return bodyState.jobStatusState.feedbackState;
           case 'generations':
-            return bodyState.candidateState.currentJobsState.generations;
+            return bodyState.jobStatusState.generationsState;
           default:
             return listState.filteredListItems;
         }

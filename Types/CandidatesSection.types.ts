@@ -121,8 +121,6 @@ export type CandidateBodyUnique = {
   jobStatusState: SelectedCandidateScoreDetails;
   generationResultsState: GenerationResultsState;
   updateMode: (mode: string) => void;
-  updateCandidateJobPostingsListState: (field: string, state: any) => void;
-  updateCurrentlyCalculating: (id: string) => void;
   updateSelectedCandidateScoreDetailsState: (field: string, state: any) => void;
   updateGenerationResultsState: (field: string, state: any) => void;
 };

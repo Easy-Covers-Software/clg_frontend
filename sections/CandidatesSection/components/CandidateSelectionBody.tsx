@@ -100,12 +100,12 @@ const CandidateSelectionBody: FC = () => {
   const getResumes = (section) => {
     if (section === 'candidate') {
       if (
-        bodyState.jobStatusState2.resumeState &&
-        bodyState.jobStatusState2.resumeState.length === 0
+        bodyState.jobStatusState.resumeState &&
+        bodyState.jobStatusState.resumeState.length === 0
       ) {
         return false;
       }
-      return bodyState.jobStatusState2.resumeState[0];
+      return bodyState.jobStatusState.resumeState[0];
     } else if (section === 'jobStatus') {
       if (
         bodyState.candidateState.resumeState &&
@@ -113,13 +113,13 @@ const CandidateSelectionBody: FC = () => {
       ) {
         return false;
       }
-      return bodyState.jobStatusState2.resumeState[0];
+      return bodyState.jobStatusState.resumeState[0];
     }
   };
 
   const getResumeUrl = () => {
-    if (getResumes()) {
-      return getResumes().file;
+    if (getResumes('candidate')) {
+      return getResumes('candidate').file;
     }
   };
 
@@ -175,7 +175,7 @@ const CandidateSelectionBody: FC = () => {
 
     if (response.data) {
       bodyState.updateJobStatusState('currentlyCalculating', '');
-      listState.toggleRefresh();
+      bodyState.updateCurrentJobsState('selectedJob', response.data);
     } else {
       console.log('response');
       console.log(response);
@@ -214,10 +214,7 @@ const CandidateSelectionBody: FC = () => {
           job.id === bodyState.candidateState.currentJobsState.selectedJob?.id
       );
 
-      bodyState.updateCandidateJobPostingsListState(
-        'selectedJobPosting',
-        updatedJobPosting
-      );
+      bodyState.updateJobStatusState('selectedJob', updatedJobPosting);
     }
   }, [bodyState.candidateState.currentJobsState.jobs]);
 
@@ -260,7 +257,7 @@ const CandidateSelectionBody: FC = () => {
         return <></>;
 
       case 'jobStatus':
-        switch (bodyState.jobStatusState2.mode) {
+        switch (bodyState.jobStatusState.mode) {
           case 'overview':
             return (
               <SubSectionFrame
@@ -269,7 +266,7 @@ const CandidateSelectionBody: FC = () => {
               >
                 <FullCandidateJobProfile
                   page={'candidate'}
-                  jobStatusState={bodyState.jobStatusState2}
+                  jobStatusState={bodyState.jobStatusState}
                   updateJobStatusState={bodyState.updateJobStatusState}
                   handleCalculate={handleCalculate}
                 />
