@@ -363,6 +363,20 @@ const candidatesReducer = (state: any, action: any) => {
           },
         },
       };
+    case 'UPDATE_CURRENT_STATUS':
+      return {
+        ...state,
+        bodyState: {
+          ...state.bodyState,
+          jobStatusState: {
+            ...state.bodyState.jobStatusState,
+            currentStatus: {
+              ...state.bodyState.jobStatusState.currentStatus,
+              ...action.payload,
+            },
+          },
+        },
+      };
     case 'UPDATE_GENERATION_RESULTS_STATE':
       return {
         ...state,
@@ -402,13 +416,18 @@ export const CandidatesContextProvider = ({ children }) => {
     try {
       const response = await fetchCandidateProfiles();
       if (response) {
-        dispatch({
-          type: 'UPDATE_CANDIDATE_LIST_STATE',
-          payload: {
-            listItems: response.data,
-            filteredListItems: response.data,
-          },
-        });
+        if (state.bodyState.mode !== 'resume') {
+          console.log('AYSIGDO{INV');
+          dispatch({
+            type: 'UPDATE_CANDIDATE_LIST_STATE',
+            payload: {
+              listItems: response.data,
+              filteredListItems: response.data,
+            },
+          });
+        } else {
+          console.log('Sdvonsbd v');
+        }
       }
     } catch (error) {
       console.log(error);
@@ -661,28 +680,48 @@ export const CandidatesContextProvider = ({ children }) => {
   useEffect(() => {
     if (state.listState.selected) {
       // 1. update the body state with the selected candidate
-      dispatch({
-        type: 'UPDATE_CANDIDATE_STATE',
-        payload: { selectedCandidate: state.listState.selected },
-      });
+      if (
+        state.bodyState.mode !== 'resume' &&
+        state.bodyState.mode !== 'calls' &&
+        state.bodyState.jobStatusState !== 'jobStatus' &&
+        state.bodyState.jobStatusState.mode !== 'calls'
+      ) {
+        dispatch({
+          type: 'UPDATE_CANDIDATE_STATE',
+          payload: { selectedCandidate: state.listState.selected },
+        });
 
-      // 2. update the resumeState with the list of resumes associated with the selected candidate
-      dispatch({
-        type: 'UPDATE_RESUME_STATE',
-        payload: { resumes: state.listState.selected.resumes },
-      });
+        // 2. update the resumeState with the list of resumes associated with the selected candidate
+        dispatch({
+          type: 'UPDATE_RESUME_STATE',
+          payload: { resumes: state.listState.selected.resumes },
+        });
 
-      // 3. update the callsState with the list of calls associated with the selected candidate
-      dispatch({
-        type: 'UPDATE_CALLS_STATE',
-        payload: { calls: state.listState.selected.phone_calls },
-      });
+        // 3. update the callsState with the list of calls associated with the selected candidate
+        dispatch({
+          type: 'UPDATE_CALLS_STATE',
+          payload: { calls: state.listState.selected.phone_calls },
+        });
+      }
 
       // 4. update the feedbackState with the list of feedback associated with the selected candidate
       // dispatch({
       //   type: 'UPDATE_FEEDBACK_STATE',
       //   payload: { feedback: state.listState.selected.feedback },
       // });
+      // if (state.bodyState.mode !== 'jobStatus') {
+      //   // in resume mode, so update the resume selection in listState
+      //   if (state.bodyState.mode === 'resume') {
+      //     dispatch({
+      //       type: 'UPDATE_RESUME_STATE',
+      //       payload: { resumes: state.listState.selected.resumes },
+      //     });
+      //   } else if (state.bodyState.mode === 'calls') {
+      //   } else {
+
+      //   }
+      // } else {
+      // }
     }
   }, [state.listState.selected]);
 
@@ -702,6 +741,17 @@ export const CandidatesContextProvider = ({ children }) => {
     state.bodyState.candidateState.currentJobsState.selectedJob?.match_score,
   ]);
 
+  // useEffect(() => {
+  //   // update jobStatusState.currentStatus with the selected job status
+  //   if (state.bodyState.jobStatusState?.selectedJob) {
+  //     dispatch({
+  //       type: 'UPDATE_CURRENT_STATUS',
+  //       payload: {
+  //         hiringSteps: state.bodyState.jobStatusState.selectedJob,
+  //       },
+  //     });
+  //   }
+  // }, [state.bodyState.jobStatusState.selectedJob]);
   console.log('cand state', state);
 
   return (

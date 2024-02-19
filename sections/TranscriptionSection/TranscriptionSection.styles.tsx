@@ -1,9 +1,9 @@
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import styled from '@emotion/styled';
 import { UnSelectedButton } from '@/components/Global/Global';
 
 //=== List Components ===//
-export const ListContainer = styled(Grid)`
+export const ListContainer = styled(Grid2)`
   width: 22vw;
   min-width: 22vw;
 
@@ -46,37 +46,29 @@ export const TranscribeButton = styled(UnSelectedButton)`
 `;
 
 //=== Body Components ===//
-export const BodyContainer = styled(Grid)`
+export const BodyContainer = styled(Grid2)`
   width: 100%;
-  height: 100%;
   padding: 0.2%;
 
   display: flex;
   flex-direction: column;
   gap: 0.2%;
-  // overflow: scroll;
 
   border-radius: 4px;
   border: 1px solid #006d4b;
   background-color: white;
-  margin: 0;
 `;
 
-export const SubContainer = styled(Grid)`
+export const SubContainer = styled(Grid2)`
   height: 100%;
-  width: 100%;
-  // margin: 0.75%;
-  margin-top: 0;
+  max-height: 78vh;
   background-color: #f8f8ff;
-  // overflow: scroll;
-  // overflow-x: hidden;
+
   border: 1px solid #006d4b;
   border-radius: 4px;
-  justify-content: center;
-  align-items: center;
 `;
 
-export const CallsContainer = styled(Grid)`
+export const CallsContainer = styled(Grid2)`
   height: 100%;
   background-color: #f8f8ff;
 

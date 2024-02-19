@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { Typography, Button } from '@mui/material';
 import { IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Divider } from '@mui/material';
 
 const Container = styled(Grid2)`
   height: 70vh;
@@ -18,7 +19,7 @@ const Container = styled(Grid2)`
 
 const BackButton = styled(IconButton)`
   position: relative;
-  top: 16px;
+  top: 8px;
   right: 44%;
 `;
 
@@ -57,6 +58,12 @@ const SubSectionFrame: React.FC<Props> = ({
         <BackButtonLabel>back</BackButtonLabel>
       </BackButton>
       <Title>{subSectionHeader}</Title>
+
+      <Divider
+        sx={{
+          minWidth: '100%',
+        }}
+      />
 
       <Body>{children}</Body>
     </Container>

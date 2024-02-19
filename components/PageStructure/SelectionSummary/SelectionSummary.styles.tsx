@@ -5,7 +5,7 @@ export const Container = styled(Grid2)`
   width: 100%;
   height: 12vh;
   // min-height: 90px;
-  margin: auto;
+  // margin: auto;
 
   display: flex;
   gap: 0.1%;

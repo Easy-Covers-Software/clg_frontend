@@ -16,6 +16,8 @@ import FullCandidateJobProfile from '@/components/JobPostingsPage/FullCandidateJ
 import GenerationEditor from '@/components/GenerationPage/GenerationEditor/GenerationEditor';
 import TranscriptionNotes from '@/components/CallsPage/Transcription/TranscriptionNotes';
 
+import GeneralFeedback from '@/components/CandidatesPage/Feedback/GeneralFeedback/GeneralFeedback';
+
 //-- import api methods --//
 import { calculateMatchScore } from '@/api/GenerationMethods';
 import {
@@ -32,6 +34,7 @@ import {
 import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
 import { Generation } from '@/Types/Generation.types';
 import { PhoneCall } from '@/Types/TranscriptionSection.types';
+import SaveCandidateInfoForm from '@/components/CandidatesPage/SaveCandidateInfoForm/SaveCandidateInfoForm';
 
 // const Container = styled.div`
 const Container = styled(Grid2)`
@@ -49,12 +52,11 @@ const Container = styled(Grid2)`
 
 // const SubContainer = styled.div`
 const SubContainer = styled(Grid2)`
-  height: 100%;
-  max-height: 78vh;
+  height: 78vh;
   background-color: #f8f8ff;
-
   border: 1px solid #006d4b;
   border-radius: 4px;
+  // overflow: scroll;
 `;
 
 const CandidateSelectionBody: FC = () => {
@@ -75,7 +77,7 @@ const CandidateSelectionBody: FC = () => {
   };
 
   const updateJobStatusMode = (mode: string) => {
-    bodyState.updateJobStatusState('selectedCandidateMode', mode);
+    bodyState.updateJobStatusState('mode', mode);
   };
 
   const resetJobStatusMode = () => {
@@ -93,33 +95,38 @@ const CandidateSelectionBody: FC = () => {
   // };
 
   const getTranscriptionNotes = () => {
+    if (
+      bodyState.mode === 'calls' ||
+      bodyState.jobStatusState.mode === 'calls'
+    ) {
+      return listState.selected?.transcription?.notes;
+    }
     return bodyState.jobStatusState?.selectedCall?.transcription?.notes;
   };
 
   // TODO: need to change this
   const getResumes = (section) => {
     if (section === 'candidate') {
-      if (
-        bodyState.jobStatusState.resumeState &&
-        bodyState.jobStatusState.resumeState.length === 0
-      ) {
+      if (bodyState.candidateState.resumeState.resumes.length === 0) {
         return false;
       }
-      return bodyState.jobStatusState.resumeState[0];
+      return bodyState.candidateState.resumeState.resumes;
     } else if (section === 'jobStatus') {
-      if (
-        bodyState.candidateState.resumeState &&
-        bodyState.candidateState.resumeState.length === 0
-      ) {
+      if (bodyState.jobStatusState.resumeState.resumes.length === 0) {
         return false;
       }
-      return bodyState.jobStatusState.resumeState[0];
+      return bodyState.jobStatusState.resumeState.resumes;
     }
   };
 
   const getResumeUrl = () => {
-    if (getResumes('candidate')) {
-      return getResumes('candidate').file;
+    if (bodyState.mode === 'resume') {
+      return listState.selected?.file;
+    } else {
+      const resumes = getResumes('candidate');
+      if (resumes.length > 0) {
+        return resumes[0].file;
+      }
     }
   };
 
@@ -250,11 +257,43 @@ const CandidateSelectionBody: FC = () => {
           </SubSectionFrame>
         );
       case 'calls':
-        return <></>;
+        return (
+          <SubSectionFrame
+            subSectionHeader={'Call Notes'}
+            onClose={resetMainMode}
+          >
+            <TranscriptionNotes
+              page={'candidate'}
+              transcriptionNotes={getTranscriptionNotes()}
+            />
+          </SubSectionFrame>
+        );
       case 'feedback':
-        return <></>;
+        return (
+          <SubSectionFrame
+            subSectionHeader={'General Feedback'}
+            onClose={resetMainMode}
+          >
+            <GeneralFeedback feedback={[]} />
+          </SubSectionFrame>
+        );
       case 'update':
-        return <></>;
+        return (
+          <SubSectionFrame
+            subSectionHeader={'General Feedback'}
+            onClose={resetMainMode}
+          >
+            <SaveCandidateInfoForm
+              candidateId={''}
+              candidateName={''}
+              candidateNumber={''}
+              jobPosting={''}
+              updateSaveForm={() => {}}
+              handleSaveCandidate={() => {}}
+              reset={() => {}}
+            />
+          </SubSectionFrame>
+        );
 
       case 'jobStatus':
         switch (bodyState.jobStatusState.mode) {
@@ -275,18 +314,32 @@ const CandidateSelectionBody: FC = () => {
           case 'generation':
             return (
               <SubSectionFrame
-                subSectionHeader={'Generation'}
+                subSectionHeader={'Email Generations'}
                 onClose={resetJobStatusMode}
               >
-                <GenerationEditor
+                <h1>hi</h1>
+                {/* <GenerationEditor
                   contentData={bodyState.generationResultsState}
-                />
+                /> */}
               </SubSectionFrame>
             );
-          case 'phoneCall':
+          case 'calls':
             return (
               <SubSectionFrame
                 subSectionHeader={'Call Notes'}
+                onClose={resetJobStatusMode}
+              >
+                <TranscriptionNotes
+                  page={'candidate'}
+                  transcriptionNotes={getTranscriptionNotes()}
+                />
+              </SubSectionFrame>
+            );
+
+          case 'feedback':
+            return (
+              <SubSectionFrame
+                subSectionHeader={'Job Status Feedback'}
                 onClose={resetJobStatusMode}
               >
                 <TranscriptionNotes
@@ -300,14 +353,23 @@ const CandidateSelectionBody: FC = () => {
             return (
               <SubSectionFrame
                 subSectionHeader={'Résumé Viewer'}
-                onClose={resetScoreDetailsMode}
+                onClose={resetJobStatusMode}
               >
-                <ResumeIframe resumeUrl={getResumeUrl()} />
+                <ResumeIframe
+                  resumeUrl={bodyState.jobStatusState.selectedJob.resume.file}
+                />
               </SubSectionFrame>
             );
 
           default:
-            return <></>;
+            return (
+              <SubSectionFrame
+                subSectionHeader={''}
+                onClose={resetJobStatusMode}
+              >
+                <></>
+              </SubSectionFrame>
+            );
         }
       default:
         return <></>;

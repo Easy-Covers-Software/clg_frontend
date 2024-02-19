@@ -137,7 +137,7 @@ const FullCandidateJobProfile = ({
   handleCalculate,
 }) => {
   const updateJobStatusMode = (mode: string) => {
-    updateJobStatusState('selectedCandidateMode', mode);
+    updateJobStatusState('mode', mode);
   };
 
   // new
@@ -149,7 +149,7 @@ const FullCandidateJobProfile = ({
     <Container>
       {/* CurrentStatus Component */}
       <CurrentStatus
-        currentStatus={jobStatusState?.currentStatus}
+        selectedJobStatus={jobStatusState.selectedJob}
         updateJobStatusMode={updateJobStatusMode}
       />
 

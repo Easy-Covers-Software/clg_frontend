@@ -67,7 +67,7 @@ const Education = ({ educations, selected, selectedIndex, handleChange }) => {
               },
             }}
           >
-            {educations.map((education, index) => (
+            {educations?.map((education, index) => (
               <SelectionTab
                 key={index}
                 value={index}

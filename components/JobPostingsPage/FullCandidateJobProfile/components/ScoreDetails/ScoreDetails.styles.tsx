@@ -27,7 +27,7 @@ export const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 export const ScoreTypeContainer = styled(Grid2)`
   width: 100%;
-  height: 6vh;
+  height: 7vh;
   display: flex;
 `;
 
@@ -52,7 +52,7 @@ export const ScoreHeader = styled(Typography)`
 
 export const ScoreDetailsContainer = styled(Grid2)`
   width: 100%;
-  height: 100%;
+  // height: 100%;
   display: flex;
   justify-content: space-between;
   // overflow: scroll;
@@ -64,6 +64,7 @@ export const ScoreDetailsContainer = styled(Grid2)`
 export const ScoreDetailsBox = styled(Grid2)`
   width: 50%;
   margin-left: 3%;
+  // margin-top: 1%;
 `;
 
 export const ScoreBox = styled(Box)`
@@ -94,13 +95,14 @@ export const ScoreVisualProgress = styled(BorderLinearProgress)`
 `;
 
 export const ScoreDetailsPaper = styled(Paper)`
-  height: 45vh;
+  height: 46.6vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   // overflow: hidden;
-  border: 1px solid #13d0b7;
+  border: 1px solid #006d4b;
+  box-shadow: none;
 `;
 
 export const Header = styled(Typography)`

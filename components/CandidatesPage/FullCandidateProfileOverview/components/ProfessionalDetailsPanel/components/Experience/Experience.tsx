@@ -65,7 +65,7 @@ const Experience = ({ experiences, selected, selectedIndex, handleChange }) => {
               },
             }}
           >
-            {experiences.map((experience, index) => (
+            {experiences?.map((experience, index) => (
               <SelectionTab
                 key={index}
                 value={index}

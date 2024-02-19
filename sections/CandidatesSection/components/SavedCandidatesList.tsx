@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 
 //-- import MUI components --//
 import { Container } from '@/components/PageStructure/SavedList/SavedList.styles';
@@ -35,48 +35,13 @@ const SavedCandidatesList: FC = () => {
 
   //=== Helpers ===//
   //= TOGGLE CANDIDATE PROFILE SELECTION =//
-  const handleCandidateSelectionChange =
-    (selected: CandidateListItem) => () => {
-      listState.updateSelected(selected);
-    };
+  const handleNewSelection = (selected: CandidateListItem) => () => {
+    listState.updateSelected(selected);
+  };
 
   //=== HANDLE SEARCH CHANGE ===//
   const handleSearchChange = (searchValue: string) => {
     listState.updateSearch(searchValue);
-  };
-
-  // want to add a function that if the jobStatusState.selectedJob is not null then a switch statement is called to determine which list to be passed to the SavedList component
-  const determineCurrentList = () => {
-    if (bodyState.candidateState.currentJobsState.selectedJob) {
-      // indicating that the user is not in the candidate view
-      if (bodyState.mode === 'jobStatus') {
-        switch (bodyState.jobStatusState.mode) {
-          case 'resume':
-            return bodyState.jobStatusState.resumeState;
-          case 'calls':
-            return bodyState.jobStatusState.callsState;
-          case 'feedback':
-            return bodyState.jobStatusState.feedbackState;
-          case 'generations':
-            return bodyState.jobStatusState.generationsState;
-          default:
-            return listState.filteredListItems;
-        }
-      } else {
-        switch (bodyState.mode) {
-          case 'resume':
-            return bodyState.candidateState.resumeState;
-          case 'calls':
-            return bodyState.candidateState.currentJobsState.calls;
-          case 'feedback':
-            return bodyState.candidateState.currentJobsState.feedback;
-          case 'generations':
-            return bodyState.candidateState.currentJobsState.generations;
-          default:
-            return listState.filteredListItems;
-        }
-      }
-    }
   };
 
   //=== API Methods ===//
@@ -127,7 +92,13 @@ const SavedCandidatesList: FC = () => {
   //=== HOOKS ===//
   //= GET FULL CANDIDATE PROFILE WHEN SELECTION CHANGES =//
   useEffect(() => {
-    if (!listState.selected) return;
+    if (
+      !listState.selected ||
+      bodyState.mode === 'resume' ||
+      bodyState.mode === 'calls' ||
+      bodyState.mode === 'jobStatus'
+    )
+      return;
 
     listState.setFullCandidateProfile(listState.selected);
     getAllJobPostingsAssociatedWithCandidate(listState.selected.id);
@@ -154,15 +125,77 @@ const SavedCandidatesList: FC = () => {
     }
   }, [loggedInProps.user]);
 
+  // want to add a function that if the jobStatusState.selectedJob is not null then a switch statement is called to determine which list to be passed to the SavedList component
+  const determineCurrentList = () => {
+    if (bodyState.mode === 'jobStatus') {
+      switch (bodyState.jobStatusState.mode) {
+        case 'overview':
+          // if (
+          //   listState?.selected !== null &&
+          //   !('name' in listState?.selected) &&
+          //   bodyState.candidateState.selectedCandidate !== null
+          // ) {
+          //   listState.updateSelected(
+          //     bodyState.candidateState.selectedCandidate
+          //   );
+          // }
+          return;
+
+        case 'resume':
+          return [];
+        case 'calls':
+          return bodyState.jobStatusState?.selectedJob.phone_calls;
+        case 'feedback':
+          return bodyState.jobStatusState?.selectedJob.feedback;
+        case 'generations':
+          return bodyState.jobStatusState?.selectedJob.generations;
+        default:
+          return listState?.filteredListItems;
+      }
+    } else {
+      switch (bodyState.mode) {
+        case 'overview':
+          if (
+            listState?.selected !== null &&
+            !('name' in listState?.selected) &&
+            bodyState.candidateState.selectedCandidate !== null
+          ) {
+            listState.updateSelected(
+              bodyState.candidateState.selectedCandidate
+            );
+          }
+          return listState?.filteredListItems;
+        case 'resume':
+          return bodyState.candidateState.resumeState.resumes;
+        case 'calls':
+          return bodyState.candidateState.callsState.calls;
+        case 'feedback':
+          return bodyState.candidateState.feedbackState.feedback;
+        case 'generations':
+          return bodyState.candidateState.generationsState.generations;
+        default:
+          return listState?.filteredListItems;
+      }
+    }
+  };
+
+  // useEffect(() => {
+  //   determineCurrentList();
+  // }, [bodyState]);
+
+  // useEffect(() => {
+  //   if
+  // }, [listState?.selected]);
+
   return (
     <Container>
       <SavedList
         listType="candidates"
-        items={listState?.filteredListItems}
+        items={determineCurrentList()}
         search={listState?.search}
         loading={listState?.loading}
         selected={listState?.selected}
-        handleNewSelection={handleCandidateSelectionChange}
+        handleNewSelection={handleNewSelection}
         handleSearchChange={handleSearchChange}
         handleDelete={handleDelete}
       />

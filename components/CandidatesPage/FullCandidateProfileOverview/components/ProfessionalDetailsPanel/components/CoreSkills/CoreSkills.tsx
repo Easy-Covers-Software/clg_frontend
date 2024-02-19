@@ -38,7 +38,7 @@ const CoreSkills = ({ skills }) => {
   const [open, setOpen] = useState(true);
 
   // const skillChips = selectedCandidate.skills
-  const skillChips = skills.map((skill, index) => (
+  const skillChips = skills?.map((skill, index) => (
     <Chip
       key={index}
       label={skill.trim()}

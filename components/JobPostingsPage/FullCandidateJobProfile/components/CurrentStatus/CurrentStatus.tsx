@@ -12,18 +12,20 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import StatusProgress from './components/StatusProgress';
 
 const Container = styled(Grid2)`
-  width: 100%;
-  height: 24vh;
+  width: 98%;
+  height: 23vh;
+
+  margin: 0 auto;
   margin-bottom: 1%;
 
-  border: 1px solid #13d0b7;
+  border: 1px solid #006d4b;
   border-radius: 4px;
   background-color: white;
 `;
 
 const StatusOverview = styled(Grid2)`
   width: 100%;
-  height: 45%;
+  height: 57%;
   display: flex;
 `;
 
@@ -32,6 +34,8 @@ const OverviewInfo = styled(Grid2)`
   width: 75%;
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
+  padding-left: 1%;
 `;
 
 const OverviewInfoStatus = styled(Typography)`
@@ -66,7 +70,7 @@ const IconOptionsRow = styled(Grid2)`
 
 const StatusProgressVisual = styled(Grid2)`
   width: 100%;
-  height: 55%;
+  height: 44%;
 `;
 
 const CirculedIconButton = styled(IconButton)`
@@ -79,7 +83,7 @@ type CurrentStatusState = {
   hiringSteps: any; // will be an object for the new hiring steps model
 };
 
-const CurrentStatus = ({ currentStatus, updateJobStatusMode }) => {
+const CurrentStatus = ({ selectedJobStatus, updateJobStatusMode }) => {
   const setModeToResume = () => {
     updateJobStatusMode('resume');
   };
@@ -109,14 +113,17 @@ const CurrentStatus = ({ currentStatus, updateJobStatusMode }) => {
       <StatusOverview>
         <OverviewInfo>
           <OverviewInfoStatus>
-            Status: <strong> {currentStatus.status}</strong>
+            Status: <strong> {selectedJobStatus.status}</strong>
           </OverviewInfoStatus>
           <OverviewInfoSource>
-            Recruiter/Team: {currentStatus.status}
+            Recruiter/Team:{' '}
+            {selectedJobStatus.recruiter ||
+              selectedJobStatus?.search_team?.name ||
+              'N/A'}
           </OverviewInfoSource>
         </OverviewInfo>
 
-        <Divider orientation="vertical" flexItem color={'#13d0b7'} />
+        <Divider orientation="vertical" flexItem />
 
         <OverviewIconOptions>
           <IconOptionsRow>
@@ -130,38 +137,28 @@ const CurrentStatus = ({ currentStatus, updateJobStatusMode }) => {
                 <PermPhoneMsgOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
+          </IconOptionsRow>
+          <IconOptionsRow>
             <Tooltip title={'Feedback'}>
               <CirculedIconButton onClick={setModeToFeedback}>
                 <RateReviewOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
-          </IconOptionsRow>
-          <IconOptionsRow>
             <Tooltip title={'Generations'}>
               <CirculedIconButton onClick={setModeToGenerations}>
                 <TipsAndUpdatesOutlinedIcon fontSize="small" />
-              </CirculedIconButton>
-            </Tooltip>
-            <Tooltip title={'Update Status'}>
-              <CirculedIconButton onClick={setModeToUpdateStatus}>
-                <CreateOutlinedIcon fontSize="small" />
-              </CirculedIconButton>
-            </Tooltip>
-            <Tooltip title={'Settings'}>
-              <CirculedIconButton onClick={setModeToSettings}>
-                <SettingsOutlinedIcon fontSize="small" />
               </CirculedIconButton>
             </Tooltip>
           </IconOptionsRow>
         </OverviewIconOptions>
       </StatusOverview>
 
-      <Divider color={'#13d0b7'} />
+      <Divider />
 
       <StatusProgressVisual>
         <StatusProgress
-          currentStatus={currentStatus.status}
-          hiringSteps={currentStatus.hiringSteps}
+          currentStatus={selectedJobStatus.status}
+          hiringSteps={selectedJobStatus?.hiring_steps || 'N/A'}
         />
       </StatusProgressVisual>
     </Container>

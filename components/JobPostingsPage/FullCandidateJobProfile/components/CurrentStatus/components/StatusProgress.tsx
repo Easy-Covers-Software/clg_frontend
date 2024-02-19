@@ -81,7 +81,13 @@ const StatusProgress = ({ currentStatus, hiringSteps }) => {
       <StyledStepper nonLinear activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
-            <StepButton color="inherit" onClick={handleStep(index)}>
+            <StepButton
+              color="inherit"
+              onClick={handleStep(index)}
+              sx={{
+                padding: '10px 16px',
+              }}
+            >
               {label}
             </StepButton>
           </Step>

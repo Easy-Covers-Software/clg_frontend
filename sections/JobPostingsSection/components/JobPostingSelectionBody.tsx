@@ -33,14 +33,11 @@ const Container = styled(Grid2)`
   border-radius: 4px;
   border: 1px solid #006d4b;
   background-color: white;
-  margin: 0;
-  // overflow: scroll;
 `;
 
 const SubContainer = styled(Grid2)`
   height: 100%;
-  width: 100%;
-  max-height: 75vh;
+  max-height: 78vh;
   background-color: #f8f8ff;
 
   border: 1px solid #006d4b;

@@ -40,7 +40,7 @@ interface SavedListProps {
   handleDelete: (id: string) => void;
 }
 
-const SavedList: FC<SavedListProps> = ({
+const SavedList: FC<any> = ({
   listType,
   items,
   search,
@@ -184,6 +184,18 @@ const SavedList: FC<SavedListProps> = ({
 
     return false;
   };
+
+  useEffect(() => {
+    // Ensure there are items and no item is currently selected
+    if (items?.length > 0) {
+      if (selected === null || !('name' in selected)) {
+        // Call the handleNewSelection with the first item
+        console.log('hitting this cooooooode');
+        console.log(items[0]);
+        handleNewSelection(items[0]);
+      }
+    } //else if selected is not null, make sure the item in the list is still checked and selected
+  }, [items, selected, handleNewSelection]);
 
   const emptyDisplay = renderEmptyListDisplay();
 

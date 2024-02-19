@@ -27,7 +27,6 @@ const ScoreDetails = ({
   handleCalculate,
 }) => {
   const [matchScore, setMatchScore] = useState(null);
-  console.log('matchScore =========sdFD', matchScore);
 
   useEffect(() => {
     if (jobStatusState?.selectedJob.match_score.length > 0) {
@@ -131,7 +130,8 @@ const ScoreDetails = ({
           }}
         >
           <ScoreHeader isSelected={jobStatusState.scoreMode === 'weighted'}>
-            Weighted Score: {jobStatusState?.selectedJob?.weighted_score} / 10
+            Weighted Score:{' '}
+            {jobStatusState?.selectedJob?.match_score[0].weighted_score} / 10
           </ScoreHeader>
         </ScoreHeaderBox>
 
@@ -144,7 +144,8 @@ const ScoreDetails = ({
           }}
         >
           <ScoreHeader isSelected={jobStatusState.scoreMode === 'total'}>
-            Total Score: {jobStatusState?.selectedJob?.total_score} / 100
+            Total Score:{' '}
+            {jobStatusState?.selectedJob?.match_score[0].total_score} / 100
           </ScoreHeader>
         </ScoreHeaderBox>
       </ScoreTypeContainer>

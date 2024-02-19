@@ -19,11 +19,11 @@ const Container = styled(Grid)`
   width: 100%;
   overflow: scroll;
   background-color: #f8f8ff;
-  max-height: 75vh;
+  max-height: 78vh;
   margin: auto;
   // flex: 1;
 
-  border: 1px solid #006d4b;
+  // border: 1px solid #006d4b;
   border-radius: 4px;
 `;
 
