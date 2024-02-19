@@ -46,7 +46,8 @@ export const ScoreHeaderBox = styled(Box)`
 
 export const ScoreHeader = styled(Typography)`
   font-size: 1.42rem;
-  text-decoration: ${({ isSelected }) => (isSelected ? 'underline' : 'none')};
+  // text-decoration: ${({ isSelected }) =>
+    isSelected ? 'underline' : 'none'};
   color: #006d4b;
 `;
 

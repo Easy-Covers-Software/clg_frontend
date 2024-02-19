@@ -35,6 +35,7 @@ const FeedbackOverview = styled(Grid2)`
   justify-content: space-between;
   align-items: end;
   padding: 1%;
+  margin: auto;
 `;
 
 const FeedbackContent = styled(Paper)`
@@ -81,55 +82,31 @@ const FeedbackCard = ({ lor, index }) => {
       <FeedbackOverview>
         {lor === 'l' ? (
           <>
-            <FeedbackTitle>Author</FeedbackTitle>
-            <HeaderGroup>
-              <IconButton
-                sx={{
-                  margin: 0,
-                  padding: 0,
-                }}
-              >
-                <MarkUnreadChatAltTwoToneIcon />
-              </IconButton>
-              <Avatar
-                sx={{
-                  bgcolor: '#f8f8ff',
-                  height: 26,
-                  width: 26,
-                  fontSize: '0.8rem',
-                  border: '1px solid #006d4b',
-                  color: '#006d4b',
-                }}
-              >
-                DS
-              </Avatar>
-            </HeaderGroup>
+            <FeedbackTitle>Title</FeedbackTitle>
+            {/* <HeaderGroup> */}
+            <IconButton
+              sx={{
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              <MarkUnreadChatAltTwoToneIcon />
+            </IconButton>
+            {/* </HeaderGroup> */}
           </>
         ) : (
           <>
-            <HeaderGroup>
-              <Avatar
-                sx={{
-                  bgcolor: '#f8f8ff',
-                  height: 26,
-                  width: 26,
-                  fontSize: '0.8rem',
-                  border: '1px solid #006d4b',
-                  color: '#006d4b',
-                }}
-              >
-                DS
-              </Avatar>
-              <IconButton
-                sx={{
-                  margin: 0,
-                  padding: 0,
-                }}
-              >
-                <MarkUnreadChatAltTwoToneIcon />
-              </IconButton>
-            </HeaderGroup>
-            <FeedbackTitle>Author</FeedbackTitle>
+            {/* <HeaderGroup> */}
+            <IconButton
+              sx={{
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              <MarkUnreadChatAltTwoToneIcon />
+            </IconButton>
+            {/* </HeaderGroup> */}
+            <FeedbackTitle>Title</FeedbackTitle>
           </>
         )}
       </FeedbackOverview>
@@ -147,7 +124,20 @@ const FeedbackCard = ({ lor, index }) => {
         {/* <IconButton>
           <MarkUnreadChatAltTwoToneIcon />
         </IconButton> */}
+
         <Rating value={2.5} />
+        <Avatar
+          sx={{
+            bgcolor: '#f8f8ff',
+            height: 26,
+            width: 26,
+            fontSize: '0.8rem',
+            border: '1px solid #006d4b',
+            color: '#006d4b',
+          }}
+        >
+          DS
+        </Avatar>
       </FeedbackRating>
     </Container>
   );
