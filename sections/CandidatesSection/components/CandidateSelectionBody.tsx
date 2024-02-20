@@ -274,7 +274,13 @@ const CandidateSelectionBody: FC = () => {
             subSectionHeader={'General Feedback'}
             onClose={resetMainMode}
           >
-            <GeneralFeedback feedback={[]} />
+            <GeneralFeedback
+              feedback={bodyState.candidateState?.selectedCandidate?.feedback}
+              updateFeedbackState={bodyState.updateFeedbackState}
+              selectedFeedback={
+                bodyState.candidateState.feedbackState?.selectedFeedback
+              }
+            />
           </SubSectionFrame>
         );
       case 'update':

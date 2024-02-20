@@ -26,6 +26,11 @@ const Container = styled(Grid2)`
   display: flex;
   flex-direction: column;
   margin-top: ${({ side, index }) => determineMarginTop(side, index)};
+
+  // if hover change cursor
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const FeedbackOverview = styled(Grid2)`
@@ -75,14 +80,23 @@ const HeaderGroup = styled(Grid2)`
   width: 4.2vw;
 `;
 
-const FeedbackCard = ({ lor, index }) => {
+const FeedbackCard = ({
+  lor,
+  index,
+  feedbackDetails,
+  handleNewFeedbackSelection,
+}) => {
   return (
-    <Container side={lor} index={index}>
+    <Container
+      side={lor}
+      index={index}
+      onClick={() => handleNewFeedbackSelection(feedbackDetails)}
+    >
       {/* 1. FeedbackOverview */}
       <FeedbackOverview>
         {lor === 'l' ? (
           <>
-            <FeedbackTitle>Title</FeedbackTitle>
+            <FeedbackTitle>{feedbackDetails.message_subject}</FeedbackTitle>
             {/* <HeaderGroup> */}
             <IconButton
               sx={{
@@ -106,17 +120,14 @@ const FeedbackCard = ({ lor, index }) => {
               <MarkUnreadChatAltTwoToneIcon />
             </IconButton>
             {/* </HeaderGroup> */}
-            <FeedbackTitle>Title</FeedbackTitle>
+            <FeedbackTitle>{feedbackDetails.message_subject}</FeedbackTitle>
           </>
         )}
       </FeedbackOverview>
 
       {/* 2/ FeedbackContent */}
       <FeedbackContent>
-        <FeedbackContentText>
-          A paragraph of text that will represent what the user has to say/think
-          about a particular candidate.
-        </FeedbackContentText>
+        <FeedbackContentText>{feedbackDetails.message}</FeedbackContentText>
       </FeedbackContent>
 
       {/* 3. FeedbackRating */}

@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import styled from '@emotion/styled';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
-import FeedbackCard from '../componenets/FeedbackCard';
+import FeedbackCard from '../componenets/FeedbackCard/FeedbackCard';
+import CommentsDialog from '../componenets/CommentsDialog/CommentsDialog';
 
 const Container = styled(Grid2)`
   display: flex;
@@ -20,43 +22,77 @@ const FeedbackColumn = styled(Grid2)`
   gap: 2%;
 `;
 
-const GeneralFeedback = ({ feedback }) => {
+const GeneralFeedback = ({
+  feedback,
+  updateFeedbackState,
+  selectedFeedback,
+}) => {
+  console.log('feedback', feedback);
+
+  const midpoint = Math.ceil(feedback.length / 2);
+  const leftFeedback = feedback.slice(0, midpoint);
+  const rightFeedback = feedback.slice(midpoint);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleNewFeedbackSelection = (feedback) => {
+    updateFeedbackState('selectedFeedback', feedback);
+    handleClickOpen();
+  };
+
   // Assuming 'feedbacks' is an array of feedback data
   return (
-    <Container>
-      <FeedbackColumn
-        style={{
-          marginRight: '1%',
-        }}
-      >
-        <FeedbackCard lor={'l'} index={0} />
-        {/* <FeedbackCard lor={'l'} style={{ marginTop: '1%' }} /> */}
-        <FeedbackCard lor={'l'} index={1} />
-        <FeedbackCard lor={'l'} index={2} />
+    <>
+      <Container>
+        <FeedbackColumn
+          style={{
+            marginRight: '1%',
+          }}
+        >
+          {/* Map through left feedback items and render LeftFeedbackCard for each */}
+          {leftFeedback?.map((feedbackDetails, index) => (
+            <FeedbackCard
+              key={index}
+              lor={'l'}
+              index={index}
+              feedbackDetails={feedbackDetails}
+              handleNewFeedbackSelection={handleNewFeedbackSelection}
+            />
+          ))}
+        </FeedbackColumn>
 
-        {/* Map through left feedback items and render LeftFeedbackCard for each */}
-        {/* {feedback.left.map((feedbackCard, index) => (
-          <LeftFeedbackCard key={index} {...feedbackCard} />
-        ))} */}
-      </FeedbackColumn>
+        <FeedbackColumn
+          style={{
+            marginLeft: '1%',
+          }}
+        >
+          {/* Map through right feedback items and render RightFeedbackCard for each */}
+          {rightFeedback?.map((feedbackDetails, index) => (
+            <FeedbackCard
+              key={index}
+              lor={'r'}
+              index={index}
+              feedbackDetails={feedbackDetails}
+              handleNewFeedbackSelection={handleNewFeedbackSelection}
+            />
+          ))}
+        </FeedbackColumn>
+      </Container>
 
-      <FeedbackColumn
-        style={{
-          marginLeft: '1%',
-        }}
-      >
-        <FeedbackCard lor={'r'} index={0} />
-        {/* <FeedbackCard lor={'r'} style={{ marginTop: '16%' }} /> */}
-
-        <FeedbackCard lor={'r'} index={1} />
-        <FeedbackCard lor={'r'} index={2} />
-
-        {/* Map through right feedback items and render RightFeedbackCard for each */}
-        {/* {feedback.right.map((feedbackCard, index) => (
-          <RightFeedbackCard key={index} {...feedbackCard} />
-        ))} */}
-      </FeedbackColumn>
-    </Container>
+      <CommentsDialog
+        selectedFeedback={selectedFeedback}
+        open={open}
+        handleClose={handleClose}
+      />
+    </>
   );
 };
 
