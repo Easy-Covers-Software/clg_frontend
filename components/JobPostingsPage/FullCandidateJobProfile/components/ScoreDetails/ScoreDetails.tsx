@@ -131,7 +131,7 @@ const ScoreDetails = ({
         >
           <ScoreHeader isSelected={jobStatusState.scoreMode === 'weighted'}>
             Weighted Score:{' '}
-            {jobStatusState?.selectedJob?.match_score[0].weighted_score} / 10
+            {jobStatusState?.selectedJob?.match_score[0]?.weighted_score} / 10
           </ScoreHeader>
         </ScoreHeaderBox>
 

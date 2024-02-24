@@ -66,7 +66,7 @@ const CandidateRankings = ({
 
   const getScoreBasedOnFilter = (candidate) => {
     if (scoreFilterState === 'weighted') {
-      return candidate.match_score[0].weighted_score;
+      return candidate.match_score[0]?.weighted_score;
     } else {
       return candidate.match_score[0].total_score;
     }
