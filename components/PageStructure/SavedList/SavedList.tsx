@@ -142,9 +142,9 @@ const SavedList: FC<any> = ({
     // Not signed in
     if (loggedInProps.user === null || loggedInProps.user.is_active === false) {
       return (
-        <List className="saved-letters-list">
+        <List className="empty-letters-list">
           <EmptyListGrid>
-            <Typography>
+            <Typography width={'90%'} m={'auto'}>
               Not signed in. Sign in to save cover letters and view them here.
             </Typography>
           </EmptyListGrid>
@@ -159,9 +159,9 @@ const SavedList: FC<any> = ({
       search === ''
     ) {
       return (
-        <List className="saved-letters-list">
+        <List className="empty-letters-list">
           <EmptyListGrid>
-            <Typography>
+            <Typography width={'90%'} m={'auto'}>
               None Saved! Generate a cover letter and save to view on this page.
             </Typography>
           </EmptyListGrid>
@@ -172,9 +172,9 @@ const SavedList: FC<any> = ({
     // Empty search
     if (items?.length === 0 && search !== '') {
       return (
-        <List className="saved-letters-list">
+        <List className="empty-letters-list">
           <EmptyListGrid>
-            <Typography>
+            <Typography width={'90%'} m={'auto'}>
               No cover letters found with that name. Try another search.
             </Typography>
           </EmptyListGrid>
