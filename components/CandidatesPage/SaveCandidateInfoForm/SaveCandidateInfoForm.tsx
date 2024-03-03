@@ -21,11 +21,13 @@ import { Typography } from '@mui/material';
 import { CallsContainer } from '@/sections/TranscriptionSection/TranscriptionSection.styles';
 
 const Container = styled(Grid2)`
-  height: 100%;
+  // height: 100%;
   background-color: #f8f8ff;
 
   // border: 1px solid #006d4b;
   border-radius: 4px;
+  margin-top: 3%;
+  // overflow: hidden;
 `;
 
 const steps = [
@@ -69,7 +71,7 @@ const FrameComp = ({
       p={'3%'}
       border={'1px solid #006D4B'}
       m={'auto'}
-      mt={'3%'}
+      mt={'4%'}
       borderRadius={'4px'}
       bgcolor={'white'}
     >
