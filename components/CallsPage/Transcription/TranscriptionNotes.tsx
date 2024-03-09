@@ -15,6 +15,8 @@ interface TranscriptionNotesProps {
 }
 
 const Container = styled(Grid)`
+  // if page is 'transcription' then border is 1px solid #006d4b else none
+  ${({ page }: { page: string }) => (page === 'transcription' ? 'border: 1px solid #006d4b;' : 'border: none;')}
   height: 100%;
   width: 100%;
   overflow: scroll;
@@ -30,7 +32,7 @@ const Container = styled(Grid)`
 const TranscriptionNotes: React.FC<any> = ({ page, transcriptionNotes }) => {
   console.log('transcriptionNotes', transcriptionNotes);
   return (
-    <Container container spacing={2}>
+    <Container container spacing={2} page={page}>
       {transcriptionNotes && (
         <>
           {Object.entries(transcriptionNotes).map(([key, value]) => (
