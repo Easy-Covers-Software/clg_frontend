@@ -85,7 +85,8 @@ const JobPostingSelectionBody: FC = () => {
 
   const updateSelectedCandidate = (candidate: any) => {
     bodyState.updateCandidateRankingsState('selectedCandidate', candidate);
-    updateMode('candidate');
+    bodyState.updateJobStatusState('selectedJob', candidate);
+    updateMode('jobStatus');
   };
 
   const handleGenerationSelection = (generation: any) => {
@@ -111,7 +112,7 @@ const JobPostingSelectionBody: FC = () => {
   };
 
   const getScoreDetailsMode = () => {
-    return bodyState.jobStatusState?.selectedCandidateMode;
+    return bodyState.jobStatusState?.mode;
   };
 
   const getMatchScore = () => {
@@ -218,7 +219,7 @@ const JobPostingSelectionBody: FC = () => {
             handleScoreFilterChange={handleScoreFilterChange}
           />
         );
-      case 'candidate':
+      case 'jobStatus':
         switch (getScoreDetailsMode()) {
           case 'overview':
             return (
@@ -228,20 +229,24 @@ const JobPostingSelectionBody: FC = () => {
               >
                 <FullCandidateJobProfile
                   page={'jobPosting'}
-                  selectedJobPosting={selectedListItem}
-                  selectedCandidate={getSelectedCandidate()}
-                  phoneCalls={getPhoneCalls()}
-                  generations={getGenerations()}
-                  loading={isCurrentlyCalculating()}
-                  callMode={getCallPanelMode()}
-                  genMode={getGenerationPanelMode()}
-                  matchScore={getMatchScore()}
-                  updateSubSectionMode={updateScoreDetailsMode}
-                  updateGenerationsPanelMode={updateGenerationsPanelMode}
-                  updateCallsPanelMode={updateCallsPanelMode}
+                  jobStatusState={bodyState.jobStatusState}
+                  updateJobStatusState={bodyState.updateJobStatusState}
                   handleCalculate={handleCalculate}
-                  handleGenerationSelection={handleGenerationSelection}
-                  handleCallSelection={handleCallSelection}
+
+                  // selectedJobPosting={selectedListItem}
+                  // selectedCandidate={getSelectedCandidate()}
+                  // phoneCalls={getPhoneCalls()}
+                  // generations={getGenerations()}
+                  // loading={isCurrentlyCalculating()}
+                  // callMode={getCallPanelMode()}
+                  // genMode={getGenerationPanelMode()}
+                  // matchScore={getMatchScore()}
+                  // updateSubSectionMode={updateScoreDetailsMode}
+                  // updateGenerationsPanelMode={updateGenerationsPanelMode}
+                  // updateCallsPanelMode={updateCallsPanelMode}
+                  // handleCalculate={handleCalculate}
+                  // handleGenerationSelection={handleGenerationSelection}
+                  // handleCallSelection={handleCallSelection}
                 />
               </SubSectionFrame>
             );

@@ -55,14 +55,32 @@ const initialState: any = {
     },
     currentlyCalculating: 'null',
     jobStatusState: {
-      selectedCandidateMode: 'overview', // overview, phoneCall, generation
-      generationPanelMode: 'overview', // overview, emailSelection, coverLetterSelection
-      callPanelMode: 'overview', // overview, followUpSelection
-      selectedGeneration: null,
-      selectedCall: null,
-      loading: false,
-      resumeUrl: '',
-      refreshCandidates: true,
+      mode: 'overview', // overview, resume, calls, feedback, generations, update, settings
+      selectedJob: null,
+      currentStatus: {
+        status: '',
+        source: '',
+        hiringSteps: null,
+      },
+      resumeState: {
+        resumes: [],
+        selectedResume: null,
+      },
+      callsState: {
+        calls: [],
+        selectedCall: null,
+      },
+      feedbackState: {
+        feedback: [],
+        selectedFeedback: null,
+      },
+      generationsState: {
+        generations: [],
+        selectedGeneration: null,
+      },
+      currentlyCalculating: '',
+      scoreDetails: {},
+      scoreMode: 'weighted',
     },
     generationResultsState: {
       id: '',
@@ -78,10 +96,14 @@ const initialState: any = {
       disableDownloads: true,
     },
 
+    
+
     updateMode: (mode: string): void => {},
     updateSelectionSummaryState: (field, state: any): void => {},
     updateCandidateRankingsState: (field, state: any): void => {},
     updateCurrentlyCalculating: (candidateId: any): void => {},
+    updateJobStatusState: (field, state: any): void => {},
+
     updateSelectedCandidateScoreDetailsState: (field, state: any): void => {},
     updateGenerationResultsState: (field, state: any): void => {},
   },
@@ -323,6 +345,12 @@ export const JobPostingsContextProvider = ({ children }) => {
             payload: { [field]: state },
           });
         },
+        updateJobStatusState: (field, state: any): void => {
+          dispatch({
+            type: 'UPDATE_JOB_STATUS_STATE',
+            payload: { [field]: state },
+          });
+        },
       },
     });
   }, []);
@@ -372,6 +400,20 @@ export const JobPostingsContextProvider = ({ children }) => {
       updateResumeUrl();
     }
   }, [state.bodyState.candidateRankingsState.selectedCandidate]);
+
+
+
+  // every time the selected candidate changes, update the jobStatusState.selectedJob
+  useEffect(() => {
+    if (state.bodyState.candidateRankingsState.selectedCandidate) {
+      dispatch({
+        type: 'UPDATE_JOB_STATUS_STATE',
+        payload: {
+          selectedJob: state.bodyState.candidateRankingsState.selectedCandidate,
+        },
+      });
+    }
+  }, [state.bodyState.candidateRankingsState.selectedCandidate]); 
 
   //== Candidate Rankings ==//
   useEffect(() => {
