@@ -145,7 +145,7 @@ const ScoreDetails = ({
         >
           <ScoreHeader isSelected={jobStatusState.scoreMode === 'total'}>
             Total Score:{' '}
-            {jobStatusState?.selectedJob?.match_score[0].total_score} / 100
+            {jobStatusState?.selectedJob?.match_score[0]?.total_score} / 100
           </ScoreHeader>
         </ScoreHeaderBox>
       </ScoreTypeContainer>
