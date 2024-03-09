@@ -68,7 +68,7 @@ const CandidateRankings = ({
     if (scoreFilterState === 'weighted') {
       return candidate.match_score[0]?.weighted_score;
     } else {
-      return candidate.match_score[0].total_score;
+      return candidate.match_score[0]?.total_score;
     }
   };
 
