@@ -122,10 +122,13 @@ const JobPostingsList: FC = () => {
     getAllCandidatesAssociatedToJobPosting(listState?.selected?.id);
   }, [bodyState.candidateRankingsState.refreshCandidates]);
 
+  
+
   return (
     <Container>
       <SavedList
         listType={'jobPostings'}
+        isSubPage={false}
         items={listState?.filteredListItems}
         search={listState?.search}
         loading={listState?.loading}

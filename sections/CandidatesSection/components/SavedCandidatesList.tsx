@@ -33,6 +33,8 @@ const SavedCandidatesList: FC = () => {
   const { state } = useCandidatesContext();
   const { listState, bodyState } = state;
 
+  const [isSubPage, setIsSubPage] = useState(false)
+
   //=== Helpers ===//
   //= TOGGLE CANDIDATE PROFILE SELECTION =//
   const handleNewSelection = (selected: CandidateListItem) => () => {
@@ -179,18 +181,16 @@ const SavedCandidatesList: FC = () => {
     }
   };
 
-  // useEffect(() => {
-  //   determineCurrentList();
-  // }, [bodyState]);
-
-  // useEffect(() => {
-  //   if
-  // }, [listState?.selected]);
+  useEffect(() => {
+    const newIsSubPage = bodyState.mode !== 'overview';
+    setIsSubPage(newIsSubPage);
+  }, [bodyState.mode]);
 
   return (
     <Container>
       <SavedList
         listType="candidates"
+        isSubPage={isSubPage}
         items={determineCurrentList()}
         search={listState?.search}
         loading={listState?.loading}

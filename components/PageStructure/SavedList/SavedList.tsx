@@ -42,6 +42,7 @@ interface SavedListProps {
 
 const SavedList: FC<any> = ({
   listType,
+  isSubPage,
   items,
   search,
   loading,
@@ -53,6 +54,22 @@ const SavedList: FC<any> = ({
   //== Auth State ==//
   const { state: authState } = useAuth();
   const { loggedInProps, confirmDialog } = authState;
+
+  console.log('selected')
+  console.log(isSubPage)
+  
+
+
+  useEffect(() => {
+    // Trigger only if isSubPage is true, there are items, and the first item isn't already selected
+    if (items && isSubPage && items.length > 0) {
+      console.log('corrrrrrrrrrrrrrrrrrrect')
+      // Ensure handleNewSelection is called in a way that doesn't immediately invoke a re-render
+      // This might require adjusting handleNewSelection to return a function that can be called here without causing immediate state updates
+      const selectFirstItem = handleNewSelection(items[0]);
+      selectFirstItem(); // This is the correct way to call the function returned by handleNewSelection
+    }
+  }, [isSubPage, items, selected]);
 
   //== Helper Functions ==//
   const openDeleteDialog = () => {

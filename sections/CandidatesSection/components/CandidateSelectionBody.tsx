@@ -286,7 +286,7 @@ const CandidateSelectionBody: FC = () => {
       case 'update':
         return (
           <SubSectionFrame
-            subSectionHeader={'General Feedback'}
+            subSectionHeader={'Update Candidate'}
             onClose={resetMainMode}
           >
             <SaveCandidateInfoForm

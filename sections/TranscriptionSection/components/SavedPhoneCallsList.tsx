@@ -261,6 +261,7 @@ export default function SavedPhoneCallsList() {
     <ListContainer>
       <SavedList
         listType="phoneCalls"
+        isSubPage={false}
         items={listState?.filteredListItems}
         search={listState?.search}
         loading={listState?.loading}
