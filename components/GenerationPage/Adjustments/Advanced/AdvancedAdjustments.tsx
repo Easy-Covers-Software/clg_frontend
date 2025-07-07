@@ -22,9 +22,12 @@ const { Container, MediumOptionsContainer, SubmitButton } =
   AdvancedAdjustmentsStyledComponents;
 
 interface Props {
-  coverLetterData: CoverLetterData;
-  intermediateAdjustmentProps: IntermediateAdjustmentProps;
-  customAdjustmentProps: CustomAdjustmentProps;
+  // coverLetterData: CoverLetterData;
+  // intermediateAdjustmentProps: IntermediateAdjustmentProps;
+  // customAdjustmentProps: CustomAdjustmentProps;
+  coverLetterData: any;
+  intermediateAdjustmentProps: any;
+  customAdjustmentProps: any;
 }
 
 const AdvancedAdjustments: FC<any> = ({

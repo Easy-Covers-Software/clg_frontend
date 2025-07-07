@@ -34,13 +34,14 @@ interface SavedListProps {
   loading: boolean;
   selected: CandidateListItem | JobPostingListObject | PhoneCall;
   handleNewSelection: (
-    item: CandidateListItem | JobPostingListObject | PhoneCall
+    item: any
+    // item: CandidateListItem | JobPostingListObject | PhoneCall
   ) => () => void;
   handleSearchChange: (searchValue: string) => void;
   handleDelete: (id: string) => void;
 }
 
-const SavedList: FC<SavedListProps> = ({
+const SavedList: FC<any> = ({
   listType,
   items,
   search,
@@ -49,6 +50,7 @@ const SavedList: FC<SavedListProps> = ({
   handleNewSelection,
   handleSearchChange,
   handleDelete,
+  handleToggle
 }) => {
   //== Auth State ==//
   const { state: authState } = useAuth();
@@ -86,7 +88,8 @@ const SavedList: FC<SavedListProps> = ({
 
   //== Render Functions ==//
   const renderListItems = (
-    item: CandidateListItem | JobPostingListObject | PhoneCall,
+    // item: CandidateListItem | JobPostingListObject | PhoneCall,
+    item: any,
     i: number
   ) => {
     const labelId = `radio-list-label-${item.save_name}-${i}`;

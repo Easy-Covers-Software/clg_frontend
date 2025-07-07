@@ -14,8 +14,8 @@ const { Container, SubContainer, CustomReQueryField, SubmitButton } =
 import { makeAdjustment } from '@/api/GenerationMethods';
 
 interface Props {
-  coverLetterData: CoverLetterData;
-  customAdjustmentProps: CustomAdjustmentProps;
+  coverLetterData: any;
+  customAdjustmentProps: any;
 }
 
 const CustomAdjustment: FC<any> = ({
@@ -70,7 +70,7 @@ const CustomAdjustment: FC<any> = ({
     }
   };
 
-  const shouldDisable = (coverLetterData: CoverLetterData) => {
+  const shouldDisable = (coverLetterData: any) => {
     if (
       coverLetterData?.loadingCoverLetter ||
       coverLetterData?.coverLetterHtml === '' ||

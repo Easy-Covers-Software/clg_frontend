@@ -6,8 +6,7 @@
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": false,
-    "noEmitOnError": false,
+    "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -15,31 +14,22 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "baseUrl": ".",   // 👈 helps with `paths`
+    "paths": {
+      "@/*": ["./*"]
+    },
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "paths": {
-      "@/*": ["./*"]
-    },
-    "strictNullChecks": false,
-    "noImplicitAny": false
+    ]
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/**/*.tsx",
-    "app/**/**/**/*.tsx",
-    "app/**/**/*.tsx",
-    "app/**/**/**/**/*.js",
-    "app/**/**/**/**/*.jsx",
-    "app/**/**/**/**/*.tsx",
-    "app/**/**/**/**/*.ts",
-    "app/**/**/*.js",
-    "app/api/auth/[...nextauth]/route.ts"
+    "app/**/*"
   ],
   "exclude": ["node_modules"]
 }

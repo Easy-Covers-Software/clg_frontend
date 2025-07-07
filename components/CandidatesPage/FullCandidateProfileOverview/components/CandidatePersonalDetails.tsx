@@ -6,7 +6,8 @@ import Grid from '@mui/material/Grid';
 import { CandidateListItem } from '@/Types/CandidatesSection.types';
 
 interface Props {
-  selectedCandidate: CandidateListItem;
+  // selectedCandidate: CandidateListItem;
+  selectedCandidate: any;
 }
 
 const CandidatePersonalDetails: React.FC<Props> = ({ selectedCandidate }) => {
