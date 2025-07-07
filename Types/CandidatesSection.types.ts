@@ -55,6 +55,8 @@ export type CandidateListItem = {
   created_at: string;
   updated_at: string;
   job_postings: string[];
+  transcription: any;
+  file: any
 };
 
 export type CandidateListState = {

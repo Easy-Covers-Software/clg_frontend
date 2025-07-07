@@ -56,7 +56,7 @@ interface Props {
 }
 
 const MultiOptionPreference: React.FC<Props> = ({ type, values }) => {
-  const determineIcon = (value: string) => {
+  const determineIcon = (value: any) => {
     return value === 'true' ? (
       <CheckCircleOutlineIcon fontSize="small" />
     ) : (

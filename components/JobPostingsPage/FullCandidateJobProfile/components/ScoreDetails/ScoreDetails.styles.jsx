@@ -16,6 +16,7 @@ export const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
+    // @ts-ignore
     backgroundColor:
       theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
   },
@@ -31,8 +32,14 @@ export const ScoreTypeContainer = styled(Grid2)`
   display: flex;
 `;
 
+// interface CustomProps {
+//   isSelected: any;
+// }
+
+
+// export const ScoreHeaderBox = styled(Box)<CustomProps>`
 export const ScoreHeaderBox = styled(Box)`
-  height: 100%;
+  height: 100%;<CustomProps>
   width: 50%;
   display: flex;
   justify-content: center;
@@ -67,6 +74,10 @@ export const ScoreDetailsBox = styled(Grid2)`
   margin-left: 3%;
   // margin-top: 1%;
 `;
+
+// interface CustomProps2 {
+//   scoreName: any;
+// }
 
 export const ScoreBox = styled(Box)`
   width: 86%;

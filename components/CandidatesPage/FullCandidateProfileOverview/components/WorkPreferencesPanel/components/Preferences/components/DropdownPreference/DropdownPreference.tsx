@@ -13,7 +13,12 @@ const Container = styled(Grid2)`
   // on hover make the cursor a pointer
 `;
 
-const Tab = styled(Paper)`
+interface CustomProps {
+  isSelected: any;
+  otherSelected: any;
+} 
+
+const Tab = styled(Paper)<CustomProps>`
   height: 6vh;
   // width: 100%;
   display: flex;

@@ -163,7 +163,6 @@ const CandidateRankings = ({
                   <Typography variant="body1">{index + 1}</Typography>
                 </ListItemIcon>
               )}
-              {console.log('candidate', candidate)}
               <ListItemText
                 primary={candidate.candidate}
                 secondary={candidate.current_title}

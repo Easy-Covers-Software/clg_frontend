@@ -10,7 +10,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload'; // Import the upl
 import { Container } from './FullCandidateProfileOverview.styles';
 
 import ExtraDetailsPanel from './components/ExtraDetailsPanel';
-import { CandidateListItem } from '@/Types/CandidatesSection.types';
+// import { CandidateListItem } from '@/Types/CandidatesSection.types';
 import { JobPostingListObject } from '@/Types/JobPostingsSection.types';
 import ProfessionalDetailsPanel from './components/ProfessionalDetailsPanel/ProfessionalDetailsPanel';
 import { FormGroup, Divider, FormControlLabel, Switch } from '@mui/material';

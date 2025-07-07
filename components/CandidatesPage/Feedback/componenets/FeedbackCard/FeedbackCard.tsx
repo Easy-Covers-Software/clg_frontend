@@ -19,7 +19,12 @@ const determineMarginTop = (lor, index) => {
   }
 };
 
-const Container = styled(Grid2)`
+interface CustomProps {
+  side: string; // or a union like: 'left' | 'right'
+  index: number;
+}
+
+const Container = styled(Grid2)<CustomProps>`
   height: 26vh;
   max-height: 26vh;
   width: 24vw;

@@ -91,12 +91,12 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   export const fetchPhoneCall = async (
     phoneCallId: string
-  ): Promise<APIResponse<PhoneCall>> => {
+  ): Promise<APIResponse<any>> => {
     console.log('fetching phone call', phoneCallId)
     const url = `${API_BASE}/phone_calls/${phoneCallId}/`;
 
     try {
-      const response = await axios.get<PhoneCall>(url, {
+      const response = await axios.get<any>(url, {
         withCredentials: true,
       });
 
@@ -111,7 +111,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
     candidate_name: string,
     candidate_number: string,
     job_posting: string
-  ): Promise<APIResponse<InitateCallResponse>> => {
+  ): Promise<APIResponse<any>> => {
     const url = `${API_BASE}/phone_calls/initiate_call/`;
 
     const data = {
@@ -123,7 +123,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const payload = createPayload(data);
 
     try {
-      const response = await axios.post<InitateCallResponse>(url, payload, {
+      const response = await axios.post<any>(url, payload, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
