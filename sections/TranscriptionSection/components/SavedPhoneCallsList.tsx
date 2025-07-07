@@ -336,7 +336,8 @@ export default function SavedPhoneCallsList() {
   return (
     <Container>
       <SavedList
-        savedItems={listState?.filteredItems}
+        // savedItems={listState?.filteredItems}
+        items={listState?.filteredItems}
         search={listState?.search}
         loading={listState?.loading}
         selected={listState?.selected}

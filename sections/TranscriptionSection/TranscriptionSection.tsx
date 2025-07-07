@@ -17,7 +17,7 @@ import AlertDialogConfirm from '../../components/Global/components/AlertDialogCo
 
 // Components (local)
 import LoginDialog from '@/components/Global/Login/LoginDialog';
-import SettingsDialog from '@/components/Settings/SettingsDialog';
+// import SettingsDialog from '@/components/Settings/SettingsDialog';
 
 import SavedPhoneCallsList from './components/SavedPhoneCallsList';
 import TranscriptionSectionBody from './components/TranscriptionSectionBody';

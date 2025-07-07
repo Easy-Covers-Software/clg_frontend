@@ -11,14 +11,14 @@ import { useTranscriptionContext } from '@/context/TranscriptionContext';
 
 import { Typography } from '@mui/material';
 
-import CoverLetterSummary from '@/components/CoverLetterSummay/CoverLetterSummary';
+// import CoverLetterSummary from '@/components/CoverLetterSummay/CoverLetterSummary';
 
-import TranscriptionNote from '@/components/CallsPage/Transcription/TranscriptionNote/TranscriptionNote';
+// import TranscriptionNote from '@/components/CallsPage/Transcription/TranscriptionNote/TranscriptionNote';
 import NewCall from '@/components/CallsPage/PhoneCallComponents/NewCall/NewCall';
 import CallStarted from '@/components/CallsPage/PhoneCallComponents/CallStarted/CallStarted';
 import CallRinging from '@/components/CallsPage/PhoneCallComponents/CallRinging/CallRinging';
 import CallInProgress from '@/components/CallsPage/PhoneCallComponents/CallInProgress/CallInProgress';
-import CallComplete from '@/components/CallsPage/PhoneCallComponents/CallComplete/CallComplete';
+// import CallComplete from '@/components/CallsPage/PhoneCallComponents/CallComplete/CallComplete';
 import CallBusy from '@/components/CallsPage/PhoneCallComponents/CallBusy/CallBusy';
 import CallNoAnswer from '@/components/CallsPage/PhoneCallComponents/CallNoAnswer/CallNoAnswer';
 import CallFailed from '@/components/CallsPage/PhoneCallComponents/CallFailed/CallFailed';
